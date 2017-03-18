@@ -1,10 +1,10 @@
 <?php
 
 
-class Address_model extends CI_Model
+class Club_model extends CI_Model
 {
 
-    private $table = 'addresses';
+    private $table = 'clubs';
 
     function __construct()
     {

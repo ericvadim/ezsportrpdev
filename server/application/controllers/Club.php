@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Addresses extends CI_Controller {
+class Club extends CI_Controller {
 
 	public function index()
 	{
