@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhostddd',
-	'username' => 'root',
-	'password' => '',
+	'hostname' => 'localhost',
+	'username' => 'ezsportrp_user',
+	'password' => 'Ko_xyA2KO7qu',
 	'database' => 'ezsportrp_db',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
