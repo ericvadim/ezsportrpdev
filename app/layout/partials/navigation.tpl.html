@@ -7,20 +7,20 @@
     <nav>
         <ul data-smart-menu>
             <li data-ui-sref-active="active">
-                <a data-ui-sref="app.inbox.folder" title="Outlook">
+                <a data-ui-sref="app.admin" title="Outlook">
                     <i class="fa fa-lg fa-fw fa-tachometer"></i> <span class="menu-item-parent">{{getWord('Dashboard')}}</span><span
                         unread-messages-count class="badge pull-right inbox-badge"></span></a>
             </li>
 
             <li data-menu-collapse>
-                <a href="#" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span
+                <a href="#" title="Administrator"><i class="fa fa-lg fa-fw fa-home"></i> <span
                         class="menu-item-parent">{{getWord('Administrator')}}</span></a>
                 <ul>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.dashboard">{{getWord('Coach Level License')}}</a>
+                        <a data-ui-sref="app.admin.referee-grades">{{getWord('Referee Grades')}}</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.dashboard-social">{{getWord('Referee Grades')}}</a>
+                        <a data-ui-sref="app.dashboard">{{getWord('Coach Level License')}}</a>
                     </li>
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.dashboard-social">{{getWord('Sport Type')}}</a>
