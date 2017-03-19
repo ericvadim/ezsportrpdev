@@ -17,3 +17,7 @@
  * - BODY
  * - CUSTOM STYLES
  */
+
+ul[data-smart-menu]{
+    cursor: pointer;
+}
