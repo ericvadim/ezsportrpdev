@@ -25,8 +25,8 @@ class Grades extends CI_Controller
         $this->load->database();
         $this->load->model('grade_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $this->grade_model->saveGrade($data);
-        exit;
+        $result = $this->grade_model->saveGrade($data);
+        exit($result);
     }
 
     public function delete()
@@ -35,7 +35,7 @@ class Grades extends CI_Controller
 
         $this->load->database();
         $this->load->model('grade_model');
-        $this->grade_model->deleteGrade($data['id']);
-        exit;
+        $result = $this->grade_model->deleteGrade($data['id']);
+        exit($result);
     }
 }

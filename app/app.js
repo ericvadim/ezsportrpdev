@@ -27,7 +27,7 @@ angular.module('app', [
     //'app.calendar',
     //'app.inbox',
     //'app.graphs',
-    'app.tables',
+    // 'app.tables',
     //'app.forms',
     //'app.ui',
     //'app.widgets',
@@ -84,8 +84,8 @@ angular.module('app', [
 
     })
     .constant('APP_CONFIG', window.appConfig)
-    .constant('ServerURL', 'http://ezsportrp.info/server/')
-    // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+    // .constant('ServerURL', 'http://ezsportrp.info/server/')
+    .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 
     .run(function ($rootScope
         , $state, $stateParams) {
