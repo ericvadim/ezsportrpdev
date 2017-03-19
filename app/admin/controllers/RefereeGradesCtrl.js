@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.admin').controller('RefereeGradesController', function (DTOptionsBuilder, DTColumnBuilder) {
+angular.module('app.admin').controller('RefereeGradesController', function ($http, DTOptionsBuilder, DTColumnBuilder) {
     var vm = this;
     vm.standardOptions = DTOptionsBuilder
         .fromSource('api/tables/datatables.standard.json')
