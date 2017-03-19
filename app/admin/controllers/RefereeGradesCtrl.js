@@ -1,7 +1,13 @@
 'use strict';
 
-angular.module('app.admin').controller('RefereeGradesController', function ($http, DTOptionsBuilder, DTColumnBuilder) {
+angular.module('app.admin').controller('RefereeGradesController', function (ServerURL, $http, DTOptionsBuilder, DTColumnBuilder) {
     var vm = this;
+    vm.data = [];
+    $http.get(ServerURL + "grades/get").then(function (response) {
+        vm.data = response.data;
+        console.log(vm.data)
+    });
+
     vm.standardOptions = DTOptionsBuilder
         .fromSource('api/tables/datatables.standard.json')
         .withDOM("<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
