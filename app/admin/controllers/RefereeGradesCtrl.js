@@ -2,12 +2,6 @@
 
 angular.module('app.admin').controller('RefereeGradesController', function (ServerURL, $http, $filter) {
     var vm = this;
-    /*vm.sports = [
-        {id: 1, sport_name: 'Football'},
-        {id: 2, sport_name: 'Soccer'},
-        {id: 3, sport_name: 'Basketball'}
-    ];*/
-
     vm.tableData = [];
     vm.currRow = {};
 
@@ -26,9 +20,13 @@ angular.module('app.admin').controller('RefereeGradesController', function (Serv
             headers: {'Content-Type': 'multipart/form-data'},
             data: data
         }).then(function mySucces(/*response*/) {
-            /*vm.modal.close();
-            vm.getData();*/
+            $('#myModal').modal('hide');
         });
+    };
+
+    vm.openModal = function (rowId) {
+        vm.editRow(rowId);
+        $('#myModal').modal('show');
     };
 
     vm.addNew = function () {
@@ -54,5 +52,7 @@ angular.module('app.admin').controller('RefereeGradesController', function (Serv
             });
         }
     };
-
+    $('#myModal').on('hidden.bs.modal', function () {
+        vm.getData();
+    });
 });
