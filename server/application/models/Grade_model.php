@@ -14,7 +14,7 @@ class Grade_model extends CI_Model
 
     public function getGrades()
     {
-        return $this->db->get_where($this->table, array('restaurant_id' => $restaurantId))->result();
+        return $this->db->get($this->table)->result();
     }
 
     public function saveGrade($data)
