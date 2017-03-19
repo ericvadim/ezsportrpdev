@@ -41,7 +41,6 @@ angular.module('app', [
 ])
     .config(function ($provide, $httpProvider, RestangularProvider) {
 
-
         // Intercept http calls.
         $provide.factory('ErrorHttpInterceptor', function ($q) {
             var errorCounter = 0;
@@ -85,8 +84,8 @@ angular.module('app', [
 
     })
     .constant('APP_CONFIG', window.appConfig)
-    .constant('ServerURL', 'http://ezsportrp.info/server/')
-    // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+    // .constant('ServerURL', 'http://ezsportrp.info/server/')
+    .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 
     .run(function ($rootScope
         , $state, $stateParams) {
@@ -94,6 +93,7 @@ angular.module('app', [
         $rootScope.$stateParams = $stateParams;
         // editableOptions.theme = 'bs3';
 
-    });
+    })
+;
 
 
