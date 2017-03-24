@@ -375,8 +375,8 @@ angular.module('app', [
     })
     .constant('APP_CONFIG', window.appConfig)
 
-    .constant('ServerURL', 'http://ezsportrp.info/server/')
-    // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+    // .constant('ServerURL', 'http://ezsportrp.info/server/')
+    .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 
     .run(function ($rootScope
         , $state, $stateParams) {
@@ -393,49 +393,90 @@ angular.module('app', [
 
 
 angular.module('app.admin', ['ui.router'])
-.config(function ($stateProvider) {
+    .config(function ($stateProvider) {
 
-    $stateProvider
-        .state('app.admin', {
-            url: '/admin',
-            data: {
-                title: 'Dashboard for administrator'
-            },
-            views: {
-                "content@app": {
-                    templateUrl: 'app/admin/views/dashboard.html',
-                    controller: 'DashboardController',
-                    controllerAs: 'vm'
+        $stateProvider
+            .state('app.admin', {
+                url: '/admin',
+                data: {
+                    title: 'Dashboard for administrator'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/dashboard.html',
+                        controller: 'DashboardController',
+                        controllerAs: 'vm'
+                    }
                 }
-            }
-        })
-        .state('app.admin.referees', {
-            url: '/referees',
-            data: {
-                title: 'Referee Management'
-            },
-            views: {
-                "content@app": {
-                    templateUrl: 'app/admin/views/referees.html',
-                    controller: 'RefereesController',
-                    controllerAs: 'vm'
+            })
+            .state('app.admin.referees', {
+                url: '/referees',
+                data: {
+                    title: 'Referee Management'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/referees.html',
+                        controller: 'RefereesController',
+                        controllerAs: 'vm'
+                    }
                 }
-            }
-        })
-        .state('app.admin.referee-grades', {
-            url: '/referee-grades',
-            data: {
-                title: 'Referee Grades Management'
-            },
-            views: {
-                "content@app": {
-                    templateUrl: 'app/admin/views/referee-grades.html',
-                    controller: 'RefereeGradesController',
-                    controllerAs: 'vm'
+            })
+            .state('app.admin.referee-grades', {
+                url: '/referee-grades',
+                data: {
+                    title: 'Referee Grades Management'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/referee-grades.html',
+                        controller: 'RefereeGradesController',
+                        controllerAs: 'vm'
+                    }
                 }
-            }
-        })
-});
+            })
+            .state('app.admin.licenses', {
+                url: '/licenses',
+                data: {
+                    title: 'License Management'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/licenses.html',
+                        controller: 'LicensesController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
+            .state('app.admin.sports', {
+                url: '/sports',
+                data: {
+                    title: 'Sport Management'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/sports.html',
+                        controller: 'SportsController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
+            .state('app.admin.fields', {
+                url: '/fields',
+                data: {
+                    title: 'Field Management'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/fields.html',
+                        controller: 'FieldsController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
+        ;
+    })
+;
 
 "use strict";
 
@@ -2093,14 +2134,14 @@ $templateCache.put("app/dashboard/todo/todo-widget.tpl.html","<div id=\"todo-wid
 $templateCache.put("app/layout/language/language-selector.tpl.html","<ul class=\"header-dropdown-list hidden-xs ng-cloak\" ng-controller=\"LanguagesCtrl\">\n    <li class=\"dropdown\" dropdown>\n        <a class=\"dropdown-toggle\"  data-toggle=\"dropdown\" href> <img src=\"styles/img/blank.gif\" class=\"flag flag-{{currentLanguage.key}}\" alt=\"{{currentLanguage.alt}}\"> <span> {{currentLanguage.title}} </span>\n            <i class=\"fa fa-angle-down\"></i> </a>\n        <ul class=\"dropdown-menu pull-right\">\n            <li ng-class=\"{active: language==currentLanguage}\" ng-repeat=\"language in languages\">\n                <a ng-click=\"selectLanguage(language)\" ><img src=\"styles/img/blank.gif\" class=\"flag flag-{{language.key}}\"\n                                                   alt=\"{{language.alt}}\"> {{language.title}}</a>\n            </li>\n        </ul>\n    </li>\n</ul>");
 $templateCache.put("app/layout/partials/footer.tpl.html","<div class=\"page-footer\">\n    <div class=\"row\">\n        <div class=\"col-xs-12 col-sm-6\">\n            <span class=\"txt-color-white\">SmartAdmin WebApp © 2013-2016</span>\n        </div>\n\n        <div class=\"col-xs-6 col-sm-6 text-right hidden-xs\">\n            <div class=\"txt-color-white inline-block\">\n                <i class=\"txt-color-blueLight hidden-mobile\">Last account activity <i class=\"fa fa-clock-o\"></i>\n                    <strong>52 mins ago &nbsp;</strong> </i>\n\n                <div class=\"btn-group dropup\">\n                    <button class=\"btn btn-xs dropdown-toggle bg-color-blue txt-color-white\" data-toggle=\"dropdown\">\n                        <i class=\"fa fa-link\"></i> <span class=\"caret\"></span>\n                    </button>\n                    <ul class=\"dropdown-menu pull-right text-left\">\n                        <li>\n                            <div class=\"padding-5\">\n                                <p class=\"txt-color-darken font-sm no-margin\">Download Progress</p>\n\n                                <div class=\"progress progress-micro no-margin\">\n                                    <div class=\"progress-bar progress-bar-success\" style=\"width: 50%;\"></div>\n                                </div>\n                            </div>\n                        </li>\n                        <li class=\"divider\"></li>\n                        <li>\n                            <div class=\"padding-5\">\n                                <p class=\"txt-color-darken font-sm no-margin\">Server Load</p>\n\n                                <div class=\"progress progress-micro no-margin\">\n                                    <div class=\"progress-bar progress-bar-success\" style=\"width: 20%;\"></div>\n                                </div>\n                            </div>\n                        </li>\n                        <li class=\"divider\"></li>\n                        <li>\n                            <div class=\"padding-5\">\n                                <p class=\"txt-color-darken font-sm no-margin\">Memory Load <span class=\"text-danger\">*critical*</span>\n                                </p>\n\n                                <div class=\"progress progress-micro no-margin\">\n                                    <div class=\"progress-bar progress-bar-danger\" style=\"width: 70%;\"></div>\n                                </div>\n                            </div>\n                        </li>\n                        <li class=\"divider\"></li>\n                        <li>\n                            <div class=\"padding-5\">\n                                <button class=\"btn btn-block btn-default\">refresh</button>\n                            </div>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>");
 $templateCache.put("app/layout/partials/header.tpl.html","<header id=\"header\">\n<div id=\"logo-group\">\n\n    <!-- PLACE YOUR LOGO HERE -->\n    <span id=\"logo\"> <img src=\"styles/img/logo.png\" alt=\"SmartAdmin\"> </span>\n    <!-- END LOGO PLACEHOLDER -->\n\n    <!-- Note: The activity badge color changes when clicked and resets the number to 0\n    Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\n    <span id=\"activity\" class=\"activity-dropdown\" activities-dropdown-toggle> \n        <i class=\"fa fa-user\"></i> \n        <b class=\"badge bg-color-blue\">0</b>\n    </span>\n    <div smart-include=\"app/dashboard/activities/activities.html\"></div>\n</div>\n\n\n<recent-projects></recent-projects>\n\n\n\n<!-- pulled right: nav area -->\n<div class=\"pull-right\">\n\n    <!-- collapse menu button -->\n    <div id=\"hide-menu\" class=\"btn-header pull-right\">\n        <span> <a toggle-menu title=\"Collapse Menu\"><i\n                class=\"fa fa-reorder\"></i></a> </span>\n    </div>\n    <!-- end collapse menu -->\n\n    <!-- #MOBILE -->\n    <!-- Top menu profile link : this shows only when top menu is active -->\n    <ul id=\"mobile-profile-img\" class=\"header-dropdown-list hidden-xs padding-5\">\n        <li class=\"\">\n            <a href=\"#\" class=\"dropdown-toggle no-margin userdropdown\" data-toggle=\"dropdown\">\n                <img src=\"styles/img/avatars/sunny.png\" alt=\"John Doe\" class=\"online\"/>\n            </a>\n            <ul class=\"dropdown-menu pull-right\">\n                <li>\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"><i\n                            class=\"fa fa-cog\"></i> Setting</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a ui-sref=\"app.appViews.profileDemo\" class=\"padding-10 padding-top-0 padding-bottom-0\"> <i class=\"fa fa-user\"></i>\n                        <u>P</u>rofile</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\n                       data-action=\"toggleShortcut\"><i class=\"fa fa-arrow-down\"></i> <u>S</u>hortcut</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\n                       data-action=\"launchFullscreen\"><i class=\"fa fa-arrows-alt\"></i> Full <u>S</u>creen</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a href=\"#/login\" class=\"padding-10 padding-top-5 padding-bottom-5\" data-action=\"userLogout\"><i\n                            class=\"fa fa-sign-out fa-lg\"></i> <strong><u>L</u>ogout</strong></a>\n                </li>\n            </ul>\n        </li>\n    </ul>\n\n    <!-- logout button -->\n    <div id=\"logout\" class=\"btn-header transparent pull-right\">\n        <span> <a ui-sref=\"login\" title=\"Sign Out\" data-action=\"userLogout\"\n                  data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\"><i\n                class=\"fa fa-sign-out\"></i></a> </span>\n    </div>\n    <!-- end logout button -->\n\n    <!-- search mobile button (this is hidden till mobile view port) -->\n    <div id=\"search-mobile\" class=\"btn-header transparent pull-right\" data-search-mobile>\n        <span> <a href=\"#\" title=\"Search\"><i class=\"fa fa-search\"></i></a> </span>\n    </div>\n    <!-- end search mobile button -->\n\n    <!-- input: search field -->\n    <form action=\"#/search\" class=\"header-search pull-right\">\n        <input id=\"search-fld\" type=\"text\" name=\"param\" placeholder=\"Find reports and more\" data-autocomplete=\'[\n					\"ActionScript\",\n					\"AppleScript\",\n					\"Asp\",\n					\"BASIC\",\n					\"C\",\n					\"C++\",\n					\"Clojure\",\n					\"COBOL\",\n					\"ColdFusion\",\n					\"Erlang\",\n					\"Fortran\",\n					\"Groovy\",\n					\"Haskell\",\n					\"Java\",\n					\"JavaScript\",\n					\"Lisp\",\n					\"Perl\",\n					\"PHP\",\n					\"Python\",\n					\"Ruby\",\n					\"Scala\",\n					\"Scheme\"]\'>\n        <button type=\"submit\">\n            <i class=\"fa fa-search\"></i>\n        </button>\n        <a href=\"$\" id=\"cancel-search-js\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\n    </form>\n    <!-- end input: search field -->\n\n    <!-- fullscreen button -->\n    <div id=\"fullscreen\" class=\"btn-header transparent pull-right\">\n        <span> <a full-screen title=\"Full Screen\"><i\n                class=\"fa fa-arrows-alt\"></i></a> </span>\n    </div>\n    <!-- end fullscreen button -->\n\n\n    <!-- multiple lang dropdown : find all flags in the flags page -->\n    <language-selector></language-selector>\n    <!-- end multiple lang -->\n\n</div>\n<!-- end pulled right: nav area -->\n\n</header>");
-$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\n\n    <!-- User info -->\n    <div login-info></div>\n    <!-- end user info -->\n\n    <nav>\n        <ul data-smart-menu>\n            <li data-ui-sref-active=\"active\">\n                <a data-ui-sref=\"app.admin\" title=\"Outlook\">\n                    <i class=\"fa fa-lg fa-fw fa-tachometer\"></i> <span class=\"menu-item-parent\">{{getWord(\'Dashboard\')}}</span><span\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\n            </li>\n\n            <li data-menu-collapse>\n                <a href=\"#\" title=\"Administrator\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span\n                        class=\"menu-item-parent\">{{getWord(\'Administrator\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.referee-grades\">{{getWord(\'Referee Grades\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.referees\">{{getWord(\'Referee Management\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.dashboard\">{{getWord(\'Coach Level License\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.dashboard-social\">{{getWord(\'Sport Type\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-cube txt-color-blue\"></i> <span class=\"menu-item-parent\">{{getWord(\'Club Executives\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.appLayouts\"><i class=\"fa fa-gear\"></i>\n                            {{getWord(\'Leagues\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.prebuiltSkins\"><i class=\"fa fa-picture-o\"></i>\n                            {{getWord(\'Leagues Season\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-cube txt-color-blue\"></i> <span class=\"menu-item-parent\">{{getWord(\'Team Management\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.appLayouts\"><i class=\"fa fa-gear\"></i>\n                            {{getWord(\'Teams\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.prebuiltSkins\"><i class=\"fa fa-picture-o\"></i>\n                            {{getWord(\'Coaches\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.prebuiltSkins\"><i class=\"fa fa-picture-o\"></i>\n                            {{getWord(\'Players\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-cube txt-color-blue\"></i> <span class=\"menu-item-parent\">{{getWord(\'Game Management\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.appLayouts\"><i class=\"fa fa-gear\"></i>\n                            {{getWord(\'Games\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n\n            <li data-menu-collapse>\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'User Management\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Users\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Permissions\')}}</a>\n                    </li>\n                </ul>\n            </li>\n        </ul>\n    </nav>\n\n    <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\n  </span>\n\n</aside>");
+$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\n\n    <!-- User info -->\n    <div login-info></div>\n    <!-- end user info -->\n\n    <nav>\n        <ul data-smart-menu>\n            <li data-ui-sref-active=\"active\">\n                <a data-ui-sref=\"app.admin\" title=\"Outlook\">\n                    <i class=\"fa fa-lg fa-fw fa-tachometer\"></i> <span class=\"menu-item-parent\">{{getWord(\'Dashboard\')}}</span><span\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\n            </li>\n\n            <li data-menu-collapse>\n                <a href=\"#\" title=\"Administrator\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span\n                        class=\"menu-item-parent\">{{getWord(\'Administrator\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.referee-grades\">{{getWord(\'Referee Grades\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.licenses\">{{getWord(\'Licenses\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.sports\">{{getWord(\'Sports\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.fields\">{{getWord(\'Fields\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.referees\">{{getWord(\'Referee Management\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-cube txt-color-blue\"></i> <span class=\"menu-item-parent\">{{getWord(\'Club Executives\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.appLayouts\"><i class=\"fa fa-gear\"></i>\n                            {{getWord(\'Leagues\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.prebuiltSkins\"><i class=\"fa fa-picture-o\"></i>\n                            {{getWord(\'Leagues Season\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-cube txt-color-blue\"></i> <span class=\"menu-item-parent\">{{getWord(\'Team Management\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.appLayouts\"><i class=\"fa fa-gear\"></i>\n                            {{getWord(\'Teams\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.prebuiltSkins\"><i class=\"fa fa-picture-o\"></i>\n                            {{getWord(\'Coaches\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.prebuiltSkins\"><i class=\"fa fa-picture-o\"></i>\n                            {{getWord(\'Players\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-cube txt-color-blue\"></i> <span class=\"menu-item-parent\">{{getWord(\'Game Management\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.smartAdmin.appLayouts\"><i class=\"fa fa-gear\"></i>\n                            {{getWord(\'Games\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n\n            <li data-menu-collapse>\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'User Management\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Users\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Permissions\')}}</a>\n                    </li>\n                </ul>\n            </li>\n        </ul>\n    </nav>\n\n    <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\n  </span>\n\n</aside>");
 $templateCache.put("app/layout/partials/sub-header.tpl.html","<div class=\"col-xs-12 col-sm-5 col-md-5 col-lg-8\" data-sparkline-container>\n    <ul id=\"sparks\" class=\"\">\n        <li class=\"sparks-info\">\n            <h5> My Income <span class=\"txt-color-blue\">$47,171</span></h5>\n            <div class=\"sparkline txt-color-blue hidden-mobile hidden-md hidden-sm\">\n                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471\n            </div>\n        </li>\n        <li class=\"sparks-info\">\n            <h5> Site Traffic <span class=\"txt-color-purple\"><i class=\"fa fa-arrow-circle-up\"></i>&nbsp;45%</span></h5>\n            <div class=\"sparkline txt-color-purple hidden-mobile hidden-md hidden-sm\">\n                110,150,300,130,400,240,220,310,220,300, 270, 210\n            </div>\n        </li>\n        <li class=\"sparks-info\">\n            <h5> Site Orders <span class=\"txt-color-greenDark\"><i class=\"fa fa-shopping-cart\"></i>&nbsp;2447</span></h5>\n            <div class=\"sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm\">\n                110,150,300,130,400,240,220,310,220,300, 270, 210\n            </div>\n        </li>\n    </ul>\n</div>\n			");
 $templateCache.put("app/layout/partials/voice-commands.tpl.html","<!-- TRIGGER BUTTON:\n<a href=\"/my-ajax-page.html\" data-toggle=\"modal\" data-target=\"#remoteModal\" class=\"btn btn-default\">Open Modal</a>  -->\n\n<!-- MODAL PLACE HOLDER\n<div class=\"modal fade\" id=\"remoteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"remoteModalLabel\" aria-hidden=\"true\">\n<div class=\"modal-dialog\">\n<div class=\"modal-content\"></div>\n</div>\n</div>   -->\n<!--////////////////////////////////////-->\n\n<!--<div class=\"modal-header\">\n<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">\n&times;\n</button>\n<h4 class=\"modal-title\" id=\"myModalLabel\">Command List</h4>\n</div>-->\n<div class=\"modal-body\">\n\n	<h1><i class=\"fa fa-microphone text-muted\"></i>&nbsp;&nbsp; SmartAdmin Voice Command</h1>\n	<hr class=\"simple\">\n	<h5>Instruction</h5>\n\n	Click <span class=\"text-success\">\"Allow\"</span> to access your microphone and activate Voice Command.\n	You will notice a <span class=\"text-primary\"><strong>BLUE</strong> Flash</span> on the microphone icon indicating activation.\n	The icon will appear <span class=\"text-danger\"><strong>RED</strong></span> <span class=\"label label-danger\"><i class=\"fa fa-microphone fa-lg\"></i></span> if you <span class=\"text-danger\">\"Deny\"</span> access or don\'t have any microphone installed.\n	<br>\n	<br>\n	As a security precaution, your browser will disconnect the microphone every 60 to 120 seconds (sooner if not being used). In which case Voice Command will prompt you again to <span class=\"text-success\">\"Allow\"</span> or <span class=\"text-danger\">\"Deny\"</span> access to your microphone.\n	<br>\n	<br>\n	If you host your page over <strong>http<span class=\"text-success\">s</span></strong> (secure socket layer) protocol you can wave this security measure and have an unintrupted Voice Command.\n	<br>\n	<br>\n	<h5>Commands</h5>\n	<ul>\n		<li>\n			<strong>\'show\' </strong> then say the <strong>*page*</strong> you want to go to. For example <strong>\"show inbox\"</strong> or <strong>\"show calendar\"</strong>\n		</li>\n		<li>\n			<strong>\'mute\' </strong> - mutes all sound effects for the theme.\n		</li>\n		<li>\n			<strong>\'sound on\'</strong> - unmutes all sound effects for the theme.\n		</li>\n		<li>\n			<span class=\"text-danger\"><strong>\'stop\'</strong></span> - deactivates voice command.\n		</li>\n		<li>\n			<span class=\"text-primary\"><strong>\'help\'</strong></span> - brings up the command list\n		</li>\n		<li>\n			<span class=\"text-danger\"><strong>\'got it\'</strong></span> - closes help modal\n		</li>\n		<li>\n			<strong>\'hide navigation\'</strong> - toggle navigation collapse\n		</li>\n		<li>\n			<strong>\'show navigation\'</strong> - toggle navigation to open (can be used again to close)\n		</li>\n		<li>\n			<strong>\'scroll up\'</strong> - scrolls to the top of the page\n		</li>\n		<li>\n			<strong>\'scroll down\'</strong> - scrollts to the bottom of the page\n		</li>\n		<li>\n			<strong>\'go back\' </strong> - goes back in history (history -1 click)\n		</li>\n		<li>\n			<strong>\'logout\'</strong> - logs you out\n		</li>\n	</ul>\n	<br>\n	<h5>Adding your own commands</h5>\n	Voice Command supports up to 80 languages. Adding your own commands is extreamly easy. All commands are stored inside <strong>app.config.js</strong> file under the <code>var commands = {...}</code>. \n\n	<hr class=\"simple\">\n	<div class=\"text-right\">\n		<button type=\"button\" class=\"btn btn-success btn-lg\" data-dismiss=\"modal\">\n			Got it!\n		</button>\n	</div>\n\n</div>\n<!--<div class=\"modal-footer\">\n<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Got it!</button>\n</div> -->");
 $templateCache.put("app/layout/shortcut/shortcut.tpl.html","<div id=\"shortcut\">\n	<ul>\n		<li>\n			<a href=\"#/inbox/\" class=\"jarvismetro-tile big-cubes bg-color-blue\"> <span class=\"iconbox\"> <i class=\"fa fa-envelope fa-4x\"></i> <span>Mail <span class=\"label pull-right bg-color-darken\">14</span></span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/calendar\" class=\"jarvismetro-tile big-cubes bg-color-orangeDark\"> <span class=\"iconbox\"> <i class=\"fa fa-calendar fa-4x\"></i> <span>Calendar</span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/maps\" class=\"jarvismetro-tile big-cubes bg-color-purple\"> <span class=\"iconbox\"> <i class=\"fa fa-map-marker fa-4x\"></i> <span>Maps</span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/invoice\" class=\"jarvismetro-tile big-cubes bg-color-blueDark\"> <span class=\"iconbox\"> <i class=\"fa fa-book fa-4x\"></i> <span>Invoice <span class=\"label pull-right bg-color-darken\">99</span></span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/gallery\" class=\"jarvismetro-tile big-cubes bg-color-greenLight\"> <span class=\"iconbox\"> <i class=\"fa fa-picture-o fa-4x\"></i> <span>Gallery </span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/profile\" class=\"jarvismetro-tile big-cubes selected bg-color-pinkDark\"> <span class=\"iconbox\"> <i class=\"fa fa-user fa-4x\"></i> <span>My Profile </span> </span> </a>\n		</li>\n	</ul>\n</div>");
+$templateCache.put("app/dashboard/todo/directives/todo-list.tpl.html","<div>\n    <h5 class=\"todo-group-title\"><i class=\"fa fa-{{icon}}\"></i> {{title}} (\n        <small class=\"num-of-tasks\">{{scopeItems.length}}</small>\n        )\n    </h5>\n    <ul class=\"todo\">\n        <li ng-class=\"{complete: todo.completedAt}\" ng-repeat=\"todo in todos | orderBy: todo._id | filter: filter  track by todo._id\" >\n    	<span class=\"handle\"> <label class=\"checkbox\">\n            <input type=\"checkbox\" ng-click=\"todo.toggle()\" ng-checked=\"todo.completedAt\"\n                   name=\"checkbox-inline\">\n            <i></i> </label> </span>\n\n            <p>\n                <strong>Ticket #{{$index + 1}}</strong> - {{todo.title}}\n                <span class=\"text-muted\" ng-if=\"todo.description\">{{todo.description}}</span>\n                <span class=\"date\">{{todo.createdAt | date}} &dash; <a ng-click=\"deleteTodo(todo)\" class=\"text-muted\"><i\n                        class=\"fa fa-trash\"></i></a></span>\n\n            </p>\n        </li>\n    </ul>\n</div>");
 $templateCache.put("app/dashboard/chat/directives/aside-chat-widget.tpl.html","<ul>\n    <li>\n        <div class=\"display-users\">\n            <input class=\"form-control chat-user-filter\" placeholder=\"Filter\" type=\"text\">\n            <dl>\n                <dt>\n                    <a href=\"#\" class=\"usr\"\n                       data-chat-id=\"cha1\"\n                       data-chat-fname=\"Sadi\"\n                       data-chat-lname=\"Orlaf\"\n                       data-chat-status=\"busy\"\n                       data-chat-alertmsg=\"Sadi Orlaf is in a meeting. Please do not disturb!\"\n                       data-chat-alertshow=\"true\"\n                       popover-trigger=\"hover\"\n                       popover-placement=\"right\"\n                       smart-popover-html=\"\n										<div class=\'usr-card\'>\n											<img src=\'styles/img/avatars/5.png\' alt=\'Sadi Orlaf\'>\n											<div class=\'usr-card-content\'>\n												<h3>Sadi Orlaf</h3>\n												<p>Marketing Executive</p>\n											</div>\n										</div>\n									\">\n                        <i></i>Sadi Orlaf\n                    </a>\n                </dt>\n                <dt>\n                    <a href=\"#\" class=\"usr\"\n                       data-chat-id=\"cha2\"\n                       data-chat-fname=\"Jessica\"\n                       data-chat-lname=\"Dolof\"\n                       data-chat-status=\"online\"\n                       data-chat-alertmsg=\"\"\n                       data-chat-alertshow=\"false\"\n                       popover-trigger=\"hover\"\n                       popover-placement=\"right\"\n                       smart-popover-html=\"\n										<div class=\'usr-card\'>\n											<img src=\'styles/img/avatars/1.png\' alt=\'Jessica Dolof\'>\n											<div class=\'usr-card-content\'>\n												<h3>Jessica Dolof</h3>\n												<p>Sales Administrator</p>\n											</div>\n										</div>\n									\">\n                        <i></i>Jessica Dolof\n                    </a>\n                </dt>\n                <dt>\n                    <a href=\"#\" class=\"usr\"\n                       data-chat-id=\"cha3\"\n                       data-chat-fname=\"Zekarburg\"\n                       data-chat-lname=\"Almandalie\"\n                       data-chat-status=\"online\"\n                       popover-trigger=\"hover\"\n                       popover-placement=\"right\"\n                       smart-popover-html=\"\n										<div class=\'usr-card\'>\n											<img src=\'styles/img/avatars/3.png\' alt=\'Zekarburg Almandalie\'>\n											<div class=\'usr-card-content\'>\n												<h3>Zekarburg Almandalie</h3>\n												<p>Sales Admin</p>\n											</div>\n										</div>\n									\">\n                        <i></i>Zekarburg Almandalie\n                    </a>\n                </dt>\n                <dt>\n                    <a href=\"#\" class=\"usr\"\n                       data-chat-id=\"cha4\"\n                       data-chat-fname=\"Barley\"\n                       data-chat-lname=\"Krazurkth\"\n                       data-chat-status=\"away\"\n                       popover-trigger=\"hover\"\n                       popover-placement=\"right\"\n                       smart-popover-html=\"\n										<div class=\'usr-card\'>\n											<img src=\'styles/img/avatars/4.png\' alt=\'Barley Krazurkth\'>\n											<div class=\'usr-card-content\'>\n												<h3>Barley Krazurkth</h3>\n												<p>Sales Director</p>\n											</div>\n										</div>\n									\">\n                        <i></i>Barley Krazurkth\n                    </a>\n                </dt>\n                <dt>\n                    <a href=\"#\" class=\"usr offline\"\n                       data-chat-id=\"cha5\"\n                       data-chat-fname=\"Farhana\"\n                       data-chat-lname=\"Amrin\"\n                       data-chat-status=\"incognito\"\n                       popover-trigger=\"hover\"\n                       popover-placement=\"right\"\n                       smart-popover-html=\"\n										<div class=\'usr-card\'>\n											<img src=\'styles/img/avatars/female.png\' alt=\'Farhana Amrin\'>\n											<div class=\'usr-card-content\'>\n												<h3>Farhana Amrin</h3>\n												<p>Support Admin <small><i class=\'fa fa-music\'></i> Playing Beethoven Classics</small></p>\n											</div>\n										</div>\n									\">\n                        <i></i>Farhana Amrin (offline)\n                    </a>\n                </dt>\n                <dt>\n                    <a href=\"#\" class=\"usr offline\"\n                       data-chat-id=\"cha6\"\n                       data-chat-fname=\"Lezley\"\n                       data-chat-lname=\"Jacob\"\n                       data-chat-status=\"incognito\"\n                       popover-trigger=\"hover\"\n                       popover-placement=\"right\"\n                       smart-popover-html=\"\n										<div class=\'usr-card\'>\n											<img src=\'styles/img/avatars/male.png\' alt=\'Lezley Jacob\'>\n											<div class=\'usr-card-content\'>\n												<h3>Lezley Jacob</h3>\n												<p>Sales Director</p>\n											</div>\n										</div>\n									\">\n                        <i></i>Lezley Jacob (offline)\n                    </a>\n                </dt>\n            </dl>\n\n\n            <!--<a href=\"chat.html\" class=\"btn btn-xs btn-default btn-block sa-chat-learnmore-btn\">About the API</a>-->\n        </div>\n    </li>\n</ul>");
 $templateCache.put("app/dashboard/chat/directives/chat-users.tpl.html","<div id=\"chat-container\" ng-class=\"{open: open}\">\n    <span class=\"chat-list-open-close\" ng-click=\"openToggle()\"><i class=\"fa fa-user\"></i><b>!</b></span>\n\n    <div class=\"chat-list-body custom-scroll\">\n        <ul id=\"chat-users\">\n            <li ng-repeat=\"chatUser in chatUsers | filter: chatUserFilter\">\n                <a ng-click=\"messageTo(chatUser)\"><img ng-src=\"{{chatUser.picture}}\">{{chatUser.username}} <span\n                        class=\"badge badge-inverse\">{{chatUser.username.length}}</span><span class=\"state\"><i\n                        class=\"fa fa-circle txt-color-green pull-right\"></i></span></a>\n            </li>\n        </ul>\n    </div>\n    <div class=\"chat-list-footer\">\n        <div class=\"control-group\">\n            <form class=\"smart-form\">\n                <section>\n                    <label class=\"input\" >\n                        <input type=\"text\" ng-model=\"chatUserFilter\" id=\"filter-chat-list\" placeholder=\"Filter\">\n                    </label>\n                </section>\n            </form>\n        </div>\n    </div>\n</div>");
 $templateCache.put("app/dashboard/chat/directives/chat-widget.tpl.html","<div id=\"chat-widget\" jarvis-widget data-widget-color=\"blueDark\" data-widget-editbutton=\"false\"\n     data-widget-fullscreenbutton=\"false\">\n\n\n    <header>\n        <span class=\"widget-icon\"> <i class=\"fa fa-comments txt-color-white\"></i> </span>\n\n        <h2> SmartMessage </h2>\n\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n\n            <div class=\"btn-group\" data-dropdown>\n                <button class=\"btn dropdown-toggle btn-xs btn-success\" data-toggle=\"dropdown\">\n                    Status <i class=\"fa fa-caret-down\"></i>\n                </button>\n                <ul class=\"dropdown-menu pull-right js-status-update\">\n                    <li>\n                        <a href-void><i class=\"fa fa-circle txt-color-green\"></i> Online</a>\n                    </li>\n                    <li>\n                        <a href-void><i class=\"fa fa-circle txt-color-red\"></i> Busy</a>\n                    </li>\n                    <li>\n                        <a href-void><i class=\"fa fa-circle txt-color-orange\"></i> Away</a>\n                    </li>\n                    <li class=\"divider\"></li>\n                    <li>\n                        <a href-void><i class=\"fa fa-power-off\"></i> Log Off</a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </header>\n\n    <!-- widget div-->\n    <div>\n        <div class=\"widget-body widget-hide-overflow no-padding\">\n            <!-- content goes here -->\n\n            <chat-users></chat-users>\n\n            <!-- CHAT BODY -->\n            <div id=\"chat-body\" class=\"chat-body custom-scroll\">\n                <ul>\n                    <li class=\"message\" ng-repeat=\"message in chatMessages\">\n                        <img class=\"message-picture online\" ng-src=\"{{message.user.picture}}\">\n\n                        <div class=\"message-text\">\n                            <time>\n                                {{message.date | date }}\n                            </time>\n                            <a ng-click=\"messageTo(message.user)\" class=\"username\">{{message.user.username}}</a>\n                            <div ng-bind-html=\"message.body\"></div>\n\n                        </div>\n                    </li>\n                </ul>\n            </div>\n\n            <!-- CHAT FOOTER -->\n            <div class=\"chat-footer\">\n\n                <!-- CHAT TEXTAREA -->\n                <div class=\"textarea-div\">\n\n                    <div class=\"typearea\">\n                        <textarea placeholder=\"Write a reply...\" id=\"textarea-expand\"\n                                  class=\"custom-scroll\" ng-model=\"newMessage\"></textarea>\n                    </div>\n\n                </div>\n\n                <!-- CHAT REPLY/SEND -->\n											<span class=\"textarea-controls\">\n												<button class=\"btn btn-sm btn-primary pull-right\" ng-click=\"sendMessage()\">\n                                                    Reply\n                                                </button> <span class=\"pull-right smart-form\"\n                                                                style=\"margin-top: 3px; margin-right: 10px;\"> <label\n                                                    class=\"checkbox pull-right\">\n                                                <input type=\"checkbox\" name=\"subscription\" id=\"subscription\">\n                                                <i></i>Press <strong> ENTER </strong> to send </label> </span> <a\n                                                    href-void class=\"pull-left\"><i\n                                                    class=\"fa fa-camera fa-fw fa-lg\"></i></a> </span>\n\n            </div>\n\n            <!-- end content -->\n        </div>\n\n    </div>\n    <!-- end widget div -->\n</div>");
-$templateCache.put("app/dashboard/todo/directives/todo-list.tpl.html","<div>\n    <h5 class=\"todo-group-title\"><i class=\"fa fa-{{icon}}\"></i> {{title}} (\n        <small class=\"num-of-tasks\">{{scopeItems.length}}</small>\n        )\n    </h5>\n    <ul class=\"todo\">\n        <li ng-class=\"{complete: todo.completedAt}\" ng-repeat=\"todo in todos | orderBy: todo._id | filter: filter  track by todo._id\" >\n    	<span class=\"handle\"> <label class=\"checkbox\">\n            <input type=\"checkbox\" ng-click=\"todo.toggle()\" ng-checked=\"todo.completedAt\"\n                   name=\"checkbox-inline\">\n            <i></i> </label> </span>\n\n            <p>\n                <strong>Ticket #{{$index + 1}}</strong> - {{todo.title}}\n                <span class=\"text-muted\" ng-if=\"todo.description\">{{todo.description}}</span>\n                <span class=\"date\">{{todo.createdAt | date}} &dash; <a ng-click=\"deleteTodo(todo)\" class=\"text-muted\"><i\n                        class=\"fa fa-trash\"></i></a></span>\n\n            </p>\n        </li>\n    </ul>\n</div>");
 $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-attribute-form.tpl.html","<form id=\"attributeForm\" class=\"form-horizontal\"\n      data-bv-message=\"This value is not valid\"\n      data-bv-feedbackicons-valid=\"glyphicon glyphicon-ok\"\n      data-bv-feedbackicons-invalid=\"glyphicon glyphicon-remove\"\n      data-bv-feedbackicons-validating=\"glyphicon glyphicon-refresh\">\n\n    <fieldset>\n        <legend>\n            Set validator options via HTML attributes\n        </legend>\n\n        <div class=\"alert alert-warning\">\n            <code>&lt; input\n                data-bv-validatorname\n                data-bv-validatorname-validatoroption=\"...\" / &gt;</code>\n\n            <br>\n            <br>\n            More validator options can be found here:\n            <a href=\"http://bootstrapvalidator.com/validators/\" target=\"_blank\">http://bootstrapvalidator.com/validators/</a>\n        </div>\n\n        <div class=\"form-group\">\n            <label class=\"col-lg-3 control-label\">Full name</label>\n            <div class=\"col-lg-4\">\n                <input type=\"text\" class=\"form-control\" name=\"firstName\" placeholder=\"First name\"\n                       data-bv-notempty=\"true\"\n                       data-bv-notempty-message=\"The first name is required and cannot be empty\" />\n            </div>\n            <div class=\"col-lg-4\">\n                <input type=\"text\" class=\"form-control\" name=\"lastName\" placeholder=\"Last name\"\n                       data-bv-notempty=\"true\"\n                       data-bv-notempty-message=\"The last name is required and cannot be empty\" />\n            </div>\n        </div>\n    </fieldset>\n\n    <fieldset>\n        <div class=\"form-group\">\n            <label class=\"col-lg-3 control-label\">Username</label>\n            <div class=\"col-lg-5\">\n                <input type=\"text\" class=\"form-control\" name=\"username\"\n                       data-bv-message=\"The username is not valid\"\n\n                       data-bv-notempty=\"true\"\n                       data-bv-notempty-message=\"The username is required and cannot be empty\"\n\n                       data-bv-regexp=\"true\"\n                       data-bv-regexp-regexp=\"^[a-zA-Z0-9_\\.]+$\"\n                       data-bv-regexp-message=\"The username can only consist of alphabetical, number, dot and underscore\"\n\n                       data-bv-stringlength=\"true\"\n                       data-bv-stringlength-min=\"6\"\n                       data-bv-stringlength-max=\"30\"\n                       data-bv-stringlength-message=\"The username must be more than 6 and less than 30 characters long\"\n\n                       data-bv-different=\"true\"\n                       data-bv-different-field=\"password\"\n                       data-bv-different-message=\"The username and password cannot be the same as each other\" />\n            </div>\n        </div>\n    </fieldset>\n\n    <fieldset>\n        <div class=\"form-group\">\n            <label class=\"col-lg-3 control-label\">Email address</label>\n            <div class=\"col-lg-5\">\n                <input class=\"form-control\" name=\"email\" type=\"email\"\n                       data-bv-emailaddress=\"true\"\n                       data-bv-emailaddress-message=\"The input is not a valid email address\" />\n            </div>\n        </div>\n    </fieldset>\n\n    <fieldset>\n        <div class=\"form-group\">\n            <label class=\"col-lg-3 control-label\">Password</label>\n            <div class=\"col-lg-5\">\n                <input type=\"password\" class=\"form-control\" name=\"password\"\n                       data-bv-notempty=\"true\"\n                       data-bv-notempty-message=\"The password is required and cannot be empty\"\n\n                       data-bv-identical=\"true\"\n                       data-bv-identical-field=\"confirmPassword\"\n                       data-bv-identical-message=\"The password and its confirm are not the same\"\n\n                       data-bv-different=\"true\"\n                       data-bv-different-field=\"username\"\n                       data-bv-different-message=\"The password cannot be the same as username\" />\n            </div>\n        </div>\n    </fieldset>\n\n    <fieldset>\n        <div class=\"form-group\">\n            <label class=\"col-lg-3 control-label\">Retype password</label>\n            <div class=\"col-lg-5\">\n                <input type=\"password\" class=\"form-control\" name=\"confirmPassword\"\n                       data-bv-notempty=\"true\"\n                       data-bv-notempty-message=\"The confirm password is required and cannot be empty\"\n\n                       data-bv-identical=\"true\"\n                       data-bv-identical-field=\"password\"\n                       data-bv-identical-message=\"The password and its confirm are not the same\"\n\n                       data-bv-different=\"true\"\n                       data-bv-different-field=\"username\"\n                       data-bv-different-message=\"The password cannot be the same as username\" />\n            </div>\n        </div>\n    </fieldset>\n\n    <fieldset>\n        <div class=\"form-group\">\n            <label class=\"col-lg-3 control-label\">Languages</label>\n            <div class=\"col-lg-5\">\n                <div class=\"checkbox\">\n                    <label>\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"english\"\n                               data-bv-message=\"Please specify at least one language you can speak\"\n                               data-bv-notempty=\"true\" />\n                        English </label>\n                </div>\n                <div class=\"checkbox\">\n                    <label>\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"french\" />\n                        French </label>\n                </div>\n                <div class=\"checkbox\">\n                    <label>\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"german\" />\n                        German </label>\n                </div>\n                <div class=\"checkbox\">\n                    <label>\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"russian\" />\n                        Russian </label>\n                </div>\n                <div class=\"checkbox\">\n                    <label>\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"other\" />\n                        Other </label>\n                </div>\n            </div>\n        </div>\n    </fieldset>\n\n    <div class=\"form-actions\">\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <button class=\"btn btn-default\" type=\"submit\">\n                    <i class=\"fa fa-eye\"></i>\n                    Validate\n                </button>\n            </div>\n        </div>\n    </div>\n\n</form>\n     ");
 $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-button-group-form.tpl.html","<form id=\"buttonGroupForm\" method=\"post\" class=\"form-horizontal\">\n\n    <fieldset>\n        <legend>\n            Default Form Elements\n        </legend>\n        <div class=\"form-group\">\n            <label class=\"col-lg-3 control-label\">Gender</label>\n            <div class=\"col-lg-9\">\n                <div class=\"btn-group\" data-toggle=\"buttons\">\n                    <label class=\"btn btn-default\">\n                        <input type=\"radio\" name=\"gender\" value=\"male\" />\n                        Male </label>\n                    <label class=\"btn btn-default\">\n                        <input type=\"radio\" name=\"gender\" value=\"female\" />\n                        Female </label>\n                    <label class=\"btn btn-default\">\n                        <input type=\"radio\" name=\"gender\" value=\"other\" />\n                        Other </label>\n                </div>\n            </div>\n        </div>\n    </fieldset>\n\n    <fieldset>\n        <div class=\"form-group\">\n            <label class=\"col-lg-3 control-label\">Languages</label>\n            <div class=\"col-lg-9\">\n                <div class=\"btn-group\" data-toggle=\"buttons\">\n                    <label class=\"btn btn-default\">\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"english\" />\n                        English </label>\n                    <label class=\"btn btn-default\">\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"german\" />\n                        German </label>\n                    <label class=\"btn btn-default\">\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"french\" />\n                        French </label>\n                    <label class=\"btn btn-default\">\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"russian\" />\n                        Russian </label>\n                    <label class=\"btn btn-default\">\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"italian\">\n                        Italian </label>\n                </div>\n            </div>\n        </div>\n    </fieldset>\n\n    <div class=\"form-actions\">\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <button class=\"btn btn-default\" type=\"submit\">\n                    <i class=\"fa fa-eye\"></i>\n                    Validate\n                </button>\n            </div>\n        </div>\n    </div>\n\n</form>\n");
 $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-contact-form.tpl.html","<form id=\"contactForm\" method=\"post\" class=\"form-horizontal\">\n\n    <fieldset>\n        <legend>Showing messages in custom area</legend>\n        <div class=\"form-group\">\n            <label class=\"col-md-3 control-label\">Full name</label>\n            <div class=\"col-md-6\">\n                <input type=\"text\" class=\"form-control\" name=\"fullName\" />\n            </div>\n        </div>\n    </fieldset>\n\n    <fieldset>\n        <div class=\"form-group\">\n            <label class=\"col-md-3 control-label\">Email</label>\n            <div class=\"col-md-6\">\n                <input type=\"text\" class=\"form-control\" name=\"email\" />\n            </div>\n        </div>\n    </fieldset>\n\n    <fieldset>\n        <div class=\"form-group\">\n            <label class=\"col-md-3 control-label\">Title</label>\n            <div class=\"col-md-6\">\n                <input type=\"text\" class=\"form-control\" name=\"title\" />\n            </div>\n        </div>\n    </fieldset>\n\n    <fieldset>\n        <div class=\"form-group\">\n            <label class=\"col-md-3 control-label\">Content</label>\n            <div class=\"col-md-6\">\n                <textarea class=\"form-control\" name=\"content\" rows=\"5\"></textarea>\n            </div>\n        </div>\n    </fieldset>\n\n    <fieldset>\n        <!-- #messages is where the messages are placed inside -->\n        <div class=\"form-group\">\n            <div class=\"col-md-9 col-md-offset-3\">\n                <div id=\"messages\"></div>\n            </div>\n        </div>\n    </fieldset>\n\n    <div class=\"form-actions\">\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <button class=\"btn btn-default\" type=\"submit\">\n                    <i class=\"fa fa-eye\"></i>\n                    Validate\n                </button>\n            </div>\n        </div>\n    </div>\n\n</form>\n");
@@ -2388,6 +2429,130 @@ angular.module('app.admin').controller('DashboardController', function ($scope) 
 });
 'use strict';
 
+angular.module('app.admin').controller('FieldsController', function (ServerURL, $http, $filter) {
+    var vm = this;
+    vm.tableData = [];
+    vm.currRow = {};
+
+    vm.getData = function () {
+        $http.get(ServerURL + "fields/get").then(function (response) {
+            vm.tableData = response.data;
+            for (var i in vm.tableData) {
+                vm.tableData[i].soccer = !!(vm.tableData[i].soccer * 1);
+                vm.tableData[i].synthetic_turf = !!(vm.tableData[i].synthetic_turf * 1);
+                vm.tableData[i].restrooms = !!(vm.tableData[i].restrooms * 1);
+            }
+        });
+    };
+    vm.getData();
+
+    vm.save = function () {
+        var data = vm.currRow;
+        $http({
+            method: 'POST',
+            url: ServerURL + "fields/save",
+            headers: {'Content-Type': 'multipart/form-data'},
+            data: data
+        }).then(function mySucces(/*response*/) {
+            $('#myModal').modal('hide');
+        });
+    };
+
+    vm.openModal = function (rowId) {
+        vm.editRow(rowId);
+        $('#myModal').modal('show');
+    };
+
+    vm.addNew = function () {
+        vm.currRow = {
+            id: 0,
+            field_name: '',
+            soccer: 0,
+            synthetic_turf: 0,
+            restrooms: 0,
+            location: ''
+        };
+    };
+
+    vm.editRow = function (rowId) {
+        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+    };
+
+    vm.deleteRow = function (rowId) {
+        if (confirm('Are you sure want to delete this?')) {
+            $http.get(ServerURL + "fields/delete?id=" + rowId).then(function (response) {
+                if (response.data == true) {
+                    vm.getData();
+                } else {
+                    alert('Failed to delete this row.');
+                }
+            });
+        }
+    };
+    $('#myModal').on('hidden.bs.modal', function () {
+        vm.getData();
+    });
+});
+'use strict';
+
+angular.module('app.admin').controller('LicensesController', function (ServerURL, $http, $filter) {
+    var vm = this;
+    vm.tableData = [];
+    vm.currRow = {};
+
+    vm.getData = function () {
+        $http.get(ServerURL + "licenses/get").then(function (response) {
+            vm.tableData = response.data;
+        });
+    };
+    vm.getData();
+
+    vm.save = function () {
+        var data = vm.currRow;
+        $http({
+            method: 'POST',
+            url: ServerURL + "licenses/save",
+            headers: {'Content-Type': 'multipart/form-data'},
+            data: data
+        }).then(function mySucces(/*response*/) {
+            $('#myModal').modal('hide');
+        });
+    };
+
+    vm.openModal = function (rowId) {
+        vm.editRow(rowId);
+        $('#myModal').modal('show');
+    };
+
+    vm.addNew = function () {
+        vm.currRow = {
+            id: 0,
+            level: '',
+            license_name: ''
+        };
+    };
+
+    vm.editRow = function (rowId) {
+        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+    };
+
+    vm.deleteRow = function (rowId) {
+        if (confirm('Are you sure want to delete this?')) {
+            $http.get(ServerURL + "licenses/delete?id=" + rowId).then(function (response) {
+                if (response.data == true) {
+                    vm.getData();
+                } else {
+                    alert('Failed to delete this row.');
+                }
+            });
+        }
+    };
+    $('#myModal').on('hidden.bs.modal', function () {
+        vm.getData();
+    });
+});
+'use strict';
+
 angular.module('app.admin').controller('RefereeGradesController', function (ServerURL, $http, $filter) {
     var vm = this;
     vm.tableData = [];
@@ -2495,6 +2660,63 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             $http.get(ServerURL + "referees/delete?id=" + rowId).then(function (response) {
+                if (response.data == true) {
+                    vm.getData();
+                } else {
+                    alert('Failed to delete this row.');
+                }
+            });
+        }
+    };
+    $('#myModal').on('hidden.bs.modal', function () {
+        vm.getData();
+    });
+});
+'use strict';
+
+angular.module('app.admin').controller('SportsController', function (ServerURL, $http, $filter) {
+    var vm = this;
+    vm.tableData = [];
+    vm.currRow = {};
+
+    vm.getData = function () {
+        $http.get(ServerURL + "sports/get").then(function (response) {
+            vm.tableData = response.data;
+        });
+    };
+    vm.getData();
+
+    vm.save = function () {
+        var data = vm.currRow;
+        $http({
+            method: 'POST',
+            url: ServerURL + "sports/save",
+            headers: {'Content-Type': 'multipart/form-data'},
+            data: data
+        }).then(function mySucces(/*response*/) {
+            $('#myModal').modal('hide');
+        });
+    };
+
+    vm.openModal = function (rowId) {
+        vm.editRow(rowId);
+        $('#myModal').modal('show');
+    };
+
+    vm.addNew = function () {
+        vm.currRow = {
+            id: 0,
+            sport_name: ''
+        };
+    };
+
+    vm.editRow = function (rowId) {
+        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+    };
+
+    vm.deleteRow = function (rowId) {
+        if (confirm('Are you sure want to delete this?')) {
+            $http.get(ServerURL + "sports/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();
                 } else {
@@ -5122,6 +5344,49 @@ angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $h
     return ChatSrv;
 
 });
+"use strict";
+
+ angular.module('app').directive('todoList', function ($timeout, Todo) {
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/dashboard/todo/directives/todo-list.tpl.html',
+        scope: {
+            todos: '='
+        },
+        link: function (scope, element, attributes) {
+            scope.title = attributes.title
+            scope.icon = attributes.icon
+            scope.state = attributes.state
+            scope.filter = {
+                state: scope.state
+            }
+
+            element.find('.todo').sortable({
+                handle: '.handle',
+                connectWith: ".todo",
+                receive: function (event, ui) {
+
+                    console.log(ui.item.scope().todo,scope.state)
+                    var todo = ui.item.scope().todo;
+                    var state = scope.state
+                    // // console.log(ui.item, todo, state)
+                    // // console.log(state, todo)
+                    if (todo && state) {
+                        todo.setState(state);
+                         // ui.sender.sortable("cancel");
+                        // scope.$apply();
+                    } else {
+                        console.log('Wat', todo, state);
+                    }
+                    
+                }
+            }).disableSelection();
+
+        }
+    }
+});
 (function() {
         
    'use strict';
@@ -5726,49 +5991,6 @@ angular.module('app.chat').directive('chatWidget', function (ChatApi) {
                     $body.animate({scrollTop: $body[0].scrollHeight});
                 }
             })
-        }
-    }
-});
-"use strict";
-
- angular.module('app').directive('todoList', function ($timeout, Todo) {
-
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/dashboard/todo/directives/todo-list.tpl.html',
-        scope: {
-            todos: '='
-        },
-        link: function (scope, element, attributes) {
-            scope.title = attributes.title
-            scope.icon = attributes.icon
-            scope.state = attributes.state
-            scope.filter = {
-                state: scope.state
-            }
-
-            element.find('.todo').sortable({
-                handle: '.handle',
-                connectWith: ".todo",
-                receive: function (event, ui) {
-
-                    console.log(ui.item.scope().todo,scope.state)
-                    var todo = ui.item.scope().todo;
-                    var state = scope.state
-                    // // console.log(ui.item, todo, state)
-                    // // console.log(state, todo)
-                    if (todo && state) {
-                        todo.setState(state);
-                         // ui.sender.sortable("cancel");
-                        // scope.$apply();
-                    } else {
-                        console.log('Wat', todo, state);
-                    }
-                    
-                }
-            }).disableSelection();
-
         }
     }
 });
@@ -7238,6 +7460,53 @@ angular.module('app.graphs').directive('sparklineContainer', function () {
         }
     }
 });
+'use strict';
+
+angular.module('app.graphs').directive('vectorMap', function () {
+    return {
+        restrict: 'EA',
+        scope: {
+            mapData: '='
+        },
+        link: function (scope, element, attributes) {
+            var data = scope.mapData;
+
+            element.vectorMap({
+                map: 'world_mill_en',
+                backgroundColor: '#fff',
+                regionStyle: {
+                    initial: {
+                        fill: '#c4c4c4'
+                    },
+                    hover: {
+                        "fill-opacity": 1
+                    }
+                },
+                series: {
+                    regions: [
+                        {
+                            values: data,
+                            scale: ['#85a8b6', '#4d7686'],
+                            normalizeFunction: 'polynomial'
+                        }
+                    ]
+                },
+                onRegionLabelShow: function (e, el, code) {
+                    if (typeof data[code] == 'undefined') {
+                        e.preventDefault();
+                    } else {
+                        var countrylbl = data[code];
+                        el.html(el.html() + ': ' + countrylbl + ' visits');
+                    }
+                }
+            });
+
+            element.on('$destroy', function(){
+                element.children('.jvectormap-container').data('mapObject').remove();
+            })
+        }
+    }
+});
 
 "use strict";
 
@@ -7932,48 +8201,122 @@ angular.module('app.graphs').directive('morrisYearGraph', function(){
 });
 'use strict';
 
-angular.module('app.graphs').directive('vectorMap', function () {
-    return {
-        restrict: 'EA',
-        scope: {
-            mapData: '='
-        },
-        link: function (scope, element, attributes) {
-            var data = scope.mapData;
+angular.module('app.tables').directive('jqGrid', function ($compile) {
+    var jqGridCounter = 0;
 
-            element.vectorMap({
-                map: 'world_mill_en',
-                backgroundColor: '#fff',
-                regionStyle: {
-                    initial: {
-                        fill: '#c4c4c4'
-                    },
-                    hover: {
-                        "fill-opacity": 1
+    return {
+        replace: true,
+        restrict: 'E',
+        scope: {
+            gridData: '='
+        },
+        template: '<div>' +
+            '<table></table>' +
+            '<div class="jqgrid-pagination"></div>' +
+            '</div>',
+        controller: function($scope, $element){
+            $scope.editRow  = function(row){
+                $element.find('table').editRow(row);
+            };
+            $scope.saveRow  = function(row){
+                $element.find('table').saveRow(row);
+            };
+            $scope.restoreRow  = function(row){
+                $element.find('table').restoreRow(row);
+            };
+        },
+        link: function (scope, element) {
+            var gridNumber = jqGridCounter++;
+            var wrapperId = 'jqgrid-' + gridNumber;
+            element.attr('id', wrapperId);
+
+            var tableId = 'jqgrid-table-' + gridNumber;
+            var table = element.find('table');
+            table.attr('id', tableId);
+
+            var pagerId = 'jqgrid-pager-' + gridNumber;
+            element.find('.jqgrid-pagination').attr('id', pagerId);
+
+
+            table.jqGrid({
+                data : scope.gridData.data,
+                datatype : "local",
+                height : 'auto',
+                colNames : scope.gridData.colNames || [],
+                colModel : scope.gridData.colModel || [],
+                rowNum : 10,
+                rowList : [10, 20, 30],
+                pager : '#' + pagerId,
+                sortname : 'id',
+                toolbarfilter : true,
+                viewrecords : true,
+                sortorder : "asc",
+                gridComplete : function() {
+                    var ids = table.jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        var be = "<button class='btn btn-xs btn-default' uib-tooltip='Edit Row' tooltip-append-to-body='true' ng-click='editRow("+ cl +")'><i class='fa fa-pencil'></i></button>";
+
+                        var se = "<button class='btn btn-xs btn-default' uib-tooltip='Save Row' tooltip-append-to-body='true' ng-click='saveRow("+ cl +")'><i class='fa fa-save'></i></button>";
+
+                        var ca = "<button class='btn btn-xs btn-default' uib-tooltip='Cancel' tooltip-append-to-body='true' ng-click='restoreRow("+ cl +")'><i class='fa fa-times'></i></button>";
+
+                        table.jqGrid('setRowData', ids[i], {
+                            act : be + se + ca
+                        });
                     }
                 },
-                series: {
-                    regions: [
-                        {
-                            values: data,
-                            scale: ['#85a8b6', '#4d7686'],
-                            normalizeFunction: 'polynomial'
-                        }
-                    ]
-                },
-                onRegionLabelShow: function (e, el, code) {
-                    if (typeof data[code] == 'undefined') {
-                        e.preventDefault();
-                    } else {
-                        var countrylbl = data[code];
-                        el.html(el.html() + ': ' + countrylbl + ' visits');
-                    }
-                }
+                editurl : "dummy.html",
+                caption : "SmartAdmin jQgrid Skin",
+                multiselect : true,
+                autowidth : true
+
+            });
+            table.jqGrid('navGrid', '#' + pagerId, {
+                edit : false,
+                add : false,
+                del : true
+            });
+            table.jqGrid('inlineNav', '#' + pagerId);
+
+
+            element.find(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+            element.find(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+            element.find(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+            element.find(".ui-jqgrid-pager").removeClass("ui-state-default");
+            element.find(".ui-jqgrid").removeClass("ui-widget-content");
+
+            // add classes
+            element.find(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+            element.find(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+            element.find(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+            element.find(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+            element.find(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+            element.find(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+            element.find(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+            element.find(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+            element.find(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+            element.find(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+            element.find(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+            element.find(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+            element.find(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+            element.find(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+
+            $(window).on('resize.jqGrid', function() {
+               table.jqGrid('setGridWidth', $("#content").width());
             });
 
-            element.on('$destroy', function(){
-                element.children('.jvectormap-container').data('mapObject').remove();
-            })
+
+            $compile(element.contents())(scope);
         }
     }
 });
@@ -8274,127 +8617,6 @@ angular.module('app.tables').directive('datatableTableTools', function () {
                     responsiveHelper.respond();
                 }
             });
-        }
-    }
-});
-'use strict';
-
-angular.module('app.tables').directive('jqGrid', function ($compile) {
-    var jqGridCounter = 0;
-
-    return {
-        replace: true,
-        restrict: 'E',
-        scope: {
-            gridData: '='
-        },
-        template: '<div>' +
-            '<table></table>' +
-            '<div class="jqgrid-pagination"></div>' +
-            '</div>',
-        controller: function($scope, $element){
-            $scope.editRow  = function(row){
-                $element.find('table').editRow(row);
-            };
-            $scope.saveRow  = function(row){
-                $element.find('table').saveRow(row);
-            };
-            $scope.restoreRow  = function(row){
-                $element.find('table').restoreRow(row);
-            };
-        },
-        link: function (scope, element) {
-            var gridNumber = jqGridCounter++;
-            var wrapperId = 'jqgrid-' + gridNumber;
-            element.attr('id', wrapperId);
-
-            var tableId = 'jqgrid-table-' + gridNumber;
-            var table = element.find('table');
-            table.attr('id', tableId);
-
-            var pagerId = 'jqgrid-pager-' + gridNumber;
-            element.find('.jqgrid-pagination').attr('id', pagerId);
-
-
-            table.jqGrid({
-                data : scope.gridData.data,
-                datatype : "local",
-                height : 'auto',
-                colNames : scope.gridData.colNames || [],
-                colModel : scope.gridData.colModel || [],
-                rowNum : 10,
-                rowList : [10, 20, 30],
-                pager : '#' + pagerId,
-                sortname : 'id',
-                toolbarfilter : true,
-                viewrecords : true,
-                sortorder : "asc",
-                gridComplete : function() {
-                    var ids = table.jqGrid('getDataIDs');
-                    for (var i = 0; i < ids.length; i++) {
-                        var cl = ids[i];
-                        var be = "<button class='btn btn-xs btn-default' uib-tooltip='Edit Row' tooltip-append-to-body='true' ng-click='editRow("+ cl +")'><i class='fa fa-pencil'></i></button>";
-
-                        var se = "<button class='btn btn-xs btn-default' uib-tooltip='Save Row' tooltip-append-to-body='true' ng-click='saveRow("+ cl +")'><i class='fa fa-save'></i></button>";
-
-                        var ca = "<button class='btn btn-xs btn-default' uib-tooltip='Cancel' tooltip-append-to-body='true' ng-click='restoreRow("+ cl +")'><i class='fa fa-times'></i></button>";
-
-                        table.jqGrid('setRowData', ids[i], {
-                            act : be + se + ca
-                        });
-                    }
-                },
-                editurl : "dummy.html",
-                caption : "SmartAdmin jQgrid Skin",
-                multiselect : true,
-                autowidth : true
-
-            });
-            table.jqGrid('navGrid', '#' + pagerId, {
-                edit : false,
-                add : false,
-                del : true
-            });
-            table.jqGrid('inlineNav', '#' + pagerId);
-
-
-            element.find(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
-            element.find(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
-            element.find(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
-            element.find(".ui-jqgrid-pager").removeClass("ui-state-default");
-            element.find(".ui-jqgrid").removeClass("ui-widget-content");
-
-            // add classes
-            element.find(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
-            element.find(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
-
-            element.find(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
-            element.find(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
-            element.find(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
-            element.find(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
-            element.find(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
-            element.find(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
-            element.find(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
-            element.find(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
-
-            element.find(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
-
-            element.find(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
-
-            element.find(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
-
-            element.find(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
-
-            $(window).on('resize.jqGrid', function() {
-               table.jqGrid('setGridWidth', $("#content").width());
-            });
-
-
-            $compile(element.contents())(scope);
         }
     }
 });
@@ -9595,6 +9817,43 @@ angular.module('SmartAdmin.Layout').directive('stateBreadcrumbs', function ($roo
         }
     }
 });
+
+"use strict";
+
+angular.module('SmartAdmin.UI').directive('smartPopoverHtml', function () {
+    return {
+        restrict: "A",
+        link: function(scope, element, attributes){
+            var options = {};
+            options.content = attributes.smartPopoverHtml;
+            options.placement = attributes.popoverPlacement || 'top';
+            options.html = true;
+            options.trigger =  attributes.popoverTrigger || 'click';
+            options.title =  attributes.popoverTitle || attributes.title;
+            element.popover(options)
+
+        }
+
+    };
+});
+
+
+"use strict";
+
+angular.module('SmartAdmin.UI').directive('smartTooltipHtml', function () {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attributes){
+                element.tooltip({
+                    placement: attributes.tooltipPlacement || 'top',
+                    html: true,
+                    title: attributes.smartTooltipHtml
+                })
+            }
+        };
+    }
+);
+
 'use strict';
 
 angular.module('SmartAdmin.Layout').factory('lazyScript', function($q, $http){
@@ -9739,43 +9998,6 @@ angular.module('SmartAdmin.Layout').factory('SmartCss', function ($rootScope, $t
 
 
 
-
-
-"use strict";
-
-angular.module('SmartAdmin.UI').directive('smartPopoverHtml', function () {
-    return {
-        restrict: "A",
-        link: function(scope, element, attributes){
-            var options = {};
-            options.content = attributes.smartPopoverHtml;
-            options.placement = attributes.popoverPlacement || 'top';
-            options.html = true;
-            options.trigger =  attributes.popoverTrigger || 'click';
-            options.title =  attributes.popoverTitle || attributes.title;
-            element.popover(options)
-
-        }
-
-    };
-});
-
-
-"use strict";
-
-angular.module('SmartAdmin.UI').directive('smartTooltipHtml', function () {
-        return {
-            restrict: 'A',
-            link: function(scope, element, attributes){
-                element.tooltip({
-                    placement: attributes.tooltipPlacement || 'top',
-                    html: true,
-                    title: attributes.smartTooltipHtml
-                })
-            }
-        };
-    }
-);
 
 "use strict";
 
