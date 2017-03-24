@@ -96,6 +96,19 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.teams', {
+                url: '/teams',
+                data: {
+                    title: 'Team Management'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/teams.html',
+                        controller: 'TeamsController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
         ;
     })
 ;

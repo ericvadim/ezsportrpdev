@@ -18,6 +18,22 @@
  * - CUSTOM STYLES
  */
 
-ul[data-smart-menu]{
+ul[data-smart-menu] {
     cursor: pointer;
+}
+
+.max-width-50 {
+    max-width: 50px;
+}
+
+.max-width-100 {
+    max-width: 100px;
+}
+
+.max-width-200 {
+    max-width: 200px;
+}
+
+.table-text-center th, .table-text-center td {
+    text-align: center;
 }

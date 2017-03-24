@@ -1,42 +1,39 @@
 <div id="content">
     <div class="row">
-        <big-breadcrumbs items="['Club Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <big-breadcrumbs items="['Team Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
     <div class="text-right margin-bottom-10">
         <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
     </div>
+
     <section widget-grid id="widget-grid">
         <div class="row">
             <article class="col-sm-12">
                 <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Club Management</h2>
+                        <h2>Team Management</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
+                            <div class="table-responsive table-text-center">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Club Name</th>
-                                        <th>Country</th>
-                                        <th>State</th>
-                                        <th>City</th>
-                                        <th>Address</th>
+                                        <th>Club</th>
+                                        <th>Team Name</th>
+                                        <th>Image</th>
                                         <th>Manage</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.club_name}}</td>
-                                        <td>{{vm.countries[row.country]}}</td>
-                                        <td>{{row.state}}</td>
-                                        <td>{{row.city}}</td>
-                                        <td>{{row.address}}</td>
+                                        <td>{{vm.getClubById(row.club_id).club_name}}</td>
+                                        <td>{{row.team_name}}</td>
+                                        <td><img class="max-width-100" ng-src="{{row.image}}"></td>
                                         <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
                                             <a ng-click="vm.deleteRow(row.id)">Delete</a>
@@ -64,35 +61,24 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Club Name</label>
+                        <label class="col-md-3 control-label">Club</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="Club Name" type="text" ng-model="vm.currRow.club_name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Country</label>
-                        <div class="col-md-9">
-                            <select class="form-control" ng-model="vm.currRow.country">
-                                <option ng-repeat="(code, name) in vm.countries" value="{{code}}">{{name}}</option>
+                            <select class="form-control" ng-model="vm.currRow.club_id">
+                                <option ng-repeat="c in vm.clubs" value="{{c.id}}">{{c.club_name}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label">State</label>
+                        <label class="col-md-3 control-label">Team Name</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="State" type="text" ng-model="vm.currRow.state">
+                            <input class="form-control" placeholder="Team Name" type="text" ng-model="vm.currRow.team_name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label">City</label>
+                        <label class="col-md-3 control-label">Team Image</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="City" type="text" ng-model="vm.currRow.city">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Address</label>
-                        <div class="col-md-9">
-                            <input class="form-control" placeholder="Address" type="text" ng-model="vm.currRow.address">
+                            <input type="file" class="form-control" fileinput="file" filepreview="vm.currRow.image"/>
+                            <img ng-src="{{vm.currRow.image}}" class="img-responsive margin-top-10 max-width-200" dng-show="vm.currRow.image"/>
                         </div>
                     </div>
                 </form>

@@ -22,7 +22,7 @@ class Club_model extends CI_Model
 
         $rowId = $data['id'];
 
-        $cols = array('club_name', 'country', 'state', 'city');
+        $cols = array('club_name', 'country', 'state', 'city', 'address');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';

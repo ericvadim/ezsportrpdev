@@ -340,6 +340,8 @@ angular.module('app', [
         ZM: "Zambia",
         ZW: "Zimbabwe"
     })
+
     .constant('ServerURL', 'http://ezsportrp.info/server/')
     // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 ;
+
