@@ -13,29 +13,26 @@
             </li>
 
             <li data-menu-collapse>
-                <a href="#" title="Administrator"><i class="fa fa-lg fa-fw fa-user"></i> <span
-                        class="menu-item-parent">{{getWord('Administrator')}}</span></a>
+                <a href="#" title="Administrator"><i class="fa fa-lg fa-fw fa-cubes"></i> <span
+                        class="menu-item-parent">{{getWord('Basis Data')}}</span></a>
                 <ul>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.admin.referee-grades">{{getWord('Referee Grades')}}</a>
+                        <a data-ui-sref="app.admin.referee-grades"><i class="fa fa-graduation-cap"></i> {{getWord('Referee Grades')}}</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.admin.licenses">{{getWord('Licenses')}}</a>
+                        <a data-ui-sref="app.admin.licenses"><i class="fa fa-credit-card"></i> {{getWord('Licenses')}}</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.admin.sports">{{getWord('Sports')}}</a>
+                        <a data-ui-sref="app.admin.sports"><i class="fa fa-futbol-o"></i> {{getWord('Sport Types')}}</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.admin.fields">{{getWord('Fields')}}</a>
-                    </li>
-                    <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.admin.referees">{{getWord('Referee Management')}}</a>
+                        <a data-ui-sref="app.admin.fields"><i class="fa fa-th-large"></i> {{getWord('Fields')}}</a>
                     </li>
                 </ul>
             </li>
 
             <li data-menu-collapse class="top-menu-invisible">
-                <a href="#"><i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i> <span class="menu-item-parent">{{getWord('Club Executives')}}</span></a>
+                <a href="#"><i class="fa fa-lg fa-fw fa-th"></i> <span class="menu-item-parent">{{getWord('Organizations')}}</span></a>
                 <ul>
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.smartAdmin.appLayouts"><i class="fa fa-gear"></i>
@@ -45,46 +42,49 @@
                         <a data-ui-sref="app.smartAdmin.prebuiltSkins"><i class="fa fa-picture-o"></i>
                             {{getWord('Leagues Season')}}</a>
                     </li>
-                </ul>
-            </li>
-
-            <li data-menu-collapse class="top-menu-invisible">
-                <a href="#"><i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i> <span class="menu-item-parent">{{getWord('Team Management')}}</span></a>
-                <ul>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.smartAdmin.appLayouts"><i class="fa fa-gear"></i>
+                        <a data-ui-sref="app.smartAdmin.prebuiltSkins"><i class="fa fa-th-list"></i>
                             {{getWord('Teams')}}</a>
                     </li>
+                </ul>
+            </li>
+
+            <li data-menu-collapse class="top-menu-invisible">
+                <a href="#"><i class="fa fa-lg fa-fw fa-users"></i> <span class="menu-item-parent">{{getWord('Person')}}</span></a>
+                <ul>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.smartAdmin.prebuiltSkins"><i class="fa fa-picture-o"></i>
-                            {{getWord('Coaches')}}</a>
+                        <a data-ui-sref="app.admin.coaches"><i class="fa fa-user-circle"></i> {{getWord('Coaches')}}</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.smartAdmin.prebuiltSkins"><i class="fa fa-picture-o"></i>
-                            {{getWord('Players')}}</a>
+                        <a data-ui-sref="app.admin.players"><i class="fa fa-child"></i> {{getWord('Players')}}</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.admin.referees"><i class="fa fa-user-o"></i> {{getWord('Referees')}}</a>
                     </li>
                 </ul>
             </li>
 
             <li data-menu-collapse class="top-menu-invisible">
-                <a href="#"><i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i> <span class="menu-item-parent">{{getWord('Game Management')}}</span></a>
+                <a href="#"><i class="fa fa-lg fa-fw fa-trophy"></i> <span class="menu-item-parent">{{getWord('Game Management')}}</span></a>
                 <ul>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.smartAdmin.appLayouts"><i class="fa fa-gear"></i>
-                            {{getWord('Games')}}</a>
+                        <a data-ui-sref="app.smartAdmin.appLayouts"><i class="fa fa-bell"></i> {{getWord('Games')}}</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.smartAdmin.appLayouts"><i class="fa fa-calendar"></i> {{getWord('Schedule')}}</a>
                     </li>
                 </ul>
             </li>
 
 
             <li data-menu-collapse>
-                <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">{{getWord('User Management')}}</span></a>
+                <a href="#"><i class="fa fa-lg fa-fw fa-user-secret"></i> <span class="menu-item-parent">{{getWord('Privileges')}}</span></a>
                 <ul>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.graphs.flot">{{getWord('Users')}}</a>
+                        <a data-ui-sref="app.graphs.flot"><i class="fa fa-user"></i> {{getWord('Users')}}</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.graphs.morris">{{getWord('Permissions')}}</a>
+                        <a data-ui-sref="app.graphs.morris"><i class="fa fa-certificate"></i> {{getWord('Permissions')}}</a>
                     </li>
                 </ul>
             </li>

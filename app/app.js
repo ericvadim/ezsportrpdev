@@ -85,9 +85,6 @@ angular.module('app', [
     })
     .constant('APP_CONFIG', window.appConfig)
 
-    .constant('ServerURL', 'http://ezsportrp.info/server/')
-    // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
-
     .run(function ($rootScope
         , $state, $stateParams) {
         $rootScope.$state = $state;
@@ -95,6 +92,9 @@ angular.module('app', [
         // editableOptions.theme = 'bs3';
 
     })
+
+    .constant('ServerURL', 'http://ezsportrp.info/server/')
+// .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 ;
 
 
