@@ -44,7 +44,8 @@ angular.module('app.admin').controller('TeamsController', function (ServerURL, $
         vm.currRow = {
             id: 0,
             club_id: '',
-            team_name: ''
+            team_name: '',
+            image: './styles/img/no.jpg'
         };
     };
 
