@@ -83,6 +83,19 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.clubs', {
+                url: '/clubs',
+                data: {
+                    title: 'Club Management'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/clubs.html',
+                        controller: 'ClubsController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
         ;
     })
 ;
