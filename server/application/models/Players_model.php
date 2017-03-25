@@ -1,10 +1,10 @@
 <?php
 
 
-class Player_model extends CI_Model
+class Sport_model extends CI_Model
 {
 
-    private $table = 'players';
+    private $table = 'sports';
 
     function __construct()
     {
@@ -12,17 +12,17 @@ class Player_model extends CI_Model
         parent::__construct();
     }
 
-    public function getPlayers($teamId)
+    public function getSports()
     {
-        return $this->db->get_where($this->table, array('team_id' => $teamId))->result();
+        return $this->db->get($this->table)->result();
     }
 
-    public function savePlayer($data)
+    public function saveSport($data)
     {
 
         $rowId = $data['id'];
 
-        $cols = array('team_id', 'first_name', 'last_name', 'player_number', 'position', 'birthday', 'player_email', 'player_cell', 'emergency_cont_num', 'emergency_cont_name');
+        $cols = array('sport_name');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
@@ -39,7 +39,7 @@ class Player_model extends CI_Model
         return $result;
     }
 
-    public function deletePlayer($rowId)
+    public function deleteSport($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }
