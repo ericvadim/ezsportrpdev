@@ -148,6 +148,19 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.coaches', {
+                url: '/coaches',
+                data: {
+                    title: 'Coach Management'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/coaches.html',
+                        controller: 'CoachesController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
         ;
     })
 ;

@@ -1,0 +1,141 @@
+<div id="content">
+    <div class="row">
+        <big-breadcrumbs items="['Coach Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+    </div>
+
+    <div class="row margin-bottom-10 form-horizontal">
+        <div class="col-xs-6 col-sm-4 col-md-3">
+            <label class="col-xs-2 text-right control-label">Team:</label>
+            <div class="col-xs-10">
+                <select class="form-control" ng-change="vm.getData()" ng-model="vm.currTeamId">
+                    <option ng-repeat="team in vm.teams" value="{{team.id}}">{{team.team_name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-8 col-md-9 text-right">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+        </div>
+    </div>
+
+    <section widget-grid id="widget-grid">
+        <div class="row">
+            <article class="col-sm-12">
+                <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Coach Management</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Birthday</th>
+                                        <th>Home Phone</th>
+                                        <th>Cell Phone</th>
+                                        <th>Email</th>
+                                        <th>License</th>
+                                        <th>Coach Type</th>
+                                        <th>Manage</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{row.first_name}}</td>
+                                        <td>{{row.last_name}}</td>
+                                        <td>{{row.birthday}}</td>
+                                        <td>{{row.home_phone}}</td>
+                                        <td>{{row.cell_phone}}</td>
+                                        <td>{{row.email}}</td>
+                                        <td>{{row.license}}</td>
+                                        <td>{{vm.coachTypes[row.coach_type]}}</td>
+                                        <td class="text-center controls-td">
+                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
+                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Edit Information</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">First Name</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="First Name" type="text" ng-model="vm.currRow.first_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Last Name</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Last Name" type="text" ng-model="vm.currRow.last_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Birthday</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Birthday" type="text" ng-model="vm.currRow.birthday">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Home Phone</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Home Phone" type="text" ng-model="vm.currRow.home_phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Cell Phone</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Cell Phone" type="text" ng-model="vm.currRow.cell_phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Email</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Email" type="text" ng-model="vm.currRow.email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">License</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="License" type="text" ng-model="vm.currRow.license">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Coach Type</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.coach_type">
+                                <option ng-repeat="ct in vm.coachTypes" value="{{$index}}">{{ct}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="vm.save()">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
