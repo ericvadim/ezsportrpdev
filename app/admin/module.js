@@ -135,6 +135,19 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.users', {
+                url: '/users',
+                data: {
+                    title: 'User Management'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/users.html',
+                        controller: 'UsersController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
         ;
     })
 ;
