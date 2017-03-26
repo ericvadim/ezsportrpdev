@@ -12,9 +12,9 @@ class License_model extends CI_Model
         parent::__construct();
     }
 
-    public function getLicenses()
+    public function getLicenses($sportId)
     {
-        return $this->db->get($this->table)->result();
+        return $this->db->get_where($this->table, array('sport_id'=>$sportId))->result();
     }
 
     public function saveLicense($data)
@@ -22,7 +22,7 @@ class License_model extends CI_Model
 
         $rowId = $data['id'];
 
-        $cols = array('level', 'license_name');
+        $cols = array('sport_id', 'level', 'license_name');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';

@@ -2,18 +2,31 @@
 
 angular.module('app.admin').controller('LicensesController', function (ServerURL, $http, $filter) {
     var vm = this;
+    vm.sportTypes = [];
+    vm.currSportId = 0;
     vm.tableData = [];
     vm.currRow = {};
 
+    vm.getSports = function () {
+        $http.get(ServerURL + "sports/get").then(function (response) {
+            vm.sportTypes = response.data;
+            if (vm.sportTypes.length) {
+                vm.currSportId = vm.sportTypes[0].id;
+                vm.getData();
+            }
+        });
+    };
+    vm.getSports();
+
     vm.getData = function () {
-        $http.get(ServerURL + "licenses/get").then(function (response) {
+        $http.get(ServerURL + "licenses/get?sport_id=" + vm.currSportId).then(function (response) {
             vm.tableData = response.data;
         });
     };
-    vm.getData();
 
     vm.save = function () {
         var data = vm.currRow;
+        data['sport_id'] = vm.currSportId;
         $http({
             method: 'POST',
             url: ServerURL + "licenses/save",

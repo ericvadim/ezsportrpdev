@@ -13,8 +13,9 @@ class Licenses extends CI_Controller
     {
         $this->load->database();
         $this->load->model('license_model');
+        $sportId = $this->input->get('sport_id');
 
-        $rows = $this->license_model->getLicenses();
+        $rows = $this->license_model->getLicenses($sportId);
 
         echo json_encode($rows);
         exit;

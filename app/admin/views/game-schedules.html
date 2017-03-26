@@ -45,17 +45,13 @@
                                     <tbody>
                                     <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.identifier}}</td>
-                                        <td>{{row.first_name}}</td>
-                                        <td>{{row.last_name}}</td>
-                                        <td>{{row.birthday}}</td>
-                                        <td>{{row.player_number}}</td>
-                                        <td>{{vm.getPositionById(row.position_id)['short_name']}}</td>
-                                        <td>{{row.player_email}}</td>
-                                        <td>{{row.player_cell}}</td>
-                                        <td>{{row.emergency_cont_name}}</td>
-                                        <td>{{row.emergency_cont_num}}</td>
-                                        <td>{{row.emergency_cont_email}}</td>
+                                        <td>{{row.game_date}}</td>
+                                        <td>{{row.start_time}}</td>
+                                        <td>{{row.arrival_time}}</td>
+                                        <td>{{row.duration}}</td>
+                                        <td>{{row.opp_team_id}}</td>
+                                        <td>{{row.field_id}}</td>
+                                        <td>{{row.uniform}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
                                             <a ng-click="vm.deleteRow(row.id)">Delete</a>
@@ -83,71 +79,45 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Player ID</label>
+                        <label class="col-md-4 control-label">Date of Game</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Player ID" type="text" ng-model="vm.currRow.identifier">
+                            <input class="form-control" placeholder="Date of Game" type="text" ng-model="vm.currRow.game_date">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">First Name</label>
+                        <label class="col-md-4 control-label">Start Time</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="First Name" type="text" ng-model="vm.currRow.first_name">
+                            <input class="form-control" placeholder="Start Time" type="text" ng-model="vm.currRow.start_time">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Last Name</label>
+                        <label class="col-md-4 control-label">Arrival Time</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Last Name" type="text" ng-model="vm.currRow.last_name">
+                            <input class="form-control" placeholder="Arrival Time" type="text" ng-model="vm.currRow.arrival_time">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Birthday</label>
+                        <label class="col-md-4 control-label">Duration of Game</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Birthday" type="text" ng-model="vm.currRow.birthday">
+                            <input class="form-control" placeholder="Duration of Game" type="text" ng-model="vm.currRow.duration">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Player Number</label>
+                        <label class="col-md-4 control-label">Opponent Team</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Player Number" type="text" ng-model="vm.currRow.player_number">
+                            <input class="form-control" placeholder="Opponent Team" type="text" ng-model="vm.currRow.opp_team_id">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Position</label>
+                        <label class="col-md-4 control-label">Location</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="vm.currRow.position_id">
-                                <option ng-repeat="position in vm.positions" value="{{position.id}}">{{position.short_name}}</option>
-                            </select>
+                            <input class="form-control" placeholder="Location" type="text" ng-model="vm.currRow.field_id">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Player Email</label>
+                        <label class="col-md-4 control-label">Uniform</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Player Email" type="email" ng-model="vm.currRow.player_email">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Player Cell</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Player Cell" type="text" ng-model="vm.currRow.player_cell">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Emergency Contact Name</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Emergency Contact Name" type="text" ng-model="vm.currRow.emergency_cont_name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Emergency Contact Num</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Emergency Contact Num" type="text" ng-model="vm.currRow.emergency_cont_num">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Emergency Contact Email</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Emergency Contact Email" type="text" ng-model="vm.currRow.emergency_cont_email">
+                            <input class="form-control" placeholder="Uniform" type="text" ng-model="vm.currRow.uniform">
                         </div>
                     </div>
                 </form>
