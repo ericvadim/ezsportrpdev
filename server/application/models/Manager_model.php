@@ -1,10 +1,10 @@
 <?php
 
 
-class Referee_model extends CI_Model
+class Manager_model extends CI_Model
 {
 
-    private $table = 'referees';
+    private $table = 'managers';
 
     function __construct()
     {
@@ -12,17 +12,17 @@ class Referee_model extends CI_Model
         parent::__construct();
     }
 
-    public function getReferees()
+    public function getManagers($clubId)
     {
-        return $this->db->get($this->table)->result();
+        return $this->db->get_where($this->table, array('club_id' => $clubId))->result();
     }
 
-    public function saveReferee($data)
+    public function saveManager($data)
     {
 
         $rowId = $data['id'];
 
-        $cols = array('first_name', 'last_name', 'short_name', 'grade', 'email', 'phone_cell', 'phone_home');
+        $cols = array('club_id', 'first_name', 'last_name', 'short_name', 'email', 'phone_cell', 'phone_home');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
@@ -39,7 +39,7 @@ class Referee_model extends CI_Model
         return $result;
     }
 
-    public function deleteReferee($rowId)
+    public function deleteManager($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }

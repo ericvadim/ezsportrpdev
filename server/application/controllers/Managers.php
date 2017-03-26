@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Referees extends CI_Controller
+class Managers extends CI_Controller
 {
 
     public function index()
@@ -12,9 +12,10 @@ class Referees extends CI_Controller
     public function get()
     {
         $this->load->database();
-        $this->load->model('referee_model');
+        $this->load->model('manager_model');
+        $clubId = $this->input->get('club_id');
 
-        $rows = $this->referee_model->getReferees();
+        $rows = $this->manager_model->getManagers($clubId);
 
         echo json_encode($rows);
         exit;
@@ -23,9 +24,9 @@ class Referees extends CI_Controller
     public function save()
     {
         $this->load->database();
-        $this->load->model('referee_model');
+        $this->load->model('manager_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->referee_model->saveReferee($data);
+        $result = $this->manager_model->saveManager($data);
         exit($result);
     }
 
@@ -34,8 +35,8 @@ class Referees extends CI_Controller
         $data = $this->input->get();
 
         $this->load->database();
-        $this->load->model('referee_model');
-        $result = $this->referee_model->deleteReferee($data['id']);
+        $this->load->model('manager_model');
+        $result = $this->manager_model->deleteManager($data['id']);
         exit($result);
     }
 }

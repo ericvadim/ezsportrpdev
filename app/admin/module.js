@@ -161,6 +161,19 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.managers', {
+                url: '/managers',
+                data: {
+                    title: 'Team Managers'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/managers.html',
+                        controller: 'ManagersController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
         ;
     })
 ;
