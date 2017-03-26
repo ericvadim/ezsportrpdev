@@ -122,6 +122,19 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.positions', {
+                url: '/positions',
+                data: {
+                    title: 'Player Positions'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/positions.html',
+                        controller: 'PositionsController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
         ;
     })
 ;

@@ -1,35 +1,22 @@
 'use strict';
 
-angular.module('app.admin').controller('PlayersController', function (ServerURL, $http, $filter) {
+angular.module('app.admin').controller('PositionsController', function (ServerURL, $http, $filter) {
     var vm = this;
-    vm.teams = [];
-    vm.currTeamId = '';
     vm.tableData = [];
     vm.currRow = {};
 
-    vm.getTeams = function () {
-        $http.get(ServerURL + "teams/get").then(function (response) {
-            vm.teams = response.data;
-            if (vm.teams.length) {
-                vm.currTeamId = vm.teams[0].id;
-                vm.getData();
-            }
-        });
-    };
-    vm.getTeams();
-
     vm.getData = function () {
-        $http.get(ServerURL + "players/get?team_id=" + vm.currTeamId).then(function (response) {
+        $http.get(ServerURL + "positions/get").then(function (response) {
             vm.tableData = response.data;
         });
     };
+    vm.getData();
 
     vm.save = function () {
         var data = vm.currRow;
-        data['team_id'] = vm.currTeamId;
         $http({
             method: 'POST',
-            url: ServerURL + "players/save",
+            url: ServerURL + "positions/save",
             headers: {'Content-Type': 'multipart/form-data'},
             data: data
         }).then(function mySucces(/*response*/) {
@@ -45,18 +32,8 @@ angular.module('app.admin').controller('PlayersController', function (ServerURL,
     vm.addNew = function () {
         vm.currRow = {
             id: 0,
-            identifier: '',
-            first_name: '',
-            last_name: '',
-            gender: 0,
-            birthday: '',
-            player_number: '',
-            position: '',
-            player_email: '',
-            player_cell: '',
-            emergency_cont_name: '',
-            emergency_cont_num: '',
-            emergency_cont_email: ''
+            position_name: '',
+            short_name: ''
         };
     };
 
@@ -66,7 +43,7 @@ angular.module('app.admin').controller('PlayersController', function (ServerURL,
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            $http.get(ServerURL + "players/delete?id=" + rowId).then(function (response) {
+            $http.get(ServerURL + "positions/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();
                 } else {

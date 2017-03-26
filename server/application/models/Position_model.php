@@ -1,10 +1,10 @@
 <?php
 
 
-class Player_model extends CI_Model
+class Position_model extends CI_Model
 {
 
-    private $table = 'players';
+    private $table = 'positions';
 
     function __construct()
     {
@@ -12,17 +12,17 @@ class Player_model extends CI_Model
         parent::__construct();
     }
 
-    public function getPlayers($teamId)
+    public function getPositions()
     {
-        return $this->db->get_where($this->table, array('team_id' => $teamId))->result();
+        return $this->db->get($this->table)->result();
     }
 
-    public function savePlayer($data)
+    public function savePosition($data)
     {
 
         $rowId = $data['id'];
 
-        $cols = array('team_id', 'identifier', 'first_name', 'last_name', 'birthday', 'player_number', 'position', 'player_email', 'player_cell', 'emergency_cont_name', 'emergency_cont_num', 'emergency_cont_email');
+        $cols = array('position_name', 'short_name');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
@@ -39,7 +39,7 @@ class Player_model extends CI_Model
         return $result;
     }
 
-    public function deletePlayer($rowId)
+    public function deletePosition($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }

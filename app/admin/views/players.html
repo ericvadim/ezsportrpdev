@@ -32,30 +32,34 @@
                                     <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Player ID</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
+                                        <th>Birthday</th>
                                         <th>Player Number</th>
                                         <th>Position</th>
-                                        <th>Birthday</th>
                                         <th>Email</th>
                                         <th>Cell</th>
-                                        <th>Emergency Contact Number</th>
                                         <th>Emergency Contact Name</th>
+                                        <th>Emergency Contact Number</th>
+                                        <th>Emergency Contact Email</th>
                                         <th>Manage</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
+                                        <td>{{row.identifier}}</td>
                                         <td>{{row.first_name}}</td>
                                         <td>{{row.last_name}}</td>
-                                        <td>{{row.player_number}}</td>
-                                        <td>{{row.position}}</td>
                                         <td>{{row.birthday}}</td>
+                                        <td>{{row.player_number}}</td>
+                                        <td>{{row.position_id}}</td>
                                         <td>{{row.player_email}}</td>
                                         <td>{{row.player_cell}}</td>
-                                        <td>{{row.emergency_cont_num}}</td>
                                         <td>{{row.emergency_cont_name}}</td>
+                                        <td>{{row.emergency_cont_num}}</td>
+                                        <td>{{row.emergency_cont_email}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
                                             <a ng-click="vm.deleteRow(row.id)">Delete</a>
@@ -83,6 +87,12 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
+                        <label class="col-md-4 control-label">Player ID</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Player ID" type="text" ng-model="vm.currRow.identifier">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-4 control-label">First Name</label>
                         <div class="col-md-8">
                             <input class="form-control" placeholder="First Name" type="text" ng-model="vm.currRow.first_name">
@@ -92,6 +102,12 @@
                         <label class="col-md-4 control-label">Last Name</label>
                         <div class="col-md-8">
                             <input class="form-control" placeholder="Last Name" type="text" ng-model="vm.currRow.last_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Birthday</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Birthday" type="text" ng-model="vm.currRow.birthday">
                         </div>
                     </div>
                     <div class="form-group">
@@ -107,12 +123,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Birthday</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Birthday" type="text" ng-model="vm.currRow.birthday">
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-md-4 control-label">Player Email</label>
                         <div class="col-md-8">
                             <input class="form-control" placeholder="Player Email" type="email" ng-model="vm.currRow.player_email">
@@ -125,15 +135,21 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-4 control-label">Emergency Contact Name</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Emergency Contact Name" type="text" ng-model="vm.currRow.emergency_cont_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-4 control-label">Emergency Contact Num</label>
                         <div class="col-md-8">
                             <input class="form-control" placeholder="Emergency Contact Num" type="text" ng-model="vm.currRow.emergency_cont_num">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Emergency Contact Name</label>
+                        <label class="col-md-4 control-label">Emergency Contact Email</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Emergency Contact Name" type="text" ng-model="vm.currRow.emergency_cont_name">
+                            <input class="form-control" placeholder="Emergency Contact Email" type="text" ng-model="vm.currRow.emergency_cont_email">
                         </div>
                     </div>
                 </form>
