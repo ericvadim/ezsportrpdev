@@ -54,7 +54,7 @@
                                         <td>{{row.last_name}}</td>
                                         <td>{{row.birthday}}</td>
                                         <td>{{row.player_number}}</td>
-                                        <td>{{row.position_id}}</td>
+                                        <td>{{vm.getPositionById(row.position_id)['short_name']}}</td>
                                         <td>{{row.player_email}}</td>
                                         <td>{{row.player_cell}}</td>
                                         <td>{{row.emergency_cont_name}}</td>
@@ -113,13 +113,15 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Player Number</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Player Number" type="number" ng-model="vm.currRow.player_number">
+                            <input class="form-control" placeholder="Player Number" type="text" ng-model="vm.currRow.player_number">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Position</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Position" type="text" ng-model="vm.currRow.position">
+                            <select class="form-control" ng-model="vm.currRow.position_id">
+                                <option ng-repeat="position in vm.positions" value="{{position.id}}">{{position.short_name}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
