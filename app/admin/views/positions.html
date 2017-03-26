@@ -3,9 +3,20 @@
         <big-breadcrumbs items="['Player Positions']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
-    <div class="text-right margin-bottom-10">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+    <div class="row margin-bottom-10 form-horizontal">
+        <div class="col-xs-6 col-sm-4 col-md-3">
+            <label class="col-xs-2 text-right control-label">Team:</label>
+            <div class="col-xs-10">
+                <select class="form-control" ng-change="vm.getData()" ng-model="vm.currSportId">
+                    <option ng-repeat="sport in vm.sportTypes" value="{{sport.id}}">{{sport.sport_name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-8 col-md-9 text-right">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+        </div>
     </div>
+
     <section widget-grid id="widget-grid">
         <div class="row">
             <article class="col-sm-12">

@@ -13,8 +13,9 @@ class Positions extends CI_Controller
     {
         $this->load->database();
         $this->load->model('position_model');
+        $sportId = $this->input->get('sport_id');
 
-        $rows = $this->position_model->getPositions();
+        $rows = $this->position_model->getPositions($sportId);
 
         echo json_encode($rows);
         exit;

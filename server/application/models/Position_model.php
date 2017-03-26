@@ -12,9 +12,9 @@ class Position_model extends CI_Model
         parent::__construct();
     }
 
-    public function getPositions()
+    public function getPositions($sportId)
     {
-        return $this->db->get($this->table)->result();
+        return $this->db->get_where($this->table, array('sport_id'=>$sportId))->result();
     }
 
     public function savePosition($data)
@@ -22,7 +22,7 @@ class Position_model extends CI_Model
 
         $rowId = $data['id'];
 
-        $cols = array('position_name', 'short_name');
+        $cols = array('sport_id', 'position_name', 'short_name');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
