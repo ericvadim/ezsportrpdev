@@ -32,7 +32,7 @@
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.grade_identifier}}</td>
                                         <td>{{row.grade_name}}</td>
-                                        <td>Football</td>
+                                        <td>{{vm.getSportTypeLabels(row.sport_types)}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
                                             <a ng-click="vm.deleteRow(row.id)">Delete</a>
@@ -70,18 +70,18 @@
                         <div class="col-md-9">
                             <input class="form-control" placeholder="Grade Name" type="text" ng-model="vm.currRow.grade_name">
                         </div>
-                    </div><!--
+                    </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">Sports</label>
                         <div class="col-md-9">
                             <div class="checkbox" ng-repeat="sport in vm.sports">
                                 <label>
-                                    <input type="checkbox" class="checkbox style-0" ng-model="sports">
+                                    <input type="checkbox" class="checkbox style-0" ng-model="vm.currRow.sport_types[sport.id]">
                                     <span>{{sport.sport_name}}</span>
                                 </label>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

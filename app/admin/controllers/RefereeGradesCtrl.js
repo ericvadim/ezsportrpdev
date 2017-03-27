@@ -2,8 +2,16 @@
 
 angular.module('app.admin').controller('RefereeGradesController', function (ServerURL, $http, $filter) {
     var vm = this;
+    vm.sports = [];
     vm.tableData = [];
     vm.currRow = {};
+
+    vm.getSports = function () {
+        $http.get(ServerURL + "sports/get").then(function (response) {
+            vm.sports = response.data;
+        });
+    };
+    vm.getSports();
 
     vm.getData = function () {
         $http.get(ServerURL + "grades/get").then(function (response) {
@@ -33,7 +41,8 @@ angular.module('app.admin').controller('RefereeGradesController', function (Serv
         vm.currRow = {
             id: 0,
             grade_identifier: '',
-            grade_name: ''
+            grade_name: '',
+            sport_types: ''
         };
     };
 
@@ -52,6 +61,17 @@ angular.module('app.admin').controller('RefereeGradesController', function (Serv
             });
         }
     };
+
+    vm.getSportTypeLabels = function (sportTypes) {
+        var types = [];
+        for (var type in sportTypes) {
+            if (type != "") {
+                types[types.length] = $filter('filter')(vm.sports, {id: type}, true)[0].sport_name;
+            }
+        }
+        return types.join(', ');
+    };
+
     $('#myModal').on('hidden.bs.modal', function () {
         vm.getData();
     });
