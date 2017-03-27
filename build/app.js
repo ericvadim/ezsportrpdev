@@ -2869,13 +2869,26 @@ angular.module('app.admin').controller('ClubsController', function (ServerURL, C
 angular.module('app.admin').controller('CoachesController', function (ServerURL, $http, $filter, CoachTypes) {
     var vm = this;
     vm.coachTypes = CoachTypes;
+    vm.clubs = [];
+    vm.currClubId = 0;
     vm.teams = [];
     vm.currTeamId = '';
     vm.tableData = [];
     vm.currRow = {};
 
+    vm.getClubs = function () {
+        $http.get(ServerURL + "clubs/get").then(function (response) {
+            vm.clubs = response.data;
+            if (vm.clubs.length) {
+                vm.currClubId = vm.clubs[0].id;
+                vm.getTeams();
+            }
+        });
+    };
+    vm.getClubs();
+
     vm.getTeams = function () {
-        $http.get(ServerURL + "teams/get").then(function (response) {
+        $http.get(ServerURL + "teams/get?club_id=" + vm.currClubId).then(function (response) {
             vm.teams = response.data;
             if (vm.teams.length) {
                 vm.currTeamId = vm.teams[0].id;
@@ -2883,7 +2896,6 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
             }
         });
     };
-    vm.getTeams();
 
     vm.getData = function () {
         $http.get(ServerURL + "coaches/get?team_id=" + vm.currTeamId).then(function (response) {
@@ -3762,21 +3774,6 @@ angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, 
 });
 "use strict";
 
-angular.module('app.auth').directive('loginInfo', function(User){
-
-    return {
-        restrict: 'A',
-        templateUrl: 'app/auth/directives/login-info.tpl.html',
-        link: function(scope, element){
-            User.initialized.then(function(){
-                scope.user = User
-            });
-        }
-    }
-})
-
-"use strict";
-
 angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
 
     $scope.$on('event:google-plus-signin-success', function (event, authResult) {
@@ -3796,6 +3793,21 @@ angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, Goo
             $state.go('app.dashboard');
         });
     });
+})
+
+"use strict";
+
+angular.module('app.auth').directive('loginInfo', function(User){
+
+    return {
+        restrict: 'A',
+        templateUrl: 'app/auth/directives/login-info.tpl.html',
+        link: function(scope, element){
+            User.initialized.then(function(){
+                scope.user = User
+            });
+        }
+    }
 })
 
 

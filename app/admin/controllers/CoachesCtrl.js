@@ -3,13 +3,26 @@
 angular.module('app.admin').controller('CoachesController', function (ServerURL, $http, $filter, CoachTypes) {
     var vm = this;
     vm.coachTypes = CoachTypes;
+    vm.clubs = [];
+    vm.currClubId = 0;
     vm.teams = [];
     vm.currTeamId = '';
     vm.tableData = [];
     vm.currRow = {};
 
+    vm.getClubs = function () {
+        $http.get(ServerURL + "clubs/get").then(function (response) {
+            vm.clubs = response.data;
+            if (vm.clubs.length) {
+                vm.currClubId = vm.clubs[0].id;
+                vm.getTeams();
+            }
+        });
+    };
+    vm.getClubs();
+
     vm.getTeams = function () {
-        $http.get(ServerURL + "teams/get").then(function (response) {
+        $http.get(ServerURL + "teams/get?club_id=" + vm.currClubId).then(function (response) {
             vm.teams = response.data;
             if (vm.teams.length) {
                 vm.currTeamId = vm.teams[0].id;
@@ -17,7 +30,6 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
             }
         });
     };
-    vm.getTeams();
 
     vm.getData = function () {
         $http.get(ServerURL + "coaches/get?team_id=" + vm.currTeamId).then(function (response) {
