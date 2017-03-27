@@ -3475,7 +3475,7 @@ angular.module('app.admin').controller('RefereeGradesController', function (Serv
     vm.getSportTypeLabels = function (sportTypes) {
         var types = [];
         for (var type in sportTypes) {
-            if (type != "") {
+            if (type != "" && sportTypes[type]) {
                 types[types.length] = $filter('filter')(vm.sports, {id: type}, true)[0].sport_name;
             }
         }

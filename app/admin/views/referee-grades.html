@@ -73,7 +73,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">Sports</label>
-                        <div class="col-md-9">
+                        <div class="col-md-9">{{vm.currRow.sport_types}}
                             <div class="checkbox" ng-repeat="sport in vm.sports">
                                 <label>
                                     <input type="checkbox" class="checkbox style-0" ng-model="vm.currRow.sport_types[sport.id]">
