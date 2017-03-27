@@ -3,20 +3,27 @@
 angular.module('app.admin').controller('PlayersController', function (ServerURL, $http, $filter) {
     var vm = this;
     vm.positions = [];
+    vm.clubs = [];
+    vm.currClubId = 0;
     vm.teams = [];
-    vm.currTeamId = '';
+    vm.currTeamId = 0;
+    vm.currTeamSportId = 0;
     vm.tableData = [];
     vm.currRow = {};
 
-    vm.getPositions = function () {
-        $http.get(ServerURL + "positions/get").then(function (response) {
-            vm.positions = response.data;
+    vm.getClubs = function () {
+        $http.get(ServerURL + "clubs/get").then(function (response) {
+            vm.clubs = response.data;
+            if (vm.clubs.length) {
+                vm.currClubId = vm.clubs[0].id;
+                vm.getTeams();
+            }
         });
     };
-    vm.getPositions();
+    vm.getClubs();
 
     vm.getTeams = function () {
-        $http.get(ServerURL + "teams/get").then(function (response) {
+        $http.get(ServerURL + "teams/get?club_id=" + vm.currClubId).then(function (response) {
             vm.teams = response.data;
             if (vm.teams.length) {
                 vm.currTeamId = vm.teams[0].id;
@@ -24,9 +31,16 @@ angular.module('app.admin').controller('PlayersController', function (ServerURL,
             }
         });
     };
-    vm.getTeams();
+
+    vm.getPositions = function () {
+        var sportId = $filter('filter')(vm.teams, {id: vm.currTeamId}, true)[0]['sport_id'];    // gets sport type of the team.
+        $http.get(ServerURL + "positions/get?sport_id=" + sportId).then(function (response) {
+            vm.positions = response.data;
+        });
+    };
 
     vm.getData = function () {
+        vm.getPositions();
         $http.get(ServerURL + "players/get?team_id=" + vm.currTeamId).then(function (response) {
             vm.tableData = response.data;
         });
