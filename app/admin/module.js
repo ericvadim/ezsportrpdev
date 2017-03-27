@@ -174,6 +174,19 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.gameSchedules', {
+                url: '/game_schedules',
+                data: {
+                    title: 'Game Schedules'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/game-schedules.html',
+                        controller: 'GameSchedulesController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
         ;
     })
 ;

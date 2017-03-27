@@ -13,8 +13,9 @@ class Teams extends CI_Controller
     {
         $this->load->database();
         $this->load->model('team_model');
+        $clubId = $this->input->get('club_id');
 
-        $rows = $this->team_model->getTeams();
+        $rows = $this->team_model->getTeams($clubId);
         if (sizeof($rows)) {
             foreach ($rows as $key => $value) {
                 $image = 'uploads/team_images/' . $value->id . '.jpg';

@@ -12,9 +12,9 @@ class Team_model extends CI_Model
         parent::__construct();
     }
 
-    public function getTeams()
+    public function getTeams($clubId)
     {
-        return $this->db->get($this->table)->result();
+        return $this->db->get_where($this->table, array('club_id'=>$clubId))->result();
     }
 
     public function saveTeam($data)
@@ -22,7 +22,7 @@ class Team_model extends CI_Model
 
         $rowId = $data['id'];
 
-        $cols = array('club_id', 'team_name');
+        $cols = array('club_id', 'sport_id', 'team_name');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';

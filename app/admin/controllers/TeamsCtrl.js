@@ -2,29 +2,42 @@
 
 angular.module('app.admin').controller('TeamsController', function (ServerURL, $http, $filter) {
     var vm = this;
+    vm.sports = [];
     vm.clubs = [];
+    vm.currClubId = 0;
     vm.tableData = [];
     vm.currRow = {};
+
+    vm.getSports = function () {
+        $http.get(ServerURL + "sports/get").then(function (response) {
+            vm.sports = response.data;
+        });
+    };
+    vm.getSports();
 
     vm.getClubs = function () {
         $http.get(ServerURL + "clubs/get").then(function (response) {
             vm.clubs = response.data;
+            if (vm.clubs.length) {
+                vm.currClubId = vm.clubs[0].id;
+                vm.getData();
+            }
         });
     };
     vm.getClubs();
 
     vm.getData = function () {
-        $http.get(ServerURL + "teams/get").then(function (response) {
+        $http.get(ServerURL + "teams/get?club_id=" + vm.currClubId).then(function (response) {
             vm.tableData = response.data;
             for (var r in vm.tableData) {
                 vm.tableData[r].image += '?' + Date.now();
             }
         });
     };
-    vm.getData();
 
     vm.save = function () {
         var data = vm.currRow;
+        data['club_id'] = vm.currClubId;
         $http({
             method: 'POST',
             url: ServerURL + "teams/save",
@@ -43,7 +56,8 @@ angular.module('app.admin').controller('TeamsController', function (ServerURL, $
     vm.addNew = function () {
         vm.currRow = {
             id: 0,
-            club_id: '',
+            club_id: 0,
+            sport_id: 0,
             team_name: '',
             image: './styles/img/no.jpg'
         };
@@ -68,7 +82,7 @@ angular.module('app.admin').controller('TeamsController', function (ServerURL, $
         vm.getData();
     });
 
-    vm.getClubById = function (clubId) {
-        return $filter('filter')(vm.clubs, {id: clubId}, true)[0];
+    vm.getSportById = function (sportId) {
+        return $filter('filter')(vm.sports, {id: sportId}, true)[0];
     };
 });

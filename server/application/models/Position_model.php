@@ -14,7 +14,12 @@ class Position_model extends CI_Model
 
     public function getPositions($sportId)
     {
-        return $this->db->get_where($this->table, array('sport_id'=>$sportId))->result();
+        if ($sportId) {
+            $result = $this->db->get_where($this->table, array('sport_id'=>$sportId))->result();
+        } else {
+            $result = $this->db->get($this->table)->result();
+        }
+        return $result;
     }
 
     public function savePosition($data)
