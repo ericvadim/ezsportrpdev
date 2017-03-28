@@ -174,6 +174,32 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.competitions', {
+                url: '/competitions',
+                data: {
+                    title: 'Competitions'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/competitions.html',
+                        controller: 'CompetitionsController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
+            .state('app.admin.leagues', {
+                url: '/leagues',
+                data: {
+                    title: 'Leagues'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/leagues.html',
+                        controller: 'LeaguesController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
             .state('app.admin.gameSchedules', {
                 url: '/game_schedules',
                 data: {
