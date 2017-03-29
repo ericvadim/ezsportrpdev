@@ -39,6 +39,7 @@
                                     <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>League</th>
                                         <th>Date of Game</th>
                                         <th>Start Time</th>
                                         <th>Arrival Time</th>
@@ -52,6 +53,7 @@
                                     <tbody>
                                     <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
+                                        <td>{{row.league}}</td>
                                         <td>{{row.game_date}}</td>
                                         <td>{{row.start_time}}</td>
                                         <td>{{row.arrival_time}}</td>
