@@ -54,7 +54,7 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
     vm.getLeagueNameById = function (leagueId) {
         if (leagueId > 0) {
             var league = $filter('filter')(vm.leagues, {id: leagueId}, true)[0];
-            return league['competition_name'] + ' - ' + vm.seasons[league['season']] + '(' + league['start_date'] + ')';
+            return league['competition_name'] + ' - ' + vm.seasons[league['season']] + '(' + league['start_date'].substr(0, 4) + ')';
         } else {
             return '-';
         }

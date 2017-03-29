@@ -5,7 +5,7 @@
 
     <div class="row margin-bottom-10 form-horizontal">
         <div class="col-xs-6 col-sm-4">
-            <label class="col-xs-2 text-right control-label">Team:</label>
+            <label class="col-xs-2 text-right control-label">Period:</label>
             <div class="col-xs-10 smart-form">
                 <section class="col col-6">
                     <label class="input"> <i class="icon-append fa fa-calendar"></i>
@@ -93,7 +93,7 @@
                         <label class="col-md-4 control-label">League</label>
                         <div class="col-md-8">
                             <select class="form-control" ng-model="vm.currRow.league_id">
-                                <option ng-repeat="g in vm.leagues" value="{{g.id}}">{{g.competition_name}} - {{vm.seasons[g.season]}} ({{g.start_date}})</option>
+                                <option ng-repeat="g in vm.leagues" value="{{g.id}}">{{g.competition_name}} - {{vm.seasons[g.season]}} ({{g.start_date.substr(0, 4)}})</option>
                             </select>
                         </div>
                     </div>
