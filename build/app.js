@@ -3159,15 +3159,30 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
         return $filter('filter')(teams, {id: teamId}, true)[0];
     };
 
+    vm.getFieldById = function (fieldId) {
+        return $filter('filter')(vm.fields, {id: fieldId}, true)[0];
+    };
+
     vm.openModal = function (rowId) {
         vm.editRow(rowId);
         $('#myModal').modal('show');
     };
 
     vm.addNew = function () {
+        var now = new Date();
+        var nowDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+        // var nowTime = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
         vm.currRow = {
             id: 0,
-            sport_name: ''
+            league_id: 0,
+            home_team_id: 0,
+            away_team_id: 0,
+            game_date: nowDate,
+            start_time: '00:00:00',
+            arrival_time: '00:00:00',
+            duration: '',
+            field_id: 0,
+            uniform: ''
         };
     };
 

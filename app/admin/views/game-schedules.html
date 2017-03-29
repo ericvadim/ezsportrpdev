@@ -61,7 +61,7 @@
                                         <td>{{row.start_time}}</td>
                                         <td>{{row.arrival_time}}</td>
                                         <td>{{row.duration}}</td>
-                                        <td>{{row.field_id}}</td>
+                                        <td>{{vm.getFieldById(row.field_id)['field_name']}}</td>
                                         <td>{{row.uniform}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
@@ -144,7 +144,9 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Location</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Location" type="text" ng-model="vm.currRow.field_id">
+                            <select class="form-control" ng-model="vm.currRow.field_id">
+                                <option ng-repeat="f in vm.fields" value="{{f.id}}">{{f.field_name}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
