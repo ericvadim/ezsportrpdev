@@ -1,0 +1,169 @@
+<div id="content">
+    <div class="row">
+        <big-breadcrumbs items="['Leagues']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+    </div>
+
+    <div class="row margin-bottom-10 form-horizontal">
+        <div class="col-xs-12 col-sm-6 col-md-5 form-horizontal">
+            <label class="col-xs-2 text-right control-label text-right">Period:</label>
+            <div class="col-xs-10 smart-form">
+                <section class="col col-6">
+                    <label class="input"> <i class="icon-append fa fa-calendar"></i>
+                        <input type="text" name="startdate" id="startdate" data-smart-datepicker data-min-restrict="#finishdate" placeholder="From">
+                    </label>
+                </section>
+                <section class="col col-6">
+                    <label class="input"> <i class="icon-append fa fa-calendar"></i>
+                        <input type="text" name="finishdate" id="finishdate" data-smart-datepicker data-max-restrict="#startdate" placeholder="To">
+                    </label>
+                </section>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-7 text-right">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+        </div>
+    </div>
+
+    <section widget-grid id="widget-grid">
+        <div class="row">
+            <article class="col-sm-12">
+                <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Leagues</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-text-center">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Competition</th>
+                                        <th>Home Team</th>
+                                        <th>Away Team</th>
+                                        <th>Start Date</th>
+                                        <th>Status</th>
+                                        <th>Applied</th>
+                                        <th>Accepted</th>
+                                        <th>Paid</th>
+                                        <th>Roster</th>
+                                        <th>Manage</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{row.competition_id}}</td>
+                                        <td>{{row.home_team_id}}</td>
+                                        <td>{{row.away_team_id}}</td>
+                                        <td>{{row.start_date}}</td>
+                                        <td>{{row.status}}</td>
+                                        <td>{{row.applied_date}}</td>
+                                        <td>{{row.accepted_flag}}</td>
+                                        <td>{{row.paid_flag}}</td>
+                                        <td>{{row.roster}}</td>
+                                        <td class="text-center controls-td">
+                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
+                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Edit Information</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Competition</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.competition_id">
+                                <option ng-repeat="c in vm.competitions" value="{{c.id}}">{{c.competition_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Home Club/Team</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.home_team_id">
+                                <option ng-repeat="t in vm.homeTeams" value="{{t.id}}">{{t.club_name}} / {{t.team_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Away Club/Team</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.away_team_id">
+                                <option ng-repeat="t in vm.awayTeams" value="{{t.id}}">{{t.club_name}} / {{t.team_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Start Date</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Start Date" type="text" ng-model="vm.currRow.start_date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Status</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.status">
+                                <option value="0">Applid</option>
+                                <option value="1">Accepted</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Applied Date</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Applied Date" type="text" ng-model="vm.currRow.applied_date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Accepted</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.accepted_flag">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Paid</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.paid_flag">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Roster</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Roster" type="text" ng-model="vm.currRow.roster">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="vm.save()">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
