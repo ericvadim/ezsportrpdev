@@ -633,8 +633,8 @@ angular.module('app', [
     .constant('UserTypes', ['Normal', 'Player', 'Coach', 'Referee', 'Administrator'])
     .constant('CoachTypes', ['Head Coach', 'Assistance Coach', 'Trainer', 'Goal Keeper Coach'])
     .constant('SeasonList', ['Spring', 'Summer', 'Winter'])
-    // .constant('ServerURL', 'http://ezsportrp.info/server/')
-    .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+    .constant('ServerURL', 'http://ezsportrp.info/server/')
+    // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 ;
 
 
@@ -3115,11 +3115,29 @@ angular.module('app.admin').controller('FieldsController', function (ServerURL, 
 
 angular.module('app.admin').controller('GameSchedulesController', function (ServerURL, $http, $filter) {
     var vm = this;
+    vm.fields = [];
+    vm.homeTeams = [];
+    vm.awayTeams = [];
     vm.tableData = [];
     vm.currRow = {};
 
+    vm.getFields = function () {
+        $http.get(ServerURL + "fields/get").then(function (response) {
+            vm.fields = response.data;
+        });
+    };
+    vm.getFields();
+
+    vm.getTeams = function () {
+        $http.get(ServerURL + "teams/getallteams").then(function (response) {
+            vm.homeTeams = response.data;
+            vm.awayTeams = response.data;
+        });
+    };
+    vm.getTeams();
+
     vm.getData = function () {
-        $http.get(ServerURL + "sports/get").then(function (response) {
+        $http.get(ServerURL + "game_schedules/get").then(function (response) {
             vm.tableData = response.data;
         });
     };
@@ -3129,12 +3147,16 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
         var data = vm.currRow;
         $http({
             method: 'POST',
-            url: ServerURL + "sports/save",
+            url: ServerURL + "game_schedules/save",
             headers: {'Content-Type': 'multipart/form-data'},
             data: data
         }).then(function mySucces(/*response*/) {
             $('#myModal').modal('hide');
         });
+    };
+
+    vm.getTeamById = function (teams, teamId) {
+        return $filter('filter')(teams, {id: teamId}, true)[0];
     };
 
     vm.openModal = function (rowId) {
@@ -3155,7 +3177,7 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            $http.get(ServerURL + "sports/delete?id=" + rowId).then(function (response) {
+            $http.get(ServerURL + "game_schedules/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();
                 } else {
@@ -3173,19 +3195,9 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
 angular.module('app.admin').controller('LeaguesController', function (ServerURL, $http, $filter, SeasonList) {
     var vm = this;
     vm.seasons = SeasonList;
-    vm.homeTeams = [];
-    vm.awayTeams = [];
     vm.competitions = [];
     vm.tableData = [];
     vm.currRow = {};
-
-    vm.getTeams = function () {
-        $http.get(ServerURL + "teams/getallteams").then(function (response) {
-            vm.homeTeams = response.data;
-            vm.awayTeams = response.data;
-        });
-    };
-    vm.getTeams();
 
     vm.getCompetitions = function () {
         $http.get(ServerURL + "competitions/get").then(function (response) {
@@ -3220,10 +3232,6 @@ angular.module('app.admin').controller('LeaguesController', function (ServerURL,
 
     vm.getCompetitionById = function (competitionId) {
         return $filter('filter')(vm.competitions, {id: competitionId}, true)[0];
-    };
-
-    vm.getTeamById = function (teams, teamId) {
-        return $filter('filter')(teams, {id: teamId}, true)[0];
     };
 
     vm.addNew = function () {

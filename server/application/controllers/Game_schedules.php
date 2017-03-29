@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Players extends CI_Controller
+class Game_schedules extends CI_Controller
 {
 
     public function index()
@@ -12,11 +12,8 @@ class Players extends CI_Controller
     public function get()
     {
         $this->load->database();
-        $this->load->model('player_model');
-        $teamId = $this->input->get('team_id');
-
-        $rows = $this->player_model->getPlayers($teamId);
-
+        $this->load->model('game_schedule_model');
+        $rows = $this->game_schedule_model->getGames();
         echo json_encode($rows);
         exit;
     }
@@ -24,9 +21,9 @@ class Players extends CI_Controller
     public function save()
     {
         $this->load->database();
-        $this->load->model('player_model');
+        $this->load->model('game_schedule_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->player_model->savePlayer($data);
+        $result = $this->game_schedule_model->saveGame($data);
         exit($result);
     }
 
@@ -35,8 +32,8 @@ class Players extends CI_Controller
         $data = $this->input->get();
 
         $this->load->database();
-        $this->load->model('player_model');
-        $result = $this->player_model->deletePlayer($data['id']);
+        $this->load->model('game_schedule_model');
+        $result = $this->game_schedule_model->deleteGame($data['id']);
         exit($result);
     }
 }

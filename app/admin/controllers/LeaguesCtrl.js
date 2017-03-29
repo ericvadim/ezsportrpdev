@@ -3,19 +3,9 @@
 angular.module('app.admin').controller('LeaguesController', function (ServerURL, $http, $filter, SeasonList) {
     var vm = this;
     vm.seasons = SeasonList;
-    vm.homeTeams = [];
-    vm.awayTeams = [];
     vm.competitions = [];
     vm.tableData = [];
     vm.currRow = {};
-
-    vm.getTeams = function () {
-        $http.get(ServerURL + "teams/getallteams").then(function (response) {
-            vm.homeTeams = response.data;
-            vm.awayTeams = response.data;
-        });
-    };
-    vm.getTeams();
 
     vm.getCompetitions = function () {
         $http.get(ServerURL + "competitions/get").then(function (response) {
@@ -50,10 +40,6 @@ angular.module('app.admin').controller('LeaguesController', function (ServerURL,
 
     vm.getCompetitionById = function (competitionId) {
         return $filter('filter')(vm.competitions, {id: competitionId}, true)[0];
-    };
-
-    vm.getTeamById = function (teams, teamId) {
-        return $filter('filter')(teams, {id: teamId}, true)[0];
     };
 
     vm.addNew = function () {

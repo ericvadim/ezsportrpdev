@@ -2,11 +2,29 @@
 
 angular.module('app.admin').controller('GameSchedulesController', function (ServerURL, $http, $filter) {
     var vm = this;
+    vm.fields = [];
+    vm.homeTeams = [];
+    vm.awayTeams = [];
     vm.tableData = [];
     vm.currRow = {};
 
+    vm.getFields = function () {
+        $http.get(ServerURL + "fields/get").then(function (response) {
+            vm.fields = response.data;
+        });
+    };
+    vm.getFields();
+
+    vm.getTeams = function () {
+        $http.get(ServerURL + "teams/getallteams").then(function (response) {
+            vm.homeTeams = response.data;
+            vm.awayTeams = response.data;
+        });
+    };
+    vm.getTeams();
+
     vm.getData = function () {
-        $http.get(ServerURL + "sports/get").then(function (response) {
+        $http.get(ServerURL + "game_schedules/get").then(function (response) {
             vm.tableData = response.data;
         });
     };
@@ -16,12 +34,16 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
         var data = vm.currRow;
         $http({
             method: 'POST',
-            url: ServerURL + "sports/save",
+            url: ServerURL + "game_schedules/save",
             headers: {'Content-Type': 'multipart/form-data'},
             data: data
         }).then(function mySucces(/*response*/) {
             $('#myModal').modal('hide');
         });
+    };
+
+    vm.getTeamById = function (teams, teamId) {
+        return $filter('filter')(teams, {id: teamId}, true)[0];
     };
 
     vm.openModal = function (rowId) {
@@ -42,7 +64,7 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            $http.get(ServerURL + "sports/delete?id=" + rowId).then(function (response) {
+            $http.get(ServerURL + "game_schedules/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();
                 } else {

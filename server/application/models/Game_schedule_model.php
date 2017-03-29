@@ -1,10 +1,10 @@
 <?php
 
 
-class Sport_model extends CI_Model
+class Game_schedule_model extends CI_Model
 {
 
-    private $table = 'sports';
+    private $table = 'game_schedules';
 
     function __construct()
     {
@@ -12,17 +12,17 @@ class Sport_model extends CI_Model
         parent::__construct();
     }
 
-    public function getSports()
+    public function getGames()
     {
         return $this->db->get($this->table)->result();
     }
 
-    public function saveSport($data)
+    public function saveGame($data)
     {
 
         $rowId = $data['id'];
 
-        $cols = array('sport_name');
+        $cols = array('league_id', 'home_team_id', 'away_team_id', 'game_date', 'start_time', 'arrival_time', 'duration', 'field_id', 'uniform');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
@@ -39,7 +39,7 @@ class Sport_model extends CI_Model
         return $result;
     }
 
-    public function deleteSport($rowId)
+    public function deleteGame($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }
