@@ -20,6 +20,17 @@ class Leagues extends CI_Controller
         exit;
     }
 
+    public function getwithinfo()
+    {
+        $this->load->database();
+        $this->load->model('league_model');
+
+        $rows = $this->league_model->getLeaguesWithInfo();
+
+        echo json_encode($rows);
+        exit;
+    }
+
     public function save()
     {
         $this->load->database();

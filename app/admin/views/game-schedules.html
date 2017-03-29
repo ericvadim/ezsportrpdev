@@ -54,7 +54,7 @@
                                     <tbody>
                                     <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.league_id}}</td>
+                                        <td>{{vm.getLeagueNameById(row.league_id)}}</td>
                                         <td>{{vm.getTeamById(vm.homeTeams, row.home_team_id)['team_name']}}</td>
                                         <td>{{vm.getTeamById(vm.awayTeams, row.away_team_id)['team_name']}}</td>
                                         <td>{{row.game_date}}</td>
@@ -92,7 +92,9 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">League</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Date of Game" type="text" ng-model="vm.currRow.game_date">
+                            <select class="form-control" ng-model="vm.currRow.league_id">
+                                <option ng-repeat="g in vm.leagues" value="{{g.id}}">{{g.competition_name}} - {{vm.seasons[g.season]}} ({{g.start_date}})</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">

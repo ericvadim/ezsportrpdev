@@ -1,12 +1,21 @@
 'use strict';
 
-angular.module('app.admin').controller('GameSchedulesController', function (ServerURL, $http, $filter) {
+angular.module('app.admin').controller('GameSchedulesController', function (ServerURL, $http, $filter, SeasonList) {
     var vm = this;
+    vm.seasons = SeasonList;
+    vm.leagues = [];
     vm.fields = [];
     vm.homeTeams = [];
     vm.awayTeams = [];
     vm.tableData = [];
     vm.currRow = {};
+
+    vm.getLeagues = function () {
+        $http.get(ServerURL + "leagues/getwithinfo").then(function (response) {
+            vm.leagues = response.data;
+        });
+    };
+    vm.getLeagues();
 
     vm.getFields = function () {
         $http.get(ServerURL + "fields/get").then(function (response) {
@@ -40,6 +49,15 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
         }).then(function mySucces(/*response*/) {
             $('#myModal').modal('hide');
         });
+    };
+
+    vm.getLeagueNameById = function (leagueId) {
+        if (leagueId > 0) {
+            var league = $filter('filter')(vm.leagues, {id: leagueId}, true)[0];
+            return league['competition_name'] + ' - ' + vm.seasons[league['season']] + '(' + league['start_date'] + ')';
+        } else {
+            return '-';
+        }
     };
 
     vm.getTeamById = function (teams, teamId) {
