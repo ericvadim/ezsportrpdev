@@ -40,6 +40,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Competition</th>
+                                        <th>Season</th>
                                         <th>Home Team</th>
                                         <th>Away Team</th>
                                         <th>Start Date</th>
@@ -54,14 +55,15 @@
                                     <tbody>
                                     <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.competition_id}}</td>
-                                        <td>{{row.home_team_id}}</td>
-                                        <td>{{row.away_team_id}}</td>
+                                        <td>{{vm.getCompetitionById(row.competition_id)['competition_name']}}</td>
+                                        <td>{{vm.seasons[row.season]}}</td>
+                                        <td>{{vm.getTeamById(vm.homeTeams, row.home_team_id)['team_name']}}</td>
+                                        <td>{{vm.getTeamById(vm.awayTeams, row.away_team_id)['team_name']}}</td>
                                         <td>{{row.start_date}}</td>
-                                        <td>{{row.status}}</td>
+                                        <td>{{row.status == 1 ? 'Accepted' : 'Applied'}}</td>
                                         <td>{{row.applied_date}}</td>
-                                        <td>{{row.accepted_flag}}</td>
-                                        <td>{{row.paid_flag}}</td>
+                                        <td>{{row.accepted_flag == 1 ? 'Yes' : 'No'}}</td>
+                                        <td>{{row.paid_flag == 1 ? 'Yes' : 'No'}}</td>
                                         <td>{{row.roster}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
@@ -94,6 +96,14 @@
                         <div class="col-md-8">
                             <select class="form-control" ng-model="vm.currRow.competition_id">
                                 <option ng-repeat="c in vm.competitions" value="{{c.id}}">{{c.competition_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Season</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.season">
+                                <option ng-repeat="s in vm.seasons" value="{{$index}}">{{s}}</option>
                             </select>
                         </div>
                     </div>

@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('app.admin').controller('LeaguesController', function (ServerURL, $http, $filter) {
+angular.module('app.admin').controller('LeaguesController', function (ServerURL, $http, $filter, SeasonList) {
     var vm = this;
+    vm.seasons = SeasonList;
     vm.homeTeams = [];
     vm.awayTeams = [];
     vm.competitions = [];
@@ -47,15 +48,26 @@ angular.module('app.admin').controller('LeaguesController', function (ServerURL,
         $('#myModal').modal('show');
     };
 
+    vm.getCompetitionById = function (competitionId) {
+        return $filter('filter')(vm.competitions, {id: competitionId}, true)[0];
+    };
+
+    vm.getTeamById = function (teams, teamId) {
+        return $filter('filter')(teams, {id: teamId}, true)[0];
+    };
+
     vm.addNew = function () {
+        var now = new Date();
+        var nowDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
         vm.currRow = {
             id: 0,
             competition_id: 0,
+            season: 0,
             home_team_id: 0,
             away_team_id: 0,
-            start_date: '',
+            start_date: nowDate,
             status: 0,
-            applied_date: '',
+            applied_date: nowDate,
             accepted_flag: 0,
             paid_flag: 0,
             roster: ''
