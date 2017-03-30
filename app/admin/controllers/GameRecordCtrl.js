@@ -3,11 +3,19 @@
 angular.module('app.admin').controller('GameRecordsController', function (ServerURL, $http, $filter) {
     var vm = this;
     vm.games = [];
+    vm.recordItems = [];
     vm.currGame = {};
     vm.teams = [];
     vm.players = [];
     vm.tableData = [];
     vm.currRow = {};
+
+    vm.getRecordItems = function () {
+        $http.get(ServerURL + "record_items/get").then(function (response) {
+            vm.recordItems = response.data;
+        });
+    };
+    vm.getRecordItems();
 
     vm.getGameSchedules = function () {
         $http.get(ServerURL + "game_schedules/getgameschedules").then(function (response) {
@@ -66,12 +74,13 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
     };
 
     vm.addNew = function () {
+        var now = new Date();
         vm.currRow = {
             id: 0,
             team_id: vm.currGame.home_team_id,
             player_id: 0,
-            item_id: '',
-            record_time: ''
+            item_id: vm.recordItems[0].id,
+            record_time: now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
         };
     };
 
