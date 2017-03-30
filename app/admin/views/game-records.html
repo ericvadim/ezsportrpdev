@@ -5,7 +5,7 @@
 
     <div class="row margin-bottom-10 form-horizontal">
         <div class="col-xs-6 col-sm-4 col-md-3">
-            <label class="col-xs-2 text-right control-label">Team:</label>
+            <label class="col-xs-2 text-right control-label">Game:</label>
             <div class="col-xs-10">
                 <select class="form-control" ng-change="vm.getData()" ng-model="vm.currGame.id">
                     <option ng-repeat="g in vm.games" value="{{g.id}}">{{g.league_name}}-{{g.start_date.substr(0, 4)}} ({{g.home_team_name}} vs {{g.away_team_name}})</option>
