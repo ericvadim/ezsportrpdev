@@ -18,6 +18,15 @@ class Game_schedules extends CI_Controller
         exit;
     }
 
+    public function getgameschedules()
+    {
+        $this->load->database();
+        $this->load->model('game_schedule_model');
+        $rows = $this->game_schedule_model->getGameSchedules();
+        echo json_encode($rows);
+        exit;
+    }
+
     public function save()
     {
         $this->load->database();

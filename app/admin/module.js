@@ -31,7 +31,7 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
-            .state('app.admin.referee-grades', {
+            .state('app.admin.refereeGrades', {
                 url: '/referee-grades',
                 data: {
                     title: 'Referee Grades Management'
@@ -209,6 +209,32 @@ angular.module('app.admin', ['ui.router'])
                     "content@app": {
                         templateUrl: 'app/admin/views/game-schedules.html',
                         controller: 'GameSchedulesController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
+            .state('app.admin.recordItems', {
+                url: '/record-items',
+                data: {
+                    title: 'Record Items'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/record-items.html',
+                        controller: 'RecordItemsController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
+            .state('app.admin.gameRecords', {
+                url: '/game-records',
+                data: {
+                    title: 'Game Records'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/game-records.html',
+                        controller: 'GameRecordsController',
                         controllerAs: 'vm'
                     }
                 }
