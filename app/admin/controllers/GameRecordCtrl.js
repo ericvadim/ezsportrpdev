@@ -86,7 +86,8 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
             id: 0,
             player_id: vm.currGame['home_team']['players'][0].id,
             item_id: vm.recordItems[0].id,
-            record_time: now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
+            record_time: now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds(),
+            reason: ''
         };
     };
 

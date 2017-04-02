@@ -3223,7 +3223,8 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
             id: 0,
             player_id: vm.currGame['home_team']['players'][0].id,
             item_id: vm.recordItems[0].id,
-            record_time: now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
+            record_time: now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds(),
+            reason: ''
         };
     };
 
@@ -7963,18 +7964,6 @@ angular.module('app.graphs').directive('dygraphsNoRollTimestamp', function (Dygr
         }
     }
 });
-'use strict';
-
-angular.module('app.graphs').directive('highchartTable', function (lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
-            lazyScript.register('build/vendor.graphs.js').then(function(){
-                element.highchartTable();
-            })
-        }
-    }
-});
 "use strict";
 
 angular.module('app.graphs').directive('flotAutoUpdatingChart', function($timeout, FlotConfig){
@@ -8414,6 +8403,18 @@ angular.module('app.graphs').directive('flotSiteStatsChart', function(FlotConfig
                 }
             });
 
+        }
+    }
+});
+'use strict';
+
+angular.module('app.graphs').directive('highchartTable', function (lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+            lazyScript.register('build/vendor.graphs.js').then(function(){
+                element.highchartTable();
+            })
         }
     }
 });

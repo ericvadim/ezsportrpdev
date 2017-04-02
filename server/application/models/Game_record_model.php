@@ -22,7 +22,7 @@ class Game_record_model extends CI_Model
 
         $rowId = $data['id'];
 
-        $cols = array('game_id', 'team_id', 'player_id', 'item_id', 'record_time');
+        $cols = array('game_id', 'team_id', 'player_id', 'item_id', 'record_time', 'reason');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
