@@ -4,15 +4,15 @@
     </div>
 
     <div class="row margin-bottom-10 form-horizontal">
-        <div class="col-xs-6 col-sm-4 col-md-3">
+        <div class="col-xs-6 col-sm-6 col-md-6">
             <label class="col-xs-2 text-right control-label">Game:</label>
             <div class="col-xs-10">
-                <select class="form-control" ng-change="vm.getData()" ng-model="vm.currGame.id">
-                    <option ng-repeat="g in vm.games" value="{{g.id}}">{{g.league_name}}-{{g.start_date.substr(0, 4)}} ({{g.home_team_name}} vs {{g.away_team_name}})</option>
+                <select class="form-control" ng-change="vm.getData()" ng-model="vm.currGameId">
+                    <option ng-repeat="g in vm.games" value="{{g.id}}">{{g.league_name}} ({{g.home_team.team_name}} vs {{g.away_team.team_name}})-{{g.game_date.substr(0, 4)}}</option>
                 </select>
             </div>
         </div>
-        <div class="col-xs-6 col-sm-8 col-md-9 text-right">
+        <div class="col-xs-6 col-sm-6 col-md-6 text-right">
             <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
         </div>
     </div>
@@ -42,9 +42,9 @@
                                     <tbody>
                                     <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.team_id}}</td>
-                                        <td>{{row.player_id}}</td>
-                                        <td>{{row.item_id}}</td>
+                                        <td>{{vm.getTeamName(row.team_id)}}</td>
+                                        <td>{{vm.getPlayerName(row.team_id, row.player_id)}}</td>
+                                        <td>{{vm.getRecordItemName(row.item_id)}}</td>
                                         <td>{{row.record_time}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
@@ -75,8 +75,9 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Team</label>
                         <div class="col-md-9">
-                            <select class="form-control" ng-change="vm.getPlayers()" ng-model="vm.currRow.team_id">
-                                <option ng-repeat="t in vm.teams" value="{{t.id}}">{{t.team_name}}</option>
+                            <select class="form-control" ng-change="vm.setPlayers()" ng-model="vm.currRow.team_cate">
+                                <option value="home_team">{{vm.currGame.home_team.team_name}}</option>
+                                <option value="away_team">{{vm.currGame.away_team.team_name}}</option>
                             </select>
                         </div>
                     </div>
@@ -84,7 +85,7 @@
                         <label class="col-md-3 control-label">Player</label>
                         <div class="col-md-9">
                             <select class="form-control" ng-model="vm.currRow.player_id">
-                                <option ng-repeat="p in vm.players" value="{{p.id}}">{{p.first_name}} {{p.last_name}}</option>
+                                <option ng-repeat="p in vm.currGame[vm.currRow.team_cate]['players']" value="{{p.id}}">{{p.first_name}} {{p.last_name}}</option>
                             </select>
                         </div>
                     </div>

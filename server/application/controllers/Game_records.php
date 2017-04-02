@@ -14,7 +14,8 @@ class Game_records extends CI_Controller
         $this->load->database();
         $this->load->model('game_record_model');
 
-        $rows = $this->game_record_model->getGameRecords();
+        $gameId = $this->input->get('game_id');
+        $rows = $this->game_record_model->getGameRecords($gameId);
 
         echo json_encode($rows);
         exit;

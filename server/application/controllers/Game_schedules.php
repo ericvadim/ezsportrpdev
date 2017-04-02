@@ -22,8 +22,36 @@ class Game_schedules extends CI_Controller
     {
         $this->load->database();
         $this->load->model('game_schedule_model');
-        $rows = $this->game_schedule_model->getGameSchedules();
-        echo json_encode($rows);
+        $this->load->model('player_model');
+
+        $schedules = $this->game_schedule_model->getGameSchedules();
+        $results = array();
+        if (sizeof($schedules)) {
+            foreach ($schedules as $key => $val) {
+                $results[$key] = array(
+                    'id' => $val->id,
+                    'league_name' => $val->league_name,
+                    'league_id' => $val->league_id,
+                    'game_date' => $val->game_date,
+                    'start_time' => $val->start_time,
+                    'arrival_time' => $val->arrival_time,
+                    'duration' => $val->duration,
+                    'field_id' => $val->field_id,
+                    'uniform' => $val->uniform,
+                    'home_team' => array(
+                        'team_id' => $val->home_team_id,
+                        'team_name' => $val->home_team_name,
+                        'players' => $this->player_model->getPlayers($val->home_team_id)
+                    ),
+                    'away_team' => array(
+                        'team_id' => $val->away_team_id,
+                        'team_name' => $val->away_team_name,
+                        'players' => $this->player_model->getPlayers($val->away_team_id)
+                    )
+                );
+            }
+        }
+        echo json_encode($results);
         exit;
     }
 

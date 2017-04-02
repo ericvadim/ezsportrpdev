@@ -12,9 +12,9 @@ class Game_record_model extends CI_Model
         parent::__construct();
     }
 
-    public function getGameRecords()
+    public function getGameRecords($gameId)
     {
-        return $this->db->get($this->table)->result();
+        return $this->db->get_where($this->table, array('game_id'=>$gameId))->result();
     }
 
     public function saveGameRecord($data)

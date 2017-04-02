@@ -3,10 +3,10 @@
 angular.module('app.admin').controller('GameRecordsController', function (ServerURL, $http, $filter) {
     var vm = this;
     vm.games = [];
-    vm.recordItems = [];
     vm.currGame = {};
+    vm.currGameId = 0;
+    vm.recordItems = [];
     vm.teams = [];
-    vm.players = [];
     vm.tableData = [];
     vm.currRow = {};
 
@@ -21,6 +21,7 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
         $http.get(ServerURL + "game_schedules/getgameschedules").then(function (response) {
             vm.games = response.data;
             if (vm.games.length) {
+                vm.currGameId = vm.games[0]['id'];
                 vm.currGame = vm.games[0];
                 vm.getData();
             }
@@ -29,23 +30,16 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
     vm.getGameSchedules();
 
     vm.getData = function () {
-        $http.get(ServerURL + "game_records/get?game_id=" + vm.currGame.id).then(function (response) {
+        vm.currGame = $filter('filter')(vm.games, {id: vm.currGameId}, true)[0];
+        $http.get(ServerURL + "game_records/get?game_id=" + vm.currGameId).then(function (response) {
             vm.tableData = response.data;
-        });
-        vm.setTeams();
-    };
-
-    vm.getPlayers = function () {
-        $http.get(ServerURL + "players/get?team_id=" + vm.currRow.team_id).then(function (response) {
-            vm.players = response.data;
-            if (vm.players.length) {
-                vm.currRow.player_id = vm.players[0].id;
-            }
         });
     };
 
     vm.save = function () {
         var data = vm.currRow;
+        data['game_id'] = vm.currGameId;
+        data['team_id'] = vm.currGame[vm.currRow['team_cate']]['team_id'];
         $http({
             method: 'POST',
             url: ServerURL + "game_records/save",
@@ -56,16 +50,28 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
         });
     };
 
-    vm.setTeams = function () {
-        var currGame = $filter('filter')(vm.games, {id: vm.currGame.id}, true)[0];
-        vm.teams = [{
-            id: currGame.home_team_id,
-            team_name: currGame.home_team_name
-        },{
-            id: currGame.away_team_id,
-            team_name: currGame.away_team_name
-        }];
-        vm.getPlayers();
+    vm.getRecordItemName = function (itemId) {
+        return $filter('filter')(vm.recordItems, {id: itemId}, true)[0]['item_name'];
+    };
+
+    vm.getTeamName = function (teamId) {
+        if (vm.currGame.home_team.team_id == teamId) {
+            return vm.currGame.home_team.team_name;
+        } else {
+            return vm.currGame.away_team.team_name;
+        }
+    };
+
+    vm.getPlayerName = function (teamId, playerId) {
+        var players = [];
+        if (vm.currGame.home_team.team_id == teamId) {
+            players = vm.currGame.home_team.players;
+        } else {
+            players = vm.currGame.away_team.players;
+        }
+        var player = $filter('filter')(players, {id: playerId}, true)[0];
+        if (typeof player != 'object') return "";
+        return player['first_name'] + " " + player['last_name'];
     };
 
     vm.openModal = function (rowId) {
@@ -76,9 +82,9 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
     vm.addNew = function () {
         var now = new Date();
         vm.currRow = {
+            team_cate: 'home_team',
             id: 0,
-            team_id: vm.currGame.home_team_id,
-            player_id: 0,
+            player_id: vm.currGame['home_team']['players'][0].id,
             item_id: vm.recordItems[0].id,
             record_time: now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
         };
@@ -86,7 +92,11 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
 
     vm.editRow = function (rowId) {
         vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
-        vm.currRow.team_id = vm.currGame.home_team_id;
+        if (vm.currGame.home_team.team_id == vm.currRow.team_id) {
+            vm.currRow.team_cate = "home_team";
+        } else {
+            vm.currRow.team_cate = "away_team";
+        }
     };
 
     vm.deleteRow = function (rowId) {
