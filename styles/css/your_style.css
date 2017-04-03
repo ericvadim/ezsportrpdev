@@ -36,4 +36,5 @@ ul[data-smart-menu] {
 
 .table-text-center th, .table-text-center td {
     text-align: center;
+    vertical-align: middle;
 }

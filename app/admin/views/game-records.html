@@ -106,8 +106,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Record Time</label>
+                        <label class="col-md-3 control-label">Reason</label>
                         <div class="col-md-9">
+                            <select class="form-control" ng-model="vm.currRow.reason">
+                                <options ng-repeat="r in vm.reasons" value="{{r.id}}">{{r.title}}</options>
+                            </select>
                             <textarea class="form-control" placeholder="Reason" ng-model="vm.currRow.reason" rows="3"></textarea>
                         </div>
                     </div>
