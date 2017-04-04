@@ -41,6 +41,7 @@
                                         <th>No</th>
                                         <th>Competition</th>
                                         <th>Season</th>
+                                        <th>Group Level</th>
                                         <th>Start Date</th>
                                         <th>Status</th>
                                         <th>Applied</th>
@@ -55,6 +56,7 @@
                                         <td>{{$index + 1}}</td>
                                         <td>{{vm.getCompetitionById(row.competition_id)['competition_name']}}</td>
                                         <td>{{vm.seasons[row.season]}}</td>
+                                        <td>{{vm.groupLevels[row.group_level]}}</td>
                                         <td>{{row.start_date}}</td>
                                         <td>{{row.status == 1 ? 'Accepted' : 'Applied'}}</td>
                                         <td>{{row.applied_date}}</td>
@@ -90,7 +92,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Competition</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="vm.currRow.competition_id">
+                            <select class="form-control" ng-change="vm.changeCompetition()" ng-model="vm.currRow.competition_id">
                                 <option ng-repeat="c in vm.competitions" value="{{c.id}}">{{c.competition_name}}</option>
                             </select>
                         </div>
@@ -100,6 +102,14 @@
                         <div class="col-md-8">
                             <select class="form-control" ng-model="vm.currRow.season">
                                 <option ng-repeat="s in vm.seasons" value="{{$index}}">{{s}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Group Level</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.group_level">
+                                <option ng-repeat="g in vm.currGroupLevels" value="{{g}}">{{vm.groupLevels[g]}}</option>
                             </select>
                         </div>
                     </div>

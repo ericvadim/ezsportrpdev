@@ -1,8 +1,10 @@
 'use strict';
 
-angular.module('app.admin').controller('LeaguesController', function (ServerURL, $http, $filter, SeasonList) {
+angular.module('app.admin').controller('LeaguesController', function (ServerURL, $http, $filter, SeasonList, GroupLevels) {
     var vm = this;
     vm.seasons = SeasonList;
+    vm.groupLevels = GroupLevels;
+    vm.currGroupLevels = {};
     vm.competitions = [];
     vm.tableData = [];
     vm.currRow = {};
@@ -49,6 +51,7 @@ angular.module('app.admin').controller('LeaguesController', function (ServerURL,
             id: 0,
             competition_id: 0,
             season: 0,
+            group_level: 0,
             home_team_id: 0,
             away_team_id: 0,
             start_date: nowDate,
@@ -78,4 +81,11 @@ angular.module('app.admin').controller('LeaguesController', function (ServerURL,
     $('#myModal').on('hidden.bs.modal', function () {
         vm.getData();
     });
+
+    vm.changeCompetition = function () {
+        vm.currGroupLevels = [];
+        for (var g in $filter('filter')(vm.competitions, {id: vm.currRow.competition_id}, true)[0]['group_levels']) {
+            vm.currGroupLevels[vm.currGroupLevels.length] = g;
+        }
+    };
 });

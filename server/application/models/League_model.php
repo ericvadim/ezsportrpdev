@@ -30,7 +30,7 @@ class League_model extends CI_Model
 
         $rowId = $data['id'];
 
-        $cols = array('competition_id', 'season', 'start_date', 'status', 'applied_date', 'accepted_flag', 'paid_flag', 'roster');
+        $cols = array('competition_id', 'season', 'group_level', 'start_date', 'status', 'applied_date', 'accepted_flag', 'paid_flag', 'roster');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
