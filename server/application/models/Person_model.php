@@ -1,10 +1,10 @@
 <?php
 
 
-class Team_model extends CI_Model
+class Person_model extends CI_Model
 {
 
-    private $table = 'teams';
+    private $table = 'persons';
 
     function __construct()
     {
@@ -12,27 +12,17 @@ class Team_model extends CI_Model
         parent::__construct();
     }
 
-    public function getTeams($clubId)
+    public function getPersons()
     {
-        return $this->db->get_where($this->table, array('club_id'=>$clubId))->result();
+        return $this->db->get($this->table)->result();
     }
 
-    public function getAllTeamsWithClubs()
-    {
-        $this->db->select('A.id, A.team_name, B.club_name');
-        $this->db->from($this->table . ' as A');
-        $this->db->join('clubs as B', 'B.id = A.club_id');
-        return $this->db->get()->result();
-
-//        return $this->db->get_where($this->table, array('club_id'=>$clubId))->result();
-    }
-
-    public function saveTeam($data)
+    public function savePerson($data)
     {
 
         $rowId = $data['id'];
 
-        $cols = array('club_id', 'sport_id', 'team_name');
+        $cols = array('first_name', 'last_name', 'short_name', 'birthday', 'gender', 'address', 'email', 'home_phone', 'cell_phone', 'contact_name', 'contact_email', 'contact_phone');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
@@ -49,15 +39,15 @@ class Team_model extends CI_Model
         if (isset($data['image'])) {
             if (strpos($data['image'], 'base64')) {
                 list(, $img) = explode(',', $data['image']);
-                file_put_contents('uploads/team_images/' . $rowId .'.jpg', base64_decode($img));
+                file_put_contents('uploads/persons/' . $rowId .'.jpg', base64_decode($img));
             }
         }
         return $result;
     }
 
-    public function deleteTeam($rowId)
+    public function deletePerson($rowId)
     {
-        unlink('uploads/team_images/' . $rowId .'.jpg');
+        unlink('uploads/persons/' . $rowId .'.jpg');
         return $this->db->delete($this->table, array('id' => $rowId));
     }
 }

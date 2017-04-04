@@ -239,6 +239,19 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.persons', {
+                url: '/persons',
+                data: {
+                    title: 'Person Management'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/persons.html',
+                        controller: 'PersonsController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
         ;
     })
 ;
