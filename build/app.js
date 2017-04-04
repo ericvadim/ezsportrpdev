@@ -634,8 +634,8 @@ angular.module('app', [
     .constant('CoachTypes', ['Head Coach', 'Assistance Coach', 'Trainer', 'Goal Keeper Coach'])
     .constant('SeasonList', ['Spring', 'Summer', 'Winter'])
     .constant('GroupLevels', {1: 'Bronze', 2: 'Silver', 3: 'Gold', 4: 'State', 5: 'State Premier', 6: 'National Premier'})
-    .constant('ServerURL', 'http://ezsportrp.info/server/')
-    // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+    // .constant('ServerURL', 'http://ezsportrp.info/server/')
+    .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 ;
 "use strict";
 
@@ -3457,6 +3457,7 @@ angular.module('app.admin').controller('LeaguesController', function (ServerURL,
 
     vm.editRow = function (rowId) {
         vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+        vm.changeCompetition();
     };
 
     vm.deleteRow = function (rowId) {

@@ -65,6 +65,7 @@ angular.module('app.admin').controller('LeaguesController', function (ServerURL,
 
     vm.editRow = function (rowId) {
         vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+        vm.changeCompetition();
     };
 
     vm.deleteRow = function (rowId) {
