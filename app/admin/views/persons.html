@@ -44,7 +44,7 @@
                                         <td>{{row.first_name}}</td>
                                         <td>{{row.last_name}}</td>
                                         <td>{{row.short_name}}</td>
-                                        <td>{{row.birthday}}</td>
+                                        <td>{{row.birthday.substr(0, 10)}}</td>
                                         <td>{{row.gender == 0 ? 'Male' : 'Female'}}</td>
                                         <td>{{row.address}}</td>
                                         <td>{{row.email}}</td>
@@ -96,7 +96,7 @@
                         </div>
                         <label class="col-md-2 control-label">Birthday</label>
                         <div class="col-md-4">
-                            <input class="form-control" placeholder="Birthday" type="text" ng-model="vm.currRow.birthday">
+                            <input class="form-control" placeholder="Birthday" type="date" ng-model="vm.currRow.birthday">
                         </div>
                     </div>
                     <div class="form-group">

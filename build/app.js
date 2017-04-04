@@ -3663,12 +3663,13 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
     };
 
     vm.addNew = function () {
+        var now = new Date('1966-6-6');
         vm.currRow = {
             id: 0,
             first_name: '',
             last_name: '',
             short_name: '',
-            birthday: '',
+            birthday: now,
             gender: '',
             address: '',
             email: '',
@@ -3682,6 +3683,7 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
 
     vm.editRow = function (rowId) {
         vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+        vm.currRow.birthday = new Date(vm.currRow.birthday);
     };
 
     vm.deleteRow = function (rowId) {
