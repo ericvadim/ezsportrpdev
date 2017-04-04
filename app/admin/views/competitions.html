@@ -22,6 +22,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Competition Name</th>
+                                        <th>Group Levels</th>
                                         <th>Manage</th>
                                     </tr>
                                     </thead>
@@ -29,6 +30,7 @@
                                     <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.competition_name}}</td>
+                                        <td>{{vm.getGroupLevelNames(row.group_levels)}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
                                             <a ng-click="vm.deleteRow(row.id)">Delete</a>
@@ -59,6 +61,17 @@
                         <label class="col-md-4 control-label">Competition Name</label>
                         <div class="col-md-8">
                             <input class="form-control" placeholder="Competition Name" type="text" ng-model="vm.currRow.competition_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Group Levels</label>
+                        <div class="col-md-8">
+                            <div class="checkbox" ng-repeat="(key, val) in vm.groupLevels">
+                                <label>
+                                    <input type="checkbox" class="checkbox style-0" ng-model="vm.currRow.group_levels[key]">
+                                    <span>{{val}}</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </form>

@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('app.admin').controller('CompetitionsController', function (ServerURL, $http, $filter) {
+angular.module('app.admin').controller('CompetitionsController', function (ServerURL, $http, $filter, GroupLevels) {
     var vm = this;
+    vm.groupLevels = GroupLevels;
     vm.tableData = [];
     vm.currRow = {};
 
@@ -32,7 +33,8 @@ angular.module('app.admin').controller('CompetitionsController', function (Serve
     vm.addNew = function () {
         vm.currRow = {
             id: 0,
-            competition_name: ''
+            competition_name: '',
+            group_levels: {}
         };
     };
 
@@ -54,4 +56,14 @@ angular.module('app.admin').controller('CompetitionsController', function (Serve
     $('#myModal').on('hidden.bs.modal', function () {
         vm.getData();
     });
+
+    vm.getGroupLevelNames = function (groupLevels) {
+        var names = [];
+        for (var key in groupLevels) {
+            if (key != "" && groupLevels[key]) {
+                names[names.length] = vm.groupLevels[key];
+            }
+        }
+        return names.join(', ');
+    };
 });
