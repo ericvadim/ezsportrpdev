@@ -343,6 +343,6 @@ angular.module('app', [
     .constant('UserTypes', ['Normal', 'Player', 'Coach', 'Referee', 'Administrator'])
     .constant('CoachTypes', ['Head Coach', 'Assistance Coach', 'Trainer', 'Goal Keeper Coach'])
     .constant('SeasonList', ['Spring', 'Summer', 'Winter'])
-    // .constant('ServerURL', 'http://ezsportrp.info/server/')
-    .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+    .constant('ServerURL', 'http://ezsportrp.info/server/')
+    // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 ;
