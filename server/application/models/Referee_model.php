@@ -22,7 +22,7 @@ class Referee_model extends CI_Model
 
         $rowId = $data['id'];
 
-        $cols = array('first_name', 'last_name', 'short_name', 'grade', 'email', 'phone_cell', 'phone_home');
+        $cols = array('club_id', 'person_id', 'grade');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';

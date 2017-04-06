@@ -30,6 +30,7 @@
                                     <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Photo</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Short Name</th>
@@ -41,18 +42,18 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="row in vm.refereeIds" ng-dblclick="vm.openModal(row.id)">
+                                    <tr ng-repeat="personId in vm.refereeIds" ng-dblclick="vm.openModal(personId)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{vm.getPerson(row)['first_name']}}</td>
-                                        <td>{{vm.getPerson(row)['last_name']}}</td>
-                                        <td>{{vm.getPerson(row)['short_name']}}</td>
-                                        <td>{{row.grade}}</td>
-                                        <td>{{row.email}}</td>
-                                        <td>{{row.phone_cell}}</td>
-                                        <td>{{row.phone_home}}</td>
+                                        <td><img class="max-width-50" ng-src="{{vm.getPerson(personId)['image']}}"></td>
+                                        <td>{{vm.getPerson(personId)['first_name']}}</td>
+                                        <td>{{vm.getPerson(personId)['last_name']}}</td>
+                                        <td>{{vm.getPerson(personId)['short_name']}}</td>
+                                        <td>{{vm.getPerson(personId)['grade']}}</td>
+                                        <td>{{vm.getPerson(personId)['email']}}</td>
+                                        <td>{{vm.getPerson(personId)['home_phone']}}</td>
+                                        <td>{{vm.getPerson(personId)['cell_phone']}}</td>
                                         <td class="text-center controls-td">
-                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
-                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
+                                            <a ng-click="vm.editRow(personId)" data-toggle="modal" data-target="#myModal">Edit</a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -73,6 +74,7 @@
                             <select data-smart-select2 multiple style="width:100%" class="select2" ng-model="vm.refereeIds">
                                 <option ng-repeat="p in vm.persons" value="{{p.id}}">{{p.first_name}} {{p.last_name}} ({{p.birthday}})</option>
                             </select>
+                            <div class="padding-top-10">To add/remove rows, please click above input box.</div>
                         </div>
                     </div>
                 </div>
@@ -92,45 +94,21 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-4 control-label">First Name</label>
+                        <label class="col-md-4 control-label">Name</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="First Name" type="text" ng-model="vm.currRow.first_name">
+                            <div class="form-control">{{vm.currRow.first_name}} {{vm.currRow.last_name}}</div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Last Name</label>
+                        <label class="col-md-4 control-label">Birthday</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Last Name" type="text" ng-model="vm.currRow.last_name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Short Name</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Short Name" type="text" ng-model="vm.currRow.short_name">
+                            <div class="form-control">{{vm.currRow.birthday}}</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Grade</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Grade" type="text" ng-model="vm.currRow.grade">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Email</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Email" type="text" ng-model="vm.currRow.email">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Phone Number(cell)</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Phone number(cell)" type="text" ng-model="vm.currRow.phone_cell">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Phone Number(home)</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Phone number(home)" type="text" ng-model="vm.currRow.phone_home">
+                            <input class="form-control" placeholder="Grade" type="number" ng-model="vm.currRow.grade" min="1" max="10" step="1">
                         </div>
                     </div>
                 </form>
