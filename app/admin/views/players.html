@@ -87,10 +87,6 @@
                     </header>
                     <div>
                         <div class="widget-body no-padding">
-                            <!--<select data-smart-select2 multiple style="width:100%" ng-change="vm.changePerson()" class="select2" ng-model="vm.personIds">
-                                <option ng-repeat="p in vm.persons" value="{{p.id}}">{{p.first_name}} {{p.last_name}} ({{p.birthday}})</option>
-                            </select>-->
-
                             <ui-select multiple ng-model="vm.personIds" on-select="vm.addPerson($item)" on-remove="vm.removePerson($item)" theme="bootstrap" sortable="true" close-on-select="true" style="width: 100%;">
                                 <ui-select-match placeholder="Select person...">{{$item.first_name}} {{$item.last_name}} ({{$item.birthday}})</ui-select-match>
                                 <ui-select-choices repeat="p in vm.persons | propsFilter: {first_name: $select.search, last_name: $select.search}">
