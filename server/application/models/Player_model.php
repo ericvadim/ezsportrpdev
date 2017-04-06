@@ -22,7 +22,7 @@ class Player_model extends CI_Model
 
         $rowId = $data['id'];
 
-        $cols = array('team_id', 'identifier', 'first_name', 'last_name', 'birthday', 'player_number', 'position_id', 'player_email', 'player_cell', 'emergency_cont_name', 'emergency_cont_num', 'emergency_cont_email');
+        $cols = array('team_id', 'person_id', 'identifier', 'player_number', 'position_id');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
