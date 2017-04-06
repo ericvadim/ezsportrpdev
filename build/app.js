@@ -3864,7 +3864,11 @@ angular.module('app.admin').controller('PlayersController', function (ServerURL,
     vm.getPositionName = function (positionId) {
         if (positionId > 0) {
             var pos = $filter('filter')(vm.positions, {id: positionId}, true);
-            return (pos.length > 0) ? pos[0].position_name : '';
+            if (typeof pos == 'object') {
+                return (pos.length > 0) ? pos[0].position_name : '';
+            } else {
+                return '';
+            }
         } else {
             return '';
         }
