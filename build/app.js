@@ -327,7 +327,8 @@ angular.module('app', [
     //'app.smartAdmin',
     //'app.eCommerce'
     'app.home',
-    'app.admin'
+    'app.admin',
+    'ui.select'
 ])
     .config(function ($provide, $httpProvider, RestangularProvider) {
 
@@ -379,263 +380,7 @@ angular.module('app', [
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         // editableOptions.theme = 'bs3';
-
     })
-
-    .constant('APP_CONFIG', window.appConfig)
-    .constant('CountryList', {
-        AF: "Afghanistan",
-        AX: "Aland Islands",
-        AL: "Albania",
-        DZ: "Algeria",
-        AS: "American Samoa",
-        AD: "Andorra",
-        AO: "Angola",
-        AI: "Anguilla",
-        AQ: "Antarctica",
-        AG: "Antigua And Barbuda",
-        AR: "Argentina",
-        AM: "Armenia",
-        AW: "Aruba",
-        AU: "Australia",
-        AT: "Austria",
-        AZ: "Azerbaijan",
-        BS: "Bahamas",
-        BH: "Bahrain",
-        BD: "Bangladesh",
-        BB: "Barbados",
-        BY: "Belarus",
-        BE: "Belgium",
-        BZ: "Belize",
-        BJ: "Benin",
-        BM: "Bermuda",
-        BT: "Bhutan",
-        BO: "Bolivia",
-        BA: "Bosnia And Herzegovina",
-        BW: "Botswana",
-        BV: "Bouvet Island",
-        BR: "Brazil",
-        IO: "British Indian Ocean Territory",
-        BN: "Brunei Darussalam",
-        BG: "Bulgaria",
-        BF: "Burkina Faso",
-        BI: "Burundi",
-        KH: "Cambodia",
-        CM: "Cameroon",
-        CA: "Canada",
-        CV: "Cape Verde",
-        KY: "Cayman Islands",
-        CF: "Central African Republic",
-        TD: "Chad",
-        CL: "Chile",
-        CN: "China",
-        CX: "Christmas Island",
-        CC: "Cocos (Keeling) Islands",
-        CO: "Colombia",
-        KM: "Comoros",
-        CG: "Congo",
-        CD: "Congo, Democratic Republic",
-        CK: "Cook Islands",
-        CR: "Costa Rica",
-        CI: "Cote D'Ivoire",
-        HR: "Croatia",
-        CU: "Cuba",
-        CY: "Cyprus",
-        CZ: "Czech Republic",
-        DK: "Denmark",
-        DJ: "Djibouti",
-        DM: "Dominica",
-        DO: "Dominican Republic",
-        EC: "Ecuador",
-        EG: "Egypt",
-        SV: "El Salvador",
-        GQ: "Equatorial Guinea",
-        ER: "Eritrea",
-        EE: "Estonia",
-        ET: "Ethiopia",
-        FK: "Falkland Islands (Malvinas)",
-        FO: "Faroe Islands",
-        FJ: "Fiji",
-        FI: "Finland",
-        FR: "France",
-        GF: "French Guiana",
-        PF: "French Polynesia",
-        TF: "French Southern Territories",
-        GA: "Gabon",
-        GM: "Gambia",
-        GE: "Georgia",
-        DE: "Germany",
-        GH: "Ghana",
-        GI: "Gibraltar",
-        GR: "Greece",
-        GL: "Greenland",
-        GD: "Grenada",
-        GP: "Guadeloupe",
-        GU: "Guam",
-        GT: "Guatemala",
-        GG: "Guernsey",
-        GN: "Guinea",
-        GW: "Guinea-Bissau",
-        GY: "Guyana",
-        HT: "Haiti",
-        HM: "Heard Island & Mcdonald Islands",
-        VA: "Holy See (Vatican City State)",
-        HN: "Honduras",
-        HK: "Hong Kong",
-        HU: "Hungary",
-        IS: "Iceland",
-        IN: "India",
-        ID: "Indonesia",
-        IR: "Iran, Islamic Republic Of",
-        IQ: "Iraq",
-        IE: "Ireland",
-        IM: "Isle Of Man",
-        IL: "Israel",
-        IT: "Italy",
-        JM: "Jamaica",
-        JP: "Japan",
-        JE: "Jersey",
-        JO: "Jordan",
-        KZ: "Kazakhstan",
-        KE: "Kenya",
-        KI: "Kiribati",
-        KR: "Korea",
-        KW: "Kuwait",
-        KG: "Kyrgyzstan",
-        LA: "Lao People's Democratic Republic",
-        LV: "Latvia",
-        LB: "Lebanon",
-        LS: "Lesotho",
-        LR: "Liberia",
-        LY: "Libyan Arab Jamahiriya",
-        LI: "Liechtenstein",
-        LT: "Lithuania",
-        LU: "Luxembourg",
-        MO: "Macao",
-        MK: "Macedonia",
-        MG: "Madagascar",
-        MW: "Malawi",
-        MY: "Malaysia",
-        MV: "Maldives",
-        ML: "Mali",
-        MT: "Malta",
-        MH: "Marshall Islands",
-        MQ: "Martinique",
-        MR: "Mauritania",
-        MU: "Mauritius",
-        YT: "Mayotte",
-        MX: "Mexico",
-        FM: "Micronesia, Federated States Of",
-        MD: "Moldova",
-        MC: "Monaco",
-        MN: "Mongolia",
-        ME: "Montenegro",
-        MS: "Montserrat",
-        MA: "Morocco",
-        MZ: "Mozambique",
-        MM: "Myanmar",
-        NA: "Namibia",
-        NR: "Nauru",
-        NP: "Nepal",
-        NL: "Netherlands",
-        AN: "Netherlands Antilles",
-        NC: "New Caledonia",
-        NZ: "New Zealand",
-        NI: "Nicaragua",
-        NE: "Niger",
-        NG: "Nigeria",
-        NU: "Niue",
-        NF: "Norfolk Island",
-        MP: "Northern Mariana Islands",
-        NO: "Norway",
-        OM: "Oman",
-        PK: "Pakistan",
-        PW: "Palau",
-        PS: "Palestinian Territory, Occupied",
-        PA: "Panama",
-        PG: "Papua New Guinea",
-        PY: "Paraguay",
-        PE: "Peru",
-        PH: "Philippines",
-        PN: "Pitcairn",
-        PL: "Poland",
-        PT: "Portugal",
-        PR: "Puerto Rico",
-        QA: "Qatar",
-        RE: "Reunion",
-        RO: "Romania",
-        RU: "Russian Federation",
-        RW: "Rwanda",
-        BL: "Saint Barthelemy",
-        SH: "Saint Helena",
-        KN: "Saint Kitts And Nevis",
-        LC: "Saint Lucia",
-        MF: "Saint Martin",
-        PM: "Saint Pierre And Miquelon",
-        VC: "Saint Vincent And Grenadines",
-        WS: "Samoa",
-        SM: "San Marino",
-        ST: "Sao Tome And Principe",
-        SA: "Saudi Arabia",
-        SN: "Senegal",
-        RS: "Serbia",
-        SC: "Seychelles",
-        SL: "Sierra Leone",
-        SG: "Singapore",
-        SK: "Slovakia",
-        SI: "Slovenia",
-        SB: "Solomon Islands",
-        SO: "Somalia",
-        ZA: "South Africa",
-        GS: "South Georgia And Sandwich Isl.",
-        ES: "Spain",
-        LK: "Sri Lanka",
-        SD: "Sudan",
-        SR: "Suriname",
-        SJ: "Svalbard And Jan Mayen",
-        SZ: "Swaziland",
-        SE: "Sweden",
-        CH: "Switzerland",
-        SY: "Syrian Arab Republic",
-        TW: "Taiwan",
-        TJ: "Tajikistan",
-        TZ: "Tanzania",
-        TH: "Thailand",
-        TL: "Timor-Leste",
-        TG: "Togo",
-        TK: "Tokelau",
-        TO: "Tonga",
-        TT: "Trinidad And Tobago",
-        TN: "Tunisia",
-        TR: "Turkey",
-        TM: "Turkmenistan",
-        TC: "Turks And Caicos Islands",
-        TV: "Tuvalu",
-        UG: "Uganda",
-        UA: "Ukraine",
-        AE: "United Arab Emirates",
-        GB: "United Kingdom",
-        US: "United States of America",
-        UM: "United States Outlying Islands",
-        UY: "Uruguay",
-        UZ: "Uzbekistan",
-        VU: "Vanuatu",
-        VE: "Venezuela",
-        VN: "Viet Nam",
-        VG: "Virgin Islands, British",
-        VI: "Virgin Islands, U.S.",
-        WF: "Wallis And Futuna",
-        EH: "Western Sahara",
-        YE: "Yemen",
-        ZM: "Zambia",
-        ZW: "Zimbabwe"
-    })
-    .constant('UserTypes', ['Normal', 'Player', 'Coach', 'Referee', 'Administrator'])
-    .constant('CoachTypes', ['Head Coach', 'Assistance Coach', 'Trainer', 'Goal Keeper Coach'])
-    .constant('SeasonList', ['Spring', 'Summer', 'Winter'])
-    .constant('GroupLevels', {1: 'Bronze', 2: 'Silver', 3: 'Gold', 4: 'State', 5: 'State Premier', 6: 'National Premier'})
-    .constant('ServerURL', 'http://ezsportrp.info/server/')
-    // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 ;
 "use strict";
 
@@ -2233,6 +1978,268 @@ angular.module('app.chat', ['ngSanitize'])
 
     angular.module('SmartAdmin.UI', []);
 })();
+(function () {
+    'use strict';
+
+    angular
+        .module('app')
+
+        .constant('ServerURL', 'http://ezsportrp.info/server/')
+        // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+
+        .constant('APP_CONFIG', window.appConfig)
+        .constant('CountryList', {
+            AF: "Afghanistan",
+            AX: "Aland Islands",
+            AL: "Albania",
+            DZ: "Algeria",
+            AS: "American Samoa",
+            AD: "Andorra",
+            AO: "Angola",
+            AI: "Anguilla",
+            AQ: "Antarctica",
+            AG: "Antigua And Barbuda",
+            AR: "Argentina",
+            AM: "Armenia",
+            AW: "Aruba",
+            AU: "Australia",
+            AT: "Austria",
+            AZ: "Azerbaijan",
+            BS: "Bahamas",
+            BH: "Bahrain",
+            BD: "Bangladesh",
+            BB: "Barbados",
+            BY: "Belarus",
+            BE: "Belgium",
+            BZ: "Belize",
+            BJ: "Benin",
+            BM: "Bermuda",
+            BT: "Bhutan",
+            BO: "Bolivia",
+            BA: "Bosnia And Herzegovina",
+            BW: "Botswana",
+            BV: "Bouvet Island",
+            BR: "Brazil",
+            IO: "British Indian Ocean Territory",
+            BN: "Brunei Darussalam",
+            BG: "Bulgaria",
+            BF: "Burkina Faso",
+            BI: "Burundi",
+            KH: "Cambodia",
+            CM: "Cameroon",
+            CA: "Canada",
+            CV: "Cape Verde",
+            KY: "Cayman Islands",
+            CF: "Central African Republic",
+            TD: "Chad",
+            CL: "Chile",
+            CN: "China",
+            CX: "Christmas Island",
+            CC: "Cocos (Keeling) Islands",
+            CO: "Colombia",
+            KM: "Comoros",
+            CG: "Congo",
+            CD: "Congo, Democratic Republic",
+            CK: "Cook Islands",
+            CR: "Costa Rica",
+            CI: "Cote D'Ivoire",
+            HR: "Croatia",
+            CU: "Cuba",
+            CY: "Cyprus",
+            CZ: "Czech Republic",
+            DK: "Denmark",
+            DJ: "Djibouti",
+            DM: "Dominica",
+            DO: "Dominican Republic",
+            EC: "Ecuador",
+            EG: "Egypt",
+            SV: "El Salvador",
+            GQ: "Equatorial Guinea",
+            ER: "Eritrea",
+            EE: "Estonia",
+            ET: "Ethiopia",
+            FK: "Falkland Islands (Malvinas)",
+            FO: "Faroe Islands",
+            FJ: "Fiji",
+            FI: "Finland",
+            FR: "France",
+            GF: "French Guiana",
+            PF: "French Polynesia",
+            TF: "French Southern Territories",
+            GA: "Gabon",
+            GM: "Gambia",
+            GE: "Georgia",
+            DE: "Germany",
+            GH: "Ghana",
+            GI: "Gibraltar",
+            GR: "Greece",
+            GL: "Greenland",
+            GD: "Grenada",
+            GP: "Guadeloupe",
+            GU: "Guam",
+            GT: "Guatemala",
+            GG: "Guernsey",
+            GN: "Guinea",
+            GW: "Guinea-Bissau",
+            GY: "Guyana",
+            HT: "Haiti",
+            HM: "Heard Island & Mcdonald Islands",
+            VA: "Holy See (Vatican City State)",
+            HN: "Honduras",
+            HK: "Hong Kong",
+            HU: "Hungary",
+            IS: "Iceland",
+            IN: "India",
+            ID: "Indonesia",
+            IR: "Iran, Islamic Republic Of",
+            IQ: "Iraq",
+            IE: "Ireland",
+            IM: "Isle Of Man",
+            IL: "Israel",
+            IT: "Italy",
+            JM: "Jamaica",
+            JP: "Japan",
+            JE: "Jersey",
+            JO: "Jordan",
+            KZ: "Kazakhstan",
+            KE: "Kenya",
+            KI: "Kiribati",
+            KR: "Korea",
+            KW: "Kuwait",
+            KG: "Kyrgyzstan",
+            LA: "Lao People's Democratic Republic",
+            LV: "Latvia",
+            LB: "Lebanon",
+            LS: "Lesotho",
+            LR: "Liberia",
+            LY: "Libyan Arab Jamahiriya",
+            LI: "Liechtenstein",
+            LT: "Lithuania",
+            LU: "Luxembourg",
+            MO: "Macao",
+            MK: "Macedonia",
+            MG: "Madagascar",
+            MW: "Malawi",
+            MY: "Malaysia",
+            MV: "Maldives",
+            ML: "Mali",
+            MT: "Malta",
+            MH: "Marshall Islands",
+            MQ: "Martinique",
+            MR: "Mauritania",
+            MU: "Mauritius",
+            YT: "Mayotte",
+            MX: "Mexico",
+            FM: "Micronesia, Federated States Of",
+            MD: "Moldova",
+            MC: "Monaco",
+            MN: "Mongolia",
+            ME: "Montenegro",
+            MS: "Montserrat",
+            MA: "Morocco",
+            MZ: "Mozambique",
+            MM: "Myanmar",
+            NA: "Namibia",
+            NR: "Nauru",
+            NP: "Nepal",
+            NL: "Netherlands",
+            AN: "Netherlands Antilles",
+            NC: "New Caledonia",
+            NZ: "New Zealand",
+            NI: "Nicaragua",
+            NE: "Niger",
+            NG: "Nigeria",
+            NU: "Niue",
+            NF: "Norfolk Island",
+            MP: "Northern Mariana Islands",
+            NO: "Norway",
+            OM: "Oman",
+            PK: "Pakistan",
+            PW: "Palau",
+            PS: "Palestinian Territory, Occupied",
+            PA: "Panama",
+            PG: "Papua New Guinea",
+            PY: "Paraguay",
+            PE: "Peru",
+            PH: "Philippines",
+            PN: "Pitcairn",
+            PL: "Poland",
+            PT: "Portugal",
+            PR: "Puerto Rico",
+            QA: "Qatar",
+            RE: "Reunion",
+            RO: "Romania",
+            RU: "Russian Federation",
+            RW: "Rwanda",
+            BL: "Saint Barthelemy",
+            SH: "Saint Helena",
+            KN: "Saint Kitts And Nevis",
+            LC: "Saint Lucia",
+            MF: "Saint Martin",
+            PM: "Saint Pierre And Miquelon",
+            VC: "Saint Vincent And Grenadines",
+            WS: "Samoa",
+            SM: "San Marino",
+            ST: "Sao Tome And Principe",
+            SA: "Saudi Arabia",
+            SN: "Senegal",
+            RS: "Serbia",
+            SC: "Seychelles",
+            SL: "Sierra Leone",
+            SG: "Singapore",
+            SK: "Slovakia",
+            SI: "Slovenia",
+            SB: "Solomon Islands",
+            SO: "Somalia",
+            ZA: "South Africa",
+            GS: "South Georgia And Sandwich Isl.",
+            ES: "Spain",
+            LK: "Sri Lanka",
+            SD: "Sudan",
+            SR: "Suriname",
+            SJ: "Svalbard And Jan Mayen",
+            SZ: "Swaziland",
+            SE: "Sweden",
+            CH: "Switzerland",
+            SY: "Syrian Arab Republic",
+            TW: "Taiwan",
+            TJ: "Tajikistan",
+            TZ: "Tanzania",
+            TH: "Thailand",
+            TL: "Timor-Leste",
+            TG: "Togo",
+            TK: "Tokelau",
+            TO: "Tonga",
+            TT: "Trinidad And Tobago",
+            TN: "Tunisia",
+            TR: "Turkey",
+            TM: "Turkmenistan",
+            TC: "Turks And Caicos Islands",
+            TV: "Tuvalu",
+            UG: "Uganda",
+            UA: "Ukraine",
+            AE: "United Arab Emirates",
+            GB: "United Kingdom",
+            US: "United States of America",
+            UM: "United States Outlying Islands",
+            UY: "Uruguay",
+            UZ: "Uzbekistan",
+            VU: "Vanuatu",
+            VE: "Venezuela",
+            VN: "Viet Nam",
+            VG: "Virgin Islands, British",
+            VI: "Virgin Islands, U.S.",
+            WF: "Wallis And Futuna",
+            EH: "Western Sahara",
+            YE: "Yemen",
+            ZM: "Zambia",
+            ZW: "Zimbabwe"
+        })
+        .constant('UserTypes', ['Normal', 'Player', 'Coach', 'Referee', 'Administrator'])
+        .constant('CoachTypes', ['Head Coach', 'Assistance Coach', 'Trainer', 'Goal Keeper Coach'])
+        .constant('SeasonList', ['Spring', 'Summer', 'Winter'])
+        .constant('GroupLevels', {1: 'Bronze', 2: 'Silver', 3: 'Gold', 4: 'State', 5: 'State Premier', 6: 'National Premier'})
+})();
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("app/dashboard/live-feeds.tpl.html","<div jarvis-widget id=\"live-feeds-widget\" data-widget-togglebutton=\"false\" data-widget-editbutton=\"false\"\n     data-widget-fullscreenbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\">\n<!-- widget options:\nusage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\ndata-widget-colorbutton=\"false\"\ndata-widget-editbutton=\"false\"\ndata-widget-togglebutton=\"false\"\ndata-widget-deletebutton=\"false\"\ndata-widget-fullscreenbutton=\"false\"\ndata-widget-custombutton=\"false\"\ndata-widget-collapsed=\"true\"\ndata-widget-sortable=\"false\"\n\n-->\n<header>\n    <span class=\"widget-icon\"> <i class=\"glyphicon glyphicon-stats txt-color-darken\"></i> </span>\n\n    <h2>Live Feeds </h2>\n\n    <ul class=\"nav nav-tabs pull-right in\" id=\"myTab\">\n        <li class=\"active\">\n            <a data-toggle=\"tab\" href=\"#s1\"><i class=\"fa fa-clock-o\"></i> <span class=\"hidden-mobile hidden-tablet\">Live Stats</span></a>\n        </li>\n\n        <li>\n            <a data-toggle=\"tab\" href=\"#s2\"><i class=\"fa fa-facebook\"></i> <span class=\"hidden-mobile hidden-tablet\">Social Network</span></a>\n        </li>\n\n        <li>\n            <a data-toggle=\"tab\" href=\"#s3\"><i class=\"fa fa-dollar\"></i> <span class=\"hidden-mobile hidden-tablet\">Revenue</span></a>\n        </li>\n    </ul>\n\n</header>\n\n<!-- widget div-->\n<div class=\"no-padding\">\n\n    <div class=\"widget-body\">\n        <!-- content -->\n        <div id=\"myTabContent\" class=\"tab-content\">\n            <div class=\"tab-pane fade active in padding-10 no-padding-bottom\" id=\"s1\">\n                <div class=\"row no-space\">\n                    <div class=\"col-xs-12 col-sm-12 col-md-8 col-lg-8\">\n														<span class=\"demo-liveupdate-1\"> <span\n                                                                class=\"onoffswitch-title\">Live switch</span> <span\n                                                                class=\"onoffswitch\">\n																<input type=\"checkbox\" name=\"start_interval\" ng-model=\"autoUpdate\"\n                                                                       class=\"onoffswitch-checkbox\" id=\"start_interval\">\n																<label class=\"onoffswitch-label\" for=\"start_interval\">\n                                                                    <span class=\"onoffswitch-inner\"\n                                                                          data-swchon-text=\"ON\"\n                                                                          data-swchoff-text=\"OFF\"></span>\n                                                                    <span class=\"onoffswitch-switch\"></span>\n                                                                </label> </span> </span>\n\n                        <div id=\"updating-chart\" class=\"chart-large txt-color-blue\" flot-basic flot-data=\"liveStats\" flot-options=\"liveStatsOptions\"></div>\n\n                    </div>\n                    <div class=\"col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats\">\n\n                        <div class=\"row\">\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> My Tasks <span\n                                    class=\"pull-right\">130/200</span> </span>\n\n                                <div class=\"progress\">\n                                    <div class=\"progress-bar bg-color-blueDark\" style=\"width: 65%;\"></div>\n                                </div>\n                            </div>\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Transfered <span\n                                    class=\"pull-right\">440 GB</span> </span>\n\n                                <div class=\"progress\">\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 34%;\"></div>\n                                </div>\n                            </div>\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Bugs Squashed<span\n                                    class=\"pull-right\">77%</span> </span>\n\n                                <div class=\"progress\">\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 77%;\"></div>\n                                </div>\n                            </div>\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> User Testing <span\n                                    class=\"pull-right\">7 Days</span> </span>\n\n                                <div class=\"progress\">\n                                    <div class=\"progress-bar bg-color-greenLight\" style=\"width: 84%;\"></div>\n                                </div>\n                            </div>\n\n                            <span class=\"show-stat-buttons\"> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a\n                                    href-void class=\"btn btn-default btn-block hidden-xs\">Generate PDF</a> </span> <span\n                                    class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href-void\n                                                                                     class=\"btn btn-default btn-block hidden-xs\">Report\n                                a bug</a> </span> </span>\n\n                        </div>\n\n                    </div>\n                </div>\n\n                <div class=\"show-stat-microcharts\" data-sparkline-container data-easy-pie-chart-container>\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n\n                        <div class=\"easy-pie-chart txt-color-orangeDark\" data-percent=\"33\" data-pie-size=\"50\">\n                            <span class=\"percent percent-sign\">35</span>\n                        </div>\n                        <span class=\"easy-pie-title\"> Server Load <i class=\"fa fa-caret-up icon-color-bad\"></i> </span>\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\n                            <li>\n                                <span class=\"label bg-color-greenLight\"><i class=\"fa fa-caret-up\"></i> 97%</span>\n                            </li>\n                            <li>\n                                <span class=\"label bg-color-blueLight\"><i class=\"fa fa-caret-down\"></i> 44%</span>\n                            </li>\n                        </ul>\n                        <div class=\"sparkline txt-color-greenLight hidden-sm hidden-md pull-right\"\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\n                             data-fill-color=\"transparent\">\n                            130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247\n                        </div>\n                    </div>\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                        <div class=\"easy-pie-chart txt-color-greenLight\" data-percent=\"78.9\" data-pie-size=\"50\">\n                            <span class=\"percent percent-sign\">78.9 </span>\n                        </div>\n                        <span class=\"easy-pie-title\"> Disk Space <i class=\"fa fa-caret-down icon-color-good\"></i></span>\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\n                            <li>\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 76%</span>\n                            </li>\n                            <li>\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 3%</span>\n                            </li>\n                        </ul>\n                        <div class=\"sparkline txt-color-blue hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                            257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247\n                        </div>\n                    </div>\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                        <div class=\"easy-pie-chart txt-color-blue\" data-percent=\"23\" data-pie-size=\"50\">\n                            <span class=\"percent percent-sign\">23 </span>\n                        </div>\n                        <span class=\"easy-pie-title\"> Transfered <i class=\"fa fa-caret-up icon-color-good\"></i></span>\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\n                            <li>\n                                <span class=\"label bg-color-darken\">10GB</span>\n                            </li>\n                            <li>\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 10%</span>\n                            </li>\n                        </ul>\n                        <div class=\"sparkline txt-color-darken hidden-sm hidden-md pull-right\"\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\n                             data-fill-color=\"transparent\">\n                            200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270\n                        </div>\n                    </div>\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                        <div class=\"easy-pie-chart txt-color-darken\" data-percent=\"36\" data-pie-size=\"50\">\n                            <span class=\"percent degree-sign\">36 <i class=\"fa fa-caret-up\"></i></span>\n                        </div>\n                        <span class=\"easy-pie-title\"> Temperature <i\n                                class=\"fa fa-caret-down icon-color-good\"></i></span>\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\n                            <li>\n                                <span class=\"label bg-color-red\"><i class=\"fa fa-caret-up\"></i> 124</span>\n                            </li>\n                            <li>\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 40 F</span>\n                            </li>\n                        </ul>\n                        <div class=\"sparkline txt-color-red hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                            2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577, 2000, 2100, 3000\n                        </div>\n                    </div>\n                </div>\n\n            </div>\n            <!-- end s1 tab pane -->\n\n            <div class=\"tab-pane fade\" id=\"s2\">\n                <div class=\"widget-body-toolbar bg-color-white\">\n\n                    <form class=\"form-inline\" role=\"form\">\n\n                        <div class=\"form-group\">\n                            <label class=\"sr-only\" for=\"s123\">Show From</label>\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s123\" placeholder=\"Show From\">\n                        </div>\n                        <div class=\"form-group\">\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s124\" placeholder=\"To\">\n                        </div>\n\n                        <div class=\"btn-group hidden-phone pull-right\">\n                            <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\n                                    class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\n                            <ul class=\"dropdown-menu pull-right\">\n                                <li>\n                                    <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\n                                </li>\n                                <li>\n                                    <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\n                                </li>\n                            </ul>\n                        </div>\n\n                    </form>\n\n                </div>\n                <div class=\"padding-10\">\n                    <div id=\"statsChart\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"statsData\" flot-options=\"statsDisplayOptions\"></div>\n                </div>\n\n            </div>\n            <!-- end s2 tab pane -->\n\n            <div class=\"tab-pane fade\" id=\"s3\">\n\n                <div class=\"widget-body-toolbar bg-color-white smart-form\" id=\"rev-toggles\">\n\n                    <div class=\"inline-group\">\n\n                        <label for=\"gra-0\" class=\"checkbox\">\n                            <input type=\"checkbox\" id=\"gra-0\" ng-model=\"targetsShow\">\n                            <i></i> Target </label>\n                        <label for=\"gra-1\" class=\"checkbox\">\n                            <input type=\"checkbox\" id=\"gra-1\" ng-model=\"actualsShow\">\n                            <i></i> Actual </label>\n                        <label for=\"gra-2\" class=\"checkbox\">\n                            <input type=\"checkbox\" id=\"gra-2\" ng-model=\"signupsShow\">\n                            <i></i> Signups </label>\n                    </div>\n\n                    <div class=\"btn-group hidden-phone pull-right\">\n                        <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\n                                class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\n                        <ul class=\"dropdown-menu pull-right\">\n                            <li>\n                                <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\n                            </li>\n                            <li>\n                                <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\n                            </li>\n                        </ul>\n                    </div>\n\n                </div>\n\n                <div class=\"padding-10\">\n                    <div id=\"flotcontainer\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"revenewData\" flot-options=\"revenewDisplayOptions\" ></div>\n                </div>\n            </div>\n            <!-- end s3 tab pane -->\n        </div>\n\n        <!-- end content -->\n    </div>\n\n</div>\n<!-- end widget div -->\n</div>\n");
 $templateCache.put("app/layout/layout.tpl.html","<!-- HEADER -->\n<div data-smart-include=\"app/layout/partials/header.tpl.html\" class=\"placeholder-header\"></div>\n<!-- END HEADER -->\n\n\n<!-- Left panel : Navigation area -->\n<!-- Note: This width of the aside area can be adjusted through LESS variables -->\n<div data-smart-include=\"app/layout/partials/navigation.tpl.html\" class=\"placeholder-left-panel\"></div>\n\n<!-- END NAVIGATION -->\n\n<!-- MAIN PANEL -->\n<div id=\"main\" role=\"main\">\n\n    <!-- RIBBON -->\n    <div id=\"ribbon\">\n\n        <!-- breadcrumb -->\n        <state-breadcrumbs></state-breadcrumbs>\n        <!-- end breadcrumb -->\n\n\n    </div>\n    <!-- END RIBBON -->\n\n\n    <div data-smart-router-animation-wrap=\"content content@app\" data-wrap-for=\"#content\">\n        <div data-ui-view=\"content\" data-autoscroll=\"false\"></div>\n    </div>\n\n</div>\n<!-- END MAIN PANEL -->\n\n<!-- PAGE FOOTER -->\n<div data-smart-include=\"app/layout/partials/footer.tpl.html\"></div>\n\n<div data-smart-include=\"app/layout/shortcut/shortcut.tpl.html\"></div>\n\n<!-- END PAGE FOOTER -->\n\n\n");
 $templateCache.put("app/auth/directives/login-info.tpl.html","<div class=\"login-info ng-cloak\">\n    <span> <!-- User image size is adjusted inside CSS, it should stay as it -->\n        <a  href=\"\" toggle-shortcut>\n            <img ng-src=\"{{user.picture}}\" alt=\"me\" class=\"online\">\n                <span>{{user.username}}\n                </span>\n            <i class=\"fa fa-angle-down\"></i>\n        </a>\n     </span>\n</div>");
@@ -2259,6 +2266,73 @@ $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-
 $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-profile-form.tpl.html","<form id=\"profileForm\">\n\n    <fieldset>\n        <legend>\n            Default Form Elements\n        </legend>\n        <div class=\"form-group\">\n            <label>Email address</label>\n            <input type=\"text\" class=\"form-control\" name=\"email\" />\n        </div>\n    </fieldset>\n    <fieldset>\n        <div class=\"form-group\">\n            <label>Password</label>\n            <input type=\"password\" class=\"form-control\" name=\"password\" />\n        </div>\n    </fieldset>\n\n    <div class=\"form-actions\">\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <button class=\"btn btn-default\" type=\"submit\">\n                    <i class=\"fa fa-eye\"></i>\n                    Validate\n                </button>\n            </div>\n        </div>\n    </div>\n</form>\n");
 $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-toggling-form.tpl.html","<form id=\"togglingForm\" method=\"post\" class=\"form-horizontal\">\n\n    <fieldset>\n        <legend>\n            Default Form Elements\n        </legend>\n        <div class=\"form-group\">\n            <label class=\"col-lg-3 control-label\">Full name <sup>*</sup></label>\n            <div class=\"col-lg-4\">\n                <input type=\"text\" class=\"form-control\" name=\"firstName\" placeholder=\"First name\" />\n            </div>\n            <div class=\"col-lg-4\">\n                <input type=\"text\" class=\"form-control\" name=\"lastName\" placeholder=\"Last name\" />\n            </div>\n        </div>\n    </fieldset>\n\n    <fieldset>\n        <div class=\"form-group\">\n            <label class=\"col-lg-3 control-label\">Company <sup>*</sup></label>\n            <div class=\"col-lg-5\">\n                <input type=\"text\" class=\"form-control\" name=\"company\"\n                       required data-bv-notempty-message=\"The company name is required\" />\n            </div>\n            <div class=\"col-lg-2\">\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#jobInfo\">\n                    Add more info\n                </button>\n            </div>\n        </div>\n    </fieldset>\n\n    <!-- These fields will not be validated as long as they are not visible -->\n    <div id=\"jobInfo\" style=\"display: none;\">\n        <fieldset>\n            <div class=\"form-group\">\n                <label class=\"col-lg-3 control-label\">Job title <sup>*</sup></label>\n                <div class=\"col-lg-5\">\n                    <input type=\"text\" class=\"form-control\" name=\"job\" />\n                </div>\n            </div>\n        </fieldset>\n\n        <fieldset>\n            <div class=\"form-group\">\n                <label class=\"col-lg-3 control-label\">Department <sup>*</sup></label>\n                <div class=\"col-lg-5\">\n                    <input type=\"text\" class=\"form-control\" name=\"department\" />\n                </div>\n            </div>\n        </fieldset>\n    </div>\n\n    <fieldset>\n        <div class=\"form-group\">\n            <label class=\"col-lg-3 control-label\">Mobile phone <sup>*</sup></label>\n            <div class=\"col-lg-5\">\n                <input type=\"text\" class=\"form-control\" name=\"mobilePhone\" />\n            </div>\n            <div class=\"col-lg-2\">\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#phoneInfo\">\n                    Add more phone numbers\n                </button>\n            </div>\n        </div>\n    </fieldset>\n    <!-- These fields will not be validated as long as they are not visible -->\n    <div id=\"phoneInfo\" style=\"display: none;\">\n\n        <fieldset>\n            <div class=\"form-group\">\n                <label class=\"col-lg-3 control-label\">Home phone</label>\n                <div class=\"col-lg-5\">\n                    <input type=\"text\" class=\"form-control\" name=\"homePhone\" />\n                </div>\n            </div>\n        </fieldset>\n        <fieldset>\n            <div class=\"form-group\">\n                <label class=\"col-lg-3 control-label\">Office phone</label>\n                <div class=\"col-lg-5\">\n                    <input type=\"text\" class=\"form-control\" name=\"officePhone\" />\n                </div>\n            </div>\n        </fieldset>\n    </div>\n\n    <div class=\"form-actions\">\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <button class=\"btn btn-default\" type=\"submit\">\n                    <i class=\"fa fa-eye\"></i>\n                    Validate\n                </button>\n            </div>\n        </div>\n    </div>\n</form>");
 $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<div class=\"demo\"><span id=\"demo-setting\"><i class=\"fa fa-cog txt-color-blueDark\"></i></span>\n\n    <form>\n        <legend class=\"no-padding margin-bottom-10\">Layout Options</legend>\n        <section>\n            <label><input type=\"checkbox\" ng-model=\"fixedHeader\"\n                          class=\"checkbox style-0\"><span>Fixed Header</span></label>\n            <label><input type=\"checkbox\"\n                          ng-model=\"fixedNavigation\"\n                          class=\"checkbox style-0\"><span>Fixed Navigation</span></label>\n            <label><input type=\"checkbox\"\n                          ng-model=\"fixedRibbon\"\n                          class=\"checkbox style-0\"><span>Fixed Ribbon</span></label>\n            <label><input type=\"checkbox\"\n                          ng-model=\"fixedPageFooter\"\n                          class=\"checkbox style-0\"><span>Fixed Footer</span></label>\n            <label><input type=\"checkbox\"\n                          ng-model=\"insideContainer\"\n                          class=\"checkbox style-0\"><span>Inside <b>.container</b></span></label>\n            <label><input type=\"checkbox\"\n                          ng-model=\"rtl\"\n                          class=\"checkbox style-0\"><span>RTL</span></label>\n            <label><input type=\"checkbox\"\n                          ng-model=\"menuOnTop\"\n                          class=\"checkbox style-0\"><span>Menu on <b>top</b></span></label>\n            <label><input type=\"checkbox\"\n                          ng-model=\"colorblindFriendly\"\n                          class=\"checkbox style-0\"><span>For Colorblind <div\n                    class=\"font-xs text-right\">(experimental)\n            </div></span>\n            </label><span id=\"smart-bgimages\"></span></section>\n        <section><h6 class=\"margin-top-10 semi-bold margin-bottom-5\">Clear Localstorage</h6><a\n                ng-click=\"factoryReset()\" class=\"btn btn-xs btn-block btn-primary\" id=\"reset-smart-widget\"><i\n                class=\"fa fa-refresh\"></i> Factory Reset</a></section>\n\n        <h6 class=\"margin-top-10 semi-bold margin-bottom-5\">SmartAdmin Skins</h6>\n\n\n        <section id=\"smart-styles\">\n            <a ng-repeat=\"skin in skins\" ng-click=\"setSkin(skin)\" class=\"{{skin.class}}\" style=\"{{skin.style}}\"><i ng-if=\"skin.name == $parent.smartSkin\" class=\"fa fa-check fa-fw\"></i> {{skin.label}} <sup ng-if=\"skin.beta\">beta</sup></a>\n        </section>\n    </form>\n</div>");}]);
+(function () {
+    'use strict';
+
+    angular
+        .module('app')
+        .directive("fileinput", fileUploader);
+
+    function fileUploader () {
+        return {
+            scope: {
+                fileinput: "=",
+                filepreview: "="
+            },
+            link: function(scope, element/*, attributes*/) {
+                element.bind("change", function(changeEvent) {
+                    scope.fileinput = changeEvent.target.files[0];
+                    var reader = new FileReader();
+                    reader.onload = function(loadEvent) {
+                        scope.$apply(function() {
+                            scope.filepreview = loadEvent.target.result;
+                        });
+                    }
+                    reader.readAsDataURL(scope.fileinput);
+                });
+            }
+        }
+    }
+
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('app')
+        .filter('propsFilter', function () {
+            return function (items, props) {
+                var out = [];
+
+                if (angular.isArray(items)) {
+                    var keys = Object.keys(props);
+
+                    items.forEach(function (item) {
+                        var itemMatches = false;
+
+                        for (var i = 0; i < keys.length; i++) {
+                            var prop = keys[i];
+                            var text = props[prop].toLowerCase();
+                            if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+                                itemMatches = true;
+                                break;
+                            }
+                        }
+
+                        if (itemMatches) {
+                            out.push(item);
+                        }
+                    });
+                } else {
+                    // Let the output be the input untouched
+                    out = items;
+                }
+
+                return out;
+            };
+        });
+
+})();
 Array.prototype.diff = function(a) {
     return this.filter(function(i) {return a.indexOf(i) < 0;});
 };
@@ -2570,35 +2644,6 @@ angular.module('app.dashboard').controller('DashboardCtrl', function ($scope, $i
 
 
 });
-(function () {
-    'use strict';
-
-    angular
-        .module('app')
-        .directive("fileinput", fileUploader);
-
-    function fileUploader () {
-        return {
-            scope: {
-                fileinput: "=",
-                filepreview: "="
-            },
-            link: function(scope, element/*, attributes*/) {
-                element.bind("change", function(changeEvent) {
-                    scope.fileinput = changeEvent.target.files[0];
-                    var reader = new FileReader();
-                    reader.onload = function(loadEvent) {
-                        scope.$apply(function() {
-                            scope.filepreview = loadEvent.target.result;
-                        });
-                    }
-                    reader.readAsDataURL(scope.fileinput);
-                });
-            }
-        }
-    }
-
-})();
 'use strict'
 
 angular.module('app.forms').value('formsCommon', {
@@ -4051,7 +4096,9 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
             vm.prePersonIds = vm.personIds = [];
             vm.tableData = response.data;
             for (var t in vm.tableData) {
-                if (typeof vm.tableData[t] == 'object') vm.personIds[vm.personIds.length] = vm.tableData[t].person_id;
+                if (typeof vm.tableData[t] == 'object') {
+                    vm.personIds[vm.personIds.length] = vm.getPersonById(vm.tableData[t].person_id);
+                }
             }
             vm.prePersonIds = vm.personIds;
         });
@@ -4087,14 +4134,15 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
         }
     };
 
-    vm.changePerson = function () {
-        var diff = $(vm.personIds).not(vm.prePersonIds).get()[0];
-        if (diff) {
-            vm.currRow['person_id'] = diff;
+    vm.addPerson = function (item) {
+        if (vm.prePersonIds.length < vm.personIds.length) {
+            vm.currRow['person_id'] = item.id;
             vm.save();
-        } else {
-            vm.deleteRow($filter('filter')(vm.tableData, {person_id: $(vm.prePersonIds).not(vm.personIds).get()[0]}, true)[0]['id']);
         }
+    };
+
+    vm.removePerson = function (item) {
+        vm.deleteRow($filter('filter')(vm.tableData, {person_id: item.id}, true)[0]['id']);
     };
 
     vm.getPersonById = function (personId) {

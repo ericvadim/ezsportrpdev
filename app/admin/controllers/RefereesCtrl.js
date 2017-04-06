@@ -32,7 +32,9 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
             vm.prePersonIds = vm.personIds = [];
             vm.tableData = response.data;
             for (var t in vm.tableData) {
-                if (typeof vm.tableData[t] == 'object') vm.personIds[vm.personIds.length] = vm.tableData[t].person_id;
+                if (typeof vm.tableData[t] == 'object') {
+                    vm.personIds[vm.personIds.length] = vm.getPersonById(vm.tableData[t].person_id);
+                }
             }
             vm.prePersonIds = vm.personIds;
         });
@@ -68,14 +70,15 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
         }
     };
 
-    vm.changePerson = function () {
-        var diff = $(vm.personIds).not(vm.prePersonIds).get()[0];
-        if (diff) {
-            vm.currRow['person_id'] = diff;
+    vm.addPerson = function (item) {
+        if (vm.prePersonIds.length < vm.personIds.length) {
+            vm.currRow['person_id'] = item.id;
             vm.save();
-        } else {
-            vm.deleteRow($filter('filter')(vm.tableData, {person_id: $(vm.prePersonIds).not(vm.personIds).get()[0]}, true)[0]['id']);
         }
+    };
+
+    vm.removePerson = function (item) {
+        vm.deleteRow($filter('filter')(vm.tableData, {person_id: item.id}, true)[0]['id']);
     };
 
     vm.getPersonById = function (personId) {
