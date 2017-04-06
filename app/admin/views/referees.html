@@ -76,7 +76,7 @@
                             <ui-select multiple ng-model="vm.personIds" on-select="vm.addPerson($item)" on-remove="vm.removePerson($item)" theme="bootstrap" sortable="true" close-on-select="true" style="width: 100%;">
                                 <ui-select-match placeholder="Select person...">{{$item.first_name}} {{$item.last_name}} ({{$item.birthday}})</ui-select-match>
                                 <ui-select-choices repeat="p in vm.persons | propsFilter: {first_name: $select.search, last_name: $select.search}">
-                                    <div ng-bind-html="p.first_name | highlight: $select.search"></div>
+                                    <div ng-bind-html="(p.first_name + ' ' + p.last_name) | highlight: $select.search"></div>
                                     <small>
                                         email: <span ng-bind-html="''+p.email| highlight: $select.search"></span>
                                     </small>

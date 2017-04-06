@@ -67,6 +67,8 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
                     alert('Failed to delete this row.');
                 }
             });
+        } else {
+            vm.getData();
         }
     };
 
