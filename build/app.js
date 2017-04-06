@@ -634,8 +634,8 @@ angular.module('app', [
     .constant('CoachTypes', ['Head Coach', 'Assistance Coach', 'Trainer', 'Goal Keeper Coach'])
     .constant('SeasonList', ['Spring', 'Summer', 'Winter'])
     .constant('GroupLevels', {1: 'Bronze', 2: 'Silver', 3: 'Gold', 4: 'State', 5: 'State Premier', 6: 'National Premier'})
-    .constant('ServerURL', 'http://ezsportrp.info/server/')
-    // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+    // .constant('ServerURL', 'http://ezsportrp.info/server/')
+    .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 ;
 "use strict";
 
@@ -4018,8 +4018,25 @@ angular.module('app.admin').controller('RefereeGradesController', function (Serv
 
 angular.module('app.admin').controller('RefereesController', function (ServerURL, $http, $filter) {
     var vm = this;
+    vm.clubs = [];
+    vm.persons = [];
+    vm.refereeIds = ["44","49","51","52"];
     vm.tableData = [];
     vm.currRow = {};
+
+    vm.getClubs = function () {
+        $http.get(ServerURL + "clubs/get").then(function (response) {
+            vm.clubs = response.data;
+        });
+    };
+    vm.getClubs();
+
+    vm.getPersons = function () {
+        $http.get(ServerURL + "persons/get").then(function (response) {
+            vm.persons = response.data;
+        });
+    };
+    vm.getPersons();
 
     vm.getData = function () {
         $http.get(ServerURL + "referees/get").then(function (response) {
@@ -4064,18 +4081,20 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            $http.get(ServerURL + "referees/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
+            for (var r in vm.refereeIds) {
+                if (refereeIds[r] == rowId) {
+                    break;
                 }
-            });
+            }
         }
     };
     $('#myModal').on('hidden.bs.modal', function () {
         vm.getData();
     });
+
+    vm.getPerson = function (personId) {
+        return $filter('filter')(vm.persons, {id: personId}, true)[0];
+    };
 });
 'use strict';
 
