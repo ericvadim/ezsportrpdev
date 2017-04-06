@@ -13,8 +13,8 @@ class Referees extends CI_Controller
     {
         $this->load->database();
         $this->load->model('referee_model');
-
-        $rows = $this->referee_model->getReferees();
+        $clubId = $this->input->get('club_id');
+        $rows = $this->referee_model->getReferees($clubId);
 
         echo json_encode($rows);
         exit;

@@ -4,7 +4,8 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
     var vm = this;
     vm.clubs = [];
     vm.persons = [];
-    vm.refereeIds = [];
+    vm.personIds = [];
+    vm.prePersonIds = [];
     vm.tableData = [];
     vm.currRow = {};
 
@@ -28,14 +29,20 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
 
     vm.getData = function () {
         $http.get(ServerURL + "referees/get?club_id=" + vm.currClubId).then(function (response) {
+            vm.prePersonIds = vm.personIds = [];
             vm.tableData = response.data;
+            for (var t in vm.tableData) {
+                if (typeof vm.tableData[t] == 'object') vm.personIds[vm.personIds.length] = vm.tableData[t].person_id;
+            }
+            vm.prePersonIds = vm.personIds;
         });
     };
 
     vm.save = function () {
         var data = {
+            id: vm.currRow['id'] || '',
             club_id: vm.currClubId,
-            person_id: vm.currRow['id'],
+            person_id: vm.currRow['person_id'],
             grade: vm.currRow['grade']
         };
         $http({
@@ -45,7 +52,34 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
             data: data
         }).then(function mySucces(/*response*/) {
             $('#myModal').modal('hide');
+            vm.getData();
         });
+    };
+
+    vm.deleteRow = function (rowId) {
+        if (confirm('Are you sure want to delete this?')) {
+            $http.get(ServerURL + "referees/delete?id=" + rowId).then(function (response) {
+                if (response.data == true) {
+                    vm.getData();
+                } else {
+                    alert('Failed to delete this row.');
+                }
+            });
+        }
+    };
+
+    vm.changePerson = function () {
+        var diff = $(vm.personIds).not(vm.prePersonIds).get()[0];
+        if (diff) {
+            vm.currRow['person_id'] = diff;
+            vm.save();
+        } else {
+            vm.deleteRow($filter('filter')(vm.tableData, {person_id: $(vm.prePersonIds).not(vm.personIds).get()[0]}, true)[0]['id']);
+        }
+    };
+
+    vm.getPersonById = function (personId) {
+        return $filter('filter')(vm.persons, {id: personId}, true)[0];
     };
 
     vm.openModal = function (rowId) {
@@ -54,13 +88,10 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
     };
 
     vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.persons, {id: rowId}, true)[0];
+        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
     };
+
     $('#myModal').on('hidden.bs.modal', function () {
         vm.getData();
     });
-
-    vm.getPerson = function (personId) {
-        return $filter('filter')(vm.persons, {id: personId}, true)[0];
-    };
 });

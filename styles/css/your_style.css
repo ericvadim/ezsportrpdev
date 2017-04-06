@@ -38,3 +38,7 @@ ul[data-smart-menu] {
     text-align: center;
     vertical-align: middle;
 }
+
+.border-white {
+    border-color: white;
+}

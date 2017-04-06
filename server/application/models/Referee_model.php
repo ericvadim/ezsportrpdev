@@ -12,14 +12,13 @@ class Referee_model extends CI_Model
         parent::__construct();
     }
 
-    public function getReferees()
+    public function getReferees($clubId)
     {
-        return $this->db->get($this->table)->result();
+        return $this->db->get_where($this->table, array('club_id' => $clubId))->result();
     }
 
     public function saveReferee($data)
     {
-
         $rowId = $data['id'];
 
         $cols = array('club_id', 'person_id', 'grade');
