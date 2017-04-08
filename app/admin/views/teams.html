@@ -32,18 +32,18 @@
                                     <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Sport Type</th>
-                                        <th>Team Name</th>
                                         <th>Image</th>
+                                        <th>Team Name</th>
+                                        <th>Sport Type</th>
                                         <th>Manage</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{vm.getSportById(row.sport_id).sport_name}}</td>
-                                        <td>{{row.team_name}}</td>
                                         <td><img class="max-width-50" ng-src="{{row.image}}"></td>
+                                        <td>{{row.team_name}}</td>
+                                        <td>{{vm.getSportById(row.sport_id).sport_name}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
                                             <a ng-click="vm.deleteRow(row.id)">Delete</a>
