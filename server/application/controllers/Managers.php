@@ -13,9 +13,9 @@ class Managers extends CI_Controller
     {
         $this->load->database();
         $this->load->model('manager_model');
-        $clubId = $this->input->get('club_id');
+        $teamId = $this->input->get('team_id');
 
-        $rows = $this->manager_model->getManagers($clubId);
+        $rows = $this->manager_model->getManagers($teamId);
 
         echo json_encode($rows);
         exit;

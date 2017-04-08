@@ -12,9 +12,9 @@ class Manager_model extends CI_Model
         parent::__construct();
     }
 
-    public function getManagers($clubId)
+    public function getManagers($teamId)
     {
-        return $this->db->get_where($this->table, array('club_id' => $clubId))->result();
+        return $this->db->get_where($this->table, array('team_id' => $teamId))->result();
     }
 
     public function saveManager($data)
@@ -22,7 +22,7 @@ class Manager_model extends CI_Model
 
         $rowId = $data['id'];
 
-        $cols = array('club_id', 'first_name', 'last_name', 'short_name', 'email', 'phone_cell', 'phone_home');
+        $cols = array('team_id', 'person_id');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';

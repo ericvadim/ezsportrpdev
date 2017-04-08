@@ -1,26 +1,18 @@
 <div id="content">
     <div class="row">
-        <big-breadcrumbs items="['Coach Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <big-breadcrumbs items="['Team Managers']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
     <div class="row margin-bottom-10 form-horizontal">
-        <div class="col-xs-12 col-sm-4 col-md-3">
+        <div class="col-xs-6 col-sm-4 col-md-3">
             <label class="col-xs-2 text-right control-label">Club:</label>
             <div class="col-xs-10">
-                <select class="form-control" ng-change="vm.getTeams()" ng-model="vm.currClubId">
+                <select class="form-control" ng-change="vm.getData()" ng-model="vm.currClubId">
                     <option ng-repeat="club in vm.clubs" value="{{club.id}}">{{club.club_name}}</option>
                 </select>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-4 col-md-3">
-            <label class="col-xs-2 text-right control-label">Team:</label>
-            <div class="col-xs-10">
-                <select class="form-control" ng-change="vm.getData()" ng-model="vm.currTeamId">
-                    <option ng-repeat="team in vm.teams" value="{{team.id}}">{{team.team_name}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-4 col-md-6 text-right">
+        <div class="col-xs-6 col-sm-8 col-md-9 text-right">
             <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
         </div>
     </div>
@@ -31,7 +23,7 @@
                 <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Coach Management</h2>
+                        <h2>Team Managers</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
@@ -42,12 +34,10 @@
                                         <th>No</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
-                                        <th>Birthday</th>
-                                        <th>Home Phone</th>
-                                        <th>Cell Phone</th>
+                                        <th>Short Name</th>
                                         <th>Email</th>
-                                        <th>License</th>
-                                        <th>Coach Type</th>
+                                        <th>Phone Number(cell)</th>
+                                        <th>Phone Number(home)</th>
                                         <th>Manage</th>
                                     </tr>
                                     </thead>
@@ -56,12 +46,10 @@
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.first_name}}</td>
                                         <td>{{row.last_name}}</td>
-                                        <td>{{row.birthday}}</td>
-                                        <td>{{row.home_phone}}</td>
-                                        <td>{{row.cell_phone}}</td>
+                                        <td>{{row.short_name}}</td>
                                         <td>{{row.email}}</td>
-                                        <td>{{row.license}}</td>
-                                        <td>{{vm.coachTypes[row.coach_type]}}</td>
+                                        <td>{{row.phone_cell}}</td>
+                                        <td>{{row.phone_home}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
                                             <a ng-click="vm.deleteRow(row.id)">Delete</a>
@@ -101,21 +89,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Birthday</label>
+                        <label class="col-md-4 control-label">Short Name</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Birthday" type="text" ng-model="vm.currRow.birthday">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Home Phone</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Home Phone" type="text" ng-model="vm.currRow.home_phone">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Cell Phone</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Cell Phone" type="text" ng-model="vm.currRow.cell_phone">
+                            <input class="form-control" placeholder="Short Name" type="text" ng-model="vm.currRow.short_name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -125,17 +101,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">License</label>
+                        <label class="col-md-4 control-label">Phone Number(cell)</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="License" type="text" ng-model="vm.currRow.license">
+                            <input class="form-control" placeholder="Phone number(cell)" type="text" ng-model="vm.currRow.phone_cell">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Coach Type</label>
+                        <label class="col-md-4 control-label">Phone Number(home)</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="vm.currRow.coach_type">
-                                <option ng-repeat="ct in vm.coachTypes" value="{{$index}}">{{ct}}</option>
-                            </select>
+                            <input class="form-control" placeholder="Phone number(home)" type="text" ng-model="vm.currRow.phone_home">
                         </div>
                     </div>
                 </form>
