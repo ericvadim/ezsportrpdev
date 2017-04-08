@@ -6,17 +6,19 @@ angular.module('app.admin').controller('UsersController', function (ServerURL, $
     vm.userFlags = ['No', 'Yes'];
     vm.tableData = [];
     vm.currRow = {};
-
+    vm.loading = true;
 
     vm.getData = function () {
         $http.get(ServerURL + "users/get").then(function (response) {
             vm.tableData = response.data;
+            vm.loading = false;
         });
     };
     vm.getData();
 
     vm.save = function () {
         var data = vm.currRow;
+        vm.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "users/save",
@@ -54,6 +56,7 @@ angular.module('app.admin').controller('UsersController', function (ServerURL, $
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
+            vm.loading = true;
             $http.get(ServerURL + "users/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();

@@ -13,6 +13,7 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
     vm.currRow = {};
     vm.currClubId = 0;
     vm.currTeamId = 0;
+    vm.loading = true;
 
     vm.getClubs = function () {
         $http.get(ServerURL + "clubs/get").then(function (response) {
@@ -26,6 +27,7 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
     vm.getClubs();
 
     vm.getTeams = function () {
+        vm.loading = true;
         $http.get(ServerURL + "teams/get?club_id=" + vm.currClubId).then(function (response) {
             vm.teams = response.data;
             if (vm.teams.length) {
@@ -60,6 +62,7 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
                 }
             }
             vm.prePersonIds = vm.personIds;
+            vm.loading = false;
         });
     };
 
@@ -71,6 +74,7 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
             license_id: vm.currRow['license_id'],
             coach_type: vm.currRow['coach_type']
         };
+        vm.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "coaches/save",
@@ -84,6 +88,7 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
+            vm.loading = true;
             $http.get(ServerURL + "coaches/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();

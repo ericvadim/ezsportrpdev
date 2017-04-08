@@ -5,16 +5,19 @@ angular.module('app.admin').controller('ClubsController', function (ServerURL, C
     vm.countries = CountryList;
     vm.tableData = [];
     vm.currRow = {};
+    vm.loading = true;
 
     vm.getData = function () {
         $http.get(ServerURL + "clubs/get").then(function (response) {
             vm.tableData = response.data;
+            vm.loading = false;
         });
     };
     vm.getData();
 
     vm.save = function () {
         var data = vm.currRow;
+        vm.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "clubs/save",
@@ -47,6 +50,7 @@ angular.module('app.admin').controller('ClubsController', function (ServerURL, C
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
+            vm.loading = true;
             $http.get(ServerURL + "clubs/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();

@@ -42,3 +42,18 @@ ul[data-smart-menu] {
 .border-white {
     border-color: white;
 }
+
+.loading-sheath {
+    background: rgba(255, 255, 255, 0.7);
+    width: 100%;
+    display: block;
+    position: absolute;
+    z-index: 4000;
+    height: 100%;
+}
+
+.loading-sheath .icon {
+    color: grey;
+    margin-top: 150px;
+    margin-left: calc(50% - 23px);
+}

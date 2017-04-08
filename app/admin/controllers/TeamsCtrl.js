@@ -7,6 +7,7 @@ angular.module('app.admin').controller('TeamsController', function (ServerURL, $
     vm.currClubId = 0;
     vm.tableData = [];
     vm.currRow = {};
+    vm.loading = true;
 
     vm.getSports = function () {
         $http.get(ServerURL + "sports/get").then(function (response) {
@@ -32,12 +33,14 @@ angular.module('app.admin').controller('TeamsController', function (ServerURL, $
             for (var r in vm.tableData) {
                 vm.tableData[r].image += '?' + Date.now();
             }
+            vm.loading = false;
         });
     };
 
     vm.save = function () {
         var data = vm.currRow;
         data['club_id'] = vm.currClubId;
+        vm.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "teams/save",
@@ -69,6 +72,7 @@ angular.module('app.admin').controller('TeamsController', function (ServerURL, $
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
+            vm.loading = true;
             $http.get(ServerURL + "teams/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();

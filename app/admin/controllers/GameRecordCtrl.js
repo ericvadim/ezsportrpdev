@@ -9,6 +9,7 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
     vm.teams = [];
     vm.tableData = [];
     vm.currRow = {};
+    vm.loading = true;
 
     vm.getRecordItems = function () {
         $http.get(ServerURL + "record_items/get").then(function (response) {
@@ -33,6 +34,7 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
         vm.currGame = $filter('filter')(vm.games, {id: vm.currGameId}, true)[0];
         $http.get(ServerURL + "game_records/get?game_id=" + vm.currGameId).then(function (response) {
             vm.tableData = response.data;
+            vm.loading = false;
         });
     };
 
@@ -40,6 +42,7 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
         var data = vm.currRow;
         data['game_id'] = vm.currGameId;
         data['team_id'] = vm.currGame[vm.currRow['team_cate']]['team_id'];
+        vm.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "game_records/save",
@@ -102,6 +105,7 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
+            vm.loading = true;
             $http.get(ServerURL + "game_records/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();

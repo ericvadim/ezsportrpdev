@@ -8,6 +8,7 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
     vm.prePersonIds = [];
     vm.tableData = [];
     vm.currRow = {};
+    vm.loading = true;
 
     vm.getClubs = function () {
         $http.get(ServerURL + "clubs/get").then(function (response) {
@@ -37,6 +38,7 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
                 }
             }
             vm.prePersonIds = vm.personIds;
+            vm.loading = false;
         });
     };
 
@@ -47,6 +49,7 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
             person_id: vm.currRow['person_id'],
             grade: vm.currRow['grade']
         };
+        vm.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "referees/save",
@@ -60,6 +63,7 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
+            vm.loading = true;
             $http.get(ServerURL + "referees/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();

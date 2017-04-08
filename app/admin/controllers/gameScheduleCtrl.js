@@ -9,6 +9,7 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
     vm.awayTeams = [];
     vm.tableData = [];
     vm.currRow = {};
+    vm.loading = true;
 
     vm.getLeagues = function () {
         $http.get(ServerURL + "leagues/getwithinfo").then(function (response) {
@@ -35,12 +36,14 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
     vm.getData = function () {
         $http.get(ServerURL + "game_schedules/get").then(function (response) {
             vm.tableData = response.data;
+            vm.loading = false;
         });
     };
     vm.getData();
 
     vm.save = function () {
         var data = vm.currRow;
+        vm.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "game_schedules/save",
@@ -97,6 +100,7 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
+            vm.loading = true;
             $http.get(ServerURL + "game_schedules/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();

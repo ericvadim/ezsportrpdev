@@ -4,6 +4,7 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
     var vm = this;
     vm.tableData = [];
     vm.currRow = {};
+    vm.loading = true;
 
     vm.getData = function () {
         $http.get(ServerURL + "persons/get").then(function (response) {
@@ -11,12 +12,14 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
             for (var r in vm.tableData) {
                 vm.tableData[r].image += '?' + Date.now();
             }
+            vm.loading = false;
         });
     };
     vm.getData();
 
     vm.save = function () {
         var data = vm.currRow;
+        vm.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "persons/save",
@@ -58,6 +61,7 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
+            vm.loading = true;
             $http.get(ServerURL + "persons/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();

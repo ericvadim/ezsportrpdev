@@ -4,8 +4,10 @@ angular.module('app.admin').controller('FieldsController', function (ServerURL, 
     var vm = this;
     vm.tableData = [];
     vm.currRow = {};
+    vm.loading = true;
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "fields/get").then(function (response) {
             vm.tableData = response.data;
             for (var i in vm.tableData) {
@@ -13,12 +15,14 @@ angular.module('app.admin').controller('FieldsController', function (ServerURL, 
                 vm.tableData[i].synthetic_turf = !!(vm.tableData[i].synthetic_turf * 1);
                 vm.tableData[i].restrooms = !!(vm.tableData[i].restrooms * 1);
             }
+            vm.loading = false;
         });
     };
     vm.getData();
 
     vm.save = function () {
         var data = vm.currRow;
+        vm.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "fields/save",
@@ -51,6 +55,7 @@ angular.module('app.admin').controller('FieldsController', function (ServerURL, 
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
+            vm.loading = true;
             $http.get(ServerURL + "fields/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();

@@ -11,6 +11,7 @@ angular.module('app.admin').controller('ManagersController', function (ServerURL
     vm.currRow = {};
     vm.currClubId = 0;
     vm.currTeamId = 0;
+    vm.loading = true;
 
     vm.getClubs = function () {
         $http.get(ServerURL + "clubs/get").then(function (response) {
@@ -24,6 +25,7 @@ angular.module('app.admin').controller('ManagersController', function (ServerURL
     vm.getClubs();
 
     vm.getTeams = function () {
+        vm.loading = true;
         $http.get(ServerURL + "teams/get?club_id=" + vm.currClubId).then(function (response) {
             vm.teams = response.data;
             if (vm.teams.length) {
@@ -41,6 +43,7 @@ angular.module('app.admin').controller('ManagersController', function (ServerURL
     vm.getPersons();
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "managers/get?team_id=" + vm.currTeamId).then(function (response) {
             vm.prePersonIds = vm.personIds = [];
             vm.tableData = response.data;
@@ -50,6 +53,7 @@ angular.module('app.admin').controller('ManagersController', function (ServerURL
                 }
             }
             vm.prePersonIds = vm.personIds;
+            vm.loading = false;
         });
     };
 
@@ -59,6 +63,7 @@ angular.module('app.admin').controller('ManagersController', function (ServerURL
             team_id: vm.currTeamId,
             person_id: vm.currRow['person_id']
         };
+        vm.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "managers/save",
@@ -72,6 +77,7 @@ angular.module('app.admin').controller('ManagersController', function (ServerURL
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
+            vm.loading = true;
             $http.get(ServerURL + "managers/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();

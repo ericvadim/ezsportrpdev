@@ -6,6 +6,7 @@ angular.module('app.admin').controller('LicensesController', function (ServerURL
     vm.currSportId = 0;
     vm.tableData = [];
     vm.currRow = {};
+    vm.loading = true;
 
     vm.getSports = function () {
         $http.get(ServerURL + "sports/get").then(function (response) {
@@ -21,12 +22,14 @@ angular.module('app.admin').controller('LicensesController', function (ServerURL
     vm.getData = function () {
         $http.get(ServerURL + "licenses/get?sport_id=" + vm.currSportId).then(function (response) {
             vm.tableData = response.data;
+            vm.loading = false;
         });
     };
 
     vm.save = function () {
         var data = vm.currRow;
         data['sport_id'] = vm.currSportId;
+        vm.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "licenses/save",
@@ -56,6 +59,7 @@ angular.module('app.admin').controller('LicensesController', function (ServerURL
 
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
+            vm.loading = true;
             $http.get(ServerURL + "licenses/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();
