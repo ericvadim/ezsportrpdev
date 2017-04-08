@@ -2,6 +2,7 @@
     <div class="row">
         <big-breadcrumbs items="['Coach Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
+
     <div class="row margin-bottom-10 form-horizontal">
         <div class="col-xs-12 col-sm-4 col-md-3">
             <label class="col-xs-2 text-right control-label">Club:</label>
@@ -20,13 +21,14 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-6 text-right">
-
+            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
         </div>
     </div>
+
     <section widget-grid id="widget-grid">
         <div class="row">
             <article class="col-sm-12">
-                <div jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                         <h2>Coach Management</h2>
@@ -38,7 +40,6 @@
                                     <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Photo</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Birthday</th>
@@ -53,45 +54,22 @@
                                     <tbody>
                                     <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
-                                        <td><img class="max-width-50" ng-src="{{vm.getPersonById(row.person_id)['image']}}"></td>
-                                        <td>{{vm.getPersonById(row.person_id)['first_name']}}</td>
-                                        <td>{{vm.getPersonById(row.person_id)['last_name']}}</td>
-                                        <td>{{vm.getPersonById(row.person_id)['birthday']}}</td>
-                                        <td>{{vm.getPersonById(row.person_id)['home_phone']}}</td>
-                                        <td>{{vm.getPersonById(row.person_id)['cell_phone']}}</td>
-                                        <td>{{vm.getPersonById(row.person_id)['email']}}</td>
-                                        <td>{{vm.getLicenseName(row.license_id)}}</td>
+                                        <td>{{row.first_name}}</td>
+                                        <td>{{row.last_name}}</td>
+                                        <td>{{row.birthday}}</td>
+                                        <td>{{row.home_phone}}</td>
+                                        <td>{{row.cell_phone}}</td>
+                                        <td>{{row.email}}</td>
+                                        <td>{{row.license}}</td>
                                         <td>{{vm.coachTypes[row.coach_type]}}</td>
                                         <td class="text-center controls-td">
-                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a>
+                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
+                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            <article class="col-sm-12">
-                <div jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
-                    <header>
-                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                        <h2>Edit</h2>
-                    </header>
-                    <div>
-                        <div class="widget-body no-padding">
-                            <ui-select multiple ng-model="vm.personIds" on-select="vm.addPerson($item)" on-remove="vm.removePerson($item)" theme="bootstrap" sortable="true" close-on-select="true" style="width: 100%;">
-                                <ui-select-match placeholder="Select person...">{{$item.first_name}} {{$item.last_name}} ({{$item.birthday}})</ui-select-match>
-                                <ui-select-choices repeat="p in vm.persons | propsFilter: {first_name: $select.search, last_name: $select.search}">
-                                    <div ng-bind-html="(p.first_name + ' ' + p.last_name) | highlight: $select.search"></div>
-                                    <small>
-                                        email: <span ng-bind-html="''+p.email| highlight: $select.search"></span>
-                                    </small>
-                                </ui-select-choices>
-                            </ui-select>
-
-                            <div class="padding-5">* To add/remove rows, please click above input box.</div>
                         </div>
                     </div>
                 </div>
@@ -111,30 +89,52 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Name:</label>
+                        <label class="col-md-4 control-label">First Name</label>
                         <div class="col-md-8">
-                            <div class="form-control border-white">{{vm.getPersonById(vm.currRow.person_id)['first_name']}} {{vm.getPersonById(vm.currRow.person_id)['last_name']}}</div>
+                            <input class="form-control" placeholder="First Name" type="text" ng-model="vm.currRow.first_name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Birthday:</label>
+                        <label class="col-md-4 control-label">Last Name</label>
                         <div class="col-md-8">
-                            <div class="form-control border-white">{{vm.getPersonById(vm.currRow.person_id)['birthday']}}</div>
+                            <input class="form-control" placeholder="Last Name" type="text" ng-model="vm.currRow.last_name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">License:</label>
+                        <label class="col-md-4 control-label">Birthday</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="vm.currRow.license_id">
-                                <option ng-repeat="license in vm.licenses" value="{{license.id}}">{{license.license_name}}</option>
-                            </select>
+                            <input class="form-control" placeholder="Birthday" type="text" ng-model="vm.currRow.birthday">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Coach Type:</label>
+                        <label class="col-md-4 control-label">Home Phone</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Home Phone" type="text" ng-model="vm.currRow.home_phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Cell Phone</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Cell Phone" type="text" ng-model="vm.currRow.cell_phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Email</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Email" type="text" ng-model="vm.currRow.email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">License</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="License" type="text" ng-model="vm.currRow.license">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Coach Type</label>
                         <div class="col-md-8">
                             <select class="form-control" ng-model="vm.currRow.coach_type">
-                                <option ng-repeat="coach in vm.coachTypes" value="{{$index}}">{{coach}}</option>
+                                <option ng-repeat="ct in vm.coachTypes" value="{{$index}}">{{ct}}</option>
                             </select>
                         </div>
                     </div>

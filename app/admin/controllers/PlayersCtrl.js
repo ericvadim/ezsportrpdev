@@ -8,6 +8,7 @@ angular.module('app.admin').controller('PlayersController', function (ServerURL,
     vm.personIds = [];
     vm.prePersonIds = [];
     vm.tableData = [];
+    vm.positions = [];
     vm.currRow = {};
     vm.currClubId = 0;
     vm.currTeamId = 0;

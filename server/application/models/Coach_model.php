@@ -22,7 +22,7 @@ class Coach_model extends CI_Model
 
         $rowId = $data['id'];
 
-        $cols = array('team_id', 'first_name', 'last_name', 'birthday', 'home_phone', 'cell_phone', 'email', 'license', 'coach_type');
+        $cols = array('team_id', 'person_id', 'license_id', 'coach_type');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
