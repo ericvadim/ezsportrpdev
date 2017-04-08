@@ -7,6 +7,7 @@ angular.module('app.admin').controller('RecordItemsController', function (Server
     vm.loading = true;
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "record_items/get").then(function (response) {
             vm.tableData = response.data;
             vm.loading = false;

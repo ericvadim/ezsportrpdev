@@ -32,6 +32,7 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
 
     vm.getData = function () {
         vm.currGame = $filter('filter')(vm.games, {id: vm.currGameId}, true)[0];
+        vm.loading = true;
         $http.get(ServerURL + "game_records/get?game_id=" + vm.currGameId).then(function (response) {
             vm.tableData = response.data;
             vm.loading = false;

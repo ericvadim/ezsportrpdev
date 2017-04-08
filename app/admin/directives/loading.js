@@ -9,7 +9,7 @@ angular
 
         var html = '<div class="loading-sheath {{visible?\'show\':\'hide\'}}">';
         html += '<div class="icon">';
-        html += '<i class="fa fa-refresh fa-3x fa-spin"></i>';
+        html += '<i class="fa fa-rotate-right fa-3x fa-spin"></i>';
         html += '</div>';
         html += '</div>';
 

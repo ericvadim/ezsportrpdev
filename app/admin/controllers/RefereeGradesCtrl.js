@@ -15,6 +15,7 @@ angular.module('app.admin').controller('RefereeGradesController', function (Serv
     vm.getSports();
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "grades/get").then(function (response) {
             vm.tableData = response.data;
             vm.loading = false;

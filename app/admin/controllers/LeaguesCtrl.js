@@ -18,6 +18,7 @@ angular.module('app.admin').controller('LeaguesController', function (ServerURL,
     vm.getCompetitions();
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "leagues/get").then(function (response) {
             vm.tableData = response.data;
             vm.loading = false;

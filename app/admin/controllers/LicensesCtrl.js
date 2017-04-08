@@ -20,6 +20,7 @@ angular.module('app.admin').controller('LicensesController', function (ServerURL
     vm.getSports();
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "licenses/get?sport_id=" + vm.currSportId).then(function (response) {
             vm.tableData = response.data;
             vm.loading = false;

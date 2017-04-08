@@ -34,6 +34,7 @@ angular.module('app.admin').controller('GameSchedulesController', function (Serv
     vm.getTeams();
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "game_schedules/get").then(function (response) {
             vm.tableData = response.data;
             vm.loading = false;

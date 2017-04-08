@@ -29,6 +29,7 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
     vm.getPersons();
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "referees/get?club_id=" + vm.currClubId).then(function (response) {
             vm.prePersonIds = vm.personIds = [];
             vm.tableData = response.data;

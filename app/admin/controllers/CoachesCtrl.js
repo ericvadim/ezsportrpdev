@@ -53,6 +53,7 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
 
     vm.getData = function () {
         vm.getLicenses();
+        vm.loading = true;
         $http.get(ServerURL + "coaches/get?team_id=" + vm.currTeamId).then(function (response) {
             vm.prePersonIds = vm.personIds = [];
             vm.tableData = response.data;

@@ -9,6 +9,7 @@ angular.module('app.admin').controller('UsersController', function (ServerURL, $
     vm.loading = true;
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "users/get").then(function (response) {
             vm.tableData = response.data;
             vm.loading = false;

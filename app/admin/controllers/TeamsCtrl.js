@@ -28,6 +28,7 @@ angular.module('app.admin').controller('TeamsController', function (ServerURL, $
     vm.getClubs();
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "teams/get?club_id=" + vm.currClubId).then(function (response) {
             vm.tableData = response.data;
             for (var r in vm.tableData) {

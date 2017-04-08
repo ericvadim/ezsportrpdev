@@ -52,6 +52,7 @@ angular.module('app.admin').controller('PlayersController', function (ServerURL,
 
     vm.getData = function () {
         vm.getPositions();
+        vm.loading = true;
         $http.get(ServerURL + "players/get?team_id=" + vm.currTeamId).then(function (response) {
             vm.prePersonIds = vm.personIds = [];
             vm.tableData = response.data;

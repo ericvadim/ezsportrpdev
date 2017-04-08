@@ -7,6 +7,7 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
     vm.loading = true;
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "persons/get").then(function (response) {
             vm.tableData = response.data;
             for (var r in vm.tableData) {

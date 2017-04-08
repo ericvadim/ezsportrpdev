@@ -20,6 +20,7 @@ angular.module('app.admin').controller('PositionsController', function (ServerUR
     vm.getSports();
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "positions/get?sport_id=" + vm.currSportId).then(function (response) {
             vm.tableData = response.data;
             vm.loading = false;

@@ -8,6 +8,7 @@ angular.module('app.admin').controller('ClubsController', function (ServerURL, C
     vm.loading = true;
 
     vm.getData = function () {
+        vm.loading = true;
         $http.get(ServerURL + "clubs/get").then(function (response) {
             vm.tableData = response.data;
             vm.loading = false;
