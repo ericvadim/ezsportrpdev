@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.admin').controller('PlayersController', function (ServerURL, $http, $filter) {
+angular.module('app.admin').controller('PlayersController', function ($scope, ServerURL, $http, $filter, $timeout) {
     var vm = this;
     vm.clubs = [];
     vm.teams = [];
@@ -142,4 +142,67 @@ angular.module('app.admin').controller('PlayersController', function (ServerURL,
     $('#myModal').on('hidden.bs.modal', function () {
         vm.getData();
     });
+
+    //-------------------- Importing ----------------------------------------
+    $scope.uploadFile = function(files) {
+        vm.loadingImportData = true;
+        var fd = new FormData();
+        fd.append("file", files[0]);
+
+        $http.post(ServerURL + "players/import", fd, {
+            withCredentials: false,
+            headers: {'Content-Type': undefined},
+            transformRequest: angular.identity
+        }).success(function(response) {
+            vm.importedHeaders = response.headers;
+            vm.importedRows = response.data;
+            vm.importedRows = response.data;
+            vm.itemsByPage = 8;
+            vm.loadingImportData = false;
+        });
+    };
+    vm.checkAll = function () {
+        for (var i in $scope.importedData.data) {
+            $scope.importedData.data[i].checked = $scope.importedData.allCheck;
+        }
+    };
+
+
+
+    //-----------------------------------------------------
+
+    var nameList = ['Pierre', 'Pol', 'Jacques', 'Robert', 'Elisa'],
+        familyName = ['Dupont', 'Germain', 'Delcourt', 'bjip', 'Menez'];
+
+    function createRandomItem() {
+        var firstName = nameList[Math.floor(Math.random() * 4)],
+            lastName = familyName[Math.floor(Math.random() * 4)],
+            age = Math.floor(Math.random() * 100),
+            email = firstName + lastName + '@whatever.com',
+            balance = Math.random() * 3000;
+
+        return{
+            firstName: firstName,
+            lastName: lastName,
+            age: age,
+            email: email,
+            balance: balance
+        };
+    }
+
+    vm.itemsByPage=15;
+
+    vm.rowCollection = [];
+    for (var j = 0; j < 100; j++) {
+        vm.rowCollection.push(createRandomItem());
+    }
+
+    vm.resetGrid = function () {
+        vm.rowCollection = [];
+        for (var j = 0; j < 23; j++) {
+            vm.rowCollection.push(createRandomItem());
+        }
+        vm.itemsByPage = 4;
+    };
+    //-----------------------------------------------------
 });

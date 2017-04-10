@@ -59,6 +59,7 @@
     "dropzone": "~4.2.0",
     "angular-google-maps": "~2.3.1",
     "angular-datatables": "^0.5.3",
-    "angular-ui-select": "^0.19.6"
+    "angular-ui-select": "^0.19.6",
+    "angular-smart-table": "^2.1.8"
   }
 }

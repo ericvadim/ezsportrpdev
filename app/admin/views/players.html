@@ -21,7 +21,8 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-6 text-right">
-
+            <button class="btn btn-primary" ng-click="vm.resetGrid()">Test</button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#importModal">Import</button>
         </div>
     </div>
     <section widget-grid id="widget-grid">
@@ -97,7 +98,6 @@
                                     </small>
                                 </ui-select-choices>
                             </ui-select>
-
                             <div class="padding-5">* To add/remove rows, please click above input box.</div>
                         </div>
                     </div>
@@ -158,3 +158,119 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <loading visible="vm.loadingImportData"></loading>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="importModalLabel">Import players information</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12 form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">File to import</label>
+                                <div class="col-md-10">
+                                    <input type="file" class="btn btn-default" onchange="angular.element(this).scope().uploadFile(this.files)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row margin-top-10">
+                        <article class="col-sm-12">
+                            <div jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-user"></i> </span>
+                                    <h2>Imported Data</h2>
+                                </header>
+                                <div>
+                                    <div class="widget-body no-padding table-responsive">
+                                        <table st-table="vm.importedRows" class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th><input type="checkbox" ng-change="vm.checkAll()" ng-model="vm.allCheck"></th>
+                                                <th ng-repeat="header in vm.importedHeaders">{{header}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="4">
+                                                    <input st-search placeholder="Search ..." class="input-sm form-control" type="search"/>
+                                                </th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr ng-repeat="row in vm.importedRows">
+                                                <td><input type="checkbox" ng-model="row.checked"></td>
+                                                <td ng-repeat="(key, val) in row" ng-click="row.checked = !row.checked">{{val}}</td>
+                                            </tr>
+                                            <tr ng-if="!vm.importedRows.length">
+                                                <td class="text-center"><br>Please choose a file to be imported.<br><br></td>
+                                            </tr>
+                                            </tbody>
+
+                                            <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="7"></div>
+                                                </td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="vm.import()">Import</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <input type="number" ng-model="vm.itemsByPage" min="2">
+</div>
+<table st-table="vm.rowCollection" class="table table-striped">
+    <thead>
+    <tr>
+        <th st-sort="firstName">first name</th>
+        <th st-sort="lastName">last name</th>
+        <th st-sort="birthDate">birth date</th>
+        <th st-sort="balance">balance</th>
+        <th>email</th>
+    </tr>
+    <tr>
+        <th>
+            <input st-search="'firstName'" placeholder="search for firstname" class="input-sm form-control" type="search"/>
+        </th>
+        <th colspan="4">
+            <input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in vm.rowCollection">
+        <td>{{row.firstName | uppercase}}</td>
+        <td>{{row.lastName}}</td>
+        <td>{{row.birthDate | date}}</td>
+        <td>{{row.balance | currency}}</td>
+        <td><a ng-href="mailto:{{row.email}}">email</a></td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="5" class="text-center">
+            <div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="7"></div>
+        </td>
+    </tr>
+    </tfoot>
+</table>

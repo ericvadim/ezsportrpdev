@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once APPPATH . "/libraries/PHPExcel/Classes/PHPExcel.php";
+
 class Players extends CI_Controller
 {
 
@@ -28,6 +30,25 @@ class Players extends CI_Controller
         $data = json_decode(file_get_contents('php://input'), true);
         $result = $this->player_model->savePlayer($data);
         exit($result);
+    }
+
+    public function import()
+    {
+        $objPHPExcel = PHPExcel_IOFactory::load($_FILES['file']['tmp_name']);
+        $allDataInSheet = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
+
+        $data = array();
+        if (sizeof($allDataInSheet)) {
+            $data['headers'] = array_values($allDataInSheet[1]);
+            $data['data'] = array();
+            foreach ($allDataInSheet as $key => $val) {
+                if ($key > 1) { // except for header row.
+                    $data['data'][] = $val;
+                    $data['data'][sizeof($data['data']) - 1]['id'] = $key;
+                }
+            }
+        }
+        exit(json_encode($data));
     }
 
     public function delete()

@@ -19,6 +19,10 @@ angular.module('app', [
     // Smartadmin Angular Common Module
     'SmartAdmin',
 
+    // Extra libraries
+    'ui.select',
+    'smart-table',
+
     // App
     'app.auth',
     'app.layout',
@@ -27,7 +31,7 @@ angular.module('app', [
     //'app.calendar',
     //'app.inbox',
     //'app.graphs',
-    // 'app.tables',
+    //'app.tables',
     //'app.forms',
     //'app.ui',
     //'app.widgets',
@@ -37,8 +41,7 @@ angular.module('app', [
     //'app.smartAdmin',
     //'app.eCommerce'
     'app.home',
-    'app.admin',
-    'ui.select'
+    'app.admin'
 ])
     .config(function ($provide, $httpProvider, RestangularProvider) {
 

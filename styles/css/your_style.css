@@ -57,3 +57,10 @@ ul[data-smart-menu] {
     margin-top: 150px;
     margin-left: calc(50% - 23px);
 }
+
+@media (min-width: 768px) {
+    .modal-xl {
+        width: 90%;
+        max-width:90%;
+    }
+}
