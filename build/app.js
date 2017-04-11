@@ -4084,17 +4084,22 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
 
     vm.import = function () {
         var data = vm.getCheckedImportedRows();
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "players/import?team_id=" + vm.currTeamId,
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
-            $('#importModal').modal('hide');
-            vm.getPersons();
-            vm.getData();
-        });
+        if (data.length > 0) {
+            vm.loadingImportData = true;
+            $http({
+                method: 'POST',
+                url: ServerURL + "players/import?team_id=" + vm.currTeamId,
+                headers: {'Content-Type': 'multipart/form-data'},
+                data: data
+            }).then(function mySucces(/*response*/) {
+                $('#importModal').modal('hide');
+                vm.getPersons();
+                vm.getData();
+                vm.loadingImportData = false;
+            });
+        } else {
+            alert('Please choose one or more person for importing.');
+        }
     };
 
     vm.getCurrentPageRows = function () {

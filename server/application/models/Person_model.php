@@ -22,7 +22,7 @@ class Person_model extends CI_Model
 
         $rowId = $data['id'];
 
-        $cols = array('first_name', 'last_name', 'short_name', 'birthday', 'gender', 'address', 'email', 'home_phone', 'cell_phone', 'contact_name', 'contact_email', 'contact_phone');
+        $cols = array('first_name', 'last_name', 'short_name', 'birthday', 'city', 'state', 'zipcode', 'gender', 'address', 'email', 'home_phone', 'cell_phone', 'contact_name', 'contact_email', 'contact_phone');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';

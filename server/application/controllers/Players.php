@@ -60,20 +60,24 @@ class Players extends CI_Controller
         $teamId = $this->input->get('team_id');
 
         $rulesForPerson = array(
-            'O' => 'first_name',
-            'P' => 'last_name',
-            'R' => 'birthday',
-            'Q' => 'gender',
-            'Y' => 'email',
-            'W' => 'home_phone',
-            'X' => 'cell_phone',
-            'S' => 'address'
+            'A' => 'first_name',
+            'B' => 'last_name',
+            'C' => 'address',
+            'D' => 'city',
+            'E' => 'state',
+            'F' => 'zipcode',
+            'G' => 'birthday',
+            'K' => 'email',
+            'L' => 'home_phone',
+            'N' => 'contact_name',
+            'O' => 'contact_phone',
+            'P' => 'contact_email'
         );
 
         if (sizeof($data)) {
             foreach ($data as $person) {
                 $personData = array('id' => '');
-                $personData['gender'] = $person['Q'] == 'Male' ? 0 : 1;
+                $personData['gender'] = $person['M'] == 'Male' ? 0 : 1;
                 foreach ($rulesForPerson as $key => $val) {
                     $personData[$val] = $person[$key];
                 }
@@ -83,8 +87,8 @@ class Players extends CI_Controller
                     'id' => '',
                     'team_id' => $teamId,
                     'person_id' => $personId,
-                    'identifier' => $person['C'],
-                    'player_number' => $person['N'],
+                    'player_number' => $person['H'],
+                    'identifier' => $person['J'],
                     'position_id' => ''
                 );
                 $result = $this->player_model->savePlayer($playerData);     // saving a player.
