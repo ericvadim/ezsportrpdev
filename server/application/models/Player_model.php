@@ -39,28 +39,6 @@ class Player_model extends CI_Model
         return $result;
     }
 
-    public function importPlayers($data)
-    {
-
-        $rowId = $data['id'];
-
-        $cols = array('team_id', 'person_id', 'identifier', 'player_number', 'position_id');
-        $row = array();
-        foreach ($cols as $col) {
-            $row[$col] = isset($data[$col]) ? $data[$col] : '';
-        }
-
-        if ($rowId) {
-            $this->db->where('id', $rowId);
-            $result = $this->db->update($this->table, $row);
-        } else {
-            $result = $this->db->insert($this->table, $row);
-            $this->db->insert_id();
-        }
-
-        return $result;
-    }
-
     public function deletePlayer($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));

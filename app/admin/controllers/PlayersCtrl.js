@@ -90,27 +90,6 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
         });
     };
 
-    vm.import = function () {
-        var data = {
-            id: vm.currRow['id'] || '',
-            team_id: vm.currTeamId,
-            person_id: vm.currRow['person_id'],
-            identifier: vm.currRow['identifier'],
-            player_number: vm.currRow['player_number'],
-            position_id: vm.currRow['position_id']
-        };
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "players/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
-            $('#myModal').modal('hide');
-            vm.getData();
-        });
-    };
-
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             vm.loading = true;
@@ -210,6 +189,21 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
         });
     };
 
+    vm.import = function () {
+        var data = vm.getCheckedImportedRows();
+        vm.loading = true;
+        $http({
+            method: 'POST',
+            url: ServerURL + "players/import?team_id=" + vm.currTeamId,
+            headers: {'Content-Type': 'multipart/form-data'},
+            data: data
+        }).then(function mySucces(/*response*/) {
+            $('#importModal').modal('hide');
+            vm.getPersons();
+            vm.getData();
+        });
+    };
+
     vm.getCurrentPageRows = function () {
         var start = (vm.importedPager.currentPage - 1) * vm.importedPager.rowsInPage;
         vm.importedCurrRows = [];
@@ -230,8 +224,8 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
             vm.importedRows[i].checked = vm.allCheck;
         }
     };
-    vm.getCheckedPersonCount = function () {
-        if (typeof vm.importedRows != 'object') return '';
-        return $filter('filter')(vm.importedRows, {checked: true}).length;
+    vm.getCheckedImportedRows = function () {
+        if (typeof vm.importedRows != 'object') return [];
+        return $filter('filter')(vm.importedRows, {checked: true});
     };
 });

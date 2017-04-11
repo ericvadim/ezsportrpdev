@@ -54,9 +54,42 @@ class Players extends CI_Controller
     public function import()
     {
         $this->load->database();
+        $this->load->model('person_model');
         $this->load->model('player_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->player_model->importPlayers($data);
+        $teamId = $this->input->get('team_id');
+
+        $rulesForPerson = array(
+            'O' => 'first_name',
+            'P' => 'last_name',
+            'R' => 'birthday',
+            'Q' => 'gender',
+            'Y' => 'email',
+            'W' => 'home_phone',
+            'X' => 'cell_phone',
+            'S' => 'address'
+        );
+
+        if (sizeof($data)) {
+            foreach ($data as $person) {
+                $personData = array('id' => '');
+                $personData['gender'] = $person['Q'] == 'Male' ? 0 : 1;
+                foreach ($rulesForPerson as $key => $val) {
+                    $personData[$val] = $person[$key];
+                }
+                $personId = $this->person_model->savePerson($personData);   // saving a person.
+
+                $playerData = array(
+                    'id' => '',
+                    'team_id' => $teamId,
+                    'person_id' => $personId,
+                    'identifier' => '',
+                    'player_number' => '',
+                    'position_id' => ''
+                );
+                $result = $this->player_model->savePlayer($playerData);     // saving a player.
+            }
+        }
         exit($result);
     }
 

@@ -33,7 +33,7 @@ class Person_model extends CI_Model
             $result = $this->db->update($this->table, $row);
         } else {
             $result = $this->db->insert($this->table, $row);
-            $this->db->insert_id();
+            $rowId = $this->db->insert_id();
         }
 
         if (isset($data['image'])) {
@@ -42,7 +42,7 @@ class Person_model extends CI_Model
                 file_put_contents('uploads/persons/' . $rowId .'.jpg', base64_decode($img));
             }
         }
-        return $result;
+        return $rowId;
     }
 
     public function deletePerson($rowId)

@@ -21,7 +21,6 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-6 text-right">
-            <button class="btn btn-primary" ng-click="vm.resetGrid()">Test</button>
             <button class="btn btn-primary" data-toggle="modal" data-target="#importModal">Import</button>
         </div>
     </div>
@@ -294,8 +293,8 @@
                                                     </ul>
                                                 </div>
                                                 <div class="col-xs-6 text-right">
-                                                    {{vm.getCheckedPersonCount()}}
-                                                    person{{vm.getCheckedPersonCount() > 1 ? 's are' : ' is'}} selected in {{vm.importedRows.length}} persons.
+                                                    {{vm.getCheckedImportedRows().length}}
+                                                    person{{vm.getCheckedImportedRows().length > 1 ? 's are' : ' is'}} selected in {{vm.importedRows.length}} persons.
                                                 </div>
                                             </div>
                                         </div>
