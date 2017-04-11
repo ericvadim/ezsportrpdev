@@ -69,6 +69,7 @@ class Players extends CI_Controller
             'G' => 'birthday',
             'K' => 'email',
             'L' => 'home_phone',
+            'M' => 'gender',
             'N' => 'contact_name',
             'O' => 'contact_phone',
             'P' => 'contact_email'
@@ -79,7 +80,14 @@ class Players extends CI_Controller
                 $personData = array('id' => '');
                 $personData['gender'] = $person['M'] == 'Male' ? 0 : 1;
                 foreach ($rulesForPerson as $key => $val) {
-                    $personData[$val] = $person[$key];
+                    if ($val == 'birthday') {
+                        list($m, $d, $y) = explode('/', $person[$key]);
+                        $personData[$val] = date('Y-m-d', mktime(0, 0, 0, $m, $d, $y));
+                    } else if ($val == 'gender') {
+                        $personData[$val] = $person[$key] == 'Male' ? 0 : 0;
+                    } else {
+                        $personData[$val] = $person[$key];
+                    }
                 }
                 $personId = $this->person_model->savePerson($personData);   // saving a person.
 
