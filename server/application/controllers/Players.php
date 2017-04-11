@@ -32,7 +32,7 @@ class Players extends CI_Controller
         exit($result);
     }
 
-    public function import()
+    public function getjsonfromfile()
     {
         $objPHPExcel = PHPExcel_IOFactory::load($_FILES['file']['tmp_name']);
         $allDataInSheet = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
@@ -49,6 +49,15 @@ class Players extends CI_Controller
             }
         }
         exit(json_encode($data));
+    }
+
+    public function import()
+    {
+        $this->load->database();
+        $this->load->model('player_model');
+        $data = json_decode(file_get_contents('php://input'), true);
+        $result = $this->player_model->importPlayers($data);
+        exit($result);
     }
 
     public function delete()

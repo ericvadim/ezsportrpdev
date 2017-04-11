@@ -172,7 +172,10 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xs-12 form-horizontal">
+                        <div class="col-xs-4 form-horizontal">
+                            <label class="control-label">{{vm.getClubById(vm.currClubId)['club_name']}}, {{vm.getTeamById(vm.currTeamId)['team_name']}}</label>
+                        </div>
+                        <div class="col-xs-8 form-horizontal">
                             <div class="form-group">
                                 <label class="col-md-2 control-label">File to import</label>
                                 <div class="col-md-10">
@@ -183,44 +186,119 @@
                     </div>
                     <div class="row margin-top-10">
                         <article class="col-sm-12">
-                            <div jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                            <div class="margin-bottom-0" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                                 <header>
                                     <span class="widget-icon"> <i class="fa fa-user"></i> </span>
                                     <h2>Imported Data</h2>
                                 </header>
                                 <div>
-                                    <div class="widget-body no-padding table-responsive">
-                                        <table st-table="vm.importedRows" class="table table-bordered table-striped">
-                                            <thead>
-                                            <tr>
-                                                <th><input type="checkbox" ng-change="vm.checkAll()" ng-model="vm.allCheck"></th>
-                                                <th ng-repeat="header in vm.importedHeaders">{{header}}</th>
-                                            </tr>
-                                            <tr>
-                                                <th colspan="4">
-                                                    <input st-search placeholder="Search ..." class="input-sm form-control" type="search"/>
-                                                </th>
-                                            </tr>
-                                            </thead>
+                                    <div class="widget-body no-padding">
+                                        <div class="container-fluid">
+                                            <div class="row padding-top-10">
+                                                <div class="col-xs-3 padding-bottom-10">
+                                                    <input class="form-control" placeholder="Search ...">
+                                                </div>
+                                                <div class="col-xs-3"></div>
+                                                <div class="col-xs-6 text-right">
+                                                    <ul class="pagination margin-top-0 margin-bottom-0">
+                                                        <li ng-class="{disabled:vm.importedPager.currentPage === 1}">
+                                                            <a ng-click="vm.setImportedPage(1)">First</a>
+                                                        </li>
+                                                        <li ng-class="{disabled:vm.importedPager.currentPage === 1}">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage - 1)">Previous</a>
+                                                        </li>
 
-                                            <tbody>
-                                            <tr ng-repeat="row in vm.importedRows">
-                                                <td><input type="checkbox" ng-model="row.checked"></td>
-                                                <td ng-repeat="(key, val) in row" ng-click="row.checked = !row.checked">{{val}}</td>
-                                            </tr>
-                                            <tr ng-if="!vm.importedRows.length">
-                                                <td class="text-center"><br>Please choose a file to be imported.<br><br></td>
-                                            </tr>
-                                            </tbody>
+                                                        <li ng-if="vm.importedPager.currentPage - 1 > 1">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage - 2)">{{vm.importedPager.currentPage - 2}}</a>
+                                                        </li>
+                                                        <li ng-if="vm.importedPager.currentPage > 1">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage - 1)">{{vm.importedPager.currentPage - 1}}</a>
+                                                        </li>
+                                                        <li class="active">
+                                                            <a>{{vm.importedPager.currentPage}}</a>
+                                                        </li>
+                                                        <li ng-if="vm.importedPager.currentPage + 1 <= vm.importedPager.totalPages">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage + 1)">{{vm.importedPager.currentPage + 1}}</a>
+                                                        </li>
+                                                        <li ng-if="vm.importedPager.currentPage + 2 <= vm.importedPager.totalPages">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage + 2)">{{vm.importedPager.currentPage + 2}}</a>
+                                                        </li>
 
-                                            <tfoot>
-                                            <tr>
-                                                <td colspan="12">
-                                                    <div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="7"></div>
-                                                </td>
-                                            </tr>
-                                            </tfoot>
-                                        </table>
+                                                        <li ng-class="{disabled:vm.importedPager.currentPage === vm.importedPager.totalPages}">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage + 1)">Next</a>
+                                                        </li>
+                                                        <li ng-class="{disabled:vm.importedPager.currentPage === vm.importedPager.totalPages}">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.totalPages)">Last</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 table-responsive padding-bottom-10">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                        <tr ng-if="vm.importedRows.length">
+                                                            <th><input type="checkbox" ng-change="vm.checkAll()" ng-model="vm.allCheck"></th>
+                                                            <th ng-repeat="header in vm.importedHeaders">{{header}}</th>
+                                                        </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                        <tr ng-repeat="row in vm.importedCurrRows track by $index" ng-class="{'row-checked':row.checked}">
+                                                            <td><input type="checkbox" ng-model="row.checked"></td>
+                                                            <td ng-repeat="(key, val) in row"
+                                                                ng-click="row.checked = !row.checked"
+                                                                ng-if="key != 'id' && key != 'checked'">
+                                                                {{val}}
+                                                            </td>
+                                                        </tr>
+                                                        <tr ng-if="!vm.importedRows.length">
+                                                            <td class="text-center"><br>Please choose a file to be imported.<br><br></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="row margin-top-10 margin-bottom-10">
+                                                <div class="col-xs-6">
+                                                    <ul class="pagination margin-top-0 margin-bottom-0">
+                                                        <li ng-class="{disabled:vm.importedPager.currentPage === 1}">
+                                                            <a ng-click="vm.setImportedPage(1)">First</a>
+                                                        </li>
+                                                        <li ng-class="{disabled:vm.importedPager.currentPage === 1}">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage - 1)">Previous</a>
+                                                        </li>
+
+                                                        <li ng-if="vm.importedPager.currentPage - 1 > 1">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage - 2)">{{vm.importedPager.currentPage - 2}}</a>
+                                                        </li>
+                                                        <li ng-if="vm.importedPager.currentPage > 1">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage - 1)">{{vm.importedPager.currentPage - 1}}</a>
+                                                        </li>
+                                                        <li class="active">
+                                                            <a>{{vm.importedPager.currentPage}}</a>
+                                                        </li>
+                                                        <li ng-if="vm.importedPager.currentPage + 1 <= vm.importedPager.totalPages">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage + 1)">{{vm.importedPager.currentPage + 1}}</a>
+                                                        </li>
+                                                        <li ng-if="vm.importedPager.currentPage + 2 <= vm.importedPager.totalPages">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage + 2)">{{vm.importedPager.currentPage + 2}}</a>
+                                                        </li>
+
+                                                        <li ng-class="{disabled:vm.importedPager.currentPage === vm.importedPager.totalPages}">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.currentPage + 1)">Next</a>
+                                                        </li>
+                                                        <li ng-class="{disabled:vm.importedPager.currentPage === vm.importedPager.totalPages}">
+                                                            <a ng-click="vm.setImportedPage(vm.importedPager.totalPages)">Last</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6 text-right">
+                                                    {{vm.getCheckedPersonCount()}}
+                                                    person{{vm.getCheckedPersonCount() > 1 ? 's are' : ' is'}} selected in {{vm.importedRows.length}} persons.
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -235,42 +313,3 @@
         </div>
     </div>
 </div>
-
-<div>
-    <input type="number" ng-model="vm.itemsByPage" min="2">
-</div>
-<table st-table="vm.rowCollection" class="table table-striped">
-    <thead>
-    <tr>
-        <th st-sort="firstName">first name</th>
-        <th st-sort="lastName">last name</th>
-        <th st-sort="birthDate">birth date</th>
-        <th st-sort="balance">balance</th>
-        <th>email</th>
-    </tr>
-    <tr>
-        <th>
-            <input st-search="'firstName'" placeholder="search for firstname" class="input-sm form-control" type="search"/>
-        </th>
-        <th colspan="4">
-            <input st-search placeholder="global search" class="input-sm form-control" type="search"/>
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="row in vm.rowCollection">
-        <td>{{row.firstName | uppercase}}</td>
-        <td>{{row.lastName}}</td>
-        <td>{{row.birthDate | date}}</td>
-        <td>{{row.balance | currency}}</td>
-        <td><a ng-href="mailto:{{row.email}}">email</a></td>
-    </tr>
-    </tbody>
-    <tfoot>
-    <tr>
-        <td colspan="5" class="text-center">
-            <div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="7"></div>
-        </td>
-    </tr>
-    </tfoot>
-</table>

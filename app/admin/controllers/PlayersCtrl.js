@@ -32,6 +32,9 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
             if (vm.teams.length) {
                 vm.currTeamId = vm.teams[0].id;
                 vm.getData();
+            } else {
+                vm.tableData = [];
+                vm.loading = false;
             }
         });
     };
@@ -87,6 +90,27 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
         });
     };
 
+    vm.import = function () {
+        var data = {
+            id: vm.currRow['id'] || '',
+            team_id: vm.currTeamId,
+            person_id: vm.currRow['person_id'],
+            identifier: vm.currRow['identifier'],
+            player_number: vm.currRow['player_number'],
+            position_id: vm.currRow['position_id']
+        };
+        vm.loading = true;
+        $http({
+            method: 'POST',
+            url: ServerURL + "players/save",
+            headers: {'Content-Type': 'multipart/form-data'},
+            data: data
+        }).then(function mySucces(/*response*/) {
+            $('#myModal').modal('hide');
+            vm.getData();
+        });
+    };
+
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             vm.loading = true;
@@ -117,6 +141,14 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
         return $filter('filter')(vm.persons, {id: personId}, true)[0];
     };
 
+    vm.getClubById = function (clubId) {
+        return $filter('filter')(vm.clubs, {id: clubId}, true)[0];
+    };
+
+    vm.getTeamById = function (teamId) {
+        return $filter('filter')(vm.teams, {id: teamId}, true)[0];
+    };
+
     vm.getPositionName = function (positionId) {
         if (positionId > 0) {
             var pos = $filter('filter')(vm.positions, {id: positionId}, true);
@@ -144,65 +176,62 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
     });
 
     //-------------------- Importing ----------------------------------------
-    $scope.uploadFile = function(files) {
+    vm.importedRows = [];
+    vm.importedCurrRows = [];
+    vm.importedPager = {
+        currentPage: 1,
+        totalPages: 1,
+        rowsInPage: 10,
+        pages: []
+    };
+
+    $scope.uploadFile = function (files) {
         vm.loadingImportData = true;
         var fd = new FormData();
         fd.append("file", files[0]);
 
-        $http.post(ServerURL + "players/import", fd, {
+        $http.post(ServerURL + "players/getjsonfromfile", fd, {
             withCredentials: false,
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
-        }).success(function(response) {
+        }).success(function (response) {
             vm.importedHeaders = response.headers;
             vm.importedRows = response.data;
-            vm.importedRows = response.data;
-            vm.itemsByPage = 8;
+
+            vm.importedPager.totalPages = Math.ceil(vm.importedRows.length / vm.importedPager.rowsInPage);
+            vm.importedPager.currentPage = 1;
+            vm.importedPager.pages = [];
+            for (var p = 1; p <= vm.importedPager.totalPages; p++) {
+                vm.importedPager.pages[vm.importedPager.pages.length] = p;
+            }
+            vm.setImportedPage();
+
             vm.loadingImportData = false;
         });
     };
+
+    vm.getCurrentPageRows = function () {
+        var start = (vm.importedPager.currentPage - 1) * vm.importedPager.rowsInPage;
+        vm.importedCurrRows = [];
+        for (var r = start; r < start + vm.importedPager.rowsInPage; r ++) {
+            if (typeof vm.importedRows[r] != 'object') break;
+            vm.importedCurrRows[vm.importedCurrRows.length] = vm.importedRows[r];
+        }
+    };
+
+    vm.setImportedPage = function (pInd) {
+        if (pInd > vm.importedPager.totalPages) return;
+        vm.importedPager.currentPage = pInd || vm.importedPager.currentPage;
+        vm.getCurrentPageRows();
+    };
+
     vm.checkAll = function () {
-        for (var i in $scope.importedData.data) {
-            $scope.importedData.data[i].checked = $scope.importedData.allCheck;
+        for (var i in vm.importedRows) {
+            vm.importedRows[i].checked = vm.allCheck;
         }
     };
-
-
-
-    //-----------------------------------------------------
-
-    var nameList = ['Pierre', 'Pol', 'Jacques', 'Robert', 'Elisa'],
-        familyName = ['Dupont', 'Germain', 'Delcourt', 'bjip', 'Menez'];
-
-    function createRandomItem() {
-        var firstName = nameList[Math.floor(Math.random() * 4)],
-            lastName = familyName[Math.floor(Math.random() * 4)],
-            age = Math.floor(Math.random() * 100),
-            email = firstName + lastName + '@whatever.com',
-            balance = Math.random() * 3000;
-
-        return{
-            firstName: firstName,
-            lastName: lastName,
-            age: age,
-            email: email,
-            balance: balance
-        };
-    }
-
-    vm.itemsByPage=15;
-
-    vm.rowCollection = [];
-    for (var j = 0; j < 100; j++) {
-        vm.rowCollection.push(createRandomItem());
-    }
-
-    vm.resetGrid = function () {
-        vm.rowCollection = [];
-        for (var j = 0; j < 23; j++) {
-            vm.rowCollection.push(createRandomItem());
-        }
-        vm.itemsByPage = 4;
+    vm.getCheckedPersonCount = function () {
+        if (typeof vm.importedRows != 'object') return '';
+        return $filter('filter')(vm.importedRows, {checked: true}).length;
     };
-    //-----------------------------------------------------
 });
