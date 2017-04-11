@@ -83,8 +83,8 @@ class Players extends CI_Controller
                     'id' => '',
                     'team_id' => $teamId,
                     'person_id' => $personId,
-                    'identifier' => '',
-                    'player_number' => '',
+                    'identifier' => $person['C'],
+                    'player_number' => $person['N'],
                     'position_id' => ''
                 );
                 $result = $this->player_model->savePlayer($playerData);     // saving a player.
