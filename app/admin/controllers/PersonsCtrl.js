@@ -5,14 +5,49 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
     vm.tableData = [];
     vm.currRow = {};
     vm.loading = true;
+    vm.divisions = [
+        {id: 1, title: 'Players'},
+        {id: 2, title: 'Coaches'},
+        {id: 3, title: 'Team Managers'},
+        {id: 4, title: 'Referees'}
+    ];
+    vm.currDivision = vm.divisions[0];
+    vm.pager = {
+        pages: [],
+        totalPages: 1,
+        rowsInPage: 10,
+        currentPage: 1
+    };
+    vm.currPageRows = [];
+    vm.keyword = '';
+
+    vm.changeDivision = function (div) {
+        vm.currDivision = div;
+    };
+
+    vm.getCurrPageRows = function () {
+        var start = (vm.pager.currentPage - 1) * vm.pager.rowsInPage;
+        vm.currPageRows = [];
+        for (var r = start; r < start + vm.pager.rowsInPage; r ++) {
+            if (typeof vm.tableData[r] != 'object') break;
+            vm.currPageRows[vm.currPageRows.length] = vm.tableData[r];
+        }
+    };
+
+    vm.setPage = function (pInd) {
+        if (pInd > vm.pager.totalPages) return;
+        vm.pager.currentPage = pInd || vm.pager.currentPage;
+        vm.getCurrPageRows();
+    };
 
     vm.getData = function () {
         vm.loading = true;
         $http.get(ServerURL + "persons/get").then(function (response) {
-            vm.tableData = response.data;
-            for (var r in vm.tableData) {
-                vm.tableData[r].image += '?' + Date.now();
+            vm.allRows = response.data;
+            for (var r in vm.allRows) {
+                vm.allRows[r].image += '?' + Date.now();
             }
+            vm.search();
             vm.loading = false;
         });
     };
@@ -75,4 +110,14 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
     $('#myModal').on('hidden.bs.modal', function () {
         vm.getData();
     });
+
+    vm.search = function () {
+        vm.tableData = $filter('filter')(vm.allRows, vm.keyword);
+
+        vm.pager.totalPages = Math.ceil(vm.tableData.length / vm.pager.rowsInPage);
+        for (var p = 1; p <= vm.pager.totalPages; p++) {
+            vm.pager.pages[vm.pager.pages.length] = p;
+        }
+        vm.setPage();
+    };
 });

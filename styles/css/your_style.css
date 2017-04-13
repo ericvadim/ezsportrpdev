@@ -61,10 +61,35 @@ ul[data-smart-menu] {
 @media (min-width: 768px) {
     .modal-xl {
         width: 90%;
-        max-width:90%;
+        max-width: 90%;
     }
 }
+
 .row-checked {
     background-color: #00A6C7;
     color: white;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.margin-left-10 {
+    margin-left: 10px;
+}
+
+.margin-right-10 {
+    margin-right: 10px;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
 }

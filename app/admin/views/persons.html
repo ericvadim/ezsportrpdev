@@ -3,10 +3,55 @@
     <div class="row">
         <big-breadcrumbs items="['Person Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
+    <div class="row margin-bottom-10 form-horizontal">
+        <div class="col-xs-12">
+            <div class="btn-group float-left">
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    {{vm.currDivision.title}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="d in vm.divisions" ng-class="{'active':(d.id == vm.currDivision.id)}"><a href="javascript:void(0);" ng-click="vm.changeDivision(d)">{{d.title}}</a></li>
+                </ul>
+            </div>
 
-    <div class="text-right margin-bottom-10">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+            <input class="form-control float-left max-width-200 margin-left-10" placeholder="Search ..." ng-model="vm.keyword" ng-change="vm.search();">
+
+            <button class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+
+            <ul class="pagination margin-top-0 margin-bottom-0 margin-right-10 float-right">
+                <li ng-class="{disabled:vm.pager.currentPage === 1}">
+                    <a ng-click="vm.setPage(1)">First</a>
+                </li>
+                <li ng-class="{disabled:vm.pager.currentPage === 1}">
+                    <a ng-click="vm.setPage(vm.pager.currentPage - 1)">Previous</a>
+                </li>
+
+                <li ng-if="vm.pager.currentPage - 1 > 1">
+                    <a ng-click="vm.setPage(vm.pager.currentPage - 2)">{{vm.pager.currentPage - 2}}</a>
+                </li>
+                <li ng-if="vm.pager.currentPage > 1">
+                    <a ng-click="vm.setPage(vm.pager.currentPage - 1)">{{vm.pager.currentPage - 1}}</a>
+                </li>
+                <li class="active">
+                    <a>{{vm.pager.currentPage}}</a>
+                </li>
+                <li ng-if="vm.pager.currentPage + 1 <= vm.pager.totalPages">
+                    <a ng-click="vm.setPage(vm.pager.currentPage + 1)">{{vm.pager.currentPage + 1}}</a>
+                </li>
+                <li ng-if="vm.pager.currentPage + 2 <= vm.pager.totalPages">
+                    <a ng-click="vm.setPage(vm.pager.currentPage + 2)">{{vm.pager.currentPage + 2}}</a>
+                </li>
+
+                <li ng-class="{disabled:vm.pager.currentPage === vm.pager.totalPages}">
+                    <a ng-click="vm.setPage(vm.pager.currentPage + 1)">Next</a>
+                </li>
+                <li ng-class="{disabled:vm.pager.currentPage === vm.pager.totalPages}">
+                    <a ng-click="vm.setPage(vm.pager.totalPages)">Last</a>
+                </li>
+            </ul>
+        </div>
     </div>
+
     <section widget-grid id="widget-grid">
         <div class="row">
             <article class="col-sm-12">
@@ -39,7 +84,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
+                                    <tr ng-repeat="row in vm.currPageRows" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
                                         <td><img class="max-width-50" ng-src="{{row.image}}"></td>
                                         <td>{{row.first_name}}</td>
