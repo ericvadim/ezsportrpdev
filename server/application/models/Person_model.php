@@ -14,8 +14,10 @@ class Person_model extends CI_Model
 
     public function getPersons($division)
     {
-        $where = '';
-        switch($division) {
+        if (!isset($division)) $division = 1;
+
+        $where = '1';
+        switch ($division) {
             case 1:
                 $where .= '1';
                 break;
@@ -23,16 +25,23 @@ class Person_model extends CI_Model
                 $where .= 'id IN (SELECT person_id FROM players GROUP BY person_id)';
                 break;
             case 3:
-                $where .= 'id IN (SELECT person_id FROM players GROUP BY person_id)';
+                $where .= 'id IN (SELECT person_id FROM coaches GROUP BY person_id)';
                 break;
             case 4:
-                $where .= 'id IN (SELECT person_id FROM players GROUP BY person_id)';
+                $where .= 'id IN (SELECT person_id FROM managers GROUP BY person_id)';
                 break;
             case 5:
-                $where .= 'id IN (SELECT person_id FROM players GROUP BY person_id)';
+                $where .= 'id IN (SELECT person_id FROM referees GROUP BY person_id)';
                 break;
             case 6:
-                $where .= 'id IN (SELECT person_id FROM players GROUP BY person_id)';
+                $personRegisteredTbl = '
+                SELECT * FROM (
+                    (SELECT person_id FROM players) 
+                    UNION (SELECT person_id FROM coaches)  
+                    UNION (SELECT person_id FROM referees)
+                ) AS A GROUP BY person_id
+                ';
+                $where .= 'id NOT IN (' . $personRegisteredTbl . ')';
                 break;
             default:
         }
@@ -68,7 +77,7 @@ class Person_model extends CI_Model
         if (isset($data['image'])) {
             if (strpos($data['image'], 'base64')) {
                 list(, $img) = explode(',', $data['image']);
-                file_put_contents('uploads/persons/' . $rowId .'.jpg', base64_decode($img));
+                file_put_contents('uploads/persons/' . $rowId . '.jpg', base64_decode($img));
             }
         }
         return $rowId;
@@ -76,7 +85,7 @@ class Person_model extends CI_Model
 
     public function deletePerson($rowId)
     {
-        unlink('uploads/persons/' . $rowId .'.jpg');
+        unlink('uploads/persons/' . $rowId . '.jpg');
         return $this->db->delete($this->table, array('id' => $rowId));
     }
 }

@@ -3934,6 +3934,11 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
         vm.tableData = $filter('filter')(vm.allRows, vm.keyword);
 
         vm.pager.totalPages = Math.ceil(vm.tableData.length / vm.pager.rowsInPage);
+
+        if (vm.pager.currentPage > vm.pager.totalPages) {
+            vm.pager.currentPage = vm.pager.totalPages * 1;
+        }
+
         for (var p = 1; p <= vm.pager.totalPages; p++) {
             vm.pager.pages[vm.pager.pages.length] = p;
         }
@@ -8542,6 +8547,18 @@ angular.module('app.graphs').directive('dygraphsNoRollTimestamp', function (Dygr
         }
     }
 });
+'use strict';
+
+angular.module('app.graphs').directive('highchartTable', function (lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+            lazyScript.register('build/vendor.graphs.js').then(function(){
+                element.highchartTable();
+            })
+        }
+    }
+});
 "use strict";
 
 angular.module('app.graphs').directive('flotAutoUpdatingChart', function($timeout, FlotConfig){
@@ -8981,18 +8998,6 @@ angular.module('app.graphs').directive('flotSiteStatsChart', function(FlotConfig
                 }
             });
 
-        }
-    }
-});
-'use strict';
-
-angular.module('app.graphs').directive('highchartTable', function (lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
-            lazyScript.register('build/vendor.graphs.js').then(function(){
-                element.highchartTable();
-            })
         }
     }
 });

@@ -119,6 +119,11 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
         vm.tableData = $filter('filter')(vm.allRows, vm.keyword);
 
         vm.pager.totalPages = Math.ceil(vm.tableData.length / vm.pager.rowsInPage);
+
+        if (vm.pager.currentPage > vm.pager.totalPages) {
+            vm.pager.currentPage = vm.pager.totalPages * 1;
+        }
+
         for (var p = 1; p <= vm.pager.totalPages; p++) {
             vm.pager.pages[vm.pager.pages.length] = p;
         }

@@ -21,7 +21,7 @@ class Persons extends CI_Controller
         if (sizeof($rows)) {
             foreach ($rows as $key => $value) {
                 $image = 'uploads/persons/' . $value['id'] . '.jpg';
-                $value['image'] = file_exists($image) ? base_url() . $image : './styles/img/no.jpg';
+                $rows[$key]['image'] = file_exists($image) ? base_url() . $image : './styles/img/no.jpg';
             }
         }
 
