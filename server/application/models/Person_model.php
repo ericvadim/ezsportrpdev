@@ -85,7 +85,7 @@ class Person_model extends CI_Model
 
     public function deletePerson($rowId)
     {
-        unlink('uploads/persons/' . $rowId . '.jpg');
+        if (file_exists('uploads/persons/' . $rowId . '.jpg')) unlink('uploads/persons/' . $rowId . '.jpg');
         return $this->db->delete($this->table, array('id' => $rowId));
     }
 }

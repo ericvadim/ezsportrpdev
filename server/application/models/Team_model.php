@@ -57,7 +57,7 @@ class Team_model extends CI_Model
 
     public function deleteTeam($rowId)
     {
-        unlink('uploads/team_images/' . $rowId .'.jpg');
+        if (file_exists('uploads/team_images/' . $rowId .'.jpg')) unlink('uploads/team_images/' . $rowId .'.jpg');
         return $this->db->delete($this->table, array('id' => $rowId));
     }
 }
