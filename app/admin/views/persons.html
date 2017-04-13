@@ -85,7 +85,7 @@
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="row in vm.currPageRows" ng-dblclick="vm.openModal(row.id)">
-                                        <td>{{$index + 1}}</td>
+                                        <td>{{(vm.pager.currentPage - 1) * vm.pager.rowsInPage + $index + 1}}</td>
                                         <td><img class="max-width-50" ng-src="{{row.image}}"></td>
                                         <td>{{row.first_name}}</td>
                                         <td>{{row.last_name}}</td>
