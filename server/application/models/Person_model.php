@@ -16,7 +16,7 @@ class Person_model extends CI_Model
     {
         if (!isset($division)) $division = 1;
 
-        $where = '1';
+        $where = '';
         switch ($division) {
             case 1:
                 $where .= '1';
