@@ -14,11 +14,14 @@ class Persons extends CI_Controller
         $this->load->database();
         $this->load->model('person_model');
 
-        $rows = $this->person_model->getPersons();
+        $division = $this->input->get('division');  // 0: all, 1: players, 2: coaches, 3: team managers, 4: referees.
+
+        $rows = $this->person_model->getPersons($division);
+
         if (sizeof($rows)) {
             foreach ($rows as $key => $value) {
-                $image = 'uploads/persons/' . $value->id . '.jpg';
-                $value->image = file_exists($image) ? base_url() . $image : './styles/img/no.jpg';
+                $image = 'uploads/persons/' . $value['id'] . '.jpg';
+                $value['image'] = file_exists($image) ? base_url() . $image : './styles/img/no.jpg';
             }
         }
 

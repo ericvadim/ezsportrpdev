@@ -10,7 +10,11 @@
                     {{vm.currDivision.title}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li ng-repeat="d in vm.divisions" ng-class="{'active':(d.id == vm.currDivision.id)}"><a href="javascript:void(0);" ng-click="vm.changeDivision(d)">{{d.title}}</a></li>
+                    <li ng-repeat="d in vm.divisions"
+                        ng-click="vm.getData()"
+                        ng-class="{'active':(d.id == vm.currDivision.id)}">
+                        <a href="javascript:void(0);" ng-click="vm.changeDivision(d)">{{d.title}}</a>
+                    </li>
                 </ul>
             </div>
 

@@ -5,13 +5,17 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
     vm.tableData = [];
     vm.currRow = {};
     vm.loading = true;
+
     vm.divisions = [
-        {id: 1, title: 'Players'},
-        {id: 2, title: 'Coaches'},
-        {id: 3, title: 'Team Managers'},
-        {id: 4, title: 'Referees'}
+        {id: 1, title: 'All'},
+        {id: 2, title: 'Players'},
+        {id: 3, title: 'Coaches'},
+        {id: 4, title: 'Team Managers'},
+        {id: 5, title: 'Referees'},
+        {id: 6, title: 'Unregistered'}
     ];
-    vm.currDivision = vm.divisions[0];
+    vm.currDivision = vm.divisions[1];
+
     vm.pager = {
         pages: [],
         totalPages: 1,
@@ -42,7 +46,7 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
 
     vm.getData = function () {
         vm.loading = true;
-        $http.get(ServerURL + "persons/get").then(function (response) {
+        $http.get(ServerURL + "persons/get?division=" + vm.currDivision.id).then(function (response) {
             vm.allRows = response.data;
             for (var r in vm.allRows) {
                 vm.allRows[r].image += '?' + Date.now();

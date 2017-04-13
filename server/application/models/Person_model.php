@@ -12,9 +12,38 @@ class Person_model extends CI_Model
         parent::__construct();
     }
 
-    public function getPersons()
+    public function getPersons($division)
     {
-        return $this->db->get($this->table)->result();
+        $where = '';
+        switch($division) {
+            case 1:
+                $where .= '1';
+                break;
+            case 2:
+                $where .= 'id IN (SELECT person_id FROM players GROUP BY person_id)';
+                break;
+            case 3:
+                $where .= 'id IN (SELECT person_id FROM players GROUP BY person_id)';
+                break;
+            case 4:
+                $where .= 'id IN (SELECT person_id FROM players GROUP BY person_id)';
+                break;
+            case 5:
+                $where .= 'id IN (SELECT person_id FROM players GROUP BY person_id)';
+                break;
+            case 6:
+                $where .= 'id IN (SELECT person_id FROM players GROUP BY person_id)';
+                break;
+            default:
+        }
+
+        $query = '
+            SELECT * 
+            FROM persons 
+            WHERE ' . $where . ' 
+        ';
+        $result = $this->db->query($query);
+        return $result->result_array($result);
     }
 
     public function savePerson($data)
