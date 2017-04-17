@@ -93,3 +93,6 @@ ul[data-smart-menu] {
 .margin-bottom-10 {
     margin-bottom: 10px;
 }
+.smart-style-4 #header>:first-child {
+    background: transparent;
+}

@@ -15,7 +15,7 @@ angular.module('app.layout', ['ui.router'])
                 }
             }
         });
-    $urlRouterProvider.otherwise('/admin');
+    $urlRouterProvider.otherwise('/login');
 
 })
 

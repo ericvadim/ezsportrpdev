@@ -32,7 +32,7 @@ angular.module('app', [
     //'app.inbox',
     //'app.graphs',
     //'app.tables',
-    //'app.forms',
+    'app.forms',
     //'app.ui',
     //'app.widgets',
     //'app.maps',
