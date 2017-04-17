@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.admin').controller('RefereesController', function (ServerURL, $http, $filter) {
+angular.module('app.admin').controller('RefereesController', function ($scope, ServerURL, $http, $filter) {
     var vm = this;
     vm.clubs = [];
     vm.persons = [];
@@ -8,6 +8,7 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
     vm.prePersonIds = [];
     vm.tableData = [];
     vm.currRow = {};
+    vm.currClubId = 0;
     vm.loading = true;
 
     vm.getClubs = function () {
@@ -104,4 +105,84 @@ angular.module('app.admin').controller('RefereesController', function (ServerURL
     $('#myModal').on('hidden.bs.modal', function () {
         vm.getData();
     });
+
+    //-------------------- Importing ----------------------------------------
+    vm.importedRows = [];
+    vm.importedCurrRows = [];
+    vm.importedPager = {
+        currentPage: 1,
+        totalPages: 1,
+        rowsInPage: 10,
+        pages: []
+    };
+
+    $scope.uploadFile = function (files) {
+        vm.loadingImportData = true;
+        var fd = new FormData();
+        fd.append("file", files[0]);
+
+        $http.post(ServerURL + "referees/getjsonfromfile", fd, {
+            withCredentials: false,
+            headers: {'Content-Type': undefined},
+            transformRequest: angular.identity
+        }).success(function (response) {
+            vm.importedHeaders = response.headers;
+            vm.importedRows = response.data;
+
+            vm.importedPager.totalPages = Math.ceil(vm.importedRows.length / vm.importedPager.rowsInPage);
+            vm.importedPager.currentPage = 1;
+            vm.importedPager.pages = [];
+            for (var p = 1; p <= vm.importedPager.totalPages; p++) {
+                vm.importedPager.pages[vm.importedPager.pages.length] = p;
+            }
+            vm.setImportedPage();
+
+            vm.loadingImportData = false;
+        });
+    };
+
+    vm.import = function () {
+        var data = vm.getCheckedImportedRows();
+        if (data.length > 0) {
+            vm.loadingImportData = true;
+            $http({
+                method: 'POST',
+                url: ServerURL + "referees/import?club_id=" + vm.currClubId,
+                headers: {'Content-Type': 'multipart/form-data'},
+                data: data
+            }).then(function mySucces(/*response*/) {
+                $('#importModal').modal('hide');
+                vm.getPersons();
+                vm.getData();
+                vm.loadingImportData = false;
+            });
+        } else {
+            alert('Please choose one or more person for importing.');
+        }
+    };
+
+    vm.getCurrentPageRows = function () {
+        var start = (vm.importedPager.currentPage - 1) * vm.importedPager.rowsInPage;
+        vm.importedCurrRows = [];
+        for (var r = start; r < start + vm.importedPager.rowsInPage; r ++) {
+            if (typeof vm.importedRows[r] != 'object') break;
+            vm.importedCurrRows[vm.importedCurrRows.length] = vm.importedRows[r];
+        }
+    };
+
+    vm.setImportedPage = function (pInd) {
+        if (pInd > vm.importedPager.totalPages) return;
+        vm.importedPager.currentPage = pInd || vm.importedPager.currentPage;
+        vm.getCurrentPageRows();
+    };
+
+    vm.checkAll = function () {
+        for (var i in vm.importedRows) {
+            vm.importedRows[i].checked = vm.allCheck;
+        }
+    };
+    vm.getCheckedImportedRows = function () {
+        if (typeof vm.importedRows != 'object') return [];
+        return $filter('filter')(vm.importedRows, {checked: true});
+    };
 });
