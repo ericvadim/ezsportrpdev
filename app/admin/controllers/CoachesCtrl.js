@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.admin').controller('CoachesController', function (ServerURL, $http, $filter, CoachTypes) {
+angular.module('app.admin').controller('CoachesController', function (ServerURL, $http, $filter, CoachTypes, $scope) {
     var vm = this;
     vm.clubs = [];
     vm.teams = [];
@@ -142,4 +142,93 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
     $('#myModal').on('hidden.bs.modal', function () {
         vm.getData();
     });
+
+
+    vm.getClubById = function (clubId) {
+        return $filter('filter')(vm.clubs, {id: clubId}, true)[0];
+    };
+
+    vm.getTeamById = function (teamId) {
+        return $filter('filter')(vm.teams, {id: teamId}, true)[0];
+    };
+
+    //-------------------- Importing ----------------------------------------
+    vm.importedRows = [];
+    vm.importedCurrRows = [];
+    vm.importedPager = {
+        currentPage: 1,
+        totalPages: 1,
+        rowsInPage: 10,
+        pages: []
+    };
+
+    $scope.uploadFile = function (files) {
+        vm.loadingImportData = true;
+        var fd = new FormData();
+        fd.append("file", files[0]);
+
+        $http.post(ServerURL + "coaches/getjsonfromfile", fd, {
+            withCredentials: false,
+            headers: {'Content-Type': undefined},
+            transformRequest: angular.identity
+        }).success(function (response) {
+            vm.importedHeaders = response.headers;
+            vm.importedRows = response.data;
+
+            vm.importedPager.totalPages = Math.ceil(vm.importedRows.length / vm.importedPager.rowsInPage);
+            vm.importedPager.currentPage = 1;
+            vm.importedPager.pages = [];
+            for (var p = 1; p <= vm.importedPager.totalPages; p++) {
+                vm.importedPager.pages[vm.importedPager.pages.length] = p;
+            }
+            vm.setImportedPage();
+
+            vm.loadingImportData = false;
+        });
+    };
+
+    vm.import = function () {
+        var data = vm.getCheckedImportedRows();
+        if (data.length > 0) {
+            vm.loadingImportData = true;
+            $http({
+                method: 'POST',
+                url: ServerURL + "coaches/import?team_id=" + vm.currTeamId,
+                headers: {'Content-Type': 'multipart/form-data'},
+                data: data
+            }).then(function mySucces(/*response*/) {
+                $('#importModal').modal('hide');
+                vm.getPersons();
+                vm.getData();
+                vm.loadingImportData = false;
+            });
+        } else {
+            alert('Please choose one or more person for importing.');
+        }
+    };
+
+    vm.getCurrentPageRows = function () {
+        var start = (vm.importedPager.currentPage - 1) * vm.importedPager.rowsInPage;
+        vm.importedCurrRows = [];
+        for (var r = start; r < start + vm.importedPager.rowsInPage; r ++) {
+            if (typeof vm.importedRows[r] != 'object') break;
+            vm.importedCurrRows[vm.importedCurrRows.length] = vm.importedRows[r];
+        }
+    };
+
+    vm.setImportedPage = function (pInd) {
+        if (pInd > vm.importedPager.totalPages) return;
+        vm.importedPager.currentPage = pInd || vm.importedPager.currentPage;
+        vm.getCurrentPageRows();
+    };
+
+    vm.checkAll = function () {
+        for (var i in vm.importedRows) {
+            vm.importedRows[i].checked = vm.allCheck;
+        }
+    };
+    vm.getCheckedImportedRows = function () {
+        if (typeof vm.importedRows != 'object') return [];
+        return $filter('filter')(vm.importedRows, {checked: true});
+    };
 });

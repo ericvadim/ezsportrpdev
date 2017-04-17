@@ -65,7 +65,7 @@ ul[data-smart-menu] {
     }
 }
 
-.row-checked {
+.selected-row {
     background-color: #00A6C7;
     color: white;
 }

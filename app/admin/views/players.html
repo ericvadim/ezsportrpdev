@@ -243,7 +243,7 @@
                                                         </thead>
 
                                                         <tbody>
-                                                        <tr ng-repeat="row in vm.importedCurrRows track by $index" ng-class="{'row-checked':row.checked}">
+                                                        <tr ng-repeat="row in vm.importedCurrRows track by $index" ng-class="{'selected-row':row.checked}">
                                                             <td><input type="checkbox" ng-model="row.checked"></td>
                                                             <td ng-repeat="(key, val) in row"
                                                                 ng-click="row.checked = !row.checked"
