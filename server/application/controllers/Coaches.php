@@ -53,11 +53,15 @@ class Coaches extends CI_Controller
         $teamId = $this->input->get('team_id');
 
         $rulesForPerson = array(
-            'C' => 'first_name',
-            'D' => 'last_name',
-            'E' => 'contact_phone',
-            'F' => 'contact_email',
-            'G' => 'address'
+            'A' => 'first_name',
+            'B' => 'last_name',
+            'C' => 'cell_phone',
+            'D' => 'home_phone',
+            'E' => 'contact_email',
+            'F' => 'address',
+            'G' => 'city',
+            'H' => 'state',
+            'I' => 'zipcode'
         );
 
         if (sizeof($data)) {
@@ -71,7 +75,8 @@ class Coaches extends CI_Controller
                 $coachData = array(
                     'id' => '',
                     'team_id' => $teamId,
-                    'person_id' => $personId
+                    'person_id' => $personId,
+                    'coach_type' => $person['J']
                 );
                 $result = $this->coach_model->saveCoach($coachData);     // saving a player.
             }
