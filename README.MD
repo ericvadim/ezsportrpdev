@@ -1,4 +1,4 @@
-SmartAdmin AngularJs Version 2
+EZSPORTRP
 ==============================
 
 development

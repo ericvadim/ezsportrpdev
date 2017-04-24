@@ -1,0 +1,91 @@
+<loading visible="vm.loading"></loading>
+<div id="content">
+    <div class="row">
+        <big-breadcrumbs items="['Player Positions']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+    </div>
+
+    <div class="row margin-bottom-10 form-horizontal">
+        <div class="col-xs-6 col-sm-4 col-md-3">
+            <label class="col-xs-2 text-right control-label">Team:</label>
+            <div class="col-xs-10">
+                <select class="form-control" ng-change="vm.getData()" ng-model="vm.currSportId">
+                    <option ng-repeat="sport in vm.sportTypes" value="{{sport.id}}">{{sport.sport_name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-8 col-md-9 text-right">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+        </div>
+    </div>
+
+    <section widget-grid id="widget-grid">
+        <div class="row">
+            <article class="col-sm-12">
+                <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Player Positions</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Position Name</th>
+                                        <th>Short Name</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{row.position_name}}</td>
+                                        <td>{{row.short_name}}</td>
+                                        <td class="text-center controls-td">
+                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
+                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Edit Information</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Position Name</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Position Name" type="text" ng-model="vm.currRow.position_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Short Name</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Short Name" type="text" ng-model="vm.currRow.short_name">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="vm.save()">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

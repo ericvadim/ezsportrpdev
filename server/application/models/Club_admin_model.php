@@ -1,10 +1,10 @@
 <?php
 
 
-class Player_model extends CI_Model
+class Club_admin_model extends CI_Model
 {
 
-    private $table = 'players';
+    private $table = 'club_admins';
 
     function __construct()
     {
@@ -12,24 +12,16 @@ class Player_model extends CI_Model
         parent::__construct();
     }
 
-    public function getPlayers($teamId)
+    public function getClubAdmins($clubId)
     {
-        /*$this->db->select('A.*, B.first_name, B.last_name');
-        $this->db->from($this->table . ' as A');
-        $this->db->join('persons as B', 'B.id = A.person_id');
-        $this->db->where("A.team_id='" . $teamId . "'");
-
-        return $this->db->get()->result();*/
-
-        return $this->db->get_where($this->table, array('team_id' => $teamId))->result();
+        return $this->db->get_where($this->table, array('club_id' => $clubId))->result();
     }
 
-    public function savePlayer($data)
+    public function saveClubAdmin($data)
     {
-
         $rowId = $data['id'];
 
-        $cols = array('team_id', 'person_id', 'identifier', 'player_number', 'position_id');
+        $cols = array('club_id', 'person_id');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
@@ -46,7 +38,7 @@ class Player_model extends CI_Model
         return $result;
     }
 
-    public function deletePlayer($rowId)
+    public function deleteClubAdmin($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }

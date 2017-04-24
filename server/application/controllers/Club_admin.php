@@ -1,7 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Managers extends CI_Controller
+require_once APPPATH . "/libraries/PHPExcel/Classes/PHPExcel.php";
+
+class Club_admin extends CI_Controller
 {
 
     public function index()
@@ -12,13 +14,21 @@ class Managers extends CI_Controller
     public function get()
     {
         $this->load->database();
-        $this->load->model('manager_model');
-        $teamId = $this->input->get('team_id');
-
-        $rows = $this->manager_model->getManagers($teamId);
+        $this->load->model('club_admin_model');
+        $clubId = $this->input->get('club_id');
+        $rows = $this->club_admin_model->getClubAdmins($clubId);
 
         echo json_encode($rows);
         exit;
+    }
+
+    public function save()
+    {
+        $this->load->database();
+        $this->load->model('club_admin_model');
+        $data = json_decode(file_get_contents('php://input'), true);
+        $result = $this->club_admin_model->saveClubAdmin($data);
+        exit($result);
     }
 
     public function getjsonfromfile()
@@ -44,15 +54,15 @@ class Managers extends CI_Controller
     {
         $this->load->database();
         $this->load->model('person_model');
-        $this->load->model('manager_model');
+        $this->load->model('club_admin_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $teamId = $this->input->get('team_id');
+        $clubId = $this->input->get('club_id');
 
         $rulesForPerson = array(
             'A' => 'first_name',
             'B' => 'last_name',
             'C' => 'cell_phone',
-            'D' => 'home_phone',
+            'D' => 'contact_phone',
             'E' => 'contact_email',
             'F' => 'address',
             'G' => 'city',
@@ -68,23 +78,14 @@ class Managers extends CI_Controller
                 }
                 $personId = $this->person_model->savePerson($personData);   // saving a person.
 
-                $managerData = array(
+                $clubAdminData = array(
                     'id' => '',
-                    'team_id' => $teamId,
+                    'club_id' => $clubId,
                     'person_id' => $personId
                 );
-                $result = $this->manager_model->saveManager($managerData);     // saving a player.
+                $result = $this->club_admin_model->saveClubAdmin($clubAdminData);     // saving a referee.
             }
         }
-        exit($result);
-    }
-
-    public function save()
-    {
-        $this->load->database();
-        $this->load->model('manager_model');
-        $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->manager_model->saveManager($data);
         exit($result);
     }
 
@@ -93,8 +94,8 @@ class Managers extends CI_Controller
         $data = $this->input->get();
 
         $this->load->database();
-        $this->load->model('manager_model');
-        $result = $this->manager_model->deleteManager($data['id']);
+        $this->load->model('club_admin_model');
+        $result = $this->club_admin_model->deleteClubAdmin($data['id']);
         exit($result);
     }
 }

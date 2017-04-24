@@ -74,7 +74,7 @@
                         <a data-ui-sref="app.admin.referees"><i class="fa fa-user-circle"></i> {{getWord('Referees')}}</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.admin.referees"><i class="fa fa-user-circle"></i> {{getWord('Club Administration')}}</a>
+                        <a data-ui-sref="app.admin.clubadmin"><i class="fa fa-meh-o"></i> {{getWord('Club Admin')}}</a>
                     </li>
                 </ul>
             </li>
@@ -94,6 +94,9 @@
             <li data-menu-collapse class="top-menu-invisible">
                 <a href="#"><i class="fa fa-lg fa-fw fa-pencil-square-o"></i> <span class="menu-item-parent">{{getWord('Records')}}</span></a>
                 <ul>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.admin.refereeRecords"><i class="fa fa-steam-square"></i> {{getWord('Referee Records')}}</a>
+                    </li>
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.admin.gameRecords"><i class="fa fa-cube"></i> {{getWord('Game Records')}}</a>
                     </li>

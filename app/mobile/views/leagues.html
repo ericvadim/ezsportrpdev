@@ -1,12 +1,12 @@
 <loading visible="vm.loading"></loading>
 <div id="content">
     <div class="row">
-        <big-breadcrumbs items="['Game Schedules']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <big-breadcrumbs items="['Leagues']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
     <div class="row margin-bottom-10 form-horizontal">
-        <div class="col-xs-6 col-sm-4">
-            <label class="col-xs-2 text-right control-label">Period:</label>
+        <div class="col-xs-12 col-sm-6 col-md-5 form-horizontal">
+            <label class="col-xs-2 text-right control-label text-right">Period:</label>
             <div class="col-xs-10 smart-form">
                 <section class="col col-6">
                     <label class="input"> <i class="icon-append fa fa-calendar"></i>
@@ -15,12 +15,12 @@
                 </section>
                 <section class="col col-6">
                     <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                        <input type="text" name="finishdate" id="finishdate" data-smart-datepicker data-max-restrict="#startdate" placeholder="End Date">
+                        <input type="text" name="finishdate" id="finishdate" data-smart-datepicker data-max-restrict="#startdate" placeholder="To">
                     </label>
                 </section>
             </div>
         </div>
-        <div class="col-xs-6 col-sm-8 text-right">
+        <div class="col-xs-12 col-sm-6 col-md-7 text-right">
             <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
         </div>
     </div>
@@ -31,7 +31,7 @@
                 <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Game Schedules</h2>
+                        <h2>Leagues</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
@@ -40,30 +40,30 @@
                                     <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>League</th>
-                                        <th>Home Team</th>
-                                        <th>Away Team</th>
-                                        <th>Date of Game</th>
-                                        <th>Start Time</th>
-                                        <th>Arrival Time</th>
-                                        <th>Duration of Game</th>
-                                        <th>Location</th>
-                                        <th>Uniform</th>
+                                        <th>Competition</th>
+                                        <th>Season</th>
+                                        <th>Group Level</th>
+                                        <th>Start Date</th>
+                                        <th>Status</th>
+                                        <th>Applied</th>
+                                        <th>Accepted</th>
+                                        <th>Paid</th>
+                                        <th>Roster</th>
                                         <th>Manage</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{vm.getLeagueNameById(row.league_id)}}</td>
-                                        <td>{{vm.getTeamById(vm.homeTeams, row.home_team_id)['team_name']}}</td>
-                                        <td>{{vm.getTeamById(vm.awayTeams, row.away_team_id)['team_name']}}</td>
-                                        <td>{{row.game_date}}</td>
-                                        <td>{{row.start_time}}</td>
-                                        <td>{{row.arrival_time}}</td>
-                                        <td>{{row.duration}}</td>
-                                        <td>{{vm.getFieldById(row.field_id)['field_name']}}</td>
-                                        <td>{{row.uniform}}</td>
+                                        <td>{{vm.getCompetitionById(row.competition_id)['competition_name']}}</td>
+                                        <td>{{vm.seasons[row.season]}}</td>
+                                        <td>{{vm.groupLevels[row.group_level]}}</td>
+                                        <td>{{row.start_date}}</td>
+                                        <td>{{row.status == 1 ? 'Accepted' : 'Applied'}}</td>
+                                        <td>{{row.applied_date}}</td>
+                                        <td>{{row.accepted_flag == 1 ? 'Yes' : 'No'}}</td>
+                                        <td>{{row.paid_flag == 1 ? 'Yes' : 'No'}}</td>
+                                        <td>{{row.roster}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
                                             <a ng-click="vm.deleteRow(row.id)">Delete</a>
@@ -91,71 +91,72 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-4 control-label">League</label>
+                        <label class="col-md-4 control-label">Competition</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="vm.currRow.league_id">
-                                <option ng-repeat="g in vm.leagues" value="{{g.id}}">{{g.competition_name}} - {{vm.seasons[g.season]}} ({{g.start_date.substr(0, 4)}})</option>
+                            <select class="form-control" ng-change="vm.changeCompetition()" ng-model="vm.currRow.competition_id">
+                                <option ng-repeat="c in vm.competitions" value="{{c.id}}">{{c.competition_name}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Home Club/Team</label>
+                        <label class="col-md-4 control-label">Season</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="vm.currRow.home_team_id">
-                                <option ng-repeat="t in vm.homeTeams" value="{{t.id}}">{{t.club_name}} / {{t.team_name}}</option>
+                            <select class="form-control" ng-model="vm.currRow.season">
+                                <option ng-repeat="s in vm.seasons" value="{{$index}}">{{s}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Away Club/Team</label>
+                        <label class="col-md-4 control-label">Group Level</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="vm.currRow.away_team_id">
-                                <option ng-repeat="t in vm.awayTeams" value="{{t.id}}">{{t.club_name}} / {{t.team_name}}</option>
+                            <select class="form-control" ng-model="vm.currRow.group_level">
+                                <option ng-repeat="g in vm.currGroupLevels" value="{{g}}">{{vm.groupLevels[g]}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Date of Game</label>
+                        <label class="col-md-4 control-label">Start Date</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Date of Game" type="text" ng-model="vm.currRow.game_date">
+                            <input class="form-control" placeholder="Start Date" type="text" ng-model="vm.currRow.start_date">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Start Time</label>
+                        <label class="col-md-4 control-label">Status</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Start Time" type="text" ng-model="vm.currRow.start_time">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Arrival Time</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Arrival Time" type="text" ng-model="vm.currRow.arrival_time">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Duration of Game</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Duration of Game" type="text" ng-model="vm.currRow.duration">
-                        </div>
-                    </div>
-                    <!--<div class="form-group">
-                        <label class="col-md-4 control-label">Opponent Team</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Opponent Team" type="text" ng-model="vm.currRow.opp_team_id">
-                        </div>
-                    </div>-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Location</label>
-                        <div class="col-md-8">
-                            <select class="form-control" ng-model="vm.currRow.field_id">
-                                <option ng-repeat="f in vm.fields" value="{{f.id}}">{{f.field_name}}</option>
+                            <select class="form-control" ng-model="vm.currRow.status">
+                                <option value="0">Applid</option>
+                                <option value="1">Accepted</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Uniform</label>
+                        <label class="col-md-4 control-label">Applied Date</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Uniform" type="text" ng-model="vm.currRow.uniform">
+                            <input class="form-control" placeholder="Applied Date" type="text" ng-model="vm.currRow.applied_date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Accepted</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.accepted_flag">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Paid</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.paid_flag">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Roster</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Roster" type="text" ng-model="vm.currRow.roster">
                         </div>
                     </div>
                 </form>

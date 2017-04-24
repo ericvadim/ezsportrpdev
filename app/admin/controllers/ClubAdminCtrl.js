@@ -1,16 +1,14 @@
 'use strict';
 
-angular.module('app.admin').controller('ManagersController', function ($scope, ServerURL, $http, $filter) {
+angular.module('app.admin').controller('ClubAdminController', function ($scope, ServerURL, $http, $filter) {
     var vm = this;
     vm.clubs = [];
-    vm.teams = [];
     vm.persons = [];
     vm.personIds = [];
     vm.prePersonIds = [];
     vm.tableData = [];
     vm.currRow = {};
     vm.currClubId = 0;
-    vm.currTeamId = 0;
     vm.loading = true;
 
     vm.getClubs = function () {
@@ -18,22 +16,11 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
             vm.clubs = response.data;
             if (vm.clubs.length) {
                 vm.currClubId = vm.clubs[0]['id'];
-                vm.getTeams();
-            }
-        });
-    };
-    vm.getClubs();
-
-    vm.getTeams = function () {
-        vm.loading = true;
-        $http.get(ServerURL + "teams/get?club_id=" + vm.currClubId).then(function (response) {
-            vm.teams = response.data;
-            if (vm.teams.length) {
-                vm.currTeamId = vm.teams[0].id;
                 vm.getData();
             }
         });
     };
+    vm.getClubs();
 
     vm.getPersons = function () {
         $http.get(ServerURL + "persons/get").then(function (response) {
@@ -44,7 +31,7 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
 
     vm.getData = function () {
         vm.loading = true;
-        $http.get(ServerURL + "managers/get?team_id=" + vm.currTeamId).then(function (response) {
+        $http.get(ServerURL + "club_admin/get?club_id=" + vm.currClubId).then(function (response) {
             vm.prePersonIds = vm.personIds = [];
             vm.tableData = response.data;
             for (var t in vm.tableData) {
@@ -60,13 +47,14 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
     vm.save = function () {
         var data = {
             id: vm.currRow['id'] || '',
-            team_id: vm.currTeamId,
-            person_id: vm.currRow['person_id']
+            club_id: vm.currClubId,
+            person_id: vm.currRow['person_id'],
+            grade: vm.currRow['grade']
         };
         vm.loading = true;
         $http({
             method: 'POST',
-            url: ServerURL + "managers/save",
+            url: ServerURL + "club_admin/save",
             headers: {'Content-Type': 'multipart/form-data'},
             data: data
         }).then(function mySucces(/*response*/) {
@@ -78,7 +66,7 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             vm.loading = true;
-            $http.get(ServerURL + "managers/delete?id=" + rowId).then(function (response) {
+            $http.get(ServerURL + "club_admin/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();
                 } else {
@@ -133,7 +121,7 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
         var fd = new FormData();
         fd.append("file", files[0]);
 
-        $http.post(ServerURL + "managers/getjsonfromfile", fd, {
+        $http.post(ServerURL + "club_admin/getjsonfromfile", fd, {
             withCredentials: false,
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
@@ -159,7 +147,7 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
             vm.loadingImportData = true;
             $http({
                 method: 'POST',
-                url: ServerURL + "managers/import?team_id=" + vm.currTeamId,
+                url: ServerURL + "club_admin/import?club_id=" + vm.currClubId,
                 headers: {'Content-Type': 'multipart/form-data'},
                 data: data
             }).then(function mySucces(/*response*/) {

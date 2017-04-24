@@ -1,7 +1,7 @@
 <loading visible="vm.loading"></loading>
 <div id="content">
     <div class="row">
-        <big-breadcrumbs items="['Team Managers']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <big-breadcrumbs items="['Coach Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
     <div class="row margin-bottom-10 form-horizontal">
         <div class="col-xs-12 col-sm-4 col-md-3">
@@ -30,7 +30,7 @@
                 <div jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Team Managers</h2>
+                        <h2>Coach Management</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
@@ -42,26 +42,30 @@
                                         <th>Photo</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
-                                        <th>Short Name</th>
+                                        <th>Birthday</th>
+                                        <th>Home Phone</th>
+                                        <th>Cell Phone</th>
                                         <th>Email</th>
-                                        <th>Phone Number(cell)</th>
-                                        <th>Phone Number(home)</th>
-                                        <!--<th>Manage</th>-->
+                                        <th>License</th>
+                                        <th>Coach Type</th>
+                                        <th>Manage</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="row in vm.tableData">
+                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
                                         <td><img class="max-width-50" ng-src="{{vm.getPersonById(row.person_id)['image']}}"></td>
                                         <td>{{vm.getPersonById(row.person_id)['first_name']}}</td>
                                         <td>{{vm.getPersonById(row.person_id)['last_name']}}</td>
-                                        <td>{{vm.getPersonById(row.person_id)['short_name']}}</td>
-                                        <td>{{vm.getPersonById(row.person_id)['email']}}</td>
-                                        <td>{{vm.getPersonById(row.person_id)['cell_phone']}}</td>
+                                        <td>{{vm.getPersonById(row.person_id)['birthday']}}</td>
                                         <td>{{vm.getPersonById(row.person_id)['home_phone']}}</td>
-                                        <!--<td class="text-center controls-td">
+                                        <td>{{vm.getPersonById(row.person_id)['cell_phone']}}</td>
+                                        <td>{{vm.getPersonById(row.person_id)['email']}}</td>
+                                        <td>{{vm.getLicenseName(row.license_id)}}</td>
+                                        <td>{{vm.coachTypes[row.coach_type]}}</td>
+                                        <td class="text-center controls-td">
                                             <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a>
-                                        </td>-->
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -117,6 +121,22 @@
                         <label class="col-md-4 control-label">Birthday:</label>
                         <div class="col-md-8">
                             <div class="form-control border-white">{{vm.getPersonById(vm.currRow.person_id)['birthday']}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">License:</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.license_id">
+                                <option ng-repeat="license in vm.licenses" value="{{license.id}}">{{license.license_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Coach Type:</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="vm.currRow.coach_type">
+                                <option ng-repeat="coach in vm.coachTypes" value="{{$index}}">{{coach}}</option>
+                            </select>
                         </div>
                     </div>
                 </form>
