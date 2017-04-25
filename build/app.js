@@ -2391,7 +2391,7 @@ Array.prototype.diff = function(a) {
                 email: email,
                 password: password
             };
-            var url = ServerURL + '/users/login';
+            var url = ServerURL + 'users/login';
             var promise = $http.post(url, params), deferred = $q.defer();
             promise.then(function (res) {
                 if (isDebug) console.log(res);
@@ -2404,7 +2404,7 @@ Array.prototype.diff = function(a) {
         }
 
         function Register(params) {
-            var url = ServerURL + '/users/register';
+            var url = ServerURL + 'users/register';
             var promise = $http.post(url, params), deferred = $q.defer();
             promise.then(function (res) {
                 if (isDebug) console.log(res);
@@ -2417,7 +2417,7 @@ Array.prototype.diff = function(a) {
         }
 
         function forgotPassword(email) {
-            var url = ServerURL + '/users/resetPassword?email' + email;
+            var url = ServerURL + 'users/resetPassword?email' + email;
             var promise = $http.get(url), deferred = $q.defer();
             promise.then(function (res) {
                 if (isDebug) console.log(res);
