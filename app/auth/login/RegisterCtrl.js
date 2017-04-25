@@ -25,6 +25,5 @@ angular.module('app.auth').controller('RegisterCtrl',
                     console.log(err);
                 });
         };
-
     }
 );

@@ -84,6 +84,28 @@ angular.module('app.auth', [
             }
         }
     })
+    .state('userActivate', {
+        url: '/userActivate/:token',
+        views: {
+            root: {
+                templateUrl: 'app/auth/views/activate.html',
+                controller: 'UserActivateCtrl',
+                controllerAs: 'vm'
+            }
+        },
+        data: {
+            title: 'Activate',
+            htmlId: 'extr-page'
+        },
+        resolve: {
+            srcipts: function(lazyScript){
+                return lazyScript.register([
+                    'build/vendor.ui.js'
+                ])
+
+            }
+        }
+    })
 
 
     .state('lock', {

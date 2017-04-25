@@ -31,9 +31,9 @@ if (!function_exists('send_email')) {
 if (!function_exists('base_frontend_url')) {
     function base_frontend_url($uri = '')
     {
-        $baseUrl = 'http://dev.qwirepitch.com/website/dist/#/';
+        $baseUrl = 'http://ezsportrp.info';
         if (strpos($_SERVER['SERVER_NAME'], 'localhost') !== false) {
-            $baseUrl = 'http://localhost:3000/#/';
+            $baseUrl = 'http://localhost:8888/#/';
         }
         return $baseUrl . $uri;
     }

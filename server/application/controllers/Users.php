@@ -242,7 +242,7 @@ class Users extends Base_Controller
             $userIDKey = $this->encryptor('encrypt', $userID);
             $data_email = array(
                 'name' => $data['first_name'] . ' ' . $data['last_name'],
-                'activation_link' => base_frontend_url('user/activate/' . $userIDKey),
+                'activation_link' => base_frontend_url('userActivate/' . $userIDKey),
                 'userName' => $data['username'],
                 'password' => $password
             );
@@ -303,20 +303,6 @@ class Users extends Base_Controller
 
     }
 
-    public function totalspace_get()
-    {
-        if (!$this->protect()) {
-            return;
-        }
-
-        $usedSize = $this->User_model->getUsedSpace($this->getCurrentUser()->userID);
-
-        $this->set_response([
-            'total' => 80 * 1024 * 1024 * 1024,
-            'used' => $usedSize * 1
-        ], 200);
-
-    }
 
     protected function get_random_string($length = 10)
     {

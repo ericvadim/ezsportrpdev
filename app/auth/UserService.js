@@ -60,6 +60,22 @@
             });
             return deferred.promise;
         }
+
+        function Activate(token) {
+            var params = {
+                token: token
+            };
+            var url = baseUrl + '/users/activate';
+            var promise = $http.post(url, params), deferred = $q.defer();
+            promise.then(function (res) {
+                if (isDebug) console.log(res);
+                deferred.resolve(res);
+            }, function (err) {
+                if (isDebug) console.error(err);
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        }
     }
 
 })();
