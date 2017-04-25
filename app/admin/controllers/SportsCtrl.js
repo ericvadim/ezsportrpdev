@@ -1,15 +1,17 @@
 'use strict';
 
-angular.module('app.admin').controller('SportsController', function (ServerURL, $http, $filter) {
+angular.module('app.admin').controller('SportsController', function ($scope, ServerURL, $http, $filter) {
     var vm = this;
-    vm.tableData = [];
+    $scope.tableData = [];
+    $scope.rowCollection = [];
     vm.currRow = {};
     vm.loading = true;
 
     vm.getData = function () {
         vm.loading = true;
         $http.get(ServerURL + "sports/get").then(function (response) {
-            vm.tableData = response.data;
+            $scope.tableData = response.data;
+            $scope.rowCollection = $scope.tableData;
             vm.loading = false;
         });
     };

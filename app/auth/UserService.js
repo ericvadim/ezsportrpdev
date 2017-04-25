@@ -1,20 +1,19 @@
 (function () {
     'use strict';
 
-    var baseUrl = 'http://192.168.5.115/ezsportrpdev/server';
     var isDebug = true;
 
     angular
         .module('app.auth')
         .factory('UserService', UserService);
 
-    UserService.$inject = ['$http', '$q'];
-    function UserService($http, $q) {
+    UserService.$inject = ['$http', '$q', 'ServerURL'];
+    function UserService($http, $q, ServerURL) {
         var service = {};
 
         service.Login = Login;
         service.Register = Register;
-        service.forgotPasswo = forgotPassword;
+        service.forgotPassword = forgotPassword;
 
         return service;
 
@@ -23,7 +22,7 @@
                 email: email,
                 password: password
             };
-            var url = baseUrl + '/users/login';
+            var url = ServerURL + 'users/login';
             var promise = $http.post(url, params), deferred = $q.defer();
             promise.then(function (res) {
                 if (isDebug) console.log(res);
@@ -36,7 +35,7 @@
         }
 
         function Register(params) {
-            var url = baseUrl + '/users/register';
+            var url = ServerURL + 'users/register';
             var promise = $http.post(url, params), deferred = $q.defer();
             promise.then(function (res) {
                 if (isDebug) console.log(res);
@@ -49,7 +48,7 @@
         }
 
         function forgotPassword(email) {
-            var url = baseUrl + '/users/resetPassword?email' + email;
+            var url = ServerURL + 'users/resetPassword?email' + email;
             var promise = $http.get(url), deferred = $q.defer();
             promise.then(function (res) {
                 if (isDebug) console.log(res);
