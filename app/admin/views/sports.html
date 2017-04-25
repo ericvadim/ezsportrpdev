@@ -16,8 +16,32 @@
                         <h2>Sport Management</h2>
                     </header>
                     <div>
-                        <div class="widget-body no-padding">
+                        <div class="widget-body no-padding">{{tableData}}<br>{{rowCollection}}
                             <div class="table-responsive">
+                                <table st-table="tableData" st-safe-src="rowCollection" st-select-mode="multiple" class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>
+                                    </tr>
+                                    <tr>
+                                        <th>No</th>
+                                        <th st-sort="sport_name">Sport Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="row in tableData" ng-dblclick="vm.openModal(row.id)">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td class="text-center controls-td">
+                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
+                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-responsive hide">
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>

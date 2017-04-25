@@ -1680,279 +1680,19 @@ angular.module('app.misc').config(function ($stateProvider) {
 "use strict";
 
 
-angular.module('app.admin', ['ui.router'])
+angular.module('app.mobile', ['ui.router'])
     .config(function ($stateProvider) {
 
         $stateProvider
-            .state('app.admin', {
-                url: '/admin',
+            .state('app.mobile', {
+                url: '/dashboard',
                 data: {
                     title: 'Dashboard for administrator'
                 },
                 views: {
                     "content@app": {
-                        templateUrl: 'app/admin/views/dashboard.html',
+                        templateUrl: 'app/mobile/views/dashboard.html',
                         controller: 'DashboardController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.referees', {
-                url: '/referees',
-                data: {
-                    title: 'Referee Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/referees.html',
-                        controller: 'RefereesController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.clubadmin', {
-                url: '/club-admin',
-                data: {
-                    title: 'Club Administrator Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/club-admin.html',
-                        controller: 'ClubAdminController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.refereeGrades', {
-                url: '/referee-grades',
-                data: {
-                    title: 'Referee Grades Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/referee-grades.html',
-                        controller: 'RefereeGradesController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.licenses', {
-                url: '/licenses',
-                data: {
-                    title: 'License Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/licenses.html',
-                        controller: 'LicensesController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.sports', {
-                url: '/sports',
-                data: {
-                    title: 'Sport Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/sports.html',
-                        controller: 'SportsController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.fields', {
-                url: '/fields',
-                data: {
-                    title: 'Field Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/fields.html',
-                        controller: 'FieldsController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.clubs', {
-                url: '/clubs',
-                data: {
-                    title: 'Club Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/clubs.html',
-                        controller: 'ClubsController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.teams', {
-                url: '/teams',
-                data: {
-                    title: 'Team Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/teams.html',
-                        controller: 'TeamsController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.players', {
-                url: '/players',
-                data: {
-                    title: 'Player Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/players.html',
-                        controller: 'PlayersController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.positions', {
-                url: '/positions',
-                data: {
-                    title: 'Player Positions'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/positions.html',
-                        controller: 'PositionsController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.users', {
-                url: '/users',
-                data: {
-                    title: 'User Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/users.html',
-                        controller: 'UsersController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.coaches', {
-                url: '/coaches',
-                data: {
-                    title: 'Coach Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/coaches.html',
-                        controller: 'CoachesController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.managers', {
-                url: '/managers',
-                data: {
-                    title: 'Team Managers'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/managers.html',
-                        controller: 'ManagersController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.competitions', {
-                url: '/competitions',
-                data: {
-                    title: 'Competitions'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/competitions.html',
-                        controller: 'CompetitionsController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.leagues', {
-                url: '/leagues',
-                data: {
-                    title: 'Leagues'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/leagues.html',
-                        controller: 'LeaguesController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.gameSchedules', {
-                url: '/game_schedules',
-                data: {
-                    title: 'Game Schedules'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/game-schedules.html',
-                        controller: 'GameSchedulesController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.recordItems', {
-                url: '/record-items',
-                data: {
-                    title: 'Record Items'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/record-items.html',
-                        controller: 'RecordItemsController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.gameRecords', {
-                url: '/game-records',
-                data: {
-                    title: 'Game Records'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/game-records.html',
-                        controller: 'GameRecordsController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.refereeRecords', {
-                url: '/referee-records',
-                data: {
-                    title: 'Referee Records'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/referee-records.html',
-                        controller: 'RefereeRecordsController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('app.admin.persons', {
-                url: '/persons',
-                data: {
-                    title: 'Person Management'
-                },
-                views: {
-                    "content@app": {
-                        templateUrl: 'app/admin/views/persons.html',
-                        controller: 'PersonsController',
                         controllerAs: 'vm'
                     }
                 }
@@ -2301,6 +2041,44 @@ angular.module('app.chat', ['ngSanitize'])
 
     angular.module('SmartAdmin.UI', []);
 })();
+(function () {
+    'use strict';
+
+    angular
+        .module('app')
+        .filter('propsFilter', function () {
+            return function (items, props) {
+                var out = [];
+
+                if (angular.isArray(items)) {
+                    var keys = Object.keys(props);
+
+                    items.forEach(function (item) {
+                        var itemMatches = false;
+
+                        for (var i = 0; i < keys.length; i++) {
+                            var prop = keys[i];
+                            var text = props[prop].toLowerCase();
+                            if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+                                itemMatches = true;
+                                break;
+                            }
+                        }
+
+                        if (itemMatches) {
+                            out.push(item);
+                        }
+                    });
+                } else {
+                    // Let the output be the input untouched
+                    out = items;
+                }
+
+                return out;
+            };
+        });
+
+})();
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("app/dashboard/live-feeds.tpl.html","<div jarvis-widget id=\"live-feeds-widget\" data-widget-togglebutton=\"false\" data-widget-editbutton=\"false\"\n     data-widget-fullscreenbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\">\n<!-- widget options:\nusage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\ndata-widget-colorbutton=\"false\"\ndata-widget-editbutton=\"false\"\ndata-widget-togglebutton=\"false\"\ndata-widget-deletebutton=\"false\"\ndata-widget-fullscreenbutton=\"false\"\ndata-widget-custombutton=\"false\"\ndata-widget-collapsed=\"true\"\ndata-widget-sortable=\"false\"\n\n-->\n<header>\n    <span class=\"widget-icon\"> <i class=\"glyphicon glyphicon-stats txt-color-darken\"></i> </span>\n\n    <h2>Live Feeds </h2>\n\n    <ul class=\"nav nav-tabs pull-right in\" id=\"myTab\">\n        <li class=\"active\">\n            <a data-toggle=\"tab\" href=\"#s1\"><i class=\"fa fa-clock-o\"></i> <span class=\"hidden-mobile hidden-tablet\">Live Stats</span></a>\n        </li>\n\n        <li>\n            <a data-toggle=\"tab\" href=\"#s2\"><i class=\"fa fa-facebook\"></i> <span class=\"hidden-mobile hidden-tablet\">Social Network</span></a>\n        </li>\n\n        <li>\n            <a data-toggle=\"tab\" href=\"#s3\"><i class=\"fa fa-dollar\"></i> <span class=\"hidden-mobile hidden-tablet\">Revenue</span></a>\n        </li>\n    </ul>\n\n</header>\n\n<!-- widget div-->\n<div class=\"no-padding\">\n\n    <div class=\"widget-body\">\n        <!-- content -->\n        <div id=\"myTabContent\" class=\"tab-content\">\n            <div class=\"tab-pane fade active in padding-10 no-padding-bottom\" id=\"s1\">\n                <div class=\"row no-space\">\n                    <div class=\"col-xs-12 col-sm-12 col-md-8 col-lg-8\">\n														<span class=\"demo-liveupdate-1\"> <span\n                                                                class=\"onoffswitch-title\">Live switch</span> <span\n                                                                class=\"onoffswitch\">\n																<input type=\"checkbox\" name=\"start_interval\" ng-model=\"autoUpdate\"\n                                                                       class=\"onoffswitch-checkbox\" id=\"start_interval\">\n																<label class=\"onoffswitch-label\" for=\"start_interval\">\n                                                                    <span class=\"onoffswitch-inner\"\n                                                                          data-swchon-text=\"ON\"\n                                                                          data-swchoff-text=\"OFF\"></span>\n                                                                    <span class=\"onoffswitch-switch\"></span>\n                                                                </label> </span> </span>\n\n                        <div id=\"updating-chart\" class=\"chart-large txt-color-blue\" flot-basic flot-data=\"liveStats\" flot-options=\"liveStatsOptions\"></div>\n\n                    </div>\n                    <div class=\"col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats\">\n\n                        <div class=\"row\">\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> My Tasks <span\n                                    class=\"pull-right\">130/200</span> </span>\n\n                                <div class=\"progress\">\n                                    <div class=\"progress-bar bg-color-blueDark\" style=\"width: 65%;\"></div>\n                                </div>\n                            </div>\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Transfered <span\n                                    class=\"pull-right\">440 GB</span> </span>\n\n                                <div class=\"progress\">\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 34%;\"></div>\n                                </div>\n                            </div>\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Bugs Squashed<span\n                                    class=\"pull-right\">77%</span> </span>\n\n                                <div class=\"progress\">\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 77%;\"></div>\n                                </div>\n                            </div>\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> User Testing <span\n                                    class=\"pull-right\">7 Days</span> </span>\n\n                                <div class=\"progress\">\n                                    <div class=\"progress-bar bg-color-greenLight\" style=\"width: 84%;\"></div>\n                                </div>\n                            </div>\n\n                            <span class=\"show-stat-buttons\"> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a\n                                    href-void class=\"btn btn-default btn-block hidden-xs\">Generate PDF</a> </span> <span\n                                    class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href-void\n                                                                                     class=\"btn btn-default btn-block hidden-xs\">Report\n                                a bug</a> </span> </span>\n\n                        </div>\n\n                    </div>\n                </div>\n\n                <div class=\"show-stat-microcharts\" data-sparkline-container data-easy-pie-chart-container>\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n\n                        <div class=\"easy-pie-chart txt-color-orangeDark\" data-percent=\"33\" data-pie-size=\"50\">\n                            <span class=\"percent percent-sign\">35</span>\n                        </div>\n                        <span class=\"easy-pie-title\"> Server Load <i class=\"fa fa-caret-up icon-color-bad\"></i> </span>\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\n                            <li>\n                                <span class=\"label bg-color-greenLight\"><i class=\"fa fa-caret-up\"></i> 97%</span>\n                            </li>\n                            <li>\n                                <span class=\"label bg-color-blueLight\"><i class=\"fa fa-caret-down\"></i> 44%</span>\n                            </li>\n                        </ul>\n                        <div class=\"sparkline txt-color-greenLight hidden-sm hidden-md pull-right\"\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\n                             data-fill-color=\"transparent\">\n                            130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247\n                        </div>\n                    </div>\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                        <div class=\"easy-pie-chart txt-color-greenLight\" data-percent=\"78.9\" data-pie-size=\"50\">\n                            <span class=\"percent percent-sign\">78.9 </span>\n                        </div>\n                        <span class=\"easy-pie-title\"> Disk Space <i class=\"fa fa-caret-down icon-color-good\"></i></span>\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\n                            <li>\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 76%</span>\n                            </li>\n                            <li>\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 3%</span>\n                            </li>\n                        </ul>\n                        <div class=\"sparkline txt-color-blue hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                            257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247\n                        </div>\n                    </div>\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                        <div class=\"easy-pie-chart txt-color-blue\" data-percent=\"23\" data-pie-size=\"50\">\n                            <span class=\"percent percent-sign\">23 </span>\n                        </div>\n                        <span class=\"easy-pie-title\"> Transfered <i class=\"fa fa-caret-up icon-color-good\"></i></span>\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\n                            <li>\n                                <span class=\"label bg-color-darken\">10GB</span>\n                            </li>\n                            <li>\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 10%</span>\n                            </li>\n                        </ul>\n                        <div class=\"sparkline txt-color-darken hidden-sm hidden-md pull-right\"\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\n                             data-fill-color=\"transparent\">\n                            200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270\n                        </div>\n                    </div>\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                        <div class=\"easy-pie-chart txt-color-darken\" data-percent=\"36\" data-pie-size=\"50\">\n                            <span class=\"percent degree-sign\">36 <i class=\"fa fa-caret-up\"></i></span>\n                        </div>\n                        <span class=\"easy-pie-title\"> Temperature <i\n                                class=\"fa fa-caret-down icon-color-good\"></i></span>\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\n                            <li>\n                                <span class=\"label bg-color-red\"><i class=\"fa fa-caret-up\"></i> 124</span>\n                            </li>\n                            <li>\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 40 F</span>\n                            </li>\n                        </ul>\n                        <div class=\"sparkline txt-color-red hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                            2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577, 2000, 2100, 3000\n                        </div>\n                    </div>\n                </div>\n\n            </div>\n            <!-- end s1 tab pane -->\n\n            <div class=\"tab-pane fade\" id=\"s2\">\n                <div class=\"widget-body-toolbar bg-color-white\">\n\n                    <form class=\"form-inline\" role=\"form\">\n\n                        <div class=\"form-group\">\n                            <label class=\"sr-only\" for=\"s123\">Show From</label>\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s123\" placeholder=\"Show From\">\n                        </div>\n                        <div class=\"form-group\">\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s124\" placeholder=\"To\">\n                        </div>\n\n                        <div class=\"btn-group hidden-phone pull-right\">\n                            <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\n                                    class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\n                            <ul class=\"dropdown-menu pull-right\">\n                                <li>\n                                    <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\n                                </li>\n                                <li>\n                                    <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\n                                </li>\n                            </ul>\n                        </div>\n\n                    </form>\n\n                </div>\n                <div class=\"padding-10\">\n                    <div id=\"statsChart\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"statsData\" flot-options=\"statsDisplayOptions\"></div>\n                </div>\n\n            </div>\n            <!-- end s2 tab pane -->\n\n            <div class=\"tab-pane fade\" id=\"s3\">\n\n                <div class=\"widget-body-toolbar bg-color-white smart-form\" id=\"rev-toggles\">\n\n                    <div class=\"inline-group\">\n\n                        <label for=\"gra-0\" class=\"checkbox\">\n                            <input type=\"checkbox\" id=\"gra-0\" ng-model=\"targetsShow\">\n                            <i></i> Target </label>\n                        <label for=\"gra-1\" class=\"checkbox\">\n                            <input type=\"checkbox\" id=\"gra-1\" ng-model=\"actualsShow\">\n                            <i></i> Actual </label>\n                        <label for=\"gra-2\" class=\"checkbox\">\n                            <input type=\"checkbox\" id=\"gra-2\" ng-model=\"signupsShow\">\n                            <i></i> Signups </label>\n                    </div>\n\n                    <div class=\"btn-group hidden-phone pull-right\">\n                        <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\n                                class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\n                        <ul class=\"dropdown-menu pull-right\">\n                            <li>\n                                <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\n                            </li>\n                            <li>\n                                <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\n                            </li>\n                        </ul>\n                    </div>\n\n                </div>\n\n                <div class=\"padding-10\">\n                    <div id=\"flotcontainer\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"revenewData\" flot-options=\"revenewDisplayOptions\" ></div>\n                </div>\n            </div>\n            <!-- end s3 tab pane -->\n        </div>\n\n        <!-- end content -->\n    </div>\n\n</div>\n<!-- end widget div -->\n</div>\n");
 $templateCache.put("app/layout/layout.tpl.html","<!-- HEADER -->\n<div data-smart-include=\"app/layout/partials/header.tpl.html\" class=\"placeholder-header\"></div>\n<!-- END HEADER -->\n\n\n<!-- Left panel : Navigation area -->\n<!-- Note: This width of the aside area can be adjusted through LESS variables -->\n<div data-smart-include=\"app/layout/partials/navigation.tpl.html\" class=\"placeholder-left-panel\"></div>\n\n<!-- END NAVIGATION -->\n\n<!-- MAIN PANEL -->\n<div id=\"main\" role=\"main\">\n\n    <!-- RIBBON -->\n    <div id=\"ribbon\">\n\n        <!-- breadcrumb -->\n        <state-breadcrumbs></state-breadcrumbs>\n        <!-- end breadcrumb -->\n\n\n    </div>\n    <!-- END RIBBON -->\n\n\n    <div data-smart-router-animation-wrap=\"content content@app\" data-wrap-for=\"#content\">\n        <div data-ui-view=\"content\" data-autoscroll=\"false\"></div>\n    </div>\n\n</div>\n<!-- END MAIN PANEL -->\n\n<!-- PAGE FOOTER -->\n<div data-smart-include=\"app/layout/partials/footer.tpl.html\"></div>\n\n<div data-smart-include=\"app/layout/shortcut/shortcut.tpl.html\"></div>\n\n<!-- END PAGE FOOTER -->\n\n\n");
 $templateCache.put("app/auth/directives/login-info.tpl.html","<div class=\"login-info ng-cloak\">\n    <span> <!-- User image size is adjusted inside CSS, it should stay as it -->\n        <a  href=\"\" toggle-shortcut>\n            <img ng-src=\"{{user.picture}}\" alt=\"me\" class=\"online\">\n                <span>{{user.username}}\n                </span>\n            <i class=\"fa fa-angle-down\"></i>\n        </a>\n     </span>\n</div>");
@@ -2588,44 +2366,6 @@ $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<d
         .constant('CoachTypes', ['Head Coach', 'Assistance Coach', 'Trainer', 'Goal Keeper Coach'])
         .constant('SeasonList', ['Spring', 'Summer', 'Winter'])
         .constant('GroupLevels', {1: 'Bronze', 2: 'Silver', 3: 'Gold', 4: 'State', 5: 'State Premier', 6: 'National Premier'})
-})();
-(function () {
-    'use strict';
-
-    angular
-        .module('app')
-        .filter('propsFilter', function () {
-            return function (items, props) {
-                var out = [];
-
-                if (angular.isArray(items)) {
-                    var keys = Object.keys(props);
-
-                    items.forEach(function (item) {
-                        var itemMatches = false;
-
-                        for (var i = 0; i < keys.length; i++) {
-                            var prop = keys[i];
-                            var text = props[prop].toLowerCase();
-                            if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
-                                itemMatches = true;
-                                break;
-                            }
-                        }
-
-                        if (itemMatches) {
-                            out.push(item);
-                        }
-                    });
-                } else {
-                    // Let the output be the input untouched
-                    out = items;
-                }
-
-                return out;
-            };
-        });
-
 })();
 Array.prototype.diff = function(a) {
     return this.filter(function(i) {return a.indexOf(i) < 0;});
@@ -5426,16 +5166,18 @@ angular.module('app.admin').controller('RefereesController', function ($scope, S
 });
 'use strict';
 
-angular.module('app.admin').controller('SportsController', function (ServerURL, $http, $filter) {
+angular.module('app.admin').controller('SportsController', function ($scope, ServerURL, $http, $filter) {
     var vm = this;
-    vm.tableData = [];
+    $scope.tableData = [];
+    $scope.rowCollection = [];
     vm.currRow = {};
     vm.loading = true;
 
     vm.getData = function () {
         vm.loading = true;
         $http.get(ServerURL + "sports/get").then(function (response) {
-            vm.tableData = response.data;
+            $scope.tableData = response.data;
+            $scope.rowCollection = $scope.tableData;
             vm.loading = false;
         });
     };
@@ -5681,6 +5423,7 @@ angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, 
         "order": [[1, 'asc']]
     }
 });
+/*
 "use strict";
 
 angular.module('app.auth').directive('loginInfo', function(User){
@@ -5695,6 +5438,7 @@ angular.module('app.auth').directive('loginInfo', function(User){
         }
     }
 })
+*/
 
 "use strict";
 
@@ -7114,65 +6858,8 @@ angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CON
 });
 'use strict';
 
-angular.module('app.admin').controller('SportsController', function (ServerURL, $http, $filter) {
-    var vm = this;
-    vm.tableData = [];
-    vm.currRow = {};
-    vm.loading = true;
+angular.module('app.mobile').controller('DashboardController', function (ServerURL, $http, $filter) {
 
-    vm.getData = function () {
-        vm.loading = true;
-        $http.get(ServerURL + "sports/get").then(function (response) {
-            vm.tableData = response.data;
-            vm.loading = false;
-        });
-    };
-    vm.getData();
-
-    vm.save = function () {
-        var data = vm.currRow;
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "sports/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
-            $('#myModal').modal('hide');
-        });
-    };
-
-    vm.openModal = function (rowId) {
-        vm.editRow(rowId);
-        $('#myModal').modal('show');
-    };
-
-    vm.addNew = function () {
-        vm.currRow = {
-            id: 0,
-            sport_name: ''
-        };
-    };
-
-    vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
-    };
-
-    vm.deleteRow = function (rowId) {
-        if (confirm('Are you sure want to delete this?')) {
-            vm.loading = true;
-            $http.get(ServerURL + "sports/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
-            });
-        }
-    };
-    $('#myModal').on('hidden.bs.modal', function () {
-        vm.getData();
-    });
 });
 /**
  * Created by griga on 2/9/16.
