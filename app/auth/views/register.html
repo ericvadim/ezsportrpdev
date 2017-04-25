@@ -8,6 +8,7 @@
         <span class="hidden-mobile hiddex-xs">Already registered?</span> <a ui-sref="login" class="btn btn-danger">Sign In</a> </span>
 
 </header>
+<loading visible="vm.loading"></loading>
 <div id="main" role="main" class="animated fadeInDown">
 
     <!-- MAIN CONTENT -->
@@ -17,33 +18,27 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
                 <div class="well no-padding">
 
-                    <form action="#/login" id="smart-form-register" class="smart-form client-form">
+                    <form name="vm.form.signup" ng-submit="vm.registerAction()" class="smart-form client-form" onsubmit="return false;">
                         <header>
                             Registration is FREE*
                         </header>
 
                         <fieldset>
                             <section>
-                                <label class="input"> <i class="icon-append fa fa-user"></i>
-                                    <input type="text" name="username" placeholder="Username">
-                                    <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
-                            </section>
-
-                            <section>
-                                <label class="input"> <i class="icon-append fa fa-envelope"></i>
-                                    <input type="email" name="email" placeholder="Email address">
+                                <label class="input" ng-class="{ 'state-error' : vm.form.signup.email.$invalid && !vm.form.signup.email.$pristine }"> <i class="icon-append fa fa-envelope"></i>
+                                    <input type="email" ng-model="vm.email" name="email" class="input state-error" placeholder="Email address" required>
                                     <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                             </section>
 
                             <section>
-                                <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                    <input type="password" name="password" placeholder="Password" id="password">
+                                <label class="input" ng-class="{ 'state-error' : vm.form.signup.password.$invalid && !vm.form.signup.password.$pristine }"> <i class="icon-append fa fa-lock"></i>
+                                    <input type="password" name="password" placeholder="Password" id="password" ng-model="vm.password" required>
                                     <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
                             </section>
 
                             <section>
-                                <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                    <input type="password" name="passwordConfirm" placeholder="Confirm password">
+                                <label class="input" ng-class="{ 'state-error' : (vm.form.signup.passwordConfirm.$invalid || vm.passwordConfirm != vm.password) && !vm.form.signup.passwordConfirm.$pristine}"> <i class="icon-append fa fa-lock"></i>
+                                    <input type="password" name="passwordConfirm" ng-model="vm.passwordConfirm" placeholder="Confirm password" required>
                                     <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
                             </section>
                         </fieldset>
@@ -52,12 +47,12 @@
                             <div class="row">
                                 <section class="col col-6">
                                     <label class="input">
-                                        <input type="text" name="firstname" placeholder="First name">
+                                        <input type="text" name="firstname" placeholder="First name" ng-model="vm.first_name">
                                     </label>
                                 </section>
                                 <section class="col col-6">
                                     <label class="input">
-                                        <input type="text" name="lastname" placeholder="Last name">
+                                        <input type="text" name="lastname" placeholder="Last name" ng-model="vm.last_name">
                                     </label>
                                 </section>
                             </div>
@@ -65,7 +60,7 @@
                             <div class="row">
                                 <section class="col col-6">
                                     <label class="select">
-                                        <select name="gender">
+                                        <select name="gender" ng-model="vm.gender">
                                             <option value="0" selected="" disabled="">Gender</option>
                                             <option value="1">Male</option>
                                             <option value="2">Female</option>
@@ -89,7 +84,7 @@
                             </section>
                         </fieldset>
                         <footer>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" ng-click="vm.register()">
                                 Register
                             </button>
                         </footer>

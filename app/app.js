@@ -50,10 +50,10 @@ angular.module('app', [
             var errorCounter = 0;
 
             function notifyError(rejection) {
-                console.log(rejection);
+                var msgText = angular.isUndefined(rejection.data.message) ? rejection.data : rejection.data.message;
                 $.bigBox({
                     title: rejection.status + ' ' + rejection.statusText,
-                    content: rejection.data,
+                    content: msgText,
                     color: "#C46A69",
                     icon: "fa fa-warning shake animated",
                     number: ++errorCounter,

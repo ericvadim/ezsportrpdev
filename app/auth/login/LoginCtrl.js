@@ -16,7 +16,7 @@ angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, Goo
         ezfb.api('/me', function (res) {
             User.username = res.name;
             User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
-            $state.go('app.dashboard');
+            $state.go('app.admin.dashboard');
         });
     });
 })

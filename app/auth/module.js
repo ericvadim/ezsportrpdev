@@ -57,12 +57,22 @@ angular.module('app.auth', [
         url: '/register',
         views: {
             root: {
-                templateUrl: 'app/auth/views/register.html'
+                templateUrl: 'app/auth/views/register.html',
+                controller: 'RegisterCtrl',
+                controllerAs: 'vm'
             }
         },
         data: {
             title: 'Register',
             htmlId: 'extr-page'
+        },
+        resolve: {
+            srcipts: function(lazyScript){
+                return lazyScript.register([
+                    'build/vendor.ui.js'
+                ])
+
+            }
         }
     })
 
