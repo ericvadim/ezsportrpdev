@@ -16,27 +16,14 @@ angular.module('app.auth', [
 //        ezfbProvider.setInitParams({
 //            appId: authKeys.facebookAppId
 //        });
-    $stateProvider.state('realLogin', {
-        url: '/real-login',
 
-        views: {
-            root: {
-                templateUrl: "app/auth/login/login.html",
-                controller: 'LoginCtrl'
-            }
-        },
-        data: {
-            title: 'Login',
-            rootId: 'extra-page'
-        }
-
-    })
-
-    .state('login', {
+    $stateProvider.state('login', {
         url: '/login',
         views: {
             root: {
-                templateUrl: 'app/auth/views/login.html'
+                templateUrl: 'app/auth/views/login.html',
+                controller: 'LoginCtrl',
+                controllerAs: 'vm'
             }
         },
         data: {
@@ -75,19 +62,29 @@ angular.module('app.auth', [
             }
         }
     })
-
     .state('forgotPassword', {
         url: '/forgot-password',
         views: {
             root: {
-                templateUrl: 'app/auth/views/forgot-password.html'
+                templateUrl: 'app/auth/views/forgot-password.html',
+                controller: 'ForgotPasswordCtrl',
+                controllerAs: 'vm'
             }
         },
         data: {
             title: 'Forgot Password',
             htmlId: 'extr-page'
+        },
+        resolve: {
+            srcipts: function(lazyScript){
+                return lazyScript.register([
+                    'build/vendor.ui.js'
+                ])
+
+            }
         }
     })
+
 
     .state('lock', {
         url: '/lock',
