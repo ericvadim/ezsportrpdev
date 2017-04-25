@@ -5200,25 +5200,26 @@ angular.module('app.admin').controller('RefereesController', function ($scope, S
 });
 'use strict';
 
-angular.module('app.admin').controller('SportsController', function ($scope, ServerURL, $http, $filter) {
-    var vm = this;
-    $scope.tableData = [];
-    $scope.safeData = [];
-    vm.currRow = {};
-    vm.loading = true;
+angular.module('app.admin').controller('SportsController', function ($scope, SportTypeService, $filter) {
+    $scope.tableData = $scope.safeData = [];
+    $scope.currRow = {};
+    $scope.loading = true;
 
-    vm.getData = function () {
-        vm.loading = true;
+    SportTypeService.get();
+
+
+    $scope.getData = function () {
+        $scope.loading = true;
         $http.get(ServerURL + "sports/get").then(function (response) {
             $scope.tableData = $scope.safeData = response.data;
-            vm.loading = false;
+            $scope.loading = false;
         });
     };
-    vm.getData();
+    $scope.getData();
 
-    vm.save = function () {
-        var data = vm.currRow;
-        vm.loading = true;
+    $scope.save = function () {
+        var data = $scope.currRow;
+        $scope.loading = true;
         $http({
             method: 'POST',
             url: ServerURL + "sports/save",
@@ -5229,28 +5230,28 @@ angular.module('app.admin').controller('SportsController', function ($scope, Ser
         });
     };
 
-    vm.openModal = function (rowId) {
-        vm.editRow(rowId);
+    $scope.openModal = function (rowId) {
+        $scope.editRow(rowId);
         $('#myModal').modal('show');
     };
 
-    vm.addNew = function () {
-        vm.currRow = {
+    $scope.addNew = function () {
+        $scope.currRow = {
             id: 0,
             sport_name: ''
         };
     };
 
-    vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+    $scope.editRow = function (rowId) {
+        $scope.currRow = $filter('filter')($scope.tableData, {id: rowId}, true)[0];
     };
 
-    vm.deleteRow = function (rowId) {
+    $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            vm.loading = true;
+            $scope.loading = true;
             $http.get(ServerURL + "sports/delete?id=" + rowId).then(function (response) {
                 if (response.data == true) {
-                    vm.getData();
+                    $scope.getData();
                 } else {
                     alert('Failed to delete this row.');
                 }
@@ -5258,7 +5259,7 @@ angular.module('app.admin').controller('SportsController', function ($scope, Ser
         }
     };
     $('#myModal').on('hidden.bs.modal', function () {
-        vm.getData();
+        $scope.getData();
     });
 });
 'use strict';
@@ -5427,6 +5428,28 @@ angular.module('app.admin').controller('UsersController', function (ServerURL, $
         vm.getData();
     });
 });
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('SportTypeService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function () {
+                    console.log(234)
+                    var url = ServerURL + 'users/login';
+                    var promise = $http.get(url), deferred = $q.defer();
+                    promise.then(function (res) {
+                        if (isDebug) console.log(res);
+                        deferred.resolve(res);
+                    }, function (err) {
+                        if (isDebug) console.error(err);
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                }
+            };
+        }]);
+})();
 'use strict';
 
 angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
