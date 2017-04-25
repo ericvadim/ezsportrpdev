@@ -895,6 +895,28 @@ angular.module('app.auth', [
             }
         }
     })
+    .state('userActivate', {
+        url: '/userActivate/:token',
+        views: {
+            root: {
+                templateUrl: 'app/auth/views/activate.html',
+                controller: 'UserActivateCtrl',
+                controllerAs: 'vm'
+            }
+        },
+        data: {
+            title: 'Activate',
+            htmlId: 'extr-page'
+        },
+        resolve: {
+            srcipts: function(lazyScript){
+                return lazyScript.register([
+                    'build/vendor.ui.js'
+                ])
+
+            }
+        }
+    })
 
 
     .state('lock', {
@@ -2108,8 +2130,8 @@ $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<d
     angular
         .module('app')
 
-        .constant('ServerURL', 'http://ezsportrp.info/server/')
-        // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+        // .constant('ServerURL', 'http://ezsportrp.info/server/')
+        .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 
         .constant('APP_CONFIG', window.appConfig)
         .constant('CountryList', {
@@ -2419,6 +2441,22 @@ Array.prototype.diff = function(a) {
         function forgotPassword(email) {
             var url = ServerURL + 'users/resetPassword?email' + email;
             var promise = $http.get(url), deferred = $q.defer();
+            promise.then(function (res) {
+                if (isDebug) console.log(res);
+                deferred.resolve(res);
+            }, function (err) {
+                if (isDebug) console.error(err);
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        }
+
+        function Activate(token) {
+            var params = {
+                token: token
+            };
+            var url = baseUrl + '/users/activate';
+            var promise = $http.post(url, params), deferred = $q.defer();
             promise.then(function (res) {
                 if (isDebug) console.log(res);
                 deferred.resolve(res);
@@ -5165,15 +5203,14 @@ angular.module('app.admin').controller('RefereesController', function ($scope, S
 angular.module('app.admin').controller('SportsController', function ($scope, ServerURL, $http, $filter) {
     var vm = this;
     $scope.tableData = [];
-    $scope.rowCollection = [];
+    $scope.safeData = [];
     vm.currRow = {};
     vm.loading = true;
 
     vm.getData = function () {
         vm.loading = true;
         $http.get(ServerURL + "sports/get").then(function (response) {
-            $scope.tableData = response.data;
-            $scope.rowCollection = $scope.tableData;
+            $scope.tableData = $scope.safeData = response.data;
             vm.loading = false;
         });
     };
@@ -5438,6 +5475,22 @@ angular.module('app.auth').directive('loginInfo', function(User){
 
 "use strict";
 
+angular.module('app.auth').controller('UserActivateCtrl',
+    function ($scope, $rootScope, $state, UserService) {
+        var vm = this;
+        vm.loading = true;
+        UserService.Activate($state.params.token)
+            .then(function (res) {
+                $state.go('app.admin.dashboard');
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    }
+);
+
+"use strict";
+
 angular.module('app.auth').controller('ForgotPasswordCtrl', function ($scope, $state, UserService) {
     var vm = this;
     vm.loading = false;
@@ -5503,7 +5556,6 @@ angular.module('app.auth').controller('RegisterCtrl',
                     console.log(err);
                 });
         };
-
     }
 );
 
