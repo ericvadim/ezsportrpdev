@@ -4,11 +4,12 @@ angular.module('app.auth').controller('RegisterCtrl',
     function ($scope, $rootScope, $state, UserService) {
         var vm = this;
         vm.loading = false;
+        vm.submit = false;
 
-        vm.register = function register() {
+        vm.register = function () {
+            vm.submit = true;
             if (vm.form.signup.$invalid) return false;
 
-            vm.submit = true;
             var param = {
                 email : vm.email,
                 password: vm.password,
@@ -18,7 +19,7 @@ angular.module('app.auth').controller('RegisterCtrl',
 
             UserService.Register(param)
                 .then(function (res) {
-
+                    $state.go('login');
                 })
                 .catch(function (err) {
                     console.log(err);

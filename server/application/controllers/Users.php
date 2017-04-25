@@ -256,14 +256,14 @@ class Users extends Base_Controller
             ];
 
             // send email
-            /*if (!send_email($emailOptions)) {
+            if (!send_email($emailOptions)) {
                 $this->set_response([
                     'status' => 'EMAIL_SEND_ERROR',
                     'email' => $data['email'],
                     'message' => 'Unfortunately, we cannot send an email to your address.'
                 ], 500);
                 return;
-            }*/
+            }
 
             $this->set_response([
                 'status' => 'OK',
