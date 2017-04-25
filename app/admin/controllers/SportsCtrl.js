@@ -3,15 +3,14 @@
 angular.module('app.admin').controller('SportsController', function ($scope, ServerURL, $http, $filter) {
     var vm = this;
     $scope.tableData = [];
-    $scope.rowCollection = [];
+    $scope.safeData = [];
     vm.currRow = {};
     vm.loading = true;
 
     vm.getData = function () {
         vm.loading = true;
         $http.get(ServerURL + "sports/get").then(function (response) {
-            $scope.tableData = response.data;
-            $scope.rowCollection = $scope.tableData;
+            $scope.tableData = $scope.safeData = response.data;
             vm.loading = false;
         });
     };

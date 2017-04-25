@@ -16,21 +16,23 @@
                         <h2>Sport Management</h2>
                     </header>
                     <div>
-                        <div class="widget-body no-padding">{{tableData}}<br>{{rowCollection}}
+                        <div class="widget-body no-padding">
                             <div class="table-responsive">
-                                <table st-table="tableData" st-safe-src="rowCollection" st-select-mode="multiple" class="table table-bordered">
+                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>
+                                        <th rowspan="2">No</th>
+                                        <th st-sort="sport_name">Sport Name</th>
+                                        <th rowspan="2">Action</th>
                                     </tr>
                                     <tr>
-                                        <th>No</th>
-                                        <th st-sort="sport_name">Sport Name</th>
-                                        <th>Action</th>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="sport_name"/>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="row in tableData" ng-dblclick="vm.openModal(row.id)">
+                                    <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.sport_name}}</td>
                                         <td class="text-center controls-td">
@@ -39,6 +41,13 @@
                                         </td>
                                     </tr>
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            <div st-pagination="" st-items-by-page="2" st-displayed-pages="5"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                             <div class="table-responsive hide">
