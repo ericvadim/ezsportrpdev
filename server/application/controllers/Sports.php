@@ -14,24 +14,21 @@ class Sports extends Base_Controller
     public function index_get()
     {
 //        if (!$this->protect()) return;
-        $rows = $this->sport_model->getSports();
+        $rows = $this->sport_model->getRows();
         $this->set_response($rows, 200);
     }
 
     public function index_post()
     {
-        $this->load->model('sport_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->sport_model->saveSport($data);
+        $result = $this->sport_model->save($data);
         $this->set_response($result, 200);
     }
 
     public function index_delete()
     {
         $data = $this->input->get();
-
-        $this->load->model('sport_model');
-        $result = $this->sport_model->deleteSport($data['id']);
-        exit($result);
+        $result = $this->sport_model->delete($data['id']);
+        $this->set_response($result, 200);
     }
 }

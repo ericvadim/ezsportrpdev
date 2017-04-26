@@ -8,16 +8,20 @@ class Sport_model extends CI_Model
 
     function __construct()
     {
-        /* Call the Model constructor */
         parent::__construct();
     }
 
-    public function getSports()
+    public function getRows()
     {
         return $this->db->get($this->table)->result();
     }
 
-    public function saveSport($data)
+    public function getRowById($id)
+    {
+        return $this->db->get_where($this->table, array('id' => $id))->result();
+    }
+
+    public function save($data)
     {
 
         $rowId = $data['id'];
@@ -39,7 +43,7 @@ class Sport_model extends CI_Model
         return $result;
     }
 
-    public function deleteSport($rowId)
+    public function delete($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }

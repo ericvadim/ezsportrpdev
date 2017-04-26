@@ -31,7 +31,7 @@
                 },
                 delete: function (rowId) {
                     var deferred = $q.defer();
-                    var url = ServerURL + 'sports/id/' + rowId;
+                    var url = ServerURL + 'sports?id=' + rowId;
                     $http.delete(url).then(function (res) {
                         deferred.resolve(res);
                     }, function (err) {
