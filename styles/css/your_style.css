@@ -93,23 +93,35 @@ ul[data-smart-menu] {
 .margin-bottom-10 {
     margin-bottom: 10px;
 }
-.smart-style-4 #header>:first-child {
+
+.smart-style-4 #header > :first-child {
     background: transparent;
 }
 
-.st-sort-ascent:before{
+.st-sort-ascent:before {
     content: '\25B2';
 }
 
-.st-sort-descent:before{
+.st-sort-descent:before {
     content: '\25BC';
 }
+
 .st-selected {
     background-color: #00b3ee;
 }
+
 nav ul.pagination {
-    margin: 0!important;
+    margin: 0 !important;
+}
+
+nav ul.pagination {
+    width: auto;
 }
 nav ul.pagination li a {
     padding: 5px 10px;
+}
+
+nav ul.pagination li a:before {
+    background-image: none !important;
+    border: 0 !important;
 }
