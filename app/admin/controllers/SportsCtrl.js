@@ -5,12 +5,9 @@ angular.module('app.admin').controller('SportsController', function ($scope, Spo
     $scope.currRow = {};
     $scope.loading = true;
 
-    SportTypeService.get();
-
-
     $scope.getData = function () {
         $scope.loading = true;
-        $http.get(ServerURL + "sports/get").then(function (response) {
+        SportTypeService.get().then(function (response) {
             $scope.tableData = $scope.safeData = response.data;
             $scope.loading = false;
         });
@@ -18,14 +15,9 @@ angular.module('app.admin').controller('SportsController', function ($scope, Spo
     $scope.getData();
 
     $scope.save = function () {
-        var data = $scope.currRow;
         $scope.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "sports/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
+        var data = $scope.currRow;
+        SportTypeService.save(data).then(function (response) {
             $('#myModal').modal('hide');
         });
     };
@@ -49,12 +41,8 @@ angular.module('app.admin').controller('SportsController', function ($scope, Spo
     $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             $scope.loading = true;
-            $http.get(ServerURL + "sports/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    $scope.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
+            SportTypeService.delete(rowId).then(function () {
+                $scope.getData();
             });
         }
     };
