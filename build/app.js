@@ -2130,9 +2130,9 @@ $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<d
     angular
         .module('app')
 
-        .constant('ServerURL', 'http://ezsportrp.info/server/')
-         // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
-         .constant('isDebug', true)
+        // .constant('ServerURL', 'http://ezsportrp.info/server/')
+        .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+        .constant('isDebug', true)
 
         .constant('APP_CONFIG', window.appConfig)
         .constant('CountryList', {
@@ -5219,7 +5219,7 @@ angular.module('app.admin').controller('SportsController', function ($scope, Spo
     $scope.save = function () {
         $scope.loading = true;
         var data = $scope.currRow;
-        SportTypeService.save(data).then(function (response) {
+        SportTypeService.save(data).then(function () {
             $('#myModal').modal('hide');
         });
     };
@@ -5425,7 +5425,7 @@ angular.module('app.admin').controller('UsersController', function (ServerURL, $
         .factory('SportTypeService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
             return {
                 get: function () {
-                    var url = ServerURL + 'sports/get';
+                    var url = ServerURL + 'sports';
                     var deferred = $q.defer();
                     $http.get(url).then(function (res) {
                         deferred.resolve(res);
@@ -5435,29 +5435,32 @@ angular.module('app.admin').controller('UsersController', function (ServerURL, $
                     return deferred.promise;
                 },
                 save: function (data) {
-                    var url = ServerURL + 'sports/save';
-
-                    /*$http({
-                     method: 'POST',
-                     url: ServerURL + "sports/save",
-                     headers: {'Content-Type': 'multipart/form-data'},
-                     data: data
-                     }).then(function mySucces(/!*response*!/) {
-                     $('#myModal').modal('hide');
-                     });*/
-
-                    var promise = $http.post(url, data), deferred = $q.defer();
-                    promise.then(function (res) {
+                    var url = ServerURL + 'sports';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
                         deferred.resolve(res);
                     }, function (err) {
                         deferred.reject(err);
                     });
+                    /*
+
+
+                     $http.post(url, data, {}).then(function (res) {
+                     deferred.resolve(res);
+                     }, function (err) {
+                     deferred.reject(err);
+                     });*/
                     return deferred.promise;
                 },
                 delete: function (rowId) {
+                    var deferred = $q.defer();
                     var url = ServerURL + 'sports/delete?id=' + rowId;
-                    var promise = $http.get(url), deferred = $q.defer();
-                    promise.then(function (res) {
+                    $http.get(url).then(function (res) {
                         deferred.resolve(res);
                     }, function (err) {
                         deferred.reject(err);

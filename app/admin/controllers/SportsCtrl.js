@@ -17,7 +17,7 @@ angular.module('app.admin').controller('SportsController', function ($scope, Spo
     $scope.save = function () {
         $scope.loading = true;
         var data = $scope.currRow;
-        SportTypeService.save(data).then(function (response) {
+        SportTypeService.save(data).then(function () {
             $('#myModal').modal('hide');
         });
     };
