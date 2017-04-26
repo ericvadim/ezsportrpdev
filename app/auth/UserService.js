@@ -14,6 +14,7 @@
         service.Login = Login;
         service.Register = Register;
         service.forgotPassword = forgotPassword;
+        service.Activate = Activate;
 
         return service;
 
@@ -64,7 +65,7 @@
             var params = {
                 token: token
             };
-            var url = baseUrl + '/users/activate';
+            var url = ServerURL + '/users/activate';
             var promise = $http.post(url, params), deferred = $q.defer();
             promise.then(function (res) {
                 if (isDebug) console.log(res);

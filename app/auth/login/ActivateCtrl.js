@@ -6,10 +6,13 @@ angular.module('app.auth').controller('UserActivateCtrl',
         vm.loading = true;
         UserService.Activate($state.params.token)
             .then(function (res) {
-                $state.go('app.admin.dashboard');
+                $state.go('app.admin');
             })
             .catch(function (err) {
-                console.log(err);
+                vm.loading = false;
+            })
+            .finally(function () {
+                vm.loading = false;
             });
     }
 );
