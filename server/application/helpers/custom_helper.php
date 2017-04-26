@@ -5,7 +5,7 @@ if (!function_exists('send_email')) {
     {
         $CI =& get_instance();
         $CI->load->library('email');
-        /*$config = array(
+        $config = array(
             'protocol' => 'smtp',
             'smtp_host' => SMTP_HOST,
             'smtp_port' => SMTP_PORT,
@@ -17,7 +17,7 @@ if (!function_exists('send_email')) {
         );
 
         $CI->email->set_newline('\r\n');
-        $CI->email->initialize($config);*/
+        $CI->email->initialize($config);
 
         $CI->email->from(SITE_FROM_EMAIL, SITE_NAME);
         $CI->email->to($options['to']);

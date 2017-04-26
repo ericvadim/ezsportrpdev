@@ -155,14 +155,13 @@ class Users extends Base_Controller
             ]);
 
             $subject = 'Forgot Password';
-            $body = 'Your new password is ' . $newPassword .'\r\n Please change your password.';
-            /*
+
             $data_email = array(
                 'first_name' => $result['first_name'],
                 'last_name' => $result['last_name'],
                 'password' => $newPassword,
                 'subject' => $subject,
-                'login' => base_frontend_url('signin')
+                'login' => base_frontend_url('/login')
             );
 
             // load forgot password template
@@ -174,8 +173,6 @@ class Users extends Base_Controller
                 'subject' => $subject
             ];
             if (send_email($emailOptions)) {
-            */
-            if (!mail($email, $subject, $body)) {
                 $this->set_response([
                     'status' => 'OK',
                     'email' => $email,
@@ -244,7 +241,7 @@ class Users extends Base_Controller
             $subject = 'Registration Successful!!! Activate your account.';
             $userIDKey = $this->encryptor('encrypt', $userID);
             $activation_link = base_frontend_url('/userActivate/' . $userIDKey);
-            /*
+
             $data_email = array(
                 'name' => $data['first_name'] . ' ' . $data['last_name'],
                 'activation_link' => $activation_link,
@@ -253,7 +250,7 @@ class Users extends Base_Controller
             );
 
             // load forgot password template
-             $body = $this->load->view('email/registration_mail', $data_email, TRUE);
+            $body = $this->load->view('email/registration_mail', $data_email, TRUE);
 
 
             $emailOptions = [
@@ -262,13 +259,6 @@ class Users extends Base_Controller
                 'subject' => $subject
             ];
             if (!send_email($emailOptions)) {
-             */
-
-            $body = 'Please click below link ' . $activation_link;
-
-
-            // send email
-            if (!mail($data['email'], $subject, $body)) {
                 $this->set_response([
                     'status' => 'EMAIL_SEND_ERROR',
                     'email' => $data['email'],

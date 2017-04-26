@@ -19,7 +19,7 @@ angular.module('app.auth').controller('RegisterCtrl',
 
             UserService.Register(param)
                 .then(function (res) {
-                    $state.go('login');
+                    $state.go('congratulation');
                 })
                 .catch(function (err) {
                     console.log(err);

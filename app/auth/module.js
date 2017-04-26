@@ -107,6 +107,18 @@ angular.module('app.auth', [
         }
     })
 
+    .state('congratulation', {
+        url: '/congratulation',
+        views: {
+            root: {
+                templateUrl: 'app/auth/views/congratulation.html'
+            }
+        },
+        data: {
+            title: 'Congratulation',
+            htmlId: 'congratulation-page'
+        }
+    })
 
     .state('lock', {
         url: '/lock',

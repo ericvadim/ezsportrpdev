@@ -6,7 +6,7 @@ angular.module('app.auth').controller('UserActivateCtrl',
         vm.loading = true;
         UserService.Activate($state.params.token)
             .then(function (res) {
-                $state.go('app.admin');
+                $state.go('login');
             })
             .catch(function (err) {
                 vm.loading = false;
