@@ -28,7 +28,7 @@ class Sports extends Base_Controller
     public function index_delete()
     {
         $data = $this->input->get();
-        $result = $this->sport_model->delete($data['id']);
+        $result = $this->sport_model->deleteRowById($data['id']);
         $this->set_response($result, 200);
     }
 }

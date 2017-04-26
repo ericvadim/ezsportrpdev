@@ -3,7 +3,6 @@
 
 class Sport_model extends CI_Model
 {
-
     private $table = 'sports';
 
     function __construct()
@@ -21,9 +20,8 @@ class Sport_model extends CI_Model
         return $this->db->get_where($this->table, array('id' => $id))->result();
     }
 
-    public function save($data)
+    public function saveRow($data)
     {
-
         $rowId = $data['id'];
 
         $cols = array('sport_name');
@@ -43,7 +41,7 @@ class Sport_model extends CI_Model
         return $result;
     }
 
-    public function delete($rowId)
+    public function deleteRowById($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }
