@@ -19,23 +19,20 @@ angular.module('app.admin').controller('SportsController', function ($scope, Spo
         var data = $scope.currRow;
         SportTypeService.save(data).then(function () {
             $('#myModal').modal('hide');
+            $scope.getData();
         });
     };
 
-    $scope.openModal = function (rowId) {
-        $scope.editRow(rowId);
-        $('#myModal').modal('show');
-    };
-
-    $scope.addNew = function () {
+    $scope.addRow = function () {
         $scope.currRow = {
             id: 0,
             sport_name: ''
         };
     };
 
-    $scope.editRow = function (rowId) {
-        $scope.currRow = $filter('filter')($scope.tableData, {id: rowId}, true)[0];
+    $scope.editRow = function (row) {
+        $scope.currRow = JSON.parse(angular.toJson(row));
+        $('#myModal').modal('show');
     };
 
     $scope.deleteRow = function (rowId) {
@@ -46,7 +43,4 @@ angular.module('app.admin').controller('SportsController', function ($scope, Spo
             });
         }
     };
-    $('#myModal').on('hidden.bs.modal', function () {
-        $scope.getData();
-    });
 });

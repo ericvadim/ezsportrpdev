@@ -32,13 +32,12 @@ class Sport_model extends CI_Model
 
         if ($rowId) {
             $this->db->where('id', $rowId);
-            $result = $this->db->update($this->table, $row);
+            $this->db->update($this->table, $row);
         } else {
-            $result = $this->db->insert($this->table, $row);
-            $this->db->insert_id();
+            $this->db->insert($this->table, $row);
+            $rowId = $this->db->insert_id();
         }
-
-        return $result;
+        return $rowId;
     }
 
     public function deleteRowById($rowId)

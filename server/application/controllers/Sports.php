@@ -21,7 +21,7 @@ class Sports extends Base_Controller
     public function index_post()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->sport_model->save($data);
+        $result = $this->sport_model->saveRow($data);
         $this->set_response($result, 200);
     }
 
