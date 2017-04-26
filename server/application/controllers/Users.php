@@ -240,23 +240,32 @@ class Users extends Base_Controller
             //send activate email
             $subject = 'Registration Successful!!! Activate your account.';
             $userIDKey = $this->encryptor('encrypt', $userID);
+            $activation_link = base_frontend_url('/userActivate/' . $userIDKey);
+            /*
             $data_email = array(
                 'name' => $data['first_name'] . ' ' . $data['last_name'],
-                'activation_link' => base_frontend_url('userActivate/' . $userIDKey),
+                'activation_link' => $activation_link,
                 'userName' => $data['username'],
                 'password' => $password
             );
+
             // load forgot password template
-            $body = $this->load->view('email/registration_mail', $data_email, TRUE);
+             $body = $this->load->view('email/registration_mail', $data_email, TRUE);
+
 
             $emailOptions = [
                 'to' => $data['email'],
                 'message' => $body,
                 'subject' => $subject
             ];
+            if (!send_email($emailOptions)) {
+             */
+
+            $body = 'Please click below link ' . $activation_link;
+
 
             // send email
-            if (!send_email($emailOptions)) {
+            if (!mail($data['email'], $subject, $body)) {
                 $this->set_response([
                     'status' => 'EMAIL_SEND_ERROR',
                     'email' => $data['email'],
