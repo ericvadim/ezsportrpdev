@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('app.admin').controller('SportsController', function ($scope, SportTypeService, $filter) {
+angular.module('app.admin').controller('SportsController', function ($scope, SportsService) {
     $scope.tableData = $scope.safeData = [];
     $scope.currRow = {};
     $scope.loading = true;
 
     $scope.getData = function () {
         $scope.loading = true;
-        SportTypeService.get().then(function (response) {
+        SportsService.get().then(function (response) {
             $scope.tableData = $scope.safeData = response.data;
             $scope.loading = false;
         });
@@ -17,7 +17,7 @@ angular.module('app.admin').controller('SportsController', function ($scope, Spo
     $scope.save = function () {
         $scope.loading = true;
         var data = $scope.currRow;
-        SportTypeService.save(data).then(function () {
+        SportsService.save(data).then(function () {
             $('#myModal').modal('hide');
             $scope.getData();
         });
@@ -38,7 +38,7 @@ angular.module('app.admin').controller('SportsController', function ($scope, Spo
     $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             $scope.loading = true;
-            SportTypeService.delete(rowId).then(function () {
+            SportsService.delete(rowId).then(function () {
                 $scope.getData();
             });
         }

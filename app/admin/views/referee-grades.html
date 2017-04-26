@@ -1,11 +1,11 @@
-<loading visible="vm.loading"></loading>
+<loading visible="loading"></loading>
 <div id="content">
     <div class="row">
         <big-breadcrumbs items="['Referee Grades Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
     <div class="text-right margin-bottom-10">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addRow()">Add New</button>
     </div>
     <section widget-grid id="widget-grid">
         <div class="row">
@@ -13,33 +13,48 @@
                 <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Referee Grades </h2>
+                        <h2>Sport Management</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
                             <div class="table-responsive">
-                                <table class="table table-bordered">
+                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Grade ID</th>
-                                        <th>Grade Name</th>
-                                        <th>Sports</th>
-                                        <th>Manage</th>
+                                        <th rowspan="2">No</th>
+                                        <th st-sort="identifier">Grade ID</th>
+                                        <th st-sort="grade_name">Grade Name</th>
+                                        <th rowspan="2">Sports</th>
+                                        <th rowspan="2">Action</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="identifier"/>
+                                        </th>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="grade_name"/>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
+                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.grade_identifier}}</td>
+                                        <td>{{row.identifier}}</td>
                                         <td>{{row.grade_name}}</td>
-                                        <td>{{vm.getSportTypeLabels(row.sport_types)}}</td>
+                                        <td>{{getSportLabels(row.sport_types)}}</td>
                                         <td class="text-center controls-td">
-                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
-                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
+                                            <a ng-click="editRow(row)">Edit</a> /
+                                            <a ng-click="deleteRow(row.id)">Delete</a>
                                         </td>
                                     </tr>
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-center">
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -63,21 +78,21 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Grade ID</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="Grade ID" type="text" ng-model="vm.currRow.grade_identifier">
+                            <input class="form-control" placeholder="Grade ID" type="text" ng-model="currRow.identifier">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">Grade Name</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="Grade Name" type="text" ng-model="vm.currRow.grade_name">
+                            <input class="form-control" placeholder="Grade Name" type="text" ng-model="currRow.grade_name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">Sports</label>
                         <div class="col-md-9">
-                            <div class="checkbox" ng-repeat="sport in vm.sports">
+                            <div class="checkbox" ng-repeat="sport in sportTypes">
                                 <label>
-                                    <input type="checkbox" class="checkbox style-0" ng-model="vm.currRow.sport_types[sport.id]">
+                                    <input type="checkbox" class="checkbox style-0" ng-model="currRow.sport_types[sport.id]">
                                     <span>{{sport.sport_name}}</span>
                                 </label>
                             </div>
@@ -86,7 +101,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="vm.save()">Save</button>
+                <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
