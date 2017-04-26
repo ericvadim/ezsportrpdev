@@ -27,20 +27,12 @@
                     }, function (err) {
                         deferred.reject(err);
                     });
-                    /*
-
-
-                     $http.post(url, data, {}).then(function (res) {
-                     deferred.resolve(res);
-                     }, function (err) {
-                     deferred.reject(err);
-                     });*/
                     return deferred.promise;
                 },
                 delete: function (rowId) {
                     var deferred = $q.defer();
-                    var url = ServerURL + 'sports/delete?id=' + rowId;
-                    $http.get(url).then(function (res) {
+                    var url = ServerURL + 'sports/id/' + rowId;
+                    $http.delete(url).then(function (res) {
                         deferred.resolve(res);
                     }, function (err) {
                         deferred.reject(err);
