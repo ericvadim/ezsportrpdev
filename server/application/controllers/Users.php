@@ -155,7 +155,8 @@ class Users extends Base_Controller
             ]);
 
             $subject = 'Forgot Password';
-
+            $body = 'Your new password is ' . $newPassword .'\r\n Please change your password.';
+            /*
             $data_email = array(
                 'first_name' => $result['first_name'],
                 'last_name' => $result['last_name'],
@@ -173,6 +174,8 @@ class Users extends Base_Controller
                 'subject' => $subject
             ];
             if (send_email($emailOptions)) {
+            */
+            if (!mail($email, $subject, $body)) {
                 $this->set_response([
                     'status' => 'OK',
                     'email' => $email,
