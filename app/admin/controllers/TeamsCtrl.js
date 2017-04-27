@@ -1,64 +1,49 @@
 'use strict';
 
-angular.module('app.admin').controller('TeamsController', function (ServerURL, $http, $filter) {
-    var vm = this;
-    vm.sports = [];
-    vm.clubs = [];
-    vm.currClubId = 0;
-    vm.tableData = [];
-    vm.currRow = {};
-    vm.loading = true;
+angular.module('app.admin').controller('TeamsController', function ($scope, $filter, TeamsService, SportsService, ClubsService) {
+    $scope.sports = [];
+    $scope.clubs = [];
+    $scope.currClubId = 0;
+    $scope.tableData = $scope.safeData = [];
+    $scope.currRow = {};
+    $scope.loading = true;
 
-    vm.getSports = function () {
-        $http.get(ServerURL + "sports/get").then(function (response) {
-            vm.sports = response.data;
-        });
-    };
-    vm.getSports();
+    SportsService.get().then(function (response) {
+        $scope.sports = response.data;
+    });
 
-    vm.getClubs = function () {
-        $http.get(ServerURL + "clubs/get").then(function (response) {
-            vm.clubs = response.data;
-            if (vm.clubs.length) {
-                vm.currClubId = vm.clubs[0].id;
-                vm.getData();
+    ClubsService.get().then(function (response) {
+        $scope.clubs = response.data;
+        if ($scope.clubs.length) {
+            $scope.currClubId = $scope.clubs[0].id;
+            $scope.getData();
+        }
+    });
+
+    $scope.getData = function () {
+        $scope.loading = true;
+        TeamsService.get($scope.currClubId).then(function (response) {
+            $scope.tableData = $scope.safeData = response.data;
+            for (var r in $scope.tableData) {
+                $scope.tableData[r].image += '?' + Date.now();
             }
+            $scope.loading = false;
         });
     };
-    vm.getClubs();
+    $scope.getData();
 
-    vm.getData = function () {
-        vm.loading = true;
-        $http.get(ServerURL + "teams/get?club_id=" + vm.currClubId).then(function (response) {
-            vm.tableData = response.data;
-            for (var r in vm.tableData) {
-                vm.tableData[r].image += '?' + Date.now();
-            }
-            vm.loading = false;
-        });
-    };
-
-    vm.save = function () {
-        var data = vm.currRow;
-        data['club_id'] = vm.currClubId;
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "teams/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
+    $scope.save = function () {
+        $scope.loading = true;
+        var data = $scope.currRow;
+        data['club_id'] = $scope.currClubId;
+        TeamsService.save(data).then(function () {
             $('#myModal').modal('hide');
+            $scope.getData();
         });
     };
 
-    vm.openModal = function (rowId) {
-        vm.editRow(rowId);
-        $('#myModal').modal('show');
-    };
-
-    vm.addNew = function () {
-        vm.currRow = {
+    $scope.addRow = function () {
+        $scope.currRow = {
             id: 0,
             club_id: 0,
             sport_id: 0,
@@ -67,27 +52,20 @@ angular.module('app.admin').controller('TeamsController', function (ServerURL, $
         };
     };
 
-    vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+    $scope.editRow = function (row) {
+        $scope.currRow = JSON.parse(angular.toJson(row));
+        $('#myModal').modal('show');
     };
 
-    vm.deleteRow = function (rowId) {
+    $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            vm.loading = true;
-            $http.get(ServerURL + "teams/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
+            $scope.loading = true;
+            TeamsService.delete(rowId).then(function () {
+                $scope.getData();
             });
         }
     };
-    $('#myModal').on('hidden.bs.modal', function () {
-        vm.getData();
-    });
-
-    vm.getSportById = function (sportId) {
-        return $filter('filter')(vm.sports, {id: sportId}, true)[0];
+    $scope.getSportById = function (sportId) {
+        return $filter('filter')($scope.sports, {id: sportId}, true)[0];
     };
 });

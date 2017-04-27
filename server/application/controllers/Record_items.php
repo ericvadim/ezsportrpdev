@@ -1,41 +1,34 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Record_items extends CI_Controller
+require dirname(__FILE__) . '/Base_Controller.php';
+
+class Record_items extends Base_Controller
 {
-
-    public function index()
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('record_item_model');
     }
 
-    public function get()
+    public function index_get()
     {
-        $this->load->database();
-        $this->load->model('record_item_model');
-
-        $rows = $this->record_item_model->getRecordItems();
-
-        echo json_encode($rows);
-        exit;
+//        if (!$this->protect()) return;
+        $rows = $this->record_item_model->getRows();
+        $this->set_response($rows, 200);
     }
 
-    public function save()
+    public function index_post()
     {
-        $this->load->database();
-        $this->load->model('record_item_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->record_item_model->saveRecordItem($data);
-        exit($result);
+        $result = $this->record_item_model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
         $data = $this->input->get();
-
-        $this->load->database();
-        $this->load->model('record_item_model');
-        $result = $this->record_item_model->deleteRecordItem($data['id']);
-        exit($result);
+        $result = $this->record_item_model->deleteRowById($data['id']);
+        $this->set_response($result, 200);
     }
 }

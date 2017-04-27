@@ -1,20 +1,20 @@
-<loading visible="vm.loading"></loading>
+<loading visible="loading"></loading>
 <div id="content">
     <div class="row">
-        <big-breadcrumbs items="['Team Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <big-breadcrumbs items="['Teams Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
     <div class="row margin-bottom-10 form-horizontal">
         <div class="col-xs-6 col-sm-4 col-md-3">
             <label class="col-xs-2 text-right control-label">Club:</label>
             <div class="col-xs-10">
-                <select class="form-control" ng-change="vm.getData()" ng-model="vm.currClubId">
-                    <option ng-repeat="club in vm.clubs" value="{{club.id}}">{{club.club_name}}</option>
+                <select class="form-control" ng-change="getData()" ng-model="currClubId">
+                    <option ng-repeat="club in clubs" value="{{club.id}}">{{club.club_name}}</option>
                 </select>
             </div>
         </div>
         <div class="col-xs-6 col-sm-8 col-md-9 text-right">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addRow()">Add New</button>
         </div>
     </div>
 
@@ -24,33 +24,45 @@
                 <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Team Management</h2>
+                        <h2>Teams Management</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
-                            <div class="table-responsive table-text-center">
-                                <table class="table">
+                            <div class="table-responsive">
+                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Image</th>
-                                        <th>Team Name</th>
-                                        <th>Sport Type</th>
-                                        <th>Manage</th>
+                                        <th rowspan="2">No</th>
+                                        <th rowspan="2">Image</th>
+                                        <th st-sort="sport_name">Team Name</th>
+                                        <th rowspan="2">Sport Type</th>
+                                        <th rowspan="2">Action</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="sport_name"/>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
+                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
                                         <td><img class="max-width-50" ng-src="{{row.image}}"></td>
                                         <td>{{row.team_name}}</td>
-                                        <td>{{vm.getSportById(row.sport_id).sport_name}}</td>
+                                        <td>{{getSportById(row.sport_id).sport_name}}</td>
                                         <td class="text-center controls-td">
-                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
-                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
+                                            <a ng-click="editRow(row)">Edit</a> /
+                                            <a ng-click="deleteRow(row.id)">Delete</a>
                                         </td>
                                     </tr>
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-center">
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -60,6 +72,7 @@
         </div>
     </section>
 </div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -72,30 +85,30 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Sport Type</label>
+                        <label class="col-md-3 control-label">Team Name</label>
                         <div class="col-md-9">
-                            <select class="form-control" ng-model="vm.currRow.sport_id">
-                                <option ng-repeat="s in vm.sports" value="{{s.id}}">{{s.sport_name}}</option>
-                            </select>
+                            <input class="form-control" placeholder="Team Name" type="text" ng-model="currRow.team_name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Team Name</label>
+                        <label class="col-md-3 control-label">Sport Type</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="Team Name" type="text" ng-model="vm.currRow.team_name">
+                            <select class="form-control" ng-model="currRow.sport_id">
+                                <option ng-repeat="s in sports" value="{{s.id}}">{{s.sport_name}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">Team Image</label>
                         <div class="col-md-9">
-                            <input type="file" class="form-control" fileinput="file" filepreview="vm.currRow.image"/>
-                            <img ng-src="{{vm.currRow.image}}" class="img-responsive margin-top-10 max-width-200" dng-show="vm.currRow.image"/>
+                            <input type="file" class="form-control" fileinput="file" filepreview="currRow.image"/>
+                            <img ng-src="{{currRow.image}}" class="img-responsive margin-top-10 max-width-200" dng-show="currRow.image"/>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="vm.save()">Save</button>
+                <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>

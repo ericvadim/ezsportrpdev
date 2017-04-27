@@ -1,11 +1,11 @@
-<loading visible="vm.loading"></loading>
+<loading visible="loading"></loading>
 <div id="content">
     <div class="row">
-        <big-breadcrumbs items="['Club Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <big-breadcrumbs items="['Clubs Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
     <div class="text-right margin-bottom-10">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addRow()">Add New</button>
     </div>
     <section widget-grid id="widget-grid">
         <div class="row">
@@ -13,37 +13,61 @@
                 <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Club Management</h2>
+                        <h2>Clubs Management</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
                             <div class="table-responsive">
-                                <table class="table table-bordered">
+                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Club Name</th>
-                                        <th>Country</th>
-                                        <th>State</th>
-                                        <th>City</th>
-                                        <th>Address</th>
-                                        <th>Manage</th>
+                                        <th rowspan="2">No</th>
+                                        <th st-sort="club_name">Club Name</th>
+                                        <th st-sort="country">Country</th>
+                                        <th st-sort="state">State</th>
+                                        <th st-sort="city">City</th>
+                                        <th st-sort="address">Address</th>
+                                        <th rowspan="2">Action</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="club_name"/>
+                                        </th>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="country"/>
+                                        </th>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="state"/>
+                                        </th>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="city"/>
+                                        </th>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="address"/>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
+                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.club_name}}</td>
-                                        <td>{{vm.countries[row.country]}}</td>
+                                        <td>{{countries[row.country]}}</td>
                                         <td>{{row.state}}</td>
                                         <td>{{row.city}}</td>
                                         <td>{{row.address}}</td>
                                         <td class="text-center controls-td">
-                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
-                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
+                                            <a ng-click="editRow(row)">Edit</a> /
+                                            <a ng-click="deleteRow(row.id)">Delete</a>
                                         </td>
                                     </tr>
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -67,39 +91,39 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Club Name</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="Club Name" type="text" ng-model="vm.currRow.club_name">
+                            <input class="form-control" placeholder="Club Name" type="text" ng-model="currRow.club_name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">Country</label>
                         <div class="col-md-9">
-                            <select class="form-control" ng-model="vm.currRow.country">
-                                <option ng-repeat="(code, name) in vm.countries" value="{{code}}">{{name}}</option>
+                            <select class="form-control" ng-model="currRow.country">
+                                <option ng-repeat="(code, name) in countries" value="{{code}}">{{name}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">State</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="State" type="text" ng-model="vm.currRow.state">
+                            <input class="form-control" placeholder="State" type="text" ng-model="currRow.state">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">City</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="City" type="text" ng-model="vm.currRow.city">
+                            <input class="form-control" placeholder="City" type="text" ng-model="currRow.city">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">Address</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="Address" type="text" ng-model="vm.currRow.address">
+                            <input class="form-control" placeholder="Address" type="text" ng-model="currRow.address">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="vm.save()">Save</button>
+                <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>

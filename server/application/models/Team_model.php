@@ -3,33 +3,33 @@
 
 class Team_model extends CI_Model
 {
-
     private $table = 'teams';
+    private $imagePath = 'uploads/team_images/';
 
     function __construct()
     {
-        /* Call the Model constructor */
         parent::__construct();
     }
 
-    public function getTeams($clubId)
+    public function getRows($clubId)
     {
-        return $this->db->get_where($this->table, array('club_id'=>$clubId))->result();
+        $rows = $this->db->get_where($this->table, array('club_id' => $clubId))->result();
+        if (sizeof($rows)) {
+            foreach ($rows as $key => $value) {
+                $image = $this->imagePath . $value->id . '.jpg';
+                $value->image = file_exists($image) ? base_url() . $image : './styles/img/no.jpg';
+            }
+        }
+        return $rows;
     }
 
-    public function getAllTeamsWithClubs()
+    public function getRowById($id)
     {
-        $this->db->select('A.id, A.team_name, B.club_name');
-        $this->db->from($this->table . ' as A');
-        $this->db->join('clubs as B', 'B.id = A.club_id');
-        return $this->db->get()->result();
-
-//        return $this->db->get_where($this->table, array('club_id'=>$clubId))->result();
+        return $this->db->get_where($this->table, array('id' => $id))->result();
     }
 
-    public function saveTeam($data)
+    public function saveRow($data)
     {
-
         $rowId = $data['id'];
 
         $cols = array('club_id', 'sport_id', 'team_name');
@@ -40,24 +40,26 @@ class Team_model extends CI_Model
 
         if ($rowId) {
             $this->db->where('id', $rowId);
-            $result = $this->db->update($this->table, $row);
+            $this->db->update($this->table, $row);
         } else {
-            $result = $this->db->insert($this->table, $row);
-            $this->db->insert_id();
+            $this->db->insert($this->table, $row);
+            $rowId = $this->db->insert_id();
         }
 
         if (isset($data['image'])) {
             if (strpos($data['image'], 'base64')) {
                 list(, $img) = explode(',', $data['image']);
-                file_put_contents('uploads/team_images/' . $rowId .'.jpg', base64_decode($img));
+                file_put_contents('uploads/team_images/' . $rowId . '.jpg', base64_decode($img));
             }
         }
-        return $result;
+
+        return $rowId;
     }
 
-    public function deleteTeam($rowId)
+    public function deleteRowById($rowId)
     {
-        if (file_exists('uploads/team_images/' . $rowId .'.jpg')) unlink('uploads/team_images/' . $rowId .'.jpg');
+        $file = $this->imagePath . $rowId . '.jpg';
+        if (file_exists($file)) unlink($file);
         return $this->db->delete($this->table, array('id' => $rowId));
     }
 }

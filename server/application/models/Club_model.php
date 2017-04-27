@@ -3,23 +3,25 @@
 
 class Club_model extends CI_Model
 {
-
     private $table = 'clubs';
 
     function __construct()
     {
-        /* Call the Model constructor */
         parent::__construct();
     }
 
-    public function getClubs()
+    public function getRows()
     {
         return $this->db->get($this->table)->result();
     }
 
-    public function saveClub($data)
+    public function getRowById($id)
     {
+        return $this->db->get_where($this->table, array('id' => $id))->result();
+    }
 
+    public function saveRow($data)
+    {
         $rowId = $data['id'];
 
         $cols = array('club_name', 'country', 'state', 'city', 'address');
@@ -30,16 +32,15 @@ class Club_model extends CI_Model
 
         if ($rowId) {
             $this->db->where('id', $rowId);
-            $result = $this->db->update($this->table, $row);
+            $this->db->update($this->table, $row);
         } else {
-            $result = $this->db->insert($this->table, $row);
-            $this->db->insert_id();
+            $this->db->insert($this->table, $row);
+            $rowId = $this->db->insert_id();
         }
-
-        return $result;
+        return $rowId;
     }
 
-    public function deleteClub($rowId)
+    public function deleteRowById($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }

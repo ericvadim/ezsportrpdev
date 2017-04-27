@@ -1,64 +1,35 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Teams extends CI_Controller
+require dirname(__FILE__) . '/Base_Controller.php';
+
+class Teams extends Base_Controller
 {
-
-    public function index()
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('team_model');
     }
 
-    public function get()
+    public function index_get()
     {
-        $this->load->database();
-        $this->load->model('team_model');
+//        if (!$this->protect()) return;
         $clubId = $this->input->get('club_id');
-
-        $rows = $this->team_model->getTeams($clubId);
-        if (sizeof($rows)) {
-            foreach ($rows as $key => $value) {
-                $image = 'uploads/team_images/' . $value->id . '.jpg';
-                $value->image = file_exists($image) ? base_url() . $image : './styles/img/no.jpg';
-            }
-        }
-
-        echo json_encode($rows);
-        exit;
+        $rows = $this->team_model->getRows($clubId);
+        $this->set_response($rows, 200);
     }
 
-    public function getallteams () {
-        $this->load->database();
-        $this->load->model('team_model');
-
-        $rows = $this->team_model->getAllTeamsWithClubs();
-        if (sizeof($rows)) {
-            foreach ($rows as $key => $value) {
-                $image = 'uploads/team_images/' . $value->id . '.jpg';
-                $value->image = file_exists($image) ? base_url() . $image : './styles/img/no.jpg';
-            }
-        }
-
-        echo json_encode($rows);
-        exit;
-    }
-
-    public function save()
+    public function index_post()
     {
-        $this->load->database();
-        $this->load->model('team_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->team_model->saveTeam($data);
-        exit($result);
+        $result = $this->team_model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
         $data = $this->input->get();
-
-        $this->load->database();
-        $this->load->model('team_model');
-        $result = $this->team_model->deleteTeam($data['id']);
-        exit($result);
+        $result = $this->team_model->deleteRowById($data['id']);
+        $this->set_response($result, 200);
     }
 }
