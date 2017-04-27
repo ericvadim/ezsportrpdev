@@ -16,6 +16,7 @@ class Team_model extends CI_Model
 
     public function getRows($clubId)
     {
+        echo base_url();exit;
         $rows = $this->db->get_where($this->table, array('club_id' => $clubId))->result();
         if (sizeof($rows)) {
             foreach ($rows as $key => $value) {
