@@ -1,24 +1,42 @@
-<loading visible="loading"></loading>
+<loading visible="vm.loading"></loading>
 <div id="content">
     <div class="row">
-        <big-breadcrumbs items="['Leagues Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <big-breadcrumbs items="['Leagues']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
-    <div class="text-right margin-bottom-10">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addRow()">Add New</button>
+    <div class="row margin-bottom-10 form-horizontal">
+        <div class="col-xs-12 col-sm-6 col-md-5 form-horizontal">
+            <label class="col-xs-2 text-right control-label text-right">Period:</label>
+            <div class="col-xs-10 smart-form">
+                <section class="col col-6">
+                    <label class="input"> <i class="icon-append fa fa-calendar"></i>
+                        <input type="text" name="startdate" id="startdate" data-smart-datepicker data-min-restrict="#finishdate" placeholder="From">
+                    </label>
+                </section>
+                <section class="col col-6">
+                    <label class="input"> <i class="icon-append fa fa-calendar"></i>
+                        <input type="text" name="finishdate" id="finishdate" data-smart-datepicker data-max-restrict="#startdate" placeholder="To">
+                    </label>
+                </section>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-7 text-right">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+        </div>
     </div>
+
     <section widget-grid id="widget-grid">
         <div class="row">
             <article class="col-sm-12">
                 <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Leagues Management</h2>
+                        <h2>Leagues</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
                             <div class="table-responsive">
-                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
+                                <table class="table table-bordered table-text-center">
                                     <thead>
                                     <tr>
                                         <th>No</th>
@@ -31,15 +49,15 @@
                                         <th>Accepted</th>
                                         <th>Paid</th>
                                         <th>Roster</th>
-                                        <th rowspan="2">Action</th>
+                                        <th>Manage</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
+                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{getCompetitionById(row.competition_id)['competition_name']}}</td>
-                                        <td>{{seasons[row.season]}}</td>
-                                        <td>{{groupLevels[row.group_level]}}</td>
+                                        <td>{{vm.getCompetitionById(row.competition_id)['competition_name']}}</td>
+                                        <td>{{vm.seasons[row.season]}}</td>
+                                        <td>{{vm.groupLevels[row.group_level]}}</td>
                                         <td>{{row.start_date}}</td>
                                         <td>{{row.status == 1 ? 'Accepted' : 'Applied'}}</td>
                                         <td>{{row.applied_date}}</td>
@@ -47,18 +65,11 @@
                                         <td>{{row.paid_flag == 1 ? 'Yes' : 'No'}}</td>
                                         <td>{{row.roster}}</td>
                                         <td class="text-center controls-td">
-                                            <a ng-click="editRow(row)">Edit</a> /
-                                            <a ng-click="deleteRow(row.id)">Delete</a>
+                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
+                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
                                         </td>
                                     </tr>
                                     </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <td colspan="11" class="text-center">
-                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
-                                        </td>
-                                    </tr>
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -82,37 +93,37 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Competition</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-change="changeCompetition()" ng-model="currRow.competition_id">
-                                <option ng-repeat="c in competitions" value="{{c.id}}">{{c.competition_name}}</option>
+                            <select class="form-control" ng-change="vm.changeCompetition()" ng-model="vm.currRow.competition_id">
+                                <option ng-repeat="c in vm.competitions" value="{{c.id}}">{{c.competition_name}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Season</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="currRow.season">
-                                <option ng-repeat="s in seasons" value="{{$index}}">{{s}}</option>
+                            <select class="form-control" ng-model="vm.currRow.season">
+                                <option ng-repeat="s in vm.seasons" value="{{$index}}">{{s}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Group Level</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="currRow.group_level">
-                                <option ng-repeat="g in currGroupLevels" value="{{g}}">{{groupLevels[g]}}</option>
+                            <select class="form-control" ng-model="vm.currRow.group_level">
+                                <option ng-repeat="g in vm.currGroupLevels" value="{{g}}">{{vm.groupLevels[g]}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Start Date</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Start Date" type="text" ng-model="currRow.start_date">
+                            <input class="form-control" placeholder="Start Date" type="text" ng-model="vm.currRow.start_date">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Status</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="currRow.status">
+                            <select class="form-control" ng-model="vm.currRow.status">
                                 <option value="0">Applid</option>
                                 <option value="1">Accepted</option>
                             </select>
@@ -121,13 +132,13 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Applied Date</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Applied Date" type="text" ng-model="currRow.applied_date">
+                            <input class="form-control" placeholder="Applied Date" type="text" ng-model="vm.currRow.applied_date">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Accepted</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="currRow.accepted_flag">
+                            <select class="form-control" ng-model="vm.currRow.accepted_flag">
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                             </select>
@@ -136,7 +147,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Paid</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="currRow.paid_flag">
+                            <select class="form-control" ng-model="vm.currRow.paid_flag">
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                             </select>
@@ -145,13 +156,13 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Roster</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Roster" type="text" ng-model="currRow.roster">
+                            <input class="form-control" placeholder="Roster" type="text" ng-model="vm.currRow.roster">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
+                <button type="button" class="btn btn-primary" ng-click="vm.save()">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>

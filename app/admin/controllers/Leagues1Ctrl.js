@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.admin').controller('LeaguesController', function (ServerURL, $http, $filter, SeasonList, GroupLevels) {
+angular.module('app.admin').controller('LeaguesController1', function (ServerURL, $http, $filter, SeasonList, GroupLevels) {
     var vm = this;
     vm.seasons = SeasonList;
     vm.groupLevels = GroupLevels;

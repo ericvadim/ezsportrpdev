@@ -1,52 +1,34 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Leagues extends CI_Controller
+require dirname(__FILE__) . '/Base_Controller.php';
+
+class Leagues extends Base_Controller
 {
-
-    public function index()
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('league_model');
     }
 
-    public function get()
+    public function index_get()
     {
-        $this->load->database();
-        $this->load->model('league_model');
-
-        $rows = $this->league_model->getLeagues();
-
-        echo json_encode($rows);
-        exit;
+//        if (!$this->protect()) return;
+        $rows = $this->league_model->getRows();
+        $this->set_response($rows, 200);
     }
 
-    public function getwithinfo()
+    public function index_post()
     {
-        $this->load->database();
-        $this->load->model('league_model');
-
-        $rows = $this->league_model->getLeaguesWithInfo();
-
-        echo json_encode($rows);
-        exit;
-    }
-
-    public function save()
-    {
-        $this->load->database();
-        $this->load->model('league_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->league_model->saveLeague($data);
-        exit($result);
+        $result = $this->league_model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
         $data = $this->input->get();
-
-        $this->load->database();
-        $this->load->model('league_model');
-        $result = $this->league_model->deleteLeague($data['id']);
-        exit($result);
+        $result = $this->league_model->deleteRowById($data['id']);
+        $this->set_response($result, 200);
     }
 }

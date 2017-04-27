@@ -3,21 +3,18 @@
 
 class League_model extends CI_Model
 {
+
     private $table = 'leagues';
 
     function __construct()
     {
+        /* Call the Model constructor */
         parent::__construct();
     }
 
-    public function getRows()
+    public function getLeagues()
     {
         return $this->db->get($this->table)->result();
-    }
-
-    public function getRowById($id)
-    {
-        return $this->db->get_where($this->table, array('id' => $id))->result();
     }
 
     public function getLeaguesWithInfo()
@@ -28,8 +25,9 @@ class League_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function saveRow($data)
+    public function saveLeague($data)
     {
+
         $rowId = $data['id'];
 
         $cols = array('competition_id', 'season', 'group_level', 'start_date', 'status', 'applied_date', 'accepted_flag', 'paid_flag', 'roster');
@@ -40,15 +38,16 @@ class League_model extends CI_Model
 
         if ($rowId) {
             $this->db->where('id', $rowId);
-            $this->db->update($this->table, $row);
+            $result = $this->db->update($this->table, $row);
         } else {
-            $this->db->insert($this->table, $row);
-            $rowId = $this->db->insert_id();
+            $result = $this->db->insert($this->table, $row);
+            $this->db->insert_id();
         }
-        return $rowId;
+
+        return $result;
     }
 
-    public function deleteRowById($rowId)
+    public function deleteLeague($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }
