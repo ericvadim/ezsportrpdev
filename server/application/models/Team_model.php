@@ -11,7 +11,7 @@ class Team_model extends CI_Model
     }
 
     private function getImagePath ($rowId) {
-        return 'uploads/team_images/' . $rowId . 'jpg';
+        return 'uploads/team_images/' . $rowId . '.jpg';
     }
 
     public function getRows($clubId)
