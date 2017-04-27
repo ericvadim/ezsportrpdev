@@ -13,10 +13,11 @@ if (!function_exists('send_email')) {
             'smtp_pass' => SMTP_PASSWORD,
             'mailtype' => 'html',
             'charset' => 'utf-8',
-            'wordwrap' => true
+            'wordwrap' => true,
+            'crlf' => "\r\n",
+            'newline' => "\r\n"
         );
 
-        $CI->email->set_newline('\r\n');
         $CI->email->initialize($config);
 
         $CI->email->from(SITE_FROM_EMAIL, SITE_NAME);
