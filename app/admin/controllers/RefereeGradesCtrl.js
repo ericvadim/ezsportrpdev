@@ -1,83 +1,63 @@
 'use strict';
 
-angular.module('app.admin').controller('RefereeGradesController', function (ServerURL, $http, $filter) {
-    var vm = this;
-    vm.sports = [];
-    vm.tableData = [];
-    vm.currRow = {};
-    vm.loading = true;
+angular.module('app.admin').controller('RefereeGradesController', function ($scope, $filter, RefereeGradeService, SportsService) {
+    $scope.tableData = $scope.safeData = [];
+    $scope.currRow = {};
+    $scope.sports = {};
+    $scope.loading = true;
 
-    vm.getSports = function () {
-        $http.get(ServerURL + "sports/get").then(function (response) {
-            vm.sports = response.data;
+    SportsService.get().then(function (response) {
+        $scope.sports = response.data;
+        $scope.getData();
+    });
+
+    $scope.getData = function () {
+        $scope.loading = true;
+        RefereeGradeService.get().then(function (response) {
+            $scope.tableData = $scope.safeData = response.data;
+            $scope.loading = false;
         });
     };
-    vm.getSports();
 
-    vm.getData = function () {
-        vm.loading = true;
-        $http.get(ServerURL + "grades/get").then(function (response) {
-            vm.tableData = response.data;
-            vm.loading = false;
-        });
-    };
-    vm.getData();
-
-    vm.save = function () {
-        var data = vm.currRow;
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "grades/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
+    $scope.save = function () {
+        $scope.loading = true;
+        var data = $scope.currRow;
+        RefereeGradeService.save(data).then(function () {
             $('#myModal').modal('hide');
+            $scope.getData();
         });
     };
 
-    vm.openModal = function (rowId) {
-        vm.editRow(rowId);
-        $('#myModal').modal('show');
-    };
-
-    vm.addNew = function () {
-        vm.currRow = {
+    $scope.addRow = function () {
+        $scope.currRow = {
             id: 0,
-            grade_identifier: '',
+            identifier: '',
             grade_name: '',
             sport_types: ''
         };
     };
 
-    vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+    $scope.editRow = function (row) {
+        $scope.currRow = JSON.parse(angular.toJson(row));
+        $('#myModal').modal('show');
     };
 
-    vm.deleteRow = function (rowId) {
+    $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            vm.loading = true;
-            $http.get(ServerURL + "grades/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
+            $scope.loading = true;
+            RefereeGradeService.delete(rowId).then(function () {
+                $scope.getData();
             });
         }
     };
 
-    vm.getSportTypeLabels = function (sportTypes) {
+    $scope.getSportLabels = function (sport_types) {
         var types = [];
-        for (var type in sportTypes) {
-            if (type != "" && sportTypes[type]) {
-                types[types.length] = $filter('filter')(vm.sports, {id: type}, true)[0].sport_name;
+        for (var type in sport_types) {
+            if (type != "" && sport_types[type]) {
+                types[types.length] = $filter('filter')($scope.sports, {id: type}, true)[0].sport_name;
             }
         }
         return types.join(', ');
     };
-
-    $('#myModal').on('hidden.bs.modal', function () {
-        vm.getData();
-    });
 });

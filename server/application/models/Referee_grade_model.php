@@ -1,18 +1,16 @@
 <?php
 
 
-class Grade_model extends CI_Model
+class Referee_grade_model extends CI_Model
 {
-
-    private $table = 'grades';
+    private $table = 'referee_grades';
 
     function __construct()
     {
-        /* Call the Model constructor */
         parent::__construct();
     }
 
-    public function getGrades()
+    public function getRows()
     {
         $rows = $this->db->get($this->table)->result();
         $result = array();
@@ -32,11 +30,16 @@ class Grade_model extends CI_Model
         return $result;
     }
 
-    public function saveGrade($data)
+    public function getRowById($id)
+    {
+        return $this->db->get_where($this->table, array('id' => $id))->result();
+    }
+
+    public function saveRow($data)
     {
         $rowId = $data['id'];
 
-        $cols = array('grade_identifier', 'grade_name');
+        $cols = array('identifier', 'grade_name');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
@@ -54,16 +57,15 @@ class Grade_model extends CI_Model
 
         if ($rowId) {
             $this->db->where('id', $rowId);
-            $result = $this->db->update($this->table, $row);
+            $this->db->update($this->table, $row);
         } else {
-            $result = $this->db->insert($this->table, $row);
-            $this->db->insert_id();
+            $this->db->insert($this->table, $row);
+            $rowId = $this->db->insert_id();
         }
-
-        return $result;
+        return $rowId;
     }
 
-    public function deleteGrade($rowId)
+    public function deleteRowById($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }

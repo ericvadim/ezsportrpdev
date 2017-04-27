@@ -5,7 +5,7 @@
     </div>
 
     <div class="text-right margin-bottom-10">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addNew()">Add New</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addRow()">Add New</button>
     </div>
     <section widget-grid id="widget-grid">
         <div class="row">
@@ -32,11 +32,11 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in tableData" ng-dblclick="openModal(row.id)">
+                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.sport_name}}</td>
                                         <td class="text-center controls-td">
-                                            <a ng-click="editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
+                                            <a ng-click="editRow(row)">Edit</a> /
                                             <a ng-click="deleteRow(row.id)">Delete</a>
                                         </td>
                                     </tr>
@@ -48,27 +48,6 @@
                                         </td>
                                     </tr>
                                     </tfoot>
-                                </table>
-                            </div>
-                            <div class="table-responsive hide">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Sport Name</th>
-                                        <th>Manage</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="row in tableData" ng-dblclick="openModal(row.id)">
-                                        <td>{{$index + 1}}</td>
-                                        <td>{{row.sport_name}}</td>
-                                        <td class="text-center controls-td">
-                                            <a ng-click="editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
-                                            <a ng-click="deleteRow(row.id)">Delete</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -90,8 +69,8 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Sport Name</label>
-                        <div class="col-md-8">
+                        <label class="col-md-3 control-label">Sport Name</label>
+                        <div class="col-md-9">
                             <input class="form-control" placeholder="Sport Name" type="text" ng-model="currRow.sport_name">
                         </div>
                     </div>
