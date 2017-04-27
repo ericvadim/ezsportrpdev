@@ -49,7 +49,7 @@ class Team_model extends CI_Model
         if (isset($data['image'])) {
             if (strpos($data['image'], 'base64')) {
                 list(, $img) = explode(',', $data['image']);
-                file_put_contents('uploads/team_images/' . $rowId . '.jpg', base64_decode($img));
+                file_put_contents(base_url() . $this->imagePath . $rowId . '.jpg', base64_decode($img));
             }
         }
 
