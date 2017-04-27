@@ -278,6 +278,18 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.importPersons', {
+                url: '/import-persons',
+                data: {
+                    title: 'Import Person Data'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/import-persons.html',
+                        controller: 'ImportPersonsController'
+                    }
+                }
+            })
         ;
     })
 ;
