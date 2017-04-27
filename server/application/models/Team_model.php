@@ -20,8 +20,7 @@ class Team_model extends CI_Model
         if (sizeof($rows)) {
             foreach ($rows as $key => $value) {
                 $image = $this->getImagePath($value->id);
-                echo current_url();exit;
-                $value->image = file_exists($image) ? $image : './styles/img/no.jpg';
+                $value->image = file_exists($image) ? base_url($image) : './styles/img/no.jpg';
             }
         }
         return $rows;
