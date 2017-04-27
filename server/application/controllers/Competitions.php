@@ -1,41 +1,34 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Competitions extends CI_Controller
+require dirname(__FILE__) . '/Base_Controller.php';
+
+class Competitions extends Base_Controller
 {
-
-    public function index()
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('competition_model');
     }
 
-    public function get()
+    public function index_get()
     {
-        $this->load->database();
-        $this->load->model('competition_model');
-
-        $rows = $this->competition_model->getCompetitions();
-
-        echo json_encode($rows);
-        exit;
+//        if (!$this->protect()) return;
+        $rows = $this->competition_model->getRows();
+        $this->set_response($rows, 200);
     }
 
-    public function save()
+    public function index_post()
     {
-        $this->load->database();
-        $this->load->model('competition_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->competition_model->saveCompetition($data);
-        exit($result);
+        $result = $this->competition_model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
         $data = $this->input->get();
-
-        $this->load->database();
-        $this->load->model('competition_model');
-        $result = $this->competition_model->deleteCompetition($data['id']);
-        exit($result);
+        $result = $this->competition_model->deleteRowById($data['id']);
+        $this->set_response($result, 200);
     }
 }

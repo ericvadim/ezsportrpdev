@@ -1,11 +1,11 @@
-<loading visible="vm.loading"></loading>
+<loading visible="loading"></loading>
 <div id="content">
     <div class="row">
-        <big-breadcrumbs items="['Competitions']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <big-breadcrumbs items="['Sports Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
     <div class="text-right margin-bottom-10">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addRow()">Add New</button>
     </div>
     <section widget-grid id="widget-grid">
         <div class="row">
@@ -13,31 +13,43 @@
                 <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Competitions</h2>
+                        <h2>Sports Management</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
                             <div class="table-responsive">
-                                <table class="table table-bordered">
+                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Competition Name</th>
-                                        <th>Group Levels</th>
-                                        <th>Manage</th>
+                                        <th rowspan="2">No</th>
+                                        <th st-sort="sport_name">Competition Name</th>
+                                        <th rowspan="2">Group Levels</th>
+                                        <th rowspan="2">Action</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="competition_name"/>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
+                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.competition_name}}</td>
-                                        <td>{{vm.getGroupLevelNames(row.group_levels)}}</td>
+                                        <td>{{getGroupLevelNames(row.group_levels)}}</td>
                                         <td class="text-center controls-td">
-                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
-                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
+                                            <a ng-click="editRow(row)">Edit</a> /
+                                            <a ng-click="deleteRow(row.id)">Delete</a>
                                         </td>
                                     </tr>
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="4" class="text-center">
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -61,15 +73,15 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Competition Name</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Competition Name" type="text" ng-model="vm.currRow.competition_name">
+                            <input class="form-control" placeholder="Competition Name" type="text" ng-model="currRow.competition_name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Group Levels</label>
                         <div class="col-md-8">
-                            <div class="checkbox" ng-repeat="(key, val) in vm.groupLevels">
+                            <div class="checkbox" ng-repeat="(key, val) in groupLevels">
                                 <label>
-                                    <input type="checkbox" class="checkbox style-0" ng-model="vm.currRow.group_levels[key]">
+                                    <input type="checkbox" class="checkbox style-0" ng-model="currRow.group_levels[key]">
                                     <span>{{val}}</span>
                                 </label>
                             </div>
@@ -78,7 +90,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="vm.save()">Save</button>
+                <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>

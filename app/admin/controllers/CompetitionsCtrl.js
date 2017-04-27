@@ -1,72 +1,56 @@
 'use strict';
 
-angular.module('app.admin').controller('CompetitionsController', function (ServerURL, $http, $filter, GroupLevels) {
-    var vm = this;
-    vm.groupLevels = GroupLevels;
-    vm.tableData = [];
-    vm.currRow = {};
-    vm.loading = true;
+angular.module('app.admin').controller('CompetitionsController', function ($scope, CompetitionsService, GroupLevels) {
+    $scope.groupLevels = GroupLevels;
+    $scope.tableData = $scope.safeData = [];
+    $scope.currRow = {};
+    $scope.loading = true;
 
-    vm.getData = function () {
-        vm.loading = true;
-        $http.get(ServerURL + "competitions/get").then(function (response) {
-            vm.tableData = response.data;
-            vm.loading = false;
+    $scope.getData = function () {
+        $scope.loading = true;
+        CompetitionsService.get().then(function (response) {
+            $scope.tableData = $scope.safeData = response.data;
+            $scope.loading = false;
         });
     };
-    vm.getData();
+    $scope.getData();
 
-    vm.save = function () {
-        var data = vm.currRow;
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "competitions/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
+    $scope.save = function () {
+        $scope.loading = true;
+        var data = $scope.currRow;
+        CompetitionsService.save(data).then(function () {
             $('#myModal').modal('hide');
+            $scope.getData();
         });
     };
 
-    vm.openModal = function (rowId) {
-        vm.editRow(rowId);
-        $('#myModal').modal('show');
-    };
-
-    vm.addNew = function () {
-        vm.currRow = {
+    $scope.addRow = function () {
+        $scope.currRow = {
             id: 0,
             competition_name: '',
             group_levels: {}
         };
     };
 
-    vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+    $scope.editRow = function (row) {
+        $scope.currRow = JSON.parse(angular.toJson(row));
+        $('#myModal').modal('show');
     };
 
-    vm.deleteRow = function (rowId) {
+    $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            vm.loading = true;
-            $http.get(ServerURL + "competitions/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
+            $scope.loading = true;
+            CompetitionsService.delete(rowId).then(function () {
+                $scope.getData();
             });
         }
     };
-    $('#myModal').on('hidden.bs.modal', function () {
-        vm.getData();
-    });
 
-    vm.getGroupLevelNames = function (groupLevels) {
+    $scope.getGroupLevelNames = function (groupLevels) {
         var names = [];
         for (var key in groupLevels) {
             if (key != "" && groupLevels[key]) {
-                names[names.length] = vm.groupLevels[key];
+                names[names.length] = $scope.groupLevels[key];
             }
         }
         return names.join(', ');
