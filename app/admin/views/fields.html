@@ -1,11 +1,11 @@
-<loading visible="vm.loading"></loading>
+<loading visible="loading"></loading>
 <div id="content">
     <div class="row">
-        <big-breadcrumbs items="['Field Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <big-breadcrumbs items="['Fields Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
     <div class="text-right margin-bottom-10">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addRow()">Add New</button>
     </div>
     <section widget-grid id="widget-grid">
         <div class="row">
@@ -13,25 +13,33 @@
                 <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Field Management</h2>
+                        <h2>Fields Management</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
                             <div class="table-responsive">
-                                <table class="table table-bordered">
+                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Field Name</th>
-                                        <th>Soccer</th>
-                                        <th>Synthetic Turf</th>
-                                        <th>Restrooms</th>
-                                        <th>Location</th>
-                                        <th>Manage</th>
+                                        <th rowspan="2">No</th>
+                                        <th st-sort="field_name">Field Name</th>
+                                        <th rowspan="2">Soccer</th>
+                                        <th rowspan="2">Synthetic Turf</th>
+                                        <th rowspan="2">Restrooms</th>
+                                        <th st-sort="location">Location</th>
+                                        <th rowspan="2">Action</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="field_name"/>
+                                        </th>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="location"/>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
+                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.field_name}}</td>
                                         <td>{{!!row.soccer ? 'Yes' : 'No'}}</td>
@@ -39,11 +47,18 @@
                                         <td>{{!!row.restrooms ? 'Yes' : 'No'}}</td>
                                         <td>{{row.location}}</td>
                                         <td class="text-center controls-td">
-                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
-                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
+                                            <a ng-click="editRow(row)">Edit</a> /
+                                            <a ng-click="deleteRow(row.id)">Delete</a>
                                         </td>
                                     </tr>
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -65,48 +80,48 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Field Name</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Field Name" type="text" ng-model="vm.currRow.field_name">
+                        <label class="col-md-3 control-label">Field Name</label>
+                        <div class="col-md-9">
+                            <input class="form-control" placeholder="Field Name" type="text" ng-model="currRow.field_name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Soccer</label>
-                        <div class="col-md-8 smart-form">
+                        <label class="col-md-3 control-label">Soccer</label>
+                        <div class="col-md-9 smart-form">
                             <label class="checkbox">
-                                <input type="checkbox" name="checkbox" checked="checked" ng-model="vm.currRow.soccer">
+                                <input type="checkbox" name="checkbox" checked="checked" ng-model="currRow.soccer">
                                 <i></i>
                             </label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Synthetic Turf</label>
-                        <div class="col-md-8 smart-form">
+                        <label class="col-md-3 control-label">Synthetic Turf</label>
+                        <div class="col-md-9 smart-form">
                             <label class="checkbox">
-                                <input type="checkbox" name="checkbox" checked="checked" ng-model="vm.currRow.synthetic_turf">
+                                <input type="checkbox" name="checkbox" checked="checked" ng-model="currRow.synthetic_turf">
                                 <i></i>
                             </label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Restrooms</label>
-                        <div class="col-md-8 smart-form">
+                        <label class="col-md-3 control-label">Restrooms</label>
+                        <div class="col-md-9 smart-form">
                             <label class="checkbox">
-                                <input type="checkbox" name="checkbox" checked="checked" ng-model="vm.currRow.restrooms">
+                                <input type="checkbox" name="checkbox" checked="checked" ng-model="currRow.restrooms">
                                 <i></i>
                             </label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Location</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Location" type="text" ng-model="vm.currRow.location">
+                        <label class="col-md-3 control-label">Location</label>
+                        <div class="col-md-9">
+                            <input class="form-control" placeholder="Location" type="text" ng-model="currRow.location">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="vm.save()">Save</button>
+                <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>

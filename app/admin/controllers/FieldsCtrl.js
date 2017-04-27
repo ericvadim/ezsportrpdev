@@ -1,45 +1,35 @@
 'use strict';
 
-angular.module('app.admin').controller('FieldsController', function (ServerURL, $http, $filter) {
-    var vm = this;
-    vm.tableData = [];
-    vm.currRow = {};
-    vm.loading = true;
+angular.module('app.admin').controller('FieldsController', function ($scope, FieldsService) {
+    $scope.tableData = $scope.safeData = [];
+    $scope.currRow = {};
+    $scope.loading = true;
 
-    vm.getData = function () {
-        vm.loading = true;
-        $http.get(ServerURL + "fields/get").then(function (response) {
-            vm.tableData = response.data;
-            for (var i in vm.tableData) {
-                vm.tableData[i].soccer = !!(vm.tableData[i].soccer * 1);
-                vm.tableData[i].synthetic_turf = !!(vm.tableData[i].synthetic_turf * 1);
-                vm.tableData[i].restrooms = !!(vm.tableData[i].restrooms * 1);
+    $scope.getData = function () {
+        $scope.loading = true;
+        FieldsService.get().then(function (response) {
+            $scope.tableData = $scope.safeData = response.data;
+            for (var i in $scope.tableData) {
+                $scope.tableData[i].soccer = !!($scope.tableData[i].soccer * 1);
+                $scope.tableData[i].synthetic_turf = !!($scope.tableData[i].synthetic_turf * 1);
+                $scope.tableData[i].restrooms = !!($scope.tableData[i].restrooms * 1);
             }
-            vm.loading = false;
+            $scope.loading = false;
         });
     };
-    vm.getData();
+    $scope.getData();
 
-    vm.save = function () {
-        var data = vm.currRow;
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "fields/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
+    $scope.save = function () {
+        $scope.loading = true;
+        var data = $scope.currRow;
+        FieldsService.save(data).then(function () {
             $('#myModal').modal('hide');
+            $scope.getData();
         });
     };
 
-    vm.openModal = function (rowId) {
-        vm.editRow(rowId);
-        $('#myModal').modal('show');
-    };
-
-    vm.addNew = function () {
-        vm.currRow = {
+    $scope.addRow = function () {
+        $scope.currRow = {
             id: 0,
             field_name: '',
             soccer: 0,
@@ -49,23 +39,17 @@ angular.module('app.admin').controller('FieldsController', function (ServerURL, 
         };
     };
 
-    vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+    $scope.editRow = function (row) {
+        $scope.currRow = JSON.parse(angular.toJson(row));
+        $('#myModal').modal('show');
     };
 
-    vm.deleteRow = function (rowId) {
+    $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            vm.loading = true;
-            $http.get(ServerURL + "fields/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
+            $scope.loading = true;
+            FieldsService.delete(rowId).then(function () {
+                $scope.getData();
             });
         }
     };
-    $('#myModal').on('hidden.bs.modal', function () {
-        vm.getData();
-    });
 });

@@ -1,42 +1,34 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Licenses extends CI_Controller
+require dirname(__FILE__) . '/Base_Controller.php';
+
+class Sports extends Base_Controller
 {
-
-    public function index()
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('sport_model');
     }
 
-    public function get()
+    public function index_get()
     {
-        $this->load->database();
-        $this->load->model('license_model');
-        $sportId = $this->input->get('sport_id');
-
-        $rows = $this->license_model->getLicenses($sportId);
-
-        echo json_encode($rows);
-        exit;
+//        if (!$this->protect()) return;
+        $rows = $this->sport_model->getRows();
+        $this->set_response($rows, 200);
     }
 
-    public function save()
+    public function index_post()
     {
-        $this->load->database();
-        $this->load->model('license_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->license_model->saveLicense($data);
-        exit($result);
+        $result = $this->sport_model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
         $data = $this->input->get();
-
-        $this->load->database();
-        $this->load->model('license_model');
-        $result = $this->license_model->deleteLicense($data['id']);
-        exit($result);
+        $result = $this->sport_model->deleteRowById($data['id']);
+        $this->set_response($result, 200);
     }
 }

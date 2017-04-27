@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.admin').controller('RefereeGradesController', function ($scope, $filter, RefereeGradeService, SportsService) {
+angular.module('app.admin').controller('RefereeGradesController', function ($scope, $filter, RefereeGradesService, SportsService) {
     $scope.tableData = $scope.safeData = [];
     $scope.currRow = {};
     $scope.sports = {};
@@ -13,7 +13,7 @@ angular.module('app.admin').controller('RefereeGradesController', function ($sco
 
     $scope.getData = function () {
         $scope.loading = true;
-        RefereeGradeService.get().then(function (response) {
+        RefereeGradesService.get().then(function (response) {
             $scope.tableData = $scope.safeData = response.data;
             $scope.loading = false;
         });
@@ -22,7 +22,7 @@ angular.module('app.admin').controller('RefereeGradesController', function ($sco
     $scope.save = function () {
         $scope.loading = true;
         var data = $scope.currRow;
-        RefereeGradeService.save(data).then(function () {
+        RefereeGradesService.save(data).then(function () {
             $('#myModal').modal('hide');
             $scope.getData();
         });
@@ -45,7 +45,7 @@ angular.module('app.admin').controller('RefereeGradesController', function ($sco
     $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             $scope.loading = true;
-            RefereeGradeService.delete(rowId).then(function () {
+            RefereeGradesService.delete(rowId).then(function () {
                 $scope.getData();
             });
         }

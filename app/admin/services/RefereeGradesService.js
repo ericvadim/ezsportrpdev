@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('app.admin')
-        .factory('RefereeGradeService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+        .factory('RefereeGradesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
             return {
                 get: function () {
                     var url = ServerURL + 'referee_grades';

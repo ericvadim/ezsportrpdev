@@ -1,28 +1,30 @@
 <?php
 
 
-class License_model extends CI_Model
+class Sport_model extends CI_Model
 {
-
-    private $table = 'licenses';
+    private $table = 'sports';
 
     function __construct()
     {
-        /* Call the Model constructor */
         parent::__construct();
     }
 
-    public function getLicenses($sportId)
+    public function getRows()
     {
-        return $this->db->get_where($this->table, array('sport_id'=>$sportId))->result();
+        return $this->db->get($this->table)->result();
     }
 
-    public function saveLicense($data)
+    public function getRowById($id)
     {
+        return $this->db->get_where($this->table, array('id' => $id))->result();
+    }
 
+    public function saveRow($data)
+    {
         $rowId = $data['id'];
 
-        $cols = array('sport_id', 'level', 'license_name');
+        $cols = array('sport_name');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
@@ -30,16 +32,15 @@ class License_model extends CI_Model
 
         if ($rowId) {
             $this->db->where('id', $rowId);
-            $result = $this->db->update($this->table, $row);
+            $this->db->update($this->table, $row);
         } else {
-            $result = $this->db->insert($this->table, $row);
-            $this->db->insert_id();
+            $this->db->insert($this->table, $row);
+            $rowId = $this->db->insert_id();
         }
-
-        return $result;
+        return $rowId;
     }
 
-    public function deleteLicense($rowId)
+    public function deleteRowById($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }
