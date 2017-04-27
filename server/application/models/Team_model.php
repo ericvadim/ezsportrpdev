@@ -16,11 +16,11 @@ class Team_model extends CI_Model
 
     public function getRows($clubId)
     {
-        print_r($_SERVER);exit;
         $rows = $this->db->get_where($this->table, array('club_id' => $clubId))->result();
         if (sizeof($rows)) {
             foreach ($rows as $key => $value) {
                 $image = $this->getImagePath($value->id);
+                echo base_url($image);exit;
                 $value->image = file_exists($image) ? $image : './styles/img/no.jpg';
             }
         }
