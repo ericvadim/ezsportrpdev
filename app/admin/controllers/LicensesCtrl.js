@@ -17,7 +17,7 @@ angular.module('app.admin').controller('LicensesController', function ($scope, L
 
     $scope.getData = function () {
         $scope.loading = true;
-        LicensesService.get().then(function (response) {
+        LicensesService.get($scope.currSportId).then(function (response) {
             $scope.tableData = $scope.safeData = response.data;
             $scope.loading = false;
         });
@@ -26,6 +26,7 @@ angular.module('app.admin').controller('LicensesController', function ($scope, L
     $scope.save = function () {
         $scope.loading = true;
         var data = $scope.currRow;
+        data['sport_id'] = $scope.currSportId;
         LicensesService.save(data).then(function () {
             $('#myModal').modal('hide');
             $scope.getData();

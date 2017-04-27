@@ -2,10 +2,10 @@
     'use strict';
 
     angular.module('app.admin')
-        .factory('LicensesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+        .factory('PositionsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
             return {
                 get: function (sportId) {
-                    var url = ServerURL + 'licenses?sport_id=' + sportId;
+                    var url = ServerURL + 'positions?sport_id=' + sportId;
                     var deferred = $q.defer();
                     $http.get(url).then(function (res) {
                         deferred.resolve(res);
@@ -15,7 +15,7 @@
                     return deferred.promise;
                 },
                 save: function (data) {
-                    var url = ServerURL + 'licenses';
+                    var url = ServerURL + 'positions';
                     var deferred = $q.defer();
                     $http({
                         method: 'POST',
@@ -31,7 +31,7 @@
                 },
                 delete: function (rowId) {
                     var deferred = $q.defer();
-                    var url = ServerURL + 'licenses?id=' + rowId;
+                    var url = ServerURL + 'positions?id=' + rowId;
                     $http.delete(url).then(function (res) {
                         deferred.resolve(res);
                     }, function (err) {

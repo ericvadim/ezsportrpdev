@@ -1,42 +1,35 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Positions extends CI_Controller
+require dirname(__FILE__) . '/Base_Controller.php';
+
+class Positions extends Base_Controller
 {
-
-    public function index()
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('position_model');
     }
 
-    public function get()
+    public function index_get()
     {
-        $this->load->database();
-        $this->load->model('position_model');
+//        if (!$this->protect()) return;
         $sportId = $this->input->get('sport_id');
-
-        $rows = $this->position_model->getPositions($sportId);
-
-        echo json_encode($rows);
-        exit;
+        $rows = $this->position_model->getRows($sportId);
+        $this->set_response($rows, 200);
     }
 
-    public function save()
+    public function index_post()
     {
-        $this->load->database();
-        $this->load->model('position_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->position_model->savePosition($data);
-        exit($result);
+        $result = $this->position_model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
         $data = $this->input->get();
-
-        $this->load->database();
-        $this->load->model('position_model');
-        $result = $this->position_model->deletePosition($data['id']);
-        exit($result);
+        $result = $this->position_model->deleteRowById($data['id']);
+        $this->set_response($result, 200);
     }
 }

@@ -3,28 +3,25 @@
 
 class Position_model extends CI_Model
 {
-
     private $table = 'positions';
 
     function __construct()
     {
-        /* Call the Model constructor */
         parent::__construct();
     }
 
-    public function getPositions($sportId)
+    public function getRows($sportId)
     {
-        if ($sportId) {
-            $result = $this->db->get_where($this->table, array('sport_id'=>$sportId))->result();
-        } else {
-            $result = $this->db->get($this->table)->result();
-        }
-        return $result;
+        return $this->db->get_where($this->table, array('sport_id' => $sportId))->result();
     }
 
-    public function savePosition($data)
+    public function getRowById($id)
     {
+        return $this->db->get_where($this->table, array('id' => $id))->result();
+    }
 
+    public function saveRow($data)
+    {
         $rowId = $data['id'];
 
         $cols = array('sport_id', 'position_name', 'short_name');
@@ -35,16 +32,15 @@ class Position_model extends CI_Model
 
         if ($rowId) {
             $this->db->where('id', $rowId);
-            $result = $this->db->update($this->table, $row);
+            $this->db->update($this->table, $row);
         } else {
-            $result = $this->db->insert($this->table, $row);
-            $this->db->insert_id();
+            $this->db->insert($this->table, $row);
+            $rowId = $this->db->insert_id();
         }
-
-        return $result;
+        return $rowId;
     }
 
-    public function deletePosition($rowId)
+    public function deleteRowById($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }
