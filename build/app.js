@@ -2142,8 +2142,8 @@ $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<d
     angular
         .module('app')
 
-        .constant('ServerURL', 'http://ezsportrp.info/server/')
-        // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+        // .constant('ServerURL', 'http://ezsportrp.info/server/')
+        .constant('ServerURL', 'http://localhost/ezsportrp/server/')
         .constant('isDebug', true)
 
         .constant('APP_CONFIG', window.appConfig)
@@ -4083,7 +4083,7 @@ angular.module('app.admin').controller('LeaguesController', function (ServerURL,
 });
 'use strict';
 
-angular.module('app.admin').controller('LicensesController', function (ServerURL, $http, $filter) {
+angular.module('app.admin').controller('LicdensesController', function (ServerURL, $http, $filter) {
     var vm = this;
     vm.sportTypes = [];
     vm.currSportId = 0;
@@ -4156,6 +4156,61 @@ angular.module('app.admin').controller('LicensesController', function (ServerURL
     $('#myModal').on('hidden.bs.modal', function () {
         vm.getData();
     });
+});
+'use strict';
+
+angular.module('app.admin').controller('LicensesController', function ($scope, LicensesService, SportsService) {
+    $scope.sports = [];
+    $scope.currSportId = 0;
+    $scope.tableData = $scope.safeData = [];
+    $scope.currRow = {};
+    $scope.loading = true;
+
+    SportsService.get().then(function (response) {
+        $scope.sports = response.data;
+        if ($scope.sports.length) {
+            $scope.currSportId = $scope.sports[0].id;
+            $scope.getData();
+        }
+    });
+
+    $scope.getData = function () {
+        $scope.loading = true;
+        LicensesService.get().then(function (response) {
+            $scope.tableData = $scope.safeData = response.data;
+            $scope.loading = false;
+        });
+    };
+
+    $scope.save = function () {
+        $scope.loading = true;
+        var data = $scope.currRow;
+        LicensesService.save(data).then(function () {
+            $('#myModal').modal('hide');
+            $scope.getData();
+        });
+    };
+
+    $scope.addRow = function () {
+        $scope.currRow = {
+            id: 0,
+            sport_name: ''
+        };
+    };
+
+    $scope.editRow = function (row) {
+        $scope.currRow = JSON.parse(angular.toJson(row));
+        $('#myModal').modal('show');
+    };
+
+    $scope.deleteRow = function (rowId) {
+        if (confirm('Are you sure want to delete this?')) {
+            $scope.loading = true;
+            LicensesService.delete(rowId).then(function () {
+                $scope.getData();
+            });
+        }
+    };
 });
 'use strict';
 
@@ -5422,6 +5477,50 @@ angular.module('app.admin').controller('UsersController', function (ServerURL, $
                 delete: function (rowId) {
                     var deferred = $q.defer();
                     var url = ServerURL + 'fields?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('LicensesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function () {
+                    var url = ServerURL + 'licenses';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'licenses';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'licenses?id=' + rowId;
                     $http.delete(url).then(function (res) {
                         deferred.resolve(res);
                     }, function (err) {

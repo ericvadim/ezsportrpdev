@@ -1,76 +1,55 @@
 'use strict';
 
-angular.module('app.admin').controller('LicensesController', function (ServerURL, $http, $filter) {
-    var vm = this;
-    vm.sportTypes = [];
-    vm.currSportId = 0;
-    vm.tableData = [];
-    vm.currRow = {};
-    vm.loading = true;
+angular.module('app.admin').controller('LicensesController', function ($scope, LicensesService, SportsService) {
+    $scope.sports = [];
+    $scope.currSportId = 0;
+    $scope.tableData = $scope.safeData = [];
+    $scope.currRow = {};
+    $scope.loading = true;
 
-    vm.getSports = function () {
-        $http.get(ServerURL + "sports/get").then(function (response) {
-            vm.sportTypes = response.data;
-            if (vm.sportTypes.length) {
-                vm.currSportId = vm.sportTypes[0].id;
-                vm.getData();
-            }
-        });
-    };
-    vm.getSports();
+    SportsService.get().then(function (response) {
+        $scope.sports = response.data;
+        if ($scope.sports.length) {
+            $scope.currSportId = $scope.sports[0].id;
+            $scope.getData();
+        }
+    });
 
-    vm.getData = function () {
-        vm.loading = true;
-        $http.get(ServerURL + "licenses/get?sport_id=" + vm.currSportId).then(function (response) {
-            vm.tableData = response.data;
-            vm.loading = false;
+    $scope.getData = function () {
+        $scope.loading = true;
+        LicensesService.get().then(function (response) {
+            $scope.tableData = $scope.safeData = response.data;
+            $scope.loading = false;
         });
     };
 
-    vm.save = function () {
-        var data = vm.currRow;
-        data['sport_id'] = vm.currSportId;
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "licenses/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
+    $scope.save = function () {
+        $scope.loading = true;
+        var data = $scope.currRow;
+        LicensesService.save(data).then(function () {
             $('#myModal').modal('hide');
+            $scope.getData();
         });
     };
 
-    vm.openModal = function (rowId) {
-        vm.editRow(rowId);
-        $('#myModal').modal('show');
-    };
-
-    vm.addNew = function () {
-        vm.currRow = {
+    $scope.addRow = function () {
+        $scope.currRow = {
             id: 0,
-            level: '',
-            license_name: ''
+            sport_name: ''
         };
     };
 
-    vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+    $scope.editRow = function (row) {
+        $scope.currRow = JSON.parse(angular.toJson(row));
+        $('#myModal').modal('show');
     };
 
-    vm.deleteRow = function (rowId) {
+    $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            vm.loading = true;
-            $http.get(ServerURL + "licenses/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
+            $scope.loading = true;
+            LicensesService.delete(rowId).then(function () {
+                $scope.getData();
             });
         }
     };
-    $('#myModal').on('hidden.bs.modal', function () {
-        vm.getData();
-    });
 });

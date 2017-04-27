@@ -1,18 +1,18 @@
 <?php
 
 
-class Sport_model extends CI_Model
+class License_model extends CI_Model
 {
-    private $table = 'sports';
+    private $table = 'licenses';
 
     function __construct()
     {
         parent::__construct();
     }
 
-    public function getRows()
+    public function getRows($sportId)
     {
-        return $this->db->get($this->table)->result();
+        return $this->db->get_where($this->table, array('sport_id' => $sportId))->result();
     }
 
     public function getRowById($id)
@@ -24,7 +24,7 @@ class Sport_model extends CI_Model
     {
         $rowId = $data['id'];
 
-        $cols = array('sport_name');
+        $cols = array('sport_id', 'level', 'license_name');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
