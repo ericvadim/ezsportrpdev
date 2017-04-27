@@ -22,6 +22,10 @@ ul[data-smart-menu] {
     cursor: pointer;
 }
 
+body:not(.menu-on-top).desktop-detected {
+    min-height: auto !important;
+}
+
 .max-width-50 {
     max-width: 50px;
 }
@@ -117,6 +121,7 @@ nav ul.pagination {
 nav ul.pagination {
     width: auto;
 }
+
 nav ul.pagination li a {
     padding: 5px 10px;
 }
