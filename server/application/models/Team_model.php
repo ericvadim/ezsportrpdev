@@ -4,11 +4,14 @@
 class Team_model extends CI_Model
 {
     private $table = 'teams';
-    private $imagePath = 'uploads/team_images/';
 
     function __construct()
     {
         parent::__construct();
+    }
+
+    private function getImagePath ($rowId) {
+        return 'uploads/team_images/' . $rowId . 'jpg';
     }
 
     public function getRows($clubId)
@@ -16,7 +19,7 @@ class Team_model extends CI_Model
         $rows = $this->db->get_where($this->table, array('club_id' => $clubId))->result();
         if (sizeof($rows)) {
             foreach ($rows as $key => $value) {
-                $image = base_url() . $this->imagePath . $value->id . '.jpg';
+                $image = $this->getImagePath($value->id);
                 $value->image = file_exists($image) ? base_url() . $image : './styles/img/no.jpg';
             }
         }
@@ -49,7 +52,7 @@ class Team_model extends CI_Model
         if (isset($data['image'])) {
             if (strpos($data['image'], 'base64')) {
                 list(, $img) = explode(',', $data['image']);
-                file_put_contents(base_url() . $this->imagePath . $rowId . '.jpg', base64_decode($img));
+                file_put_contents($this->getImagePath($rowId), base64_decode($img));
             }
         }
 
@@ -58,8 +61,8 @@ class Team_model extends CI_Model
 
     public function deleteRowById($rowId)
     {
-        $file = base_url() . $this->imagePath . $rowId . '.jpg';
-        if (file_exists($file)) unlink($file);
+        $image = $this->getImagePath($rowId);
+        if (file_exists($image)) unlink($image);
         return $this->db->delete($this->table, array('id' => $rowId));
     }
 }
