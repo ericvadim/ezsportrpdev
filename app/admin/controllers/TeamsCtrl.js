@@ -30,7 +30,6 @@ angular.module('app.admin').controller('TeamsController', function ($scope, $fil
             $scope.loading = false;
         });
     };
-    $scope.getData();
 
     $scope.save = function () {
         $scope.loading = true;
