@@ -56,33 +56,6 @@
                                     </label>
                                 </section>
                             </div>
-
-                            <div class="row">
-                                <section class="col col-6">
-                                    <label class="select">
-                                        <select name="gender" ng-model="vm.gender">
-                                            <option value="0" selected="" disabled="">Gender</option>
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
-                                            <option value="3">Prefer not to answer</option>
-                                        </select> <i></i> </label>
-                                </section>
-                                <section class="col col-6">
-                                    <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                        <input type="text" name="request" placeholder="Request activation on" class="datepicker" data-dateformat='dd/mm/yy'>
-                                    </label>
-                                </section>
-                            </div>
-                            <section>
-                                <label class="checkbox" ng-class="{ 'state-error' : vm.form.signup.subscription.$invalid && vm.submit}">
-                                    <input type="checkbox" name="subscription" id="subscription" ng-model="vm.subscription"
-                                           required
-                                    >
-                                    <i></i>I want to receive news and special offers</label>
-                                <label class="checkbox" ng-class="{ 'state-error' : vm.form.signup.terms.$invalid && vm.submit}">
-                                    <input type="checkbox" name="terms" id="terms" ng-model="vm.term" required>
-                                    <i></i>I agree with the <a href="#" data-toggle="modal" data-target="#myModal"> Terms and Conditions </a></label>
-                            </section>
                         </fieldset>
                         <footer>
                             <button type="submit" class="btn btn-primary">

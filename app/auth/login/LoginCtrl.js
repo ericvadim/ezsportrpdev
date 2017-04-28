@@ -10,7 +10,7 @@ angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, Use
 
         UserService.Login(vm.email, vm.password)
             .then(function (res) {
-                $state.go('app.admin.dashboard');
+                $state.go('app.admin');
             })
             .catch(function (err) {
                 console.log(err);

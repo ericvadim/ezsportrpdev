@@ -8,6 +8,7 @@ angular.module('app.auth').controller('RegisterCtrl',
 
         vm.register = function () {
             vm.submit = true;
+
             if (vm.form.signup.$invalid) return false;
 
             var param = {
@@ -16,7 +17,7 @@ angular.module('app.auth').controller('RegisterCtrl',
                 first_name: vm.first_name,
                 last_name: vm.last_name
             };
-
+console.log(11);
             UserService.Register(param)
                 .then(function (res) {
                     $state.go('congratulation');
