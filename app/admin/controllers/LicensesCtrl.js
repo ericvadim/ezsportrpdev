@@ -1,56 +1,42 @@
 'use strict';
 
-angular.module('app.admin').controller('LeaguesController', function ($scope, $filter, LeaguesService, CompetitionsService, SeasonList, GroupLevels) {
-    $scope.seasons = SeasonList;
-    $scope.groupLevels = GroupLevels;
-
-    $scope.currGroupLevels = {};
-    $scope.competitions = [];
+angular.module('app.admin').controller('LicensesController', function ($scope, SportsService, LicensesService) {
+    $scope.sports = [];
+    $scope.currSportId = 0;
 
     $scope.tableData = $scope.safeData = [];
     $scope.currRow = {};
     $scope.loading = true;
 
-    CompetitionsService.get().then(function (response) {
-        $scope.competitions = response.data;
+    SportsService.get().then(function (response) {
+        $scope.sports = response.data;
+        if ($scope.sports.length) {
+            $scope.currSportId = $scope.sports[0]['id'];
+            $scope.getData();
+        }
     });
-
 
     $scope.getData = function () {
         $scope.loading = true;
-        LeaguesService.get().then(function (response) {
+        LicensesService.get($scope.currSportId).then(function (response) {
             $scope.tableData = $scope.safeData = response.data;
             $scope.loading = false;
         });
     };
-    $scope.getData();
 
     $scope.save = function () {
         $scope.loading = true;
         var data = $scope.currRow;
-        data['sport_id'] = $scope.currSportId;
-        LeaguesService.save(data).then(function () {
+        LicensesService.save(data).then(function () {
             $('#myModal').modal('hide');
             $scope.getData();
         });
     };
 
     $scope.addRow = function () {
-        var now = new Date();
-        var nowDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
         $scope.currRow = {
             id: 0,
-            competition_id: 0,
-            season: 0,
-            group_level: 0,
-            home_team_id: 0,
-            away_team_id: 0,
-            start_date: nowDate,
-            status: 0,
-            applied_date: nowDate,
-            accepted_flag: 0,
-            paid_flag: 0,
-            roster: ''
+            sport_name: ''
         };
     };
 
@@ -62,20 +48,9 @@ angular.module('app.admin').controller('LeaguesController', function ($scope, $f
     $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             $scope.loading = true;
-            LeaguesService.delete(rowId).then(function () {
+            LicensesService.delete(rowId).then(function () {
                 $scope.getData();
             });
-        }
-    };
-
-    $scope.getCompetitionById = function (competitionId) {
-        return $filter('filter')($scope.competitions, {id: competitionId}, true)[0];
-    };
-
-    $scope.changeCompetition = function () {
-        $scope.currGroupLevels = [];
-        for (var g in $filter('filter')($scope.competitions, {id: $scope.currRow.competition_id}, true)[0]['group_levels']) {
-            $scope.currGroupLevels[$scope.currGroupLevels.length] = g;
         }
     };
 });

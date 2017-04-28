@@ -255,8 +255,8 @@
             ZM: "Zambia",
             ZW: "Zimbabwe"
         })
-        .constant('UserTypes', ['Normal', 'Player', 'Coach', 'Referee', 'Administrator'])
-        .constant('CoachTypes', ['Head Coach', 'Assistance Coach', 'Trainer', 'Goal Keeper Coach'])
-        .constant('SeasonList', ['Spring', 'Summer', 'Winter'])
+        .constant('UserTypes', {1: 'Normal User', 2: 'Player', 3: 'Coach', 4: 'Referee', 5: 'Administrator'})
+        .constant('CoachTypes', {1: 'Head Coach', 2: 'Assistance Coach', 3: 'Trainer', 4: 'Goal Keeper Coach'})
+        .constant('SeasonList', {1: 'Spring', 2: 'Summer', 3: 'Winter'})
         .constant('GroupLevels', {1: 'Bronze', 2: 'Silver', 3: 'Gold', 4: 'State', 5: 'State Premier', 6: 'National Premier'})
 })();

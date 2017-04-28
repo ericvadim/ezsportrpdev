@@ -90,8 +90,8 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Season</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="currRow.season">
-                                <option ng-repeat="s in seasons" value="{{$index}}">{{s}}</option>
+                            <select class="form-control" ng-model="currRow.season" >
+                                <option ng-repeat="(key, val) in seasons" value="{{key}}">{{val}}</option>
                             </select>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                         <label class="col-md-4 control-label">Group Level</label>
                         <div class="col-md-8">
                             <select class="form-control" ng-model="currRow.group_level">
-                                <option ng-repeat="g in currGroupLevels" value="{{g}}">{{groupLevels[g]}}</option>
+                                <option ng-repeat="key in currGroupLevels" value="{{key}}">{{groupLevels[key]}}</option>
                             </select>
                         </div>
                     </div>
