@@ -32,9 +32,11 @@ if (!function_exists('send_email')) {
 if (!function_exists('base_frontend_url')) {
     function base_frontend_url($uri = '')
     {
-        $baseUrl = base_url();
+        $baseUrl = $_SERVER['SERVER_NAME'];
         if (strpos($_SERVER['SERVER_NAME'], 'localhost') !== false) {
             $baseUrl = 'http://localhost:8888/#';
+        } else {
+            $baseUrl .= '/#';
         }
         return $baseUrl . $uri;
     }
