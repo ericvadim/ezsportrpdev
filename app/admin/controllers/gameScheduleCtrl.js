@@ -1,117 +1,50 @@
 'use strict';
 
-angular.module('app.admin').controller('GameSchedulesController', function (ServerURL, $http, $filter, SeasonList) {
-    var vm = this;
-    vm.seasons = SeasonList;
-    vm.leagues = [];
-    vm.fields = [];
-    vm.homeTeams = [];
-    vm.awayTeams = [];
-    vm.tableData = [];
-    vm.currRow = {};
-    vm.loading = true;
+angular.module('app.admin').controller('GameSchedulesController', function ($scope, GameSchedulesService, LeaguesService) {
+    $scope.tableData = $scope.safeData = [];
+    $scope.currRow = {};
+    $scope.loading = true;
 
-    vm.getLeagues = function () {
-        $http.get(ServerURL + "leagues/getwithinfo").then(function (response) {
-            vm.leagues = response.data;
+    LeaguesService.getLeagues().then(function (response) {
+        console.log(response)
+    });
+
+    $scope.getData = function () {
+        $scope.loading = true;
+        GameSchedulesService.get().then(function (response) {
+            $scope.tableData = $scope.safeData = response.data;
+            $scope.loading = false;
         });
     };
-    vm.getLeagues();
+    $scope.getData();
 
-    vm.getFields = function () {
-        $http.get(ServerURL + "fields/get").then(function (response) {
-            vm.fields = response.data;
-        });
-    };
-    vm.getFields();
-
-    vm.getTeams = function () {
-        $http.get(ServerURL + "teams/getallteams").then(function (response) {
-            vm.homeTeams = response.data;
-            vm.awayTeams = response.data;
-        });
-    };
-    vm.getTeams();
-
-    vm.getData = function () {
-        vm.loading = true;
-        $http.get(ServerURL + "game_schedules/get").then(function (response) {
-            vm.tableData = response.data;
-            vm.loading = false;
-        });
-    };
-    vm.getData();
-
-    vm.save = function () {
-        var data = vm.currRow;
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "game_schedules/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
+    $scope.save = function () {
+        $scope.loading = true;
+        var data = $scope.currRow;
+        GameSchedulesService.save(data).then(function () {
             $('#myModal').modal('hide');
+            $scope.getData();
         });
     };
 
-    vm.getLeagueNameById = function (leagueId) {
-        if (leagueId > 0) {
-            var league = $filter('filter')(vm.leagues, {id: leagueId}, true)[0];
-            return league['competition_name'] + ' - ' + vm.seasons[league['season']] + '(' + league['start_date'].substr(0, 4) + ')';
-        } else {
-            return '-';
-        }
-    };
-
-    vm.getTeamById = function (teams, teamId) {
-        return $filter('filter')(teams, {id: teamId}, true)[0];
-    };
-
-    vm.getFieldById = function (fieldId) {
-        return $filter('filter')(vm.fields, {id: fieldId}, true)[0];
-    };
-
-    vm.openModal = function (rowId) {
-        vm.editRow(rowId);
-        $('#myModal').modal('show');
-    };
-
-    vm.addNew = function () {
-        var now = new Date();
-        var nowDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
-        // var nowTime = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
-        vm.currRow = {
+    $scope.addRow = function () {
+        $scope.currRow = {
             id: 0,
-            league_id: 0,
-            home_team_id: 0,
-            away_team_id: 0,
-            game_date: nowDate,
-            start_time: '00:00:00',
-            arrival_time: '00:00:00',
-            duration: '',
-            field_id: 0,
-            uniform: ''
+            sport_name: ''
         };
     };
 
-    vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+    $scope.editRow = function (row) {
+        $scope.currRow = JSON.parse(angular.toJson(row));
+        $('#myModal').modal('show');
     };
 
-    vm.deleteRow = function (rowId) {
+    $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            vm.loading = true;
-            $http.get(ServerURL + "game_schedules/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
+            $scope.loading = true;
+            GameSchedulesService.delete(rowId).then(function () {
+                $scope.getData();
             });
         }
     };
-    $('#myModal').on('hidden.bs.modal', function () {
-        vm.getData();
-    });
 });

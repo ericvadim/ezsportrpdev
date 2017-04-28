@@ -1,76 +1,34 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Game_schedules extends CI_Controller
+require dirname(__FILE__) . '/Base_Controller.php';
+
+class Game_schedules extends Base_Controller
 {
-
-    public function index()
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('game_schedule_model');
     }
 
-    public function get()
+    public function index_get()
     {
-        $this->load->database();
-        $this->load->model('game_schedule_model');
-        $rows = $this->game_schedule_model->getGames();
-        echo json_encode($rows);
-        exit;
+//        if (!$this->protect()) return;
+        $rows = $this->game_schedule_model->getRows();
+        $this->set_response($rows, 200);
     }
 
-    public function getgameschedules()
+    public function index_post()
     {
-        $this->load->database();
-        $this->load->model('game_schedule_model');
-        $this->load->model('player_model');
-
-        $schedules = $this->game_schedule_model->getGameSchedules();
-        $results = array();
-        if (sizeof($schedules)) {
-            foreach ($schedules as $key => $val) {
-                $results[$key] = array(
-                    'id' => $val->id,
-                    'league_name' => $val->league_name,
-                    'league_id' => $val->league_id,
-                    'game_date' => $val->game_date,
-                    'start_time' => $val->start_time,
-                    'arrival_time' => $val->arrival_time,
-                    'duration' => $val->duration,
-                    'field_id' => $val->field_id,
-                    'uniform' => $val->uniform,
-                    'home_team' => array(
-                        'team_id' => $val->home_team_id,
-                        'team_name' => $val->home_team_name,
-                        'players' => $this->player_model->getPlayers($val->home_team_id)
-                    ),
-                    'away_team' => array(
-                        'team_id' => $val->away_team_id,
-                        'team_name' => $val->away_team_name,
-                        'players' => $this->player_model->getPlayers($val->away_team_id)
-                    )
-                );
-            }
-        }
-        echo json_encode($results);
-        exit;
-    }
-
-    public function save()
-    {
-        $this->load->database();
-        $this->load->model('game_schedule_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->game_schedule_model->saveGame($data);
-        exit($result);
+        $result = $this->game_schedule_model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
         $data = $this->input->get();
-
-        $this->load->database();
-        $this->load->model('game_schedule_model');
-        $result = $this->game_schedule_model->deleteGame($data['id']);
-        exit($result);
+        $result = $this->game_schedule_model->deleteRowById($data['id']);
+        $this->set_response($result, 200);
     }
 }
