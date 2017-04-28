@@ -37,6 +37,7 @@
 
         function Register(params) {
             var url = ServerURL + 'users/register';
+            console.log(params);console.log(url);
             var promise = $http.post(url, params), deferred = $q.defer();
             promise.then(function (res) {
                 if (isDebug) console.log(res);

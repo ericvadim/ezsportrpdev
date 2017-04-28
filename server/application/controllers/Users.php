@@ -217,9 +217,11 @@ class Users extends Base_Controller
             return;
         }
 
+        $first_name = (array_key_exists('first_name', $params)) ? $params['first_name'] : '';
+        $last_name = (array_key_exists('last_name', $params)) ? $params['last_name'] : '';
         $data = [
-            'first_name' => $params['first_name'],
-            'last_name' => $params['last_name'],
+            'first_name' => $first_name,
+            'last_name' => $last_name,
             'email' => $params['email'],
             'username' => $params['email'],
             'password' => md5($password)
