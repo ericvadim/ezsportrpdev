@@ -32,7 +32,7 @@ if (!function_exists('send_email')) {
 if (!function_exists('base_frontend_url')) {
     function base_frontend_url($uri = '')
     {
-        $baseUrl = 'http://ezsportrp.info/#';
+        $baseUrl = base_url();
         if (strpos($_SERVER['SERVER_NAME'], 'localhost') !== false) {
             $baseUrl = 'http://localhost:8888/#';
         }
