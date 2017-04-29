@@ -134,3 +134,10 @@ nav ul.pagination li a:before {
     background-image: none !important;
     border: 0 !important;
 }
+
+.text-grey{
+    color: lightgrey;
+}
+.text-danger{
+    color: #ef9001;
+}

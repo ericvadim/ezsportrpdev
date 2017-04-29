@@ -88,4 +88,34 @@ class Person_model extends CI_Model
         if (file_exists('uploads/persons/' . $rowId . '.jpg')) unlink('uploads/persons/' . $rowId . '.jpg');
         return $this->db->delete($this->table, array('id' => $rowId));
     }
+
+    public function getPersonByCondition($dataAry){
+        $where = '1 ';
+        foreach($dataAry as $key=>$val){
+            if($val == '') continue;
+            if($key == 'birthday') {
+                $dt = convertDate($val);
+                if($dt == '') continue;
+                $where .= " AND " . $key . "= '" . $dt . "'";
+            } else {
+                $where .= " AND LOWER(TRIM(" . $key . "))= LOWER(TRIM('" . $val . "'))";
+            }
+        }
+
+        $query = "SELECT * FROM ". $this->table ." WHERE " . $where ;
+        //print_r($query);
+        $result = $this->db->query($query);
+        return $result->row_array();
+    }
+
+    public function getSubRelationByPerson($person_id, $sub_id, $page_id){
+        if($page_id == 'players'){
+            $sub_table = 'players';
+            $sub_field = 'team_id';
+        }
+
+        $sql = "SELECT * FROM `". $sub_table ."` WHERE `".$sub_field."`='".$sub_id."' AND `person_id`='".$person_id."'";
+        $query = $this->db->query($sql);
+        return $query->row_array();
+    }
 }
