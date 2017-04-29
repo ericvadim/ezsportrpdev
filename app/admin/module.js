@@ -278,15 +278,15 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
-            .state('app.admin.importPersons', {
-                url: '/import-persons',
+            .state('app.admin.gameRoasters', {
+                url: '/game-roasters',
                 data: {
-                    title: 'Import Person Data'
+                    title: 'Game Roasters'
                 },
                 views: {
                     "content@app": {
-                        templateUrl: 'app/admin/views/import-persons.html',
-                        controller: 'ImportPersonsController'
+                        templateUrl: 'app/admin/views/game-roasters.html',
+                        controller: 'GameRoastersController'
                     }
                 }
             })
