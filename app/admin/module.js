@@ -214,7 +214,7 @@ angular.module('app.admin', ['ui.router'])
                 }
             })
             .state('app.admin.gameSchedules', {
-                url: '/game_schedules',
+                url: '/game-schedules',
                 data: {
                     title: 'Game Schedules'
                 },
