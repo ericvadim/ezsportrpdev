@@ -52,8 +52,8 @@
                                     <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.game_name}}</td>
-                                        <td>{{row.homeTeam.team_name}}</td>
-                                        <td>{{row.awayTeam.team_name}}</td>
+                                        <td>{{row.homeTeam.club_name}} - {{row.homeTeam.team_name}}</td>
+                                        <td>{{row.awayTeam.club_name}} - {{row.awayTeam.team_name}}</td>
                                         <td>{{row.game_date}}</td>
                                         <td>{{row.start_time}}</td>
                                         <td>{{row.arrival_time}}</td>
@@ -102,13 +102,23 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Home Club/Team</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-options="item as item.club_name + ' - ' + item.team_name for item in teams track by item.id" ng-model="currRow.homeTeam"></select>
+                            <ui-select ng-model="currRow.homeTeam" theme="bootstrap" reset-search-input="false" class="width-full" title="Choose a team...">
+                                <ui-select-match placeholder="Choose a team...">{{$select.selected.club_name}} - {{$select.selected.team_name}}</ui-select-match>
+                                <ui-select-choices repeat="item in teams" refresh-delay="0">
+                                    <div ng-bind-html="(item.club_name + ' - ' + item.team_name) | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Away Club/Team</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-options="item as item.club_name + ' / ' + item.team_name for item in teams track by item.id" ng-model="currRow.awayTeam"></select>
+                            <ui-select ng-model="currRow.awayTeam" theme="bootstrap" reset-search-input="false" class="width-full" title="Choose a team...">
+                                <ui-select-match placeholder="Choose a team...">{{$select.selected.club_name}} - {{$select.selected.team_name}}</ui-select-match>
+                                <ui-select-choices repeat="item in teams" refresh-delay="0">
+                                    <div ng-bind-html="(item.club_name + ' - ' + item.team_name) | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -135,16 +145,15 @@
                             <input class="form-control" placeholder="Duration of Game" type="text" ng-model="currRow.duration">
                         </div>
                     </div>
-                    <!--<div class="form-group">
-                        <label class="col-md-4 control-label">Opponent Team</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Opponent Team" type="text" ng-model="currRow.opp_team_id">
-                        </div>
-                    </div>-->
                     <div class="form-group">
                         <label class="col-md-4 control-label">Location</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-options="item as item.field_name for item in fields track by item.id" ng-model="currRow.field"></select>
+                            <ui-select ng-model="currRow.field" theme="bootstrap" reset-search-input="false" class="width-full" title="Choose a team...">
+                                <ui-select-match placeholder="Choose a team...">{{$select.selected.field_name}}</ui-select-match>
+                                <ui-select-choices repeat="item in fields" refresh-delay="0">
+                                    <div ng-bind-html="item.field_name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
                     </div>
                     <div class="form-group">

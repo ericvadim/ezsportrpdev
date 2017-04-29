@@ -58,7 +58,7 @@ angular.module('app.admin').controller('GameSchedulesController', function ($sco
         var now = new Date();
         $scope.currRow = {
             id: 0,
-            game_name: 'Game#' + $scope.tableData.length + 1,
+            game_name: 'Game#' + ($scope.tableData.length + 1),
             league_id: 0,
             home_team_id: 0,
             away_team_id: 0,
