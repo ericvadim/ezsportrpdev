@@ -8,7 +8,7 @@ angular.module('app.admin').controller('GameRoastersController', function ($scop
         team: {},
         game: {}
     };
-    $scope.loading = true;
+    // $scope.loading = true;
 
     TeamsService.teamsWithClub().then(function (response) {
         $scope.teams = response.data;
