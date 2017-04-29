@@ -20,9 +20,9 @@ class League_model extends CI_Model
         return $this->db->get_where($this->table, array('id' => $id))->result();
     }
 
-    public function getLeaguesWithInfo()
+    public function getLeaguesWithCompetitions()
     {
-        $this->db->select('A.id, A.season, A.start_date, B.competition_name');
+        $this->db->select('A.*, B.competition_name');
         $this->db->from($this->table . ' as A');
         $this->db->join('competitions as B', 'A.competition_id = B.id');
         return $this->db->get()->result();

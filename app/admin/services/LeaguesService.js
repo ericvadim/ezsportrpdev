@@ -14,8 +14,8 @@
                     });
                     return deferred.promise;
                 },
-                getLeagues: function () {
-                    var url = ServerURL + 'getleagues';
+                getLeaguesWithCompetitions: function () {
+                    var url = ServerURL + 'leagues/leaguesWithCompetitions';
                     var deferred = $q.defer();
                     $http.get(url).then(function (res) {
                         deferred.resolve(res);

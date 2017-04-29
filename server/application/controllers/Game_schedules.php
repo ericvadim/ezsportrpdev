@@ -14,7 +14,8 @@ class Game_schedules extends Base_Controller
     public function index_get()
     {
 //        if (!$this->protect()) return;
-        $rows = $this->game_schedule_model->getRows();
+        $leagueId = $this->input->get('league_id');
+        $rows = $this->game_schedule_model->getRows($leagueId);
         $this->set_response($rows, 200);
     }
 

@@ -10,9 +10,9 @@ class Game_schedule_model extends CI_Model
         parent::__construct();
     }
 
-    public function getRows()
+    public function getRows($leagueId)
     {
-        return $this->db->get($this->table)->result();
+        return $this->db->get_where($this->table, array('league_id' => $leagueId))->result();
     }
 
     public function getRowById($id)
@@ -24,7 +24,7 @@ class Game_schedule_model extends CI_Model
     {
         $rowId = $data['id'];
 
-        $cols = array('league_id', 'home_team_id', 'away_team_id', 'game_date', 'start_time', 'arrival_time', 'duration', 'field_id', 'uniform');
+        $cols = array('league_id', 'game_name', 'home_team_id', 'away_team_id', 'game_date', 'start_time', 'arrival_time', 'duration', 'field_id', 'uniform');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';

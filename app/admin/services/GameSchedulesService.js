@@ -4,8 +4,8 @@
     angular.module('app.admin')
         .factory('GameSchedulesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
             return {
-                get: function () {
-                    var url = ServerURL + 'game_schedules';
+                get: function (leagueId) {
+                    var url = ServerURL + 'game_schedules?league_id=' + leagueId;
                     var deferred = $q.defer();
                     $http.get(url).then(function (res) {
                         deferred.resolve(res);

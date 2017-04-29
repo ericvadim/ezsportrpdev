@@ -18,6 +18,13 @@ class Leagues extends Base_Controller
         $this->set_response($rows, 200);
     }
 
+    public function leaguesWithCompetitions_get()
+    {
+//        if (!$this->protect()) return;
+        $rows = $this->league_model->getLeaguesWithCompetitions();
+        $this->set_response($rows, 200);
+    }
+
     public function index_post()
     {
         $data = json_decode(file_get_contents('php://input'), true);
