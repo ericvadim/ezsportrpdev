@@ -238,17 +238,16 @@
                                                         <thead>
                                                         <tr ng-if="vm.importedRows.length">
                                                             <th><input type="checkbox" ng-change="vm.checkAll()" ng-model="vm.allCheck"></th>
-                                                            <th ng-repeat="header in vm.importedHeaders">{{header}}</th>
+                                                            <th ng-repeat="(key, val) in vm.importedHeaders">{{val}}</th>
                                                         </tr>
                                                         </thead>
 
                                                         <tbody>
-                                                        <tr ng-repeat="row in vm.importedCurrRows track by $index" ng-class="{'selected-row':row.checked}">
-                                                            <td><input type="checkbox" ng-model="row.checked"></td>
-                                                            <td ng-repeat="(key, val) in row"
-                                                                ng-click="row.checked = !row.checked"
-                                                                ng-if="key != 'id' && key != 'checked'">
-                                                                {{val}}
+                                                        <tr ng-repeat="row in vm.importedCurrRows track by $index" ng-class="{'selected-row':(row.checked), 'text-grey':row.isExist > 0, 'text-danger': row.isSubRow == 1}">
+                                                            <td><input type="checkbox" ng-model="row.checked" ng-if="row.isSubRow == 0"></td>
+                                                            <td ng-repeat="(ind, headerTxt) in vm.importedHeaders"
+                                                                ng-click="row.checked = (!row.checked && row.isSubRow == 0)">
+                                                                {{row[ind]}}
                                                             </td>
                                                         </tr>
                                                         <tr ng-if="!vm.importedRows.length">
