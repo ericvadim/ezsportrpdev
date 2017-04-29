@@ -26,6 +26,10 @@ body:not(.menu-on-top).desktop-detected {
     min-height: auto !important;
 }
 
+.width-full {
+    width: 100%;
+}
+
 .max-width-50 {
     max-width: 50px;
 }

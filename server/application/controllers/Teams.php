@@ -19,6 +19,13 @@ class Teams extends Base_Controller
         $this->set_response($rows, 200);
     }
 
+    public function teamsWithClub_get()
+    {
+//        if (!$this->protect()) return;
+        $rows = $this->team_model->getTeamsWithClub();
+        $this->set_response($rows, 200);
+    }
+
     public function index_post()
     {
         $data = json_decode(file_get_contents('php://input'), true);

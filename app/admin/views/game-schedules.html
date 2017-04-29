@@ -5,15 +5,18 @@
     </div>
 
     <div class="row margin-bottom-10 form-horizontal">
-        <div class="col-xs-6 form-horizontal">
+        <div class="col-xs-6 col-md-4 form-horizontal">
             <div class="form-group">
                 <label class="col-md-2 control-label">League</label>
                 <div class="col-md-10">
-                    <select ng-options="item as item.label for item in leagues track by item.id" ng-model="currLeague"></select>
+                    <select class="form-control"
+                            ng-change="getData()"
+                            ng-options="item as item.competition_name + '(' + seasons[item.season] + ' - ' + item.start_date.substr(0, 4) + ')' for item in leagues track by item.id" ng-model="currLeague">
+                    </select>
                 </div>
             </div>
         </div>
-        <div class="col-xs-6 text-right">
+        <div class="col-xs-6 col-md-8 text-right">
             <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addRow()">Add New</button>
         </div>
     </div>
@@ -32,20 +35,31 @@
                                 <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th rowspan="2">No</th>
-                                        <th st-sort="sport_name">Sport Name</th>
-                                        <th rowspan="2">Action</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="padding-5">
-                                            <input class="form-control" st-search="sport_name"/>
-                                        </th>
+                                        <th>No</th>
+                                        <th>Game Name</th>
+                                        <th>Home Team</th>
+                                        <th>Away Team</th>
+                                        <th>Date of Game</th>
+                                        <th>Start Time</th>
+                                        <th>Arrival Time</th>
+                                        <th>Duration of Game</th>
+                                        <th>Location</th>
+                                        <th>Uniform</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.game_name}}</td>
+                                        <td>{{row.homeTeam.club_name}} - {{row.homeTeam.team_name}}</td>
+                                        <td>{{row.awayTeam.club_name}} - {{row.awayTeam.team_name}}</td>
+                                        <td>{{row.game_date}}</td>
+                                        <td>{{row.start_time}}</td>
+                                        <td>{{row.arrival_time}}</td>
+                                        <td>{{row.duration}}</td>
+                                        <td>{{row.field.field_name}}</td>
+                                        <td>{{row.uniform}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="editRow(row)">Edit</a> /
                                             <a ng-click="deleteRow(row.id)">Delete</a>
@@ -54,7 +68,7 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td colspan="3" class="text-center">
+                                        <td colspan="11" class="text-center">
                                             <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
                                         </td>
                                     </tr>
@@ -80,9 +94,72 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Sport Name</label>
-                        <div class="col-md-9">
-                            <input class="form-control" placeholder="Sport Name" type="text" ng-model="currRow.sport_name">
+                        <label class="col-md-4 control-label">Game Name</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Game Name" type="text" ng-model="currRow.game_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Home Club/Team</label>
+                        <div class="col-md-8">
+                            <ui-select ng-model="currRow.homeTeam" theme="bootstrap" reset-search-input="false" class="width-full" title="Choose a team...">
+                                <ui-select-match placeholder="Choose a team...">{{$select.selected.club_name}} - {{$select.selected.team_name}}</ui-select-match>
+                                <ui-select-choices repeat="item in teams" refresh-delay="0">
+                                    <div ng-bind-html="(item.club_name + ' - ' + item.team_name) | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Away Club/Team</label>
+                        <div class="col-md-8">
+                            <ui-select ng-model="currRow.awayTeam" theme="bootstrap" reset-search-input="false" class="width-full" title="Choose a team...">
+                                <ui-select-match placeholder="Choose a team...">{{$select.selected.club_name}} - {{$select.selected.team_name}}</ui-select-match>
+                                <ui-select-choices repeat="item in teams" refresh-delay="0">
+                                    <div ng-bind-html="(item.club_name + ' - ' + item.team_name) | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Date of Game</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Date of Game" type="text" ng-model="currRow.game_date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Start Time</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Start Time" type="text" ng-model="currRow.start_time">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Arrival Time</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Arrival Time" type="text" ng-model="currRow.arrival_time">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Duration of Game</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Duration of Game" type="text" ng-model="currRow.duration">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Location</label>
+                        <div class="col-md-8">
+                            <ui-select ng-model="currRow.field" theme="bootstrap" reset-search-input="false" class="width-full" title="Choose a team...">
+                                <ui-select-match placeholder="Choose a team...">{{$select.selected.field_name}}</ui-select-match>
+                                <ui-select-choices repeat="item in fields" refresh-delay="0">
+                                    <div ng-bind-html="item.field_name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Uniform</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Uniform" type="text" ng-model="currRow.uniform">
                         </div>
                     </div>
                 </form>

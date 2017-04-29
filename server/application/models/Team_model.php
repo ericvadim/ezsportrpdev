@@ -31,6 +31,14 @@ class Team_model extends CI_Model
         return $this->db->get_where($this->table, array('id' => $id))->result();
     }
 
+    public function getTeamsWithClub()
+    {
+        $this->db->select('A.*, B.club_name');
+        $this->db->from($this->table . ' as A');
+        $this->db->join('clubs as B', 'A.club_id = B.id');
+        return $this->db->get()->result();
+    }
+
     public function saveRow($data)
     {
         $rowId = $data['id'];

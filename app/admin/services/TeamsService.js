@@ -14,6 +14,16 @@
                     });
                     return deferred.promise;
                 },
+                teamsWithClub: function () {
+                    var url = ServerURL + 'teams/teamsWithClub';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
                 save: function (data) {
                     var url = ServerURL + 'teams';
                     var deferred = $q.defer();

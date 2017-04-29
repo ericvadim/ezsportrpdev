@@ -1,0 +1,81 @@
+<loading visible="loading"></loading>
+<div id="content">
+    <div class="row">
+        <big-breadcrumbs items="['Game Roasters']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+    </div>
+
+    <div class="row margin-bottom-10 form-horizontal">
+        <div class="col-xs-6 col-md-4 col-lg-3 form-horizontal">
+            <div class="form-group">
+                <label class="col-md-2 control-label">Team</label>
+                <div class="col-md-10">
+                    <ui-select ng-model="curr.team" on-select="getGames()" theme="bootstrap" reset-search-input="false" class="width-full" title="Choose a team...">
+                        <ui-select-match placeholder="Choose a team...">{{$select.selected.club_name}} - {{$select.selected.team_name}}</ui-select-match>
+                        <ui-select-choices repeat="item in teams" refresh-delay="0">
+                            <div ng-bind-html="(item.club_name + ' - ' + item.team_name) | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-4 col-lg-3 form-horizontal">
+            <div class="form-group">
+                <label class="col-md-2 control-label">Game</label>
+                <div class="col-md-10">
+                    <select class="form-control" ng-change="getData()"
+                            ng-options="item as item.game_name for item in games track by item.id" ng-model="curr.game">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-4 col-lg-6 text-right">
+            <!--<button class="btn btn-primary" ng-click="save()">Save</button>-->
+        </div>
+    </div>
+
+    <section widget-grid id="widget-grid">
+        <div class="row">
+            <article class="col-sm-12">
+                <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Game Roasters</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="table-responsive">
+                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Player Name</th>
+                                        <th>Birthday</th>
+                                        <th>Captain</th>
+                                        <th>Starters</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{row.first_name}} {{row.last_name}}</td>
+                                        <td>{{row.birthday}}</td>
+                                        <td><input type="radio" name="captain" ng-model="row.is_captain"></td>
+                                        <td><input type="checkbox" ng-model="row.is_starter"></td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-center">
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
