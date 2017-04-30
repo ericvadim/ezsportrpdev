@@ -1,7 +1,7 @@
 <?php
 
 
-class Game_roasters_model extends CI_Model
+class Game_roaster_model extends CI_Model
 {
     private $table = 'game_roasters';
 
@@ -12,7 +12,17 @@ class Game_roasters_model extends CI_Model
 
     public function getRows($teamId, $gameId)
     {
-        return $this->db->get($this->table)->result();
+        $query = "
+            SELECT C.id, A.id AS player_id, B.first_name, B.last_name, B.birthday, C.is_captain, C.is_starter  
+            FROM (
+              SELECT * FROM players WHERE team_id=" . $teamId . "
+            ) AS A  
+            LEFT OUTER JOIN persons AS B ON B.id = A.person_id 
+            LEFT OUTER JOIN (
+              SELECT * FROM " . $this->table . " WHERE team_id=" . $teamId . " AND game_id=" . $gameId . "
+            ) AS C ON C.player_id = A.id            
+        ";
+        return $this->db->query($query)->result();
     }
 
     public function getRowById($id)
@@ -23,6 +33,10 @@ class Game_roasters_model extends CI_Model
     public function saveRow($data)
     {
         $rowId = $data['id'];
+
+        if ($data['is_captain']) {
+            $this->db->update($this->table, array('is_captain' => '0'), array('team_id' => $data['team_id'], 'game_id' => $data['game_id'], 'is_captain' => '1'));
+        }
 
         $cols = array('team_id', 'game_id', 'player_id', 'is_captain', 'is_starter');
         $row = array();

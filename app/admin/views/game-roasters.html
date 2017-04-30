@@ -5,7 +5,7 @@
     </div>
 
     <div class="row margin-bottom-10 form-horizontal">
-        <div class="col-xs-6 col-md-4 col-lg-3 form-horizontal">
+        <div class="col-xs-6 col-md-5 col-lg-4 form-horizontal">
             <div class="form-group">
                 <label class="col-md-2 control-label">Team</label>
                 <div class="col-md-10">
@@ -27,9 +27,6 @@
                     </select>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-6 col-md-4 col-lg-6 text-right">
-            <!--<button class="btn btn-primary" ng-click="save()">Save</button>-->
         </div>
     </div>
 
@@ -55,23 +52,35 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
+                                    <tr class="smart-form" ng-class="{'success':row.is_starter}" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.first_name}} {{row.last_name}}</td>
                                         <td>{{row.birthday}}</td>
-                                        <td><input type="radio" name="captain" ng-model="row.is_captain"></td>
-                                        <td><input type="checkbox" ng-model="row.is_starter"></td>
+                                        <td class="padding-5" ng-click="checkCaptain(row)">
+                                            <label class="checkbox">
+                                                <input ng-click="checkCaptain(row)" type="checkbox" ng-model="row.is_captain">
+                                                <i></i>
+                                            </label>
+                                        </td>
+                                        <td class="padding-5" ng-click="row.is_starter = !row.is_starter;save(row);">
+                                            <label class="checkbox">
+                                                <input ng-click="row.is_starter = !row.is_starter;save(row);" type="checkbox" ng-model="row.is_starter">
+                                                <i></i>
+                                            </label>
+                                        </td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
-                                    <tr>
+                                    <tr st-select-row="row" st-select-mode="single">
                                         <td colspan="5" class="text-center">
-                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
+                                            <div class="text-center" ng-if="safeData.length == 0"><br/>There is no players in this team.<br/><br/></div>
+                                            <div st-pagination="" st-items-by-page="50" st-displayed-pages="5"></div>
                                         </td>
                                     </tr>
                                     </tfoot>
                                 </table>
                             </div>
+                            <div class="padding-10 text-right">{{getStartersCount()}} Starter{{getStartersCount() > 1 ? 's' : ''}} Selected</div>
                         </div>
                     </div>
                 </div>

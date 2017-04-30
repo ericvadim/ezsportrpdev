@@ -2154,8 +2154,8 @@ $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<d
     angular
         .module('app')
 
-        // .constant('ServerURL', 'http://ezsportrpt.com/server/')
-        .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+        .constant('ServerURL', 'http://ezsportrpt.com/server/')
+        // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 
         .constant('APP_CONFIG', window.appConfig)
         .constant('CountryList', {
@@ -3919,15 +3919,16 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
 });
 'use strict';
 
-angular.module('app.admin').controller('GameRoastersController', function ($scope, TeamsService, GameSchedulesService, RoastersService) {
+angular.module('app.admin').controller('GameRoastersController', function ($scope, $filter, TeamsService, GameSchedulesService, GameRoastersService) {
     $scope.teams = [];
     $scope.games = [];
-    $scope.tableData = [];
+    $scope.tableData = $scope.safeData = [];
     $scope.curr = {
         team: {},
         game: {}
     };
-    // $scope.loading = true;
+    $scope.preRowForCaptain = {};
+    $scope.loading = true;
 
     TeamsService.teamsWithClub().then(function (response) {
         $scope.teams = response.data;
@@ -3938,35 +3939,55 @@ angular.module('app.admin').controller('GameRoastersController', function ($scop
     });
 
     $scope.getGames = function () {
+        $scope.loading = true;
         GameSchedulesService.schedulesByTeam($scope.curr.team.id).then(function (response) {
             $scope.games = response.data;
             if ($scope.games.length) {
                 $scope.curr.game = $scope.games[0];
                 $scope.getData();
+            } else {
+                $scope.loading = false;
             }
         });
     };
 
     $scope.getData = function () {
-        RoastersService.get($scope.curr.team.id, $scope.curr.game.id).then(function (response) {
-            $scope.tableData = response.data;
+        $scope.loading = true;
+        GameRoastersService.get($scope.curr.team.id, $scope.curr.game.id).then(function (response) {
             $scope.loading = false;
+            $scope.tableData = $scope.safeData = response.data;
+            for (var t in $scope.tableData) {
+                $scope.tableData[t]['is_captain'] = !!($scope.tableData[t]['is_captain'] * 1);
+                $scope.tableData[t]['is_starter'] = !!($scope.tableData[t]['is_starter'] * 1);
+            }
         });
     };
 
-    $scope.save = function () {
+    $scope.save = function (row) {
+        $scope.loading = true;
         var data = {
+            id: row.id,
             team_id: $scope.curr.team.id,
             game_id: $scope.curr.game.id,
-            player_id: 3,
-            is_captain: 3,
-            is_starter: 3
-        }
-        RoastersService.save(data).then(function (response) {
-            $scope.tableData = response.data;
-            $scope.loading = false;
+            player_id: row.player_id,
+            is_captain: row.is_captain ? 1 : 0,
+            is_starter: row.is_starter ? 1 : 0
+        };
+        GameRoastersService.save(data).then(function () {
+            $scope.getData();
         });
     };
+
+    $scope.checkCaptain = function (row) {
+        $scope.preRowForCaptain.is_captain = false;
+        row.is_captain = !row.is_captain;
+        $scope.preRowForCaptain = row;
+        $scope.save(row);
+    }
+
+    $scope.getStartersCount = function () {
+        return $filter('filter')($scope.safeData, {is_starter: true}).length;
+    }
 });
 'use strict';
 
@@ -5746,6 +5767,40 @@ angular.module('app.admin').controller('UsersController', function (ServerURL, $
     'use strict';
 
     angular.module('app.admin')
+        .factory('GameRoastersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (teamId, gameId) {
+                    var url = ServerURL + 'game_roasters?team_id=' + teamId + '&game_id=' + gameId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'game_roasters';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                }
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
         .factory('GameSchedulesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
             return {
                 get: function (leagueId) {
@@ -6023,40 +6078,6 @@ angular.module('app.admin').controller('UsersController', function (ServerURL, $
                     });
                     return deferred.promise;
                 },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('RoastersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (teamId, gameId) {
-                    var url = ServerURL + 'roasters?team_id=' + teamId + '&game_id=' + gameId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'roasters';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                }
             };
         }]);
 })();
@@ -7341,12 +7362,6 @@ angular.module('app.graphs').controller('FlotCtrl', function ($scope) {
         label : "Site visitors"
     }];
 });
-'use strict';
-
-angular.module('app.home').controller('HomeController', function ($scope) {
-
-
-});
 "use strict";
 
 angular.module('app.inbox').directive('messageLabels', function (InboxConfig) {
@@ -7414,6 +7429,12 @@ angular.module('app.inbox').factory('InboxMessage', function($resource, APP_CONF
     });
 
     return InboxMessage;
+
+});
+'use strict';
+
+angular.module('app.home').controller('HomeController', function ($scope) {
+
 
 });
 "use strict";
@@ -14012,6 +14033,196 @@ angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (
 });
 'use strict';
 
+angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
+    return {
+        restrict: 'A',
+        scope: {
+            coords: '=',
+            options: '=',
+            selection: '='
+        },
+        link: function (scope, element, attributes) {
+            var jcropApi, imageWidth, imageHeight, imageLoaded = $q.defer();
+
+            var listeners = {
+                onSelectHandlers: [],
+                onChangeHandlers: [],
+                onSelect: function (c) {
+                    angular.forEach(listeners.onSelectHandlers, function (handler) {
+                        handler.call(jcropApi, c)
+                    })
+                },
+                onChange: function (c) {
+                    angular.forEach(listeners.onChangeHandlers, function (handler) {
+                        handler.call(jcropApi, c)
+                    })
+                }
+            };
+
+            if (attributes.coords) {
+                var coordsUpdate = function (c) {
+                    scope.$apply(function () {
+                        scope.coords = c;
+                    });
+                };
+                listeners.onSelectHandlers.push(coordsUpdate);
+                listeners.onChangeHandlers.push(coordsUpdate);
+            }
+
+            var $previewPane = $(attributes.smartJcropPreview),
+                $previewContainer = $previewPane.find('.preview-container'),
+                $previewImg = $previewPane.find('img');
+
+            if ($previewPane.length && $previewImg.length) {
+                var previewUpdate = function (coords) {
+                    if (parseInt(coords.w) > 0) {
+                        var rx = $previewContainer.width() / coords.w;
+                        var ry = $previewContainer.height() / coords.h;
+
+                        $previewImg.css({
+                            width: Math.round(rx * imageWidth) + 'px',
+                            height: Math.round(ry * imageHeight) + 'px',
+                            marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                            marginTop: '-' + Math.round(ry * coords.y) + 'px'
+                        });
+                    }
+                };
+                listeners.onSelectHandlers.push(previewUpdate);
+                listeners.onChangeHandlers.push(previewUpdate);
+            }
+
+
+            var options = {
+                onSelect: listeners.onSelect,
+                onChange: listeners.onChange
+            };
+
+            if ($previewContainer.length) {
+                options.aspectRatio = $previewContainer.width() / $previewContainer.height()
+            }
+
+            if (attributes.selection) {
+                scope.$watch('selection', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        var rectangle = newVal == 'release' ? [imageWidth / 2, imageHeight / 2, imageWidth / 2, imageHeight / 2] : newVal;
+
+                        var callback = newVal == 'release' ? function () {
+                            jcropApi.release();
+                        } : angular.noop;
+
+                        imageLoaded.promise.then(function () {
+                            if (scope.options && scope.options.animate) {
+                                jcropApi.animateTo(rectangle, callback);
+                            } else {
+                                jcropApi.setSelect(rectangle);
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (attributes.options) {
+
+                var optionNames = [
+                    'bgOpacity', 'bgColor', 'bgFade', 'shade', 'outerImage',
+                    'allowSelect', 'allowMove', 'allowResize',
+                    'aspectRatio'
+                ];
+
+                angular.forEach(optionNames, function (name) {
+                    if (scope.options[name])
+                        options[name] = scope.options[name]
+
+                    scope.$watch('options.' + name, function (newVal, oldVal) {
+                        if (newVal != oldVal) {
+                            imageLoaded.promise.then(function () {
+                                var update = {};
+                                update[name] = newVal;
+                                jcropApi.setOptions(update);
+                            });
+                        }
+                    });
+
+                });
+
+
+                scope.$watch('options.disabled', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        if (newVal) {
+                            jcropApi.disable();
+                        } else {
+                            jcropApi.enable();
+                        }
+                    }
+                });
+
+                scope.$watch('options.destroyed', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        if (newVal) {
+                            jcropApi.destroy();
+                        } else {
+                            _init();
+                        }
+                    }
+                });
+
+                scope.$watch('options.src', function (newVal, oldVal) {
+                    imageLoaded = $q.defer();
+                    if (newVal != oldVal) {
+                        jcropApi.setImage(scope.options.src, function () {
+                            imageLoaded.resolve();
+                        });
+                    }
+                });
+
+                var updateSize = function(){
+                    jcropApi.setOptions({
+                        minSize: [scope.options.minSizeWidth, scope.options.minSizeHeight],
+                        maxSize: [scope.options.maxSizeWidth, scope.options.maxSizeHeight]
+                    });
+                };
+
+                scope.$watch('options.minSizeWidth', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.minSizeHeight', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.maxSizeWidth', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.maxSizeHeight', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+            }
+
+            var _init = function () {
+                element.Jcrop(options, function () {
+                    jcropApi = this;
+                    // Use the API to get the real image size
+                    var bounds = this.getBounds();
+                    imageWidth = bounds[0];
+                    imageHeight = bounds[1];
+
+                    if (attributes.selection && angular.isArray(scope.selection)) {
+                        if (scope.options && scope.options.animate) {
+                            jcropApi.animateTo(scope.selection);
+                        } else {
+                            jcropApi.setSelect(scope.selection);
+                        }
+                    }
+                    imageLoaded.resolve();
+                });
+            };
+
+            _init()
+
+
+        }
+    }
+});
+'use strict';
+
 angular.module('SmartAdmin.Forms').directive('smartCheckoutForm', function (formsCommon, lazyScript) {
     return {
         restrict: 'A',
@@ -14418,196 +14629,6 @@ angular.module('SmartAdmin.Forms').directive('smartReviewForm', function (formsC
 
                 }, formsCommon.validateOptions));
             });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
-    return {
-        restrict: 'A',
-        scope: {
-            coords: '=',
-            options: '=',
-            selection: '='
-        },
-        link: function (scope, element, attributes) {
-            var jcropApi, imageWidth, imageHeight, imageLoaded = $q.defer();
-
-            var listeners = {
-                onSelectHandlers: [],
-                onChangeHandlers: [],
-                onSelect: function (c) {
-                    angular.forEach(listeners.onSelectHandlers, function (handler) {
-                        handler.call(jcropApi, c)
-                    })
-                },
-                onChange: function (c) {
-                    angular.forEach(listeners.onChangeHandlers, function (handler) {
-                        handler.call(jcropApi, c)
-                    })
-                }
-            };
-
-            if (attributes.coords) {
-                var coordsUpdate = function (c) {
-                    scope.$apply(function () {
-                        scope.coords = c;
-                    });
-                };
-                listeners.onSelectHandlers.push(coordsUpdate);
-                listeners.onChangeHandlers.push(coordsUpdate);
-            }
-
-            var $previewPane = $(attributes.smartJcropPreview),
-                $previewContainer = $previewPane.find('.preview-container'),
-                $previewImg = $previewPane.find('img');
-
-            if ($previewPane.length && $previewImg.length) {
-                var previewUpdate = function (coords) {
-                    if (parseInt(coords.w) > 0) {
-                        var rx = $previewContainer.width() / coords.w;
-                        var ry = $previewContainer.height() / coords.h;
-
-                        $previewImg.css({
-                            width: Math.round(rx * imageWidth) + 'px',
-                            height: Math.round(ry * imageHeight) + 'px',
-                            marginLeft: '-' + Math.round(rx * coords.x) + 'px',
-                            marginTop: '-' + Math.round(ry * coords.y) + 'px'
-                        });
-                    }
-                };
-                listeners.onSelectHandlers.push(previewUpdate);
-                listeners.onChangeHandlers.push(previewUpdate);
-            }
-
-
-            var options = {
-                onSelect: listeners.onSelect,
-                onChange: listeners.onChange
-            };
-
-            if ($previewContainer.length) {
-                options.aspectRatio = $previewContainer.width() / $previewContainer.height()
-            }
-
-            if (attributes.selection) {
-                scope.$watch('selection', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        var rectangle = newVal == 'release' ? [imageWidth / 2, imageHeight / 2, imageWidth / 2, imageHeight / 2] : newVal;
-
-                        var callback = newVal == 'release' ? function () {
-                            jcropApi.release();
-                        } : angular.noop;
-
-                        imageLoaded.promise.then(function () {
-                            if (scope.options && scope.options.animate) {
-                                jcropApi.animateTo(rectangle, callback);
-                            } else {
-                                jcropApi.setSelect(rectangle);
-                            }
-                        });
-                    }
-                });
-            }
-
-            if (attributes.options) {
-
-                var optionNames = [
-                    'bgOpacity', 'bgColor', 'bgFade', 'shade', 'outerImage',
-                    'allowSelect', 'allowMove', 'allowResize',
-                    'aspectRatio'
-                ];
-
-                angular.forEach(optionNames, function (name) {
-                    if (scope.options[name])
-                        options[name] = scope.options[name]
-
-                    scope.$watch('options.' + name, function (newVal, oldVal) {
-                        if (newVal != oldVal) {
-                            imageLoaded.promise.then(function () {
-                                var update = {};
-                                update[name] = newVal;
-                                jcropApi.setOptions(update);
-                            });
-                        }
-                    });
-
-                });
-
-
-                scope.$watch('options.disabled', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        if (newVal) {
-                            jcropApi.disable();
-                        } else {
-                            jcropApi.enable();
-                        }
-                    }
-                });
-
-                scope.$watch('options.destroyed', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        if (newVal) {
-                            jcropApi.destroy();
-                        } else {
-                            _init();
-                        }
-                    }
-                });
-
-                scope.$watch('options.src', function (newVal, oldVal) {
-                    imageLoaded = $q.defer();
-                    if (newVal != oldVal) {
-                        jcropApi.setImage(scope.options.src, function () {
-                            imageLoaded.resolve();
-                        });
-                    }
-                });
-
-                var updateSize = function(){
-                    jcropApi.setOptions({
-                        minSize: [scope.options.minSizeWidth, scope.options.minSizeHeight],
-                        maxSize: [scope.options.maxSizeWidth, scope.options.maxSizeHeight]
-                    });
-                };
-
-                scope.$watch('options.minSizeWidth', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.minSizeHeight', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.maxSizeWidth', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.maxSizeHeight', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-            }
-
-            var _init = function () {
-                element.Jcrop(options, function () {
-                    jcropApi = this;
-                    // Use the API to get the real image size
-                    var bounds = this.getBounds();
-                    imageWidth = bounds[0];
-                    imageHeight = bounds[1];
-
-                    if (attributes.selection && angular.isArray(scope.selection)) {
-                        if (scope.options && scope.options.animate) {
-                            jcropApi.animateTo(scope.selection);
-                        } else {
-                            jcropApi.setSelect(scope.selection);
-                        }
-                    }
-                    imageLoaded.resolve();
-                });
-            };
-
-            _init()
-
-
         }
     }
 });
