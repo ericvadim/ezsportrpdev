@@ -3,28 +3,26 @@
 
 class Game_record_model extends CI_Model
 {
+
     private $table = 'game_records';
 
     function __construct()
     {
+        /* Call the Model constructor */
         parent::__construct();
     }
 
-    public function getRows($gameId)
+    public function getGameRecords($gameId)
     {
         return $this->db->get_where($this->table, array('game_id'=>$gameId))->result();
     }
 
-    public function getRowById($id)
+    public function saveGameRecord($data)
     {
-        return $this->db->get_where($this->table, array('id' => $id))->result();
-    }
 
-    public function saveRow($data)
-    {
         $rowId = $data['id'];
 
-        $cols = array('sport_name');
+        $cols = array('game_id', 'team_id', 'player_id', 'item_id', 'record_time', 'reason');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
@@ -32,15 +30,16 @@ class Game_record_model extends CI_Model
 
         if ($rowId) {
             $this->db->where('id', $rowId);
-            $this->db->update($this->table, $row);
+            $result = $this->db->update($this->table, $row);
         } else {
-            $this->db->insert($this->table, $row);
-            $rowId = $this->db->insert_id();
+            $result = $this->db->insert($this->table, $row);
+            $this->db->insert_id();
         }
-        return $rowId;
+
+        return $result;
     }
 
-    public function deleteRowById($rowId)
+    public function deleteGameRecord($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }
