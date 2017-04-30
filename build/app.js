@@ -2154,8 +2154,8 @@ $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<d
     angular
         .module('app')
 
-        // .constant('ServerURL', 'http://ezsportrpt.com/server/')
-        .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+        .constant('ServerURL', 'http://ezsportrpt.com/server/')
+        // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 
         .constant('APP_CONFIG', window.appConfig)
         .constant('CountryList', {
@@ -2428,6 +2428,17 @@ $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<d
 Array.prototype.diff = function(a) {
     return this.filter(function(i) {return a.indexOf(i) < 0;});
 };
+
+function errorShowMessage(title, content) {
+    $.bigBox({
+        title: title,
+        content: content,
+        color: "#C46A69",
+        icon: "fa fa-warning shake animated",
+        number: '',
+        timeout: 6000
+    });
+}
 (function () {
     'use strict';
 
@@ -3180,6 +3191,9 @@ angular.module('app.admin').controller('ClubAdminController', function ($scope, 
     vm.getPersons();
 
     vm.getData = function () {
+        vm.importedRows = [];
+        vm.importedCurrRows = [];
+
         vm.loading = true;
         $http.get(ServerURL + "club_admin/get?club_id=" + vm.currClubId).then(function (response) {
             vm.prePersonIds = vm.personIds = [];
@@ -3267,23 +3281,35 @@ angular.module('app.admin').controller('ClubAdminController', function ($scope, 
     };
 
     $scope.uploadFile = function (files) {
+        if(files.length == 0){
+            vm.importedRows = [];
+            vm.importedCurrRows = [];
+            return;
+        }
         vm.loadingImportData = true;
         var fd = new FormData();
         fd.append("file", files[0]);
 
-        $http.post(ServerURL + "club_admin/getjsonfromfile", fd, {
+        $http.post(ServerURL + "persons/getjsonfromfile?sub_id="+vm.currClubId+'&page_id=clubadmin', fd, {
             withCredentials: false,
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
         }).success(function (response) {
+            if(angular.isDefined(response.status)){
+                if(response.status == 'excel_type_error'){
+                    errorShowMessage('Excel Type Error', 'Please check uploaded file type. Try again!');
+                    vm.loadingImportData = false;
+                    return ;
+                }
+            }
             vm.importedHeaders = response.headers;
             vm.importedRows = response.data;
 
             vm.importedPager.totalPages = Math.ceil(vm.importedRows.length / vm.importedPager.rowsInPage);
             vm.importedPager.currentPage = 1;
             vm.importedPager.pages = [];
-            for (var p = 1; p <= vm.importedPager.totalPages; p++) {
-                vm.importedPager.pages[vm.importedPager.pages.length] = p;
+            for (var p = 0; p < vm.importedPager.totalPages; p++) {
+                vm.importedPager.pages[p] = p + 1;
             }
             vm.setImportedPage();
 
@@ -3294,16 +3320,27 @@ angular.module('app.admin').controller('ClubAdminController', function ($scope, 
     vm.import = function () {
         var data = vm.getCheckedImportedRows();
         if (data.length > 0) {
+
             vm.loadingImportData = true;
             $http({
                 method: 'POST',
-                url: ServerURL + "club_admin/import?club_id=" + vm.currClubId,
+                url: ServerURL + "persons/import?team_id=" + vm.currClubId + '&page_id=clubadmin',
                 headers: {'Content-Type': 'multipart/form-data'},
                 data: data
-            }).then(function mySucces(/*response*/) {
+            }).then(function mySucces(response) {
                 $('#importModal').modal('hide');
                 vm.getPersons();
                 vm.getData();
+
+                var result = angular.fromJson(response);
+                var checkedRow = $filter('filter')(vm.importedCurrRows, {checked: true});
+                checkedRow.forEach(function (r, ind) {
+
+                    r.checked = false;
+                    r.isSubRow = 1;
+                    r.person_id = result.data[ind]
+                });
+
                 vm.loadingImportData = false;
             });
         } else {
@@ -3422,7 +3459,13 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
             vm.teams = response.data;
             if (vm.teams.length) {
                 vm.currTeamId = vm.teams[0].id;
+                $('#importBtn').attr('disabled', false);
                 vm.getData();
+            } else {
+                vm.tableData = [];
+                vm.loading = false;
+
+                $('#importBtn').attr('disabled', true);
             }
         });
     };
@@ -3442,6 +3485,9 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
     vm.getPersons();
 
     vm.getData = function () {
+        vm.importedRows = [];
+        vm.importedCurrRows = [];
+
         vm.getLicenses();
         vm.loading = true;
         $http.get(ServerURL + "coaches/get?team_id=" + vm.currTeamId).then(function (response) {
@@ -3553,23 +3599,35 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
     };
 
     $scope.uploadFile = function (files) {
+        if(files.length == 0){
+            vm.importedRows = [];
+            vm.importedCurrRows = [];
+            return;
+        }
         vm.loadingImportData = true;
         var fd = new FormData();
         fd.append("file", files[0]);
 
-        $http.post(ServerURL + "coaches/getjsonfromfile", fd, {
+        $http.post(ServerURL + "persons/getjsonfromfile?sub_id="+vm.currTeamId+'&page_id=coache', fd, {
             withCredentials: false,
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
         }).success(function (response) {
+            if(angular.isDefined(response.status)){
+                if(response.status == 'excel_type_error'){
+                    errorShowMessage('Excel Type Error', 'Please check uploaded file type. Try again!');
+                    vm.loadingImportData = false;
+                    return ;
+                }
+            }
             vm.importedHeaders = response.headers;
             vm.importedRows = response.data;
 
             vm.importedPager.totalPages = Math.ceil(vm.importedRows.length / vm.importedPager.rowsInPage);
             vm.importedPager.currentPage = 1;
             vm.importedPager.pages = [];
-            for (var p = 1; p <= vm.importedPager.totalPages; p++) {
-                vm.importedPager.pages[vm.importedPager.pages.length] = p;
+            for (var p = 0; p < vm.importedPager.totalPages; p++) {
+                vm.importedPager.pages[p] = p + 1;
             }
             vm.setImportedPage();
 
@@ -3580,16 +3638,27 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
     vm.import = function () {
         var data = vm.getCheckedImportedRows();
         if (data.length > 0) {
+
             vm.loadingImportData = true;
             $http({
                 method: 'POST',
-                url: ServerURL + "coaches/import?team_id=" + vm.currTeamId,
+                url: ServerURL + "persons/import?team_id=" + vm.currTeamId+'&page_id=coache' ,
                 headers: {'Content-Type': 'multipart/form-data'},
                 data: data
-            }).then(function mySucces(/*response*/) {
+            }).then(function mySucces(response) {
                 $('#importModal').modal('hide');
                 vm.getPersons();
                 vm.getData();
+
+                var result = angular.fromJson(response);
+                var checkedRow = $filter('filter')(vm.importedCurrRows, {checked: true});
+                checkedRow.forEach(function (r, ind) {
+
+                    r.checked = false;
+                    r.isSubRow = 1;
+                    r.person_id = result.data[ind]
+                });
+
                 vm.loadingImportData = false;
             });
         } else {
@@ -4421,6 +4490,9 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
     vm.getPersons();
 
     vm.getData = function () {
+        vm.importedRows = [];
+        vm.importedCurrRows = [];
+
         vm.loading = true;
         $http.get(ServerURL + "managers/get?team_id=" + vm.currTeamId).then(function (response) {
             vm.prePersonIds = vm.personIds = [];
@@ -4507,23 +4579,35 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
     };
 
     $scope.uploadFile = function (files) {
+        if(files.length == 0){
+            vm.importedRows = [];
+            vm.importedCurrRows = [];
+            return;
+        }
         vm.loadingImportData = true;
         var fd = new FormData();
         fd.append("file", files[0]);
 
-        $http.post(ServerURL + "managers/getjsonfromfile", fd, {
+        $http.post(ServerURL + "persons/getjsonfromfile?sub_id="+vm.currTeamId+'&page_id=manager', fd, {
             withCredentials: false,
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
         }).success(function (response) {
+            if(angular.isDefined(response.status)){
+                if(response.status == 'excel_type_error'){
+                    errorShowMessage('Excel Type Error', 'Please check uploaded file type. Try again!');
+                    vm.loadingImportData = false;
+                    return ;
+                }
+            }
             vm.importedHeaders = response.headers;
             vm.importedRows = response.data;
 
             vm.importedPager.totalPages = Math.ceil(vm.importedRows.length / vm.importedPager.rowsInPage);
             vm.importedPager.currentPage = 1;
             vm.importedPager.pages = [];
-            for (var p = 1; p <= vm.importedPager.totalPages; p++) {
-                vm.importedPager.pages[vm.importedPager.pages.length] = p;
+            for (var p = 0; p < vm.importedPager.totalPages; p++) {
+                vm.importedPager.pages[p] = p + 1;
             }
             vm.setImportedPage();
 
@@ -4534,16 +4618,27 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
     vm.import = function () {
         var data = vm.getCheckedImportedRows();
         if (data.length > 0) {
+
             vm.loadingImportData = true;
             $http({
                 method: 'POST',
-                url: ServerURL + "managers/import?team_id=" + vm.currTeamId,
+                url: ServerURL + "persons/import?team_id=" + vm.currTeamId+'&page_id=manager' ,
                 headers: {'Content-Type': 'multipart/form-data'},
                 data: data
-            }).then(function mySucces(/*response*/) {
+            }).then(function mySucces(response) {
                 $('#importModal').modal('hide');
                 vm.getPersons();
                 vm.getData();
+
+                var result = angular.fromJson(response);
+                var checkedRow = $filter('filter')(vm.importedCurrRows, {checked: true});
+                checkedRow.forEach(function (r, ind) {
+
+                    r.checked = false;
+                    r.isSubRow = 1;
+                    r.person_id = result.data[ind]
+                });
+
                 vm.loadingImportData = false;
             });
         } else {
@@ -4709,7 +4804,6 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
     };
 });
 'use strict';
-
 angular.module('app.admin').controller('PlayersController', function ($scope, ServerURL, $http, $filter, $timeout) {
     var vm = this;
     vm.clubs = [];
@@ -4741,10 +4835,13 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
             vm.teams = response.data;
             if (vm.teams.length) {
                 vm.currTeamId = vm.teams[0].id;
+                $('#importBtn').attr('disabled', false);
                 vm.getData();
             } else {
                 vm.tableData = [];
                 vm.loading = false;
+
+                $('#importBtn').attr('disabled', true);
             }
         });
     };
@@ -4752,7 +4849,6 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
     vm.getData = function () {
         vm.importedRows = [];
         vm.importedCurrRows = [];
-        $('#importFile').val('');
 
         vm.getPositions();
         vm.loading = true;
@@ -4880,15 +4976,27 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
     };
 
     $scope.uploadFile = function (files) {
+        if(files.length == 0){
+            vm.importedRows = [];
+            vm.importedCurrRows = [];
+            return;
+        }
         vm.loadingImportData = true;
         var fd = new FormData();
         fd.append("file", files[0]);
 
-        $http.post(ServerURL + "players/getjsonfromfile?sub_id="+vm.currTeamId+'&page_id=players', fd, {
+        $http.post(ServerURL + "persons/getjsonfromfile?sub_id="+vm.currTeamId+'&page_id=player', fd, {
             withCredentials: false,
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
         }).success(function (response) {
+            if(angular.isDefined(response.status)){
+                if(response.status == 'excel_type_error'){
+                    errorShowMessage('Excel Type Error', 'Please check uploaded file type. Try again!');
+                    vm.loadingImportData = false;
+                    return ;
+                }
+            }
             vm.importedHeaders = response.headers;
             vm.importedRows = response.data;
 
@@ -4911,7 +5019,7 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
             vm.loadingImportData = true;
             $http({
                 method: 'POST',
-                url: ServerURL + "players/import?team_id=" + vm.currTeamId,
+                url: ServerURL + "persons/import?team_id=" + vm.currTeamId + '&page_id=player',
                 headers: {'Content-Type': 'multipart/form-data'},
                 data: data
             }).then(function mySucces(response) {
@@ -5266,6 +5374,9 @@ angular.module('app.admin').controller('RefereesController', function ($scope, S
     vm.getPersons();
 
     vm.getData = function () {
+        vm.importedRows = [];
+        vm.importedCurrRows = [];
+
         vm.loading = true;
         $http.get(ServerURL + "referees/get?club_id=" + vm.currClubId).then(function (response) {
             vm.prePersonIds = vm.personIds = [];
@@ -5353,23 +5464,35 @@ angular.module('app.admin').controller('RefereesController', function ($scope, S
     };
 
     $scope.uploadFile = function (files) {
+        if(files.length == 0){
+            vm.importedRows = [];
+            vm.importedCurrRows = [];
+            return;
+        }
         vm.loadingImportData = true;
         var fd = new FormData();
         fd.append("file", files[0]);
 
-        $http.post(ServerURL + "referees/getjsonfromfile", fd, {
+        $http.post(ServerURL + "persons/getjsonfromfile?sub_id="+vm.currClubId+'&page_id=referee', fd, {
             withCredentials: false,
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
         }).success(function (response) {
+            if(angular.isDefined(response.status)){
+                if(response.status == 'excel_type_error'){
+                    errorShowMessage('Excel Type Error', 'Please check uploaded file type. Try again!');
+                    vm.loadingImportData = false;
+                    return ;
+                }
+            }
             vm.importedHeaders = response.headers;
             vm.importedRows = response.data;
 
             vm.importedPager.totalPages = Math.ceil(vm.importedRows.length / vm.importedPager.rowsInPage);
             vm.importedPager.currentPage = 1;
             vm.importedPager.pages = [];
-            for (var p = 1; p <= vm.importedPager.totalPages; p++) {
-                vm.importedPager.pages[vm.importedPager.pages.length] = p;
+            for (var p = 0; p < vm.importedPager.totalPages; p++) {
+                vm.importedPager.pages[p] = p + 1;
             }
             vm.setImportedPage();
 
@@ -5380,16 +5503,27 @@ angular.module('app.admin').controller('RefereesController', function ($scope, S
     vm.import = function () {
         var data = vm.getCheckedImportedRows();
         if (data.length > 0) {
+
             vm.loadingImportData = true;
             $http({
                 method: 'POST',
-                url: ServerURL + "referees/import?club_id=" + vm.currClubId,
+                url: ServerURL + "persons/import?team_id=" + vm.currClubId + '&page_id=referee',
                 headers: {'Content-Type': 'multipart/form-data'},
                 data: data
-            }).then(function mySucces(/*response*/) {
+            }).then(function mySucces(response) {
                 $('#importModal').modal('hide');
                 vm.getPersons();
                 vm.getData();
+
+                var result = angular.fromJson(response);
+                var checkedRow = $filter('filter')(vm.importedCurrRows, {checked: true});
+                checkedRow.forEach(function (r, ind) {
+
+                    r.checked = false;
+                    r.isSubRow = 1;
+                    r.person_id = result.data[ind]
+                });
+
                 vm.loadingImportData = false;
             });
         } else {

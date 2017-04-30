@@ -1,5 +1,4 @@
 'use strict';
-
 angular.module('app.admin').controller('PlayersController', function ($scope, ServerURL, $http, $filter, $timeout) {
     var vm = this;
     vm.clubs = [];
@@ -31,10 +30,13 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
             vm.teams = response.data;
             if (vm.teams.length) {
                 vm.currTeamId = vm.teams[0].id;
+                $('#importBtn').attr('disabled', false);
                 vm.getData();
             } else {
                 vm.tableData = [];
                 vm.loading = false;
+
+                $('#importBtn').attr('disabled', true);
             }
         });
     };
@@ -42,7 +44,6 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
     vm.getData = function () {
         vm.importedRows = [];
         vm.importedCurrRows = [];
-        $('#importFile').val('');
 
         vm.getPositions();
         vm.loading = true;
@@ -170,15 +171,27 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
     };
 
     $scope.uploadFile = function (files) {
+        if(files.length == 0){
+            vm.importedRows = [];
+            vm.importedCurrRows = [];
+            return;
+        }
         vm.loadingImportData = true;
         var fd = new FormData();
         fd.append("file", files[0]);
 
-        $http.post(ServerURL + "players/getjsonfromfile?sub_id="+vm.currTeamId+'&page_id=players', fd, {
+        $http.post(ServerURL + "persons/getjsonfromfile?sub_id="+vm.currTeamId+'&page_id=player', fd, {
             withCredentials: false,
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
         }).success(function (response) {
+            if(angular.isDefined(response.status)){
+                if(response.status == 'excel_type_error'){
+                    errorShowMessage('Excel Type Error', 'Please check uploaded file type. Try again!');
+                    vm.loadingImportData = false;
+                    return ;
+                }
+            }
             vm.importedHeaders = response.headers;
             vm.importedRows = response.data;
 
@@ -201,7 +214,7 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
             vm.loadingImportData = true;
             $http({
                 method: 'POST',
-                url: ServerURL + "players/import?team_id=" + vm.currTeamId,
+                url: ServerURL + "persons/import?team_id=" + vm.currTeamId + '&page_id=player',
                 headers: {'Content-Type': 'multipart/form-data'},
                 data: data
             }).then(function mySucces(response) {

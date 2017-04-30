@@ -42,4 +42,33 @@ class Club_admin_model extends CI_Model
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }
+
+    public function setInsertData($clubId, $personId, $person){
+        $clubAdminData = array(
+            'id' => '',
+            'club_id' => $clubId,
+            'person_id' => $personId
+        );
+        var_dump($clubAdminData);
+        $result = $this->saveClubAdmin($clubAdminData);     // saving a referee.
+        return;
+    }
+
+    public function getFields()
+    {
+
+        $fields = array(
+            array('tbl' => 'person', 'field' => 'first_name', 'xls' => 'First Name'),
+            array('tbl' => 'person', 'field' => 'last_name', 'xls' => 'Last  Name'),
+            array('tbl' => 'clubadmin', 'field' => '', 'xls' => 'Title'),
+            array('tbl' => 'person', 'field' => 'cell_phone', 'xls' => 'Phone Number'),
+            array('tbl' => 'person', 'field' => 'email', 'xls' => 'Email'),
+            array('tbl' => 'person', 'field' => 'address', 'xls' => 'Address'),
+            array('tbl' => 'person', 'field' => 'city', 'xls' => 'City'),
+            array('tbl' => 'person', 'field' => 'state', 'xls' => 'State'),
+            array('tbl' => 'person', 'field' => 'zipcode', 'xls' => 'Zip Code')
+        );
+        return $fields;
+    }
+
 }
