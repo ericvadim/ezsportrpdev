@@ -2,10 +2,10 @@
     'use strict';
 
     angular.module('app.admin')
-        .factory('RoastersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+        .factory('GameRoastersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
             return {
                 get: function (teamId, gameId) {
-                    var url = ServerURL + 'roasters?team_id=' + teamId + '&game_id=' + gameId;
+                    var url = ServerURL + 'game_roasters?team_id=' + teamId + '&game_id=' + gameId;
                     var deferred = $q.defer();
                     $http.get(url).then(function (res) {
                         deferred.resolve(res);
@@ -15,7 +15,7 @@
                     return deferred.promise;
                 },
                 save: function (data) {
-                    var url = ServerURL + 'roasters';
+                    var url = ServerURL + 'game_roasters';
                     var deferred = $q.defer();
                     $http({
                         method: 'POST',

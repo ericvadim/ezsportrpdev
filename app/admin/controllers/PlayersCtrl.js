@@ -39,6 +39,27 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
         });
     };
 
+    vm.getData = function () {
+        vm.importedRows = [];
+        vm.importedCurrRows = [];
+        $('#importFile').val('');
+
+        vm.getPositions();
+        vm.loading = true;
+        $http.get(ServerURL + "players/get?team_id=" + vm.currTeamId).then(function (response) {
+            vm.personIds = [];
+            vm.tableData = response.data;
+            for (var t in vm.tableData) {
+                if (typeof vm.tableData[t] == 'object') {
+                    vm.personIds[vm.personIds.length] = vm.getPersonById(vm.tableData[t].person_id);
+                }
+            }
+            vm.prePersonIds = vm.personIds;
+
+            vm.loading = false;
+        });
+    };
+
     vm.getPositions = function () {
         var sportId = $filter('filter')(vm.teams, {id: vm.currTeamId}, true)[0]['sport_id'];    // gets sport type of the team.
         $http.get(ServerURL + "positions/get?sport_id=" + sportId).then(function (response) {
@@ -52,22 +73,6 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
         });
     };
     vm.getPersons();
-
-    vm.getData = function () {
-        vm.getPositions();
-        vm.loading = true;
-        $http.get(ServerURL + "players/get?team_id=" + vm.currTeamId).then(function (response) {
-            vm.personIds = [];
-            vm.tableData = response.data;
-            for (var t in vm.tableData) {
-                if (typeof vm.tableData[t] == 'object') {
-                    vm.personIds[vm.personIds.length] = vm.getPersonById(vm.tableData[t].person_id);
-                }
-            }
-            vm.prePersonIds = vm.personIds;
-            vm.loading = false;
-        });
-    };
 
     vm.save = function () {
         var data = {

@@ -23,7 +23,7 @@ ul[data-smart-menu] {
 }
 
 body:not(.menu-on-top).desktop-detected {
-    min-height: auto !important;
+    min-height: inherit !important;
 }
 
 .width-full {
@@ -135,9 +135,10 @@ nav ul.pagination li a:before {
     border: 0 !important;
 }
 
-.text-grey{
+.text-grey {
     color: lightgrey;
 }
-.text-danger{
+
+.text-danger {
     color: #ef9001;
 }
