@@ -89,6 +89,21 @@ class Person_model extends CI_Model
         return $this->db->delete($this->table, array('id' => $rowId));
     }
 
+    public function getInFields($xls_fileds){
+        $person_fields = $this->fields();
+        $fieldsAry = array();
+        $ind = 0; $alphabet = range('A', 'Z');
+        foreach($xls_fileds as $row){
+            if($row['tbl'] == 'person' && $row['field'] != ''){
+                if(in_array($row['field'], $person_fields)){
+                    $fieldsAry[$alphabet[$ind]] = $row['field'];
+                }
+            }
+            $ind++;
+        }
+        return $fieldsAry;
+    }
+
     public function getPersonByCondition($dataAry){
         $where = '1 ';
         foreach($dataAry as $key=>$val){
@@ -109,13 +124,37 @@ class Person_model extends CI_Model
     }
 
     public function getSubRelationByPerson($person_id, $sub_id, $page_id){
-        if($page_id == 'players'){
+        if($page_id == 'player'){
             $sub_table = 'players';
             $sub_field = 'team_id';
+        } else if($page_id == 'coache'){
+            $sub_table = 'coaches';
+            $sub_field = 'team_id';
+        } else if($page_id == 'manager'){
+            $sub_table = 'managers';
+            $sub_field = 'team_id';
+        } else if($page_id == 'referee'){
+            $sub_table = 'referees';
+            $sub_field = 'club_id';
+        } else if($page_id == 'clubadmin'){
+            $sub_table = 'club_admins';
+            $sub_field = 'club_id';
         }
+
 
         $sql = "SELECT * FROM `". $sub_table ."` WHERE `".$sub_field."`='".$sub_id."' AND `person_id`='".$person_id."'";
         $query = $this->db->query($sql);
         return $query->row_array();
+    }
+
+    private function fields(){
+        $sql = "SHOW COLUMNS FROM " . $this->table;
+        $query = $this->db->query($sql);
+
+        if($query->num_rows() < 1) return null;
+
+        $rows = $query->result_array();
+        $fields = array_column($rows, 'Field');
+        return $fields;
     }
 }

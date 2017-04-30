@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-7 col-md-8 text-right">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#importModal">Import</button>
+            <button class="btn btn-primary" id="importBtn" data-toggle="modal" data-target="#importModal">Import</button>
         </div>
     </div>
     <section widget-grid id="widget-grid">
@@ -153,7 +153,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">File to import</label>
                                 <div class="col-md-10">
-                                    <input type="file" class="btn btn-default" onchange="angular.element(this).scope().uploadFile(this.files)">
+                                    <input type="file" class="btn btn-default" id="importFile" onchange="angular.element(this).scope().uploadFile(this.files)">
                                 </div>
                             </div>
                         </div>
@@ -213,17 +213,16 @@
                                                         <thead>
                                                         <tr ng-if="vm.importedRows.length">
                                                             <th><input type="checkbox" ng-change="vm.checkAll()" ng-model="vm.allCheck"></th>
-                                                            <th ng-repeat="header in vm.importedHeaders">{{header}}</th>
+                                                            <th ng-repeat="(key, val) in vm.importedHeaders">{{val}}</th>
                                                         </tr>
                                                         </thead>
 
                                                         <tbody>
-                                                        <tr ng-repeat="row in vm.importedCurrRows track by $index" ng-class="{'selected-row':row.checked}">
-                                                            <td><input type="checkbox" ng-model="row.checked"></td>
-                                                            <td ng-repeat="(key, val) in row"
-                                                                ng-click="row.checked = !row.checked"
-                                                                ng-if="key != 'id' && key != 'checked'">
-                                                                {{val}}
+                                                        <tr ng-repeat="row in vm.importedCurrRows track by $index" ng-class="{'selected-row':(row.checked), 'text-grey':row.isExist > 0, 'text-danger': row.isSubRow == 1}">
+                                                            <td><input type="checkbox" ng-model="row.checked" ng-if="row.isSubRow == 0"></td>
+                                                            <td ng-repeat="(ind, headerTxt) in vm.importedHeaders"
+                                                                ng-click="row.checked = (!row.checked && row.isSubRow == 0)">
+                                                                {{row[ind]}}
                                                             </td>
                                                         </tr>
                                                         <tr ng-if="!vm.importedRows.length">

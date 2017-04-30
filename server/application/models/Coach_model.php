@@ -39,8 +39,41 @@ class Coach_model extends CI_Model
         return $result;
     }
 
+
     public function deleteCoach($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
+    }
+
+
+    public function setInsertData($teamId, $personId, $person){
+        $coachData = array(
+            'id' => '',
+            'team_id' => $teamId,
+            'person_id' => $personId,
+            'coach_type' => $person['J']
+        );
+
+        $result = $this->saveCoach($coachData);     // saving a player.
+        return;
+    }
+
+    public function getFields()
+    {
+        $fields = array(
+            array('tbl' => 'person', 'field' => 'first_name', 'xls' => 'Coach First Name'),
+            array('tbl' => 'person', 'field' => 'last_name', 'xls' => 'Coach Last Name'),
+            array('tbl' => 'person', 'field' => 'cell_phone', 'xls' => 'Cell Number'),
+            array('tbl' => 'person', 'field' => 'home_phone', 'xls' => 'Phone Number'),
+            array('tbl' => 'person', 'field' => 'email', 'xls' => 'Email'),
+            array('tbl' => 'person', 'field' => 'address', 'xls' => 'Address'),
+            array('tbl' => 'person', 'field' => 'city', 'xls' => 'City'),
+            array('tbl' => 'person', 'field' => 'zipcode', 'xls' => 'Zip Code'),
+            array('tbl' => 'coaches', 'field' => '', 'xls' => 'COACHING LEVEL LICENSE'),
+            array('tbl' => 'coaches', 'field' => '', 'xls' => 'Other License'),
+            array('tbl' => 'coaches', 'field' => '', 'xls' => 'Team - A'),
+            array('tbl' => 'coaches', 'field' => '', 'xls' => 'Team B')
+        );
+        return $fields;
     }
 }
