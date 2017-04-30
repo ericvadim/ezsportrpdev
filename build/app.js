@@ -3853,12 +3853,13 @@ angular.module('app.admin').controller('GameRecordsController', function (Server
 angular.module('app.admin').controller('GameRoastersController', function ($scope, $filter, TeamsService, GameSchedulesService, GameRoastersService) {
     $scope.teams = [];
     $scope.games = [];
-    $scope.tableData = [];
+    $scope.tableData = $scope.safeData = [];
     $scope.curr = {
         team: {},
         game: {}
     };
     $scope.preRowForCaptain = {};
+    $scope.loading = true;
 
     TeamsService.teamsWithClub().then(function (response) {
         $scope.teams = response.data;
@@ -3869,18 +3870,23 @@ angular.module('app.admin').controller('GameRoastersController', function ($scop
     });
 
     $scope.getGames = function () {
+        $scope.loading = true;
         GameSchedulesService.schedulesByTeam($scope.curr.team.id).then(function (response) {
             $scope.games = response.data;
             if ($scope.games.length) {
                 $scope.curr.game = $scope.games[0];
                 $scope.getData();
+            } else {
+                $scope.loading = false;
             }
         });
     };
 
     $scope.getData = function () {
+        $scope.loading = true;
         GameRoastersService.get($scope.curr.team.id, $scope.curr.game.id).then(function (response) {
-            $scope.tableData = response.data;
+            $scope.loading = false;
+            $scope.tableData = $scope.safeData = response.data;
             for (var t in $scope.tableData) {
                 $scope.tableData[t]['is_captain'] = !!($scope.tableData[t]['is_captain'] * 1);
                 $scope.tableData[t]['is_starter'] = !!($scope.tableData[t]['is_starter'] * 1);
@@ -3889,6 +3895,7 @@ angular.module('app.admin').controller('GameRoastersController', function ($scop
     };
 
     $scope.save = function (row) {
+        $scope.loading = true;
         var data = {
             id: row.id,
             team_id: $scope.curr.team.id,
@@ -3897,7 +3904,7 @@ angular.module('app.admin').controller('GameRoastersController', function ($scop
             is_captain: row.is_captain ? 1 : 0,
             is_starter: row.is_starter ? 1 : 0
         };
-        GameRoastersService.save(data).then(function (response) {
+        GameRoastersService.save(data).then(function () {
             $scope.getData();
         });
     };
@@ -3910,7 +3917,7 @@ angular.module('app.admin').controller('GameRoastersController', function ($scop
     }
 
     $scope.getStartersCount = function () {
-        return $filter('filter')($scope.tableData, {is_starter: true}).length;
+        return $filter('filter')($scope.safeData, {is_starter: true}).length;
     }
 });
 'use strict';

@@ -5,7 +5,7 @@
     </div>
 
     <div class="row margin-bottom-10 form-horizontal">
-        <div class="col-xs-6 col-md-4 col-lg-3 form-horizontal">
+        <div class="col-xs-6 col-md-5 col-lg-4 form-horizontal">
             <div class="form-group">
                 <label class="col-md-2 control-label">Team</label>
                 <div class="col-md-10">
@@ -71,8 +71,9 @@
                                     </tr>
                                     </tbody>
                                     <tfoot>
-                                    <tr>
+                                    <tr st-select-row="row" st-select-mode="single">
                                         <td colspan="5" class="text-center">
+                                            <div class="text-center" ng-if="safeData.length == 0"><br/>There is no players in this team.<br/><br/></div>
                                             <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
                                         </td>
                                     </tr>
