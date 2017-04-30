@@ -4078,7 +4078,7 @@ angular.module('app.admin').controller('GameRoastersController', function ($scop
     };
 
     $scope.save = function (row) {
-        if ($scope.getStartersCount < 11) {
+        if ($scope.getStartersCount() < 12) {
             $scope.loading = true;
             var data = {
                 id: row.id,
@@ -4093,6 +4093,7 @@ angular.module('app.admin').controller('GameRoastersController', function ($scop
             });
         } else {
             alert("Roasters shouldn't be able to add more than 11 players");
+            $scope.getData();
         }
     };
 
