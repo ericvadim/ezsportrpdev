@@ -45,18 +45,22 @@ angular.module('app.admin').controller('GameRoastersController', function ($scop
     };
 
     $scope.save = function (row) {
-        $scope.loading = true;
-        var data = {
-            id: row.id,
-            team_id: $scope.curr.team.id,
-            game_id: $scope.curr.game.id,
-            player_id: row.player_id,
-            is_captain: row.is_captain ? 1 : 0,
-            is_starter: row.is_starter ? 1 : 0
-        };
-        GameRoastersService.save(data).then(function () {
-            $scope.getData();
-        });
+        if ($scope.getStartersCount < 11) {
+            $scope.loading = true;
+            var data = {
+                id: row.id,
+                team_id: $scope.curr.team.id,
+                game_id: $scope.curr.game.id,
+                player_id: row.player_id,
+                is_captain: row.is_captain ? 1 : 0,
+                is_starter: row.is_starter ? 1 : 0
+            };
+            GameRoastersService.save(data).then(function () {
+                $scope.getData();
+            });
+        } else {
+            alert("Roasters shouldn't be able to add more than 11 players");
+        }
     };
 
     $scope.checkCaptain = function (row) {
