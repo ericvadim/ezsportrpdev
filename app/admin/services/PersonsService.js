@@ -39,9 +39,9 @@
                     });
                     return deferred.promise;
                 },
-                getJsonFromFile: function (subId, page_id, fd) {
+                getJsonFromFile: function (subId, pageId, fd) {
                     var deferred = $q.defer();
-                    var url = ServerURL + 'persons/getjsonfromfile?sub_id='+vm.currTeamId+'&page_id='+page_id;
+                    var url = ServerURL + 'persons/getjsonfromfile?sub_id='+subId+'&page_id='+pageId;
                     $http.post(url, fd, {
                         withCredentials: false,
                         headers: {'Content-Type': undefined},
@@ -49,6 +49,21 @@
                     }).success(function (response) {
                         deferred.resolve(response);
                     }).error(function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                importData: function (subId, pageId, data) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'persons/import?team_id='+subId+'&page_id='+pageId;
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
                         deferred.reject(err);
                     });
                     return deferred.promise;

@@ -19,6 +19,7 @@ class Persons extends Base_Controller
     {
         $division = $this->input->get('division');  // 0: all, 1: players, 2: coaches, 3: team managers, 4: referees.
 
+
         $rows = $this->model->getRows($division);
 
         if (sizeof($rows)) {

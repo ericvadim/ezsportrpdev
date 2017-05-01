@@ -12,7 +12,18 @@ class Game_record_model extends CI_Model
 
     public function getRows($gameId)
     {
-        return $this->db->get_where($this->table, array('game_id'=>$gameId))->result();
+        $query = "
+            SELECT A.*, B.team_name, C.player_number, D.first_name, D.last_name, E.position_name 
+            FROM (
+              SELECT * FROM ".$this->table." WHERE game_id=" . $gameId . "
+            ) AS A  
+            LEFT OUTER JOIN teams AS B ON B.id = A.team_id 
+            LEFT OUTER JOIN players AS C ON C.id=A.player_id 
+            LEFT OUTER JOIN persons AS D ON D.id=C.person_id 
+            LEFT OUTER JOIN positions AS E ON E.id=C.position_id 
+            ORDER BY D.first_name, D.last_name 
+        ";
+        return $this->db->query($query)->result();
     }
 
     public function getRowById($id)
@@ -24,7 +35,7 @@ class Game_record_model extends CI_Model
     {
         $rowId = $data['id'];
 
-        $cols = array('sport_name');
+        $cols = array('game_id', 'team_id', 'player_id', 'item_id', 'record_time', 'reason');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';

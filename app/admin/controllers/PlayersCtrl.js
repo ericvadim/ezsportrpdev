@@ -1,5 +1,5 @@
 'use strict';
-angular.module('app.admin').controller('PlayersController', function ($scope, ServerURL, $http, $filter, $timeout, ClubsService, TeamsService, PlayersService, PositionsService, PersonsService) {
+angular.module('app.admin').controller('PlayersController', function ($scope, ServerURL, $filter, $timeout, ClubsService, TeamsService, PlayersService, PositionsService, PersonsService) {
     var vm = this;
     vm.clubs = [];
     vm.teams = [];
@@ -69,7 +69,7 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
     };
 
     vm.getPersons = function () {
-        PersonsService.get().then(function (response) {
+        PersonsService.get(1).then(function (response) {
             vm.persons = response.data;
         });
     };
@@ -181,7 +181,7 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
         fd.append("file", files[0]);
 
         PersonsService.getJsonFromFile(vm.currTeamId, 'player', fd)
-            .then(function () {
+            .then(function (response) {
                 if(angular.isDefined(response.status)){
                     if(response.status == 'excel_type_error'){
                         errorShowMessage('Excel Type Error', 'Please check uploaded file type. Try again!');
@@ -207,29 +207,24 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
     vm.import = function () {
         var data = vm.getCheckedImportedRows();
         if (data.length > 0) {
-
             vm.loadingImportData = true;
-            $http({
-                method: 'POST',
-                url: ServerURL + "persons/import?team_id=" + vm.currTeamId + '&page_id=player',
-                headers: {'Content-Type': 'multipart/form-data'},
-                data: data
-            }).then(function mySucces(response) {
-                $('#importModal').modal('hide');
-                vm.getPersons();
-                vm.getData();
+            PersonsService.importData(vm.currTeamId, 'player', data)
+                .then(function (response) {
+                    $('#importModal').modal('hide');
+                    vm.getPersons();
+                    vm.getData();
 
-                var result = angular.fromJson(response);
-                var checkedRow = $filter('filter')(vm.importedCurrRows, {checked: true});
-                checkedRow.forEach(function (r, ind) {
+                    var result = angular.fromJson(response);
+                    var checkedRow = $filter('filter')(vm.importedCurrRows, {checked: true});
+                    checkedRow.forEach(function (r, ind) {
 
-                    r.checked = false;
-                    r.isSubRow = 1;
-                    r.person_id = result.data[ind]
+                        r.checked = false;
+                        r.isSubRow = 1;
+                        r.person_id = result.data[ind]
+                    });
+
+                    vm.loadingImportData = false;
                 });
-
-                vm.loadingImportData = false;
-            });
         } else {
             alert('Please choose one or more person for importing.');
         }

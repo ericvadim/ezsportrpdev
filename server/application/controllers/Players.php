@@ -23,6 +23,16 @@ class Players extends Base_Controller
         $this->set_response($rows, 200);
     }
 
+    public function playersWithPerson_get()
+    {
+
+        $teamId = $this->input->get('team_id');
+
+        $rows = $this->model->getPlayersWithPerson($teamId);
+
+        $this->set_response($rows, 200);
+    }
+
     public function index_post()
     {
         $data = json_decode(file_get_contents('php://input'), true);
