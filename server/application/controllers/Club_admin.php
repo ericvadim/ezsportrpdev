@@ -1,43 +1,49 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once APPPATH . "/libraries/PHPExcel/Classes/PHPExcel.php";
+require dirname(__FILE__) . '/Base_Controller.php';
 
-class Club_admin extends CI_Controller
+class Club_admin extends Base_Controller
 {
 
-    public function index()
+    private $model = null;
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('club_admin_model');
+        $this->model = $this->club_admin_model;
     }
 
-    public function get()
+    public function index_get()
     {
-        $this->load->database();
-        $this->load->model('club_admin_model');
         $clubId = $this->input->get('club_id');
-        $rows = $this->club_admin_model->getClubAdmins($clubId);
+        $rows = $this->club_admin_model->getRows($clubId);
 
-        echo json_encode($rows);
-        exit;
+        $this->set_response($rows, 200);
     }
 
-    public function save()
+    public function clubadminsWithPerson_get()
     {
-        $this->load->database();
-        $this->load->model('club_admin_model');
+
+        $clubId = $this->input->get('club_id');
+
+        $rows = $this->model->getClubadminsWithPerson($clubId);
+
+        $this->set_response($rows, 200);
+    }
+
+    public function index_post()
+    {
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->club_admin_model->saveClubAdmin($data);
-        exit($result);
+        $result = $this->model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
-        $data = $this->input->get();
+        $id = $this->input->get('id');
 
-        $this->load->database();
-        $this->load->model('club_admin_model');
-        $result = $this->club_admin_model->deleteClubAdmin($data['id']);
-        exit($result);
+        $result = $this->model->deleteRowById($id);
+        $this->set_response($result, 200);
     }
 }

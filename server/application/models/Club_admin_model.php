@@ -12,12 +12,21 @@ class Club_admin_model extends CI_Model
         parent::__construct();
     }
 
-    public function getClubAdmins($clubId)
+    public function getRows($clubId)
     {
         return $this->db->get_where($this->table, array('club_id' => $clubId))->result();
     }
 
-    public function saveClubAdmin($data)
+    public function getClubadminsWithPerson($clubId)
+    {
+        $this->db->select('A.*, B.first_name, B.last_name, B.birthday, B.email');
+        $this->db->from($this->table . ' as A');
+        $this->db->join('persons as B', 'A.person_id = B.id');
+        $this->db->where('A.club_id=' . $clubId);
+        return $this->db->get()->result();
+    }
+
+    public function saveRow($data)
     {
         $rowId = $data['id'];
 
@@ -38,7 +47,7 @@ class Club_admin_model extends CI_Model
         return $result;
     }
 
-    public function deleteClubAdmin($rowId)
+    public function deleteRowById($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }
@@ -49,8 +58,7 @@ class Club_admin_model extends CI_Model
             'club_id' => $clubId,
             'person_id' => $personId
         );
-        var_dump($clubAdminData);
-        $result = $this->saveClubAdmin($clubAdminData);     // saving a referee.
+        $result = $this->saveRow($clubAdminData);     // saving a referee.
         return;
     }
 
