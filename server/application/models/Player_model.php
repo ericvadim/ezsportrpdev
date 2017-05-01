@@ -17,6 +17,15 @@ class Player_model extends CI_Model
          return $this->db->get_where($this->table, array('team_id' => $teamId))->result();
     }
 
+    public function getPlayersWithPerson($teamId)
+    {
+        $this->db->select('A.*, B.first_name, B.last_name, B.birthday, B.email');
+        $this->db->from($this->table . ' as A');
+        $this->db->join('persons as B', 'A.person_id = B.id');
+        $this->db->where('A.team_id=' . $teamId);
+        return $this->db->get()->result();
+    }
+
     public function saveRow($data)
     {
 
