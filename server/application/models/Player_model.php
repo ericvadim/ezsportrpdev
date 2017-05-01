@@ -14,7 +14,7 @@ class Player_model extends CI_Model
 
     public function getRows($teamId)
     {
-        return $this->db->get_where($this->table, array('team_id' => $teamId))->result();
+         return $this->db->get_where($this->table, array('team_id' => $teamId))->result();
     }
 
     public function saveRow($data)
@@ -53,7 +53,7 @@ class Player_model extends CI_Model
             'identifier' => $person['J'],
             'position_id' => ''
         );
-        return $this->savePlayer($playerData);     // saving a player.
+        return $this->saveRow($playerData);     // saving a player.
     }
 
     public function getFields()
