@@ -12,12 +12,21 @@ class Referee_model extends CI_Model
         parent::__construct();
     }
 
-    public function getReferees($clubId)
+    public function getRows($clubId)
     {
         return $this->db->get_where($this->table, array('club_id' => $clubId))->result();
     }
 
-    public function saveReferee($data)
+    public function getRefereesWithPerson($clubId)
+    {
+        $this->db->select('A.*, B.first_name, B.last_name, B.birthday, B.email');
+        $this->db->from($this->table . ' as A');
+        $this->db->join('persons as B', 'A.person_id = B.id');
+        $this->db->where('A.club_id=' . $clubId);
+        return $this->db->get()->result();
+    }
+
+    public function saveRow($data)
     {
         $rowId = $data['id'];
 
@@ -38,7 +47,7 @@ class Referee_model extends CI_Model
         return $result;
     }
 
-    public function deleteReferee($rowId)
+    public function deleteRowById($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }
@@ -50,7 +59,7 @@ class Referee_model extends CI_Model
             'person_id' => $personId,
             'grade' => $person['J']
         );
-        $result = $this->saveReferee($refereeData);     // saving a referee.
+        $result = $this->saveRow($refereeData);     // saving a referee.
         return;
     }
 

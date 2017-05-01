@@ -44,6 +44,7 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
     vm.getData = function () {
         vm.importedRows = [];
         vm.importedCurrRows = [];
+        $('#importFile').val('');
 
         vm.getPositions();
         vm.loading = true;
@@ -85,12 +86,7 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
             position_id: vm.currRow['position_id']
         };
         vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "players/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
+        PlayersService.save(data).then(function mySucces(/*response*/) {
             $('#myModal').modal('hide');
             vm.getData();
         });

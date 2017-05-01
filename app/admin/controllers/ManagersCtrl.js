@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.admin').controller('ManagersController', function ($scope, ServerURL, $http, $filter) {
+angular.module('app.admin').controller('ManagersController', function ($scope, ServerURL, $filter, ClubsService, TeamsService, ManagersService, PositionsService, PersonsService) {
     var vm = this;
     vm.clubs = [];
     vm.teams = [];
@@ -14,7 +14,7 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
     vm.loading = true;
 
     vm.getClubs = function () {
-        $http.get(ServerURL + "clubs/get").then(function (response) {
+        ClubsService.get().then(function (response) {
             vm.clubs = response.data;
             if (vm.clubs.length) {
                 vm.currClubId = vm.clubs[0]['id'];
@@ -26,17 +26,23 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
 
     vm.getTeams = function () {
         vm.loading = true;
-        $http.get(ServerURL + "teams/get?club_id=" + vm.currClubId).then(function (response) {
+        TeamsService.get(vm.currClubId).then(function (response) {
             vm.teams = response.data;
             if (vm.teams.length) {
                 vm.currTeamId = vm.teams[0].id;
+                $('#importBtn').attr('disabled', false);
                 vm.getData();
+            } else {
+                vm.tableData = [];
+                vm.loading = false;
+
+                $('#importBtn').attr('disabled', true);
             }
         });
     };
 
     vm.getPersons = function () {
-        $http.get(ServerURL + "persons/get").then(function (response) {
+        PersonsService.get(1).then(function (response) {
             vm.persons = response.data;
         });
     };
@@ -45,9 +51,10 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
     vm.getData = function () {
         vm.importedRows = [];
         vm.importedCurrRows = [];
+        $('#importFile').val('');
 
         vm.loading = true;
-        $http.get(ServerURL + "managers/get?team_id=" + vm.currTeamId).then(function (response) {
+        ManagersService.get(vm.currTeamId).then(function (response) {
             vm.prePersonIds = vm.personIds = [];
             vm.tableData = response.data;
             for (var t in vm.tableData) {
@@ -67,12 +74,7 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
             person_id: vm.currRow['person_id']
         };
         vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "managers/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
+        ManagersService.save(data).then(function mySucces(/*response*/) {
             $('#myModal').modal('hide');
             vm.getData();
         });
@@ -81,7 +83,7 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             vm.loading = true;
-            $http.get(ServerURL + "managers/delete?id=" + rowId).then(function (response) {
+            ManagersService.delete(rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();
                 } else {
@@ -141,59 +143,51 @@ angular.module('app.admin').controller('ManagersController', function ($scope, S
         var fd = new FormData();
         fd.append("file", files[0]);
 
-        $http.post(ServerURL + "persons/getjsonfromfile?sub_id="+vm.currTeamId+'&page_id=manager', fd, {
-            withCredentials: false,
-            headers: {'Content-Type': undefined},
-            transformRequest: angular.identity
-        }).success(function (response) {
-            if(angular.isDefined(response.status)){
-                if(response.status == 'excel_type_error'){
-                    errorShowMessage('Excel Type Error', 'Please check uploaded file type. Try again!');
-                    vm.loadingImportData = false;
-                    return ;
+        PersonsService.getJsonFromFile(vm.currTeamId, 'manager', fd)
+            .then(function (response) {
+                if(angular.isDefined(response.status)){
+                    if(response.status == 'excel_type_error'){
+                        errorShowMessage('Excel Type Error', 'Please check uploaded file type. Try again!');
+                        vm.loadingImportData = false;
+                        return ;
+                    }
                 }
-            }
-            vm.importedHeaders = response.headers;
-            vm.importedRows = response.data;
+                vm.importedHeaders = response.headers;
+                vm.importedRows = response.data;
 
-            vm.importedPager.totalPages = Math.ceil(vm.importedRows.length / vm.importedPager.rowsInPage);
-            vm.importedPager.currentPage = 1;
-            vm.importedPager.pages = [];
-            for (var p = 0; p < vm.importedPager.totalPages; p++) {
-                vm.importedPager.pages[p] = p + 1;
-            }
-            vm.setImportedPage();
+                vm.importedPager.totalPages = Math.ceil(vm.importedRows.length / vm.importedPager.rowsInPage);
+                vm.importedPager.currentPage = 1;
+                vm.importedPager.pages = [];
+                for (var p = 0; p < vm.importedPager.totalPages; p++) {
+                    vm.importedPager.pages[p] = p + 1;
+                }
+                vm.setImportedPage();
 
-            vm.loadingImportData = false;
-        });
+                vm.loadingImportData = false;
+            });
     };
 
     vm.import = function () {
         var data = vm.getCheckedImportedRows();
         if (data.length > 0) {
-
             vm.loadingImportData = true;
-            $http({
-                method: 'POST',
-                url: ServerURL + "persons/import?team_id=" + vm.currTeamId+'&page_id=manager' ,
-                headers: {'Content-Type': 'multipart/form-data'},
-                data: data
-            }).then(function mySucces(response) {
-                $('#importModal').modal('hide');
-                vm.getPersons();
-                vm.getData();
+            PersonsService.importData(vm.currTeamId, 'manager', data)
+                .then(function (response) {
+                    $('#importModal').modal('hide');
+                    vm.getPersons();
+                    vm.getData();
 
-                var result = angular.fromJson(response);
-                var checkedRow = $filter('filter')(vm.importedCurrRows, {checked: true});
-                checkedRow.forEach(function (r, ind) {
+                    var result = angular.fromJson(response);
+                    var checkedRow = $filter('filter')(vm.importedCurrRows, {checked: true});
+                    checkedRow.forEach(function (r, ind) {
 
-                    r.checked = false;
-                    r.isSubRow = 1;
-                    r.person_id = result.data[ind]
+                        r.checked = false;
+                        r.isSubRow = 1;
+                        r.person_id = result.data[ind]
+                    });
+
+                    vm.loadingImportData = false;
                 });
-
-                vm.loadingImportData = false;
-            });
         } else {
             alert('Please choose one or more person for importing.');
         }

@@ -1,43 +1,47 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once APPPATH . "/libraries/PHPExcel/Classes/PHPExcel.php";
+require dirname(__FILE__) . '/Base_Controller.php';
 
-class Referees extends CI_Controller
+class Referees extends Base_Controller
 {
-
-    public function index()
+    private $model = null;
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('referee_model');
+        $this->model = $this->referee_model;
     }
 
-    public function get()
+    public function index_get()
     {
-        $this->load->database();
-        $this->load->model('referee_model');
         $clubId = $this->input->get('club_id');
-        $rows = $this->referee_model->getReferees($clubId);
+        $rows = $this->referee_model->getRows($clubId);
 
-        echo json_encode($rows);
-        exit;
+        $this->set_response($rows, 200);
+    }
+    public function refereesWithPerson_get()
+    {
+
+        $clubId = $this->input->get('club_id');
+
+        $rows = $this->model->getPlayersWithPerson($clubId);
+
+        $this->set_response($rows, 200);
     }
 
-    public function save()
+    public function index_post()
     {
-        $this->load->database();
-        $this->load->model('referee_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->referee_model->saveReferee($data);
-        exit($result);
+        $result = $this->model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
-        $data = $this->input->get();
+        $id = $this->input->get('id');
 
-        $this->load->database();
-        $this->load->model('referee_model');
-        $result = $this->referee_model->deleteReferee($data['id']);
-        exit($result);
+        $result = $this->model->deleteRowById($id);
+        $this->set_response($result, 200);
     }
 }
