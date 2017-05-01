@@ -21,7 +21,8 @@ class Game_roaster_model extends CI_Model
             LEFT OUTER JOIN (
               SELECT * FROM " . $this->table . " WHERE team_id=" . $teamId . " AND game_id=" . $gameId . "
             ) AS C ON C.player_id = A.id 
-            LEFT OUTER JOIN positions AS D ON A.position_id=D.id
+            LEFT OUTER JOIN positions AS D ON A.position_id=D.id 
+            ORDER BY B.first_name, B.last_name 
         ";
         return $this->db->query($query)->result();
     }
