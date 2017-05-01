@@ -1,43 +1,40 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Players extends CI_Controller
-{
+require dirname(__FILE__) . '/Base_Controller.php';
 
-    public function index()
+class Players extends Base_Controller
+{
+    private $model = null;
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('player_model');
+        $this->model = $this->player_model;
     }
 
-    public function get()
+    public function index_get()
     {
-        $this->load->database();
-        $this->load->model('player_model');
 
         $teamId = $this->input->get('team_id');
 
-        $rows = $this->player_model->getPlayers($teamId);
+        $rows = $this->model->getRows($teamId);
 
-        echo json_encode($rows);
-        exit;
+        $this->set_response($rows, 200);
     }
 
-    public function save()
+    public function index_post()
     {
-        $this->load->database();
-        $this->load->model('player_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->player_model->savePlayer($data);
-        exit($result);
+        $result = $this->model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
-        $data = $this->input->get();
+        $id = $this->input->get('id');
 
-        $this->load->database();
-        $this->load->model('player_model');
-        $result = $this->player_model->deletePlayer($data['id']);
-        exit($result);
+        $result = $this->model->deleteRowById($id);
+        $this->set_response($result, 200);
     }
 }

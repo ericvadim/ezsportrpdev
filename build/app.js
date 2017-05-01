@@ -4808,7 +4808,7 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
     };
 });
 'use strict';
-angular.module('app.admin').controller('PlayersController', function ($scope, ServerURL, $http, $filter, $timeout) {
+angular.module('app.admin').controller('PlayersController', function ($scope, ServerURL, $http, $filter, $timeout, ClubsService, TeamsService, PlayersService, PositionsService, PersonsService) {
     var vm = this;
     vm.clubs = [];
     vm.teams = [];
@@ -4823,7 +4823,7 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
     vm.loading = true;
 
     vm.getClubs = function () {
-        $http.get(ServerURL + "clubs/get").then(function (response) {
+        ClubsService.get().then(function (response) {
             vm.clubs = response.data;
             if (vm.clubs.length) {
                 vm.currClubId = vm.clubs[0]['id'];
@@ -4835,7 +4835,7 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
 
     vm.getTeams = function () {
         vm.loading = true;
-        $http.get(ServerURL + "teams/get?club_id=" + vm.currClubId).then(function (response) {
+        TeamsService.get(vm.currClubId).then(function (response) {
             vm.teams = response.data;
             if (vm.teams.length) {
                 vm.currTeamId = vm.teams[0].id;
@@ -4856,7 +4856,7 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
 
         vm.getPositions();
         vm.loading = true;
-        $http.get(ServerURL + "players/get?team_id=" + vm.currTeamId).then(function (response) {
+        PlayersService.get(vm.currTeamId).then(function (response) {
             vm.personIds = [];
             vm.tableData = response.data;
             for (var t in vm.tableData) {
@@ -4872,13 +4872,13 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
 
     vm.getPositions = function () {
         var sportId = $filter('filter')(vm.teams, {id: vm.currTeamId}, true)[0]['sport_id'];    // gets sport type of the team.
-        $http.get(ServerURL + "positions/get?sport_id=" + sportId).then(function (response) {
+        PositionsService.get(sportId).then(function (response) {
             vm.positions = response.data;
         });
     };
 
     vm.getPersons = function () {
-        $http.get(ServerURL + "persons/get").then(function (response) {
+        PersonsService.get().then(function (response) {
             vm.persons = response.data;
         });
     };
@@ -4908,7 +4908,7 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             vm.loading = true;
-            $http.get(ServerURL + "players/delete?id=" + rowId).then(function (response) {
+            PlayersService.delete(rowId).then(function (response) {
                 if (response.data == true) {
                     vm.getData();
                 } else {
@@ -4989,31 +4989,28 @@ angular.module('app.admin').controller('PlayersController', function ($scope, Se
         var fd = new FormData();
         fd.append("file", files[0]);
 
-        $http.post(ServerURL + "persons/getjsonfromfile?sub_id="+vm.currTeamId+'&page_id=player', fd, {
-            withCredentials: false,
-            headers: {'Content-Type': undefined},
-            transformRequest: angular.identity
-        }).success(function (response) {
-            if(angular.isDefined(response.status)){
-                if(response.status == 'excel_type_error'){
-                    errorShowMessage('Excel Type Error', 'Please check uploaded file type. Try again!');
-                    vm.loadingImportData = false;
-                    return ;
+        PersonsService.getJsonFromFile(vm.currTeamId, 'player', fd)
+            .then(function () {
+                if(angular.isDefined(response.status)){
+                    if(response.status == 'excel_type_error'){
+                        errorShowMessage('Excel Type Error', 'Please check uploaded file type. Try again!');
+                        vm.loadingImportData = false;
+                        return ;
+                    }
                 }
-            }
-            vm.importedHeaders = response.headers;
-            vm.importedRows = response.data;
+                vm.importedHeaders = response.headers;
+                vm.importedRows = response.data;
 
-            vm.importedPager.totalPages = Math.ceil(vm.importedRows.length / vm.importedPager.rowsInPage);
-            vm.importedPager.currentPage = 1;
-            vm.importedPager.pages = [];
-            for (var p = 0; p < vm.importedPager.totalPages; p++) {
-                vm.importedPager.pages[p] = p + 1;
-            }
-            vm.setImportedPage();
+                vm.importedPager.totalPages = Math.ceil(vm.importedRows.length / vm.importedPager.rowsInPage);
+                vm.importedPager.currentPage = 1;
+                vm.importedPager.pages = [];
+                for (var p = 0; p < vm.importedPager.totalPages; p++) {
+                    vm.importedPager.pages[p] = p + 1;
+                }
+                vm.setImportedPage();
 
-            vm.loadingImportData = false;
-        });
+                vm.loadingImportData = false;
+            });
     };
 
     vm.import = function () {
@@ -6152,6 +6149,20 @@ angular.module('app.admin').controller('UsersController', function (ServerURL, $
                     });
                     return deferred.promise;
                 },
+                getJsonFromFile: function (subId, page_id, fd) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'persons/getjsonfromfile?sub_id='+vm.currTeamId+'&page_id='+page_id;
+                    $http.post(url, fd, {
+                        withCredentials: false,
+                        headers: {'Content-Type': undefined},
+                        transformRequest: angular.identity
+                    }).success(function (response) {
+                        deferred.resolve(response);
+                    }).error(function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                }
             };
         }]);
 })();
@@ -14894,24 +14905,6 @@ angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
 });
 'use strict';
 
-angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
-    return function (scope, element, attrs) {
-        var config, dropzone;
-
-        config = scope[attrs.smartDropzone];
-
-        // create a Dropzone for the element with the given options
-        dropzone = new Dropzone(element[0], config.options);
-
-        // bind the given event handlers
-        angular.forEach(config.eventHandlers, function (handler, event) {
-            dropzone.on(event, handler);
-        });
-    };
-});
-
-'use strict';
-
 angular.module('SmartAdmin.Forms').directive('smartClockpicker', function () {
     return {
         restrict: 'A',
@@ -15232,6 +15225,24 @@ angular.module('SmartAdmin.Forms').directive('smartXeditable', function($timeout
 
     }
 });
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
+    return function (scope, element, attrs) {
+        var config, dropzone;
+
+        config = scope[attrs.smartDropzone];
+
+        // create a Dropzone for the element with the given options
+        dropzone = new Dropzone(element[0], config.options);
+
+        // bind the given event handlers
+        angular.forEach(config.eventHandlers, function (handler, event) {
+            dropzone.on(event, handler);
+        });
+    };
+});
+
 'use strict';
 
 angular.module('SmartAdmin.Forms').directive('smartValidateForm', function (formsCommon) {

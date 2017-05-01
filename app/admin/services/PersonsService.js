@@ -39,6 +39,20 @@
                     });
                     return deferred.promise;
                 },
+                getJsonFromFile: function (subId, page_id, fd) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'persons/getjsonfromfile?sub_id='+vm.currTeamId+'&page_id='+page_id;
+                    $http.post(url, fd, {
+                        withCredentials: false,
+                        headers: {'Content-Type': undefined},
+                        transformRequest: angular.identity
+                    }).success(function (response) {
+                        deferred.resolve(response);
+                    }).error(function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                }
             };
         }]);
 })();
