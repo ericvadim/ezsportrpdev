@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.admin').controller('PersonsController', function (ServerURL, $http, $filter) {
+angular.module('app.admin').controller('PersonsController', function (ServerURL, $filter, PersonsService) {
     var vm = this;
     vm.tableData = [];
     vm.currRow = {};
@@ -32,7 +32,7 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
     vm.getCurrPageRows = function () {
         var start = (vm.pager.currentPage - 1) * vm.pager.rowsInPage;
         vm.currPageRows = [];
-        for (var r = start; r < start + vm.pager.rowsInPage; r ++) {
+        for (var r = start; r < start + vm.pager.rowsInPage; r++) {
             if (typeof vm.tableData[r] != 'object') break;
             vm.currPageRows[vm.currPageRows.length] = vm.tableData[r];
         }
@@ -46,28 +46,25 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
 
     vm.getData = function () {
         vm.loading = true;
-        $http.get(ServerURL + "persons/get?division=" + vm.currDivision.id).then(function (response) {
-            vm.allRows = response.data;
-            for (var r in vm.allRows) {
-                vm.allRows[r].image += '?' + Date.now();
-            }
-            vm.search();
-            vm.loading = false;
-        });
+        PersonsService.get(vm.currDivision.id)
+            .then(function (response) {
+                vm.allRows = response.data;
+                for (var r in vm.allRows) {
+                    vm.allRows[r].image += '?' + Date.now();
+                }
+                vm.search();
+                vm.loading = false;
+            });
     };
     vm.getData();
 
     vm.save = function () {
         var data = vm.currRow;
         vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "persons/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
-            $('#myModal').modal('hide');
-        });
+        PersonsService.save(data)
+            .then(function (response) {
+                $('#myModal').modal('hide');
+            });
     };
 
     vm.openModal = function (rowId) {
@@ -102,15 +99,17 @@ angular.module('app.admin').controller('PersonsController', function (ServerURL,
     vm.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             vm.loading = true;
-            $http.get(ServerURL + "persons/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
-            });
+            PersonsService.delete(rowId)
+                .then(function (response) {
+                    if (response.data == true) {
+                        vm.getData();
+                    } else {
+                        alert('Failed to delete this row.');
+                    }
+                });
         }
     };
+
     $('#myModal').on('hidden.bs.modal', function () {
         vm.getData();
     });

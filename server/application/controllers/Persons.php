@@ -1,24 +1,25 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require dirname(__FILE__) . '/Base_Controller.php';
+
 require_once APPPATH . "/libraries/PHPExcel/Classes/PHPExcel.php";
 
-class Persons extends CI_Controller
+class Persons extends Base_Controller
 {
-
-    public function index()
+    private $model = null;
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('person_model');
+        $this->model = $this->person_model;
     }
 
-    public function get()
+    public function index_get()
     {
-        $this->load->database();
-        $this->load->model('person_model');
-
         $division = $this->input->get('division');  // 0: all, 1: players, 2: coaches, 3: team managers, 4: referees.
 
-        $rows = $this->person_model->getPersons($division);
+        $rows = $this->model->getRows($division);
 
         if (sizeof($rows)) {
             foreach ($rows as $key => $value) {
@@ -27,34 +28,32 @@ class Persons extends CI_Controller
             }
         }
 
-        echo json_encode($rows);
-        exit;
+        $this->set_response($rows, 200);
     }
 
-    public function save()
+    public function getRowById_get(){
+        $id = $this->input->get('id');
+        $row = $this->model->getRowById($id);
+        $this->set_response($row, 200);
+    }
+
+    public function index_post()
     {
-        $this->load->database();
-        $this->load->model('person_model');
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->person_model->savePerson($data);
-        exit($result);
+        $result = $this->model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
-        $data = $this->input->get();
+        $id = $this->input->get('id');
 
-        $this->load->database();
-        $this->load->model('person_model');
-        $result = $this->person_model->deletePerson($data['id']);
-        exit($result);
+        $result = $this->model->deleteRowById($id);
+        $this->set_response($result, 200);
     }
 
-    public function getjsonfromfile()
+    public function getjsonfromfile_post()
     {
-
-        $this->load->model('person_model');
-
         $mime_type = (mime_content_type($_FILES['file']['tmp_name']));
 
         if ($mime_type != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && $mime_type != 'application/vnd.ms-excel') {
@@ -96,7 +95,7 @@ class Persons extends CI_Controller
                 $tempAry[$n] = $val;
                 $tempAry[$n]['id'] = $key;
 
-                $person_row = $this->person_model->getPersonByCondition($checkFields);
+                $person_row = $this->model->getPersonByCondition($checkFields);
 
                 $tempAry[$n]['isExist'] = 0;
                 $tempAry[$n]['person_id'] = '';
@@ -104,7 +103,7 @@ class Persons extends CI_Controller
                 if (!is_null($person_row)) {
                     $tempAry[$n]['isExist'] = 1;
                     $tempAry[$n]['person_id'] = $person_row['id'];
-                    $sub_row = $this->person_model->getSubRelationByPerson($person_row['id'], $sub_id, $page_id);
+                    $sub_row = $this->model->getSubRelationByPerson($person_row['id'], $sub_id, $page_id);
                     if (!is_null($sub_row))
                         $tempAry[$n]['isSubRow'] = 1;
                 }
@@ -112,10 +111,10 @@ class Persons extends CI_Controller
             }
             $data['data'] = $tempAry;
         }
-        exit(json_encode($data));
+        $this->set_response($data, 200);
     }
 
-    public function import()
+    public function import_post()
     {
         $this->load->model('person_model');
 
@@ -160,7 +159,7 @@ class Persons extends CI_Controller
                 }
 
                 if ($person['person_id'] == '') {
-                    $personId = $this->person_model->savePerson($personData);   // saving a person.
+                    $personId = $this->model->savePerson($personData);   // saving a person.
                     $resAry[$n] = $personId;
                 } else {
                     $personId = $person['person_id'];
@@ -172,7 +171,7 @@ class Persons extends CI_Controller
                 $n++;
             }
         }
-        exit(json_encode($resAry));
+        $this->set_response($resAry, 200);
     }
 
     private function conditionFields($pageId)

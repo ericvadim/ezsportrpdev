@@ -12,50 +12,53 @@ class Person_model extends CI_Model
         parent::__construct();
     }
 
-    public function getPersons($division)
+    public function getRows($division = 1)
     {
-        if (!isset($division)) $division = 1;
-
-        $where = '';
+        $where = "";
         switch ($division) {
             case 1:
-                $where .= '1';
+                $where .= "1";
                 break;
             case 2:
-                $where .= 'id IN (SELECT person_id FROM players GROUP BY person_id)';
+                $where .= "id IN (SELECT person_id FROM players GROUP BY person_id)";
                 break;
             case 3:
-                $where .= 'id IN (SELECT person_id FROM coaches GROUP BY person_id)';
+                $where .= "id IN (SELECT person_id FROM coaches GROUP BY person_id)";
                 break;
             case 4:
-                $where .= 'id IN (SELECT person_id FROM managers GROUP BY person_id)';
+                $where .= "id IN (SELECT person_id FROM managers GROUP BY person_id)";
                 break;
             case 5:
-                $where .= 'id IN (SELECT person_id FROM referees GROUP BY person_id)';
+                $where .= "id IN (SELECT person_id FROM referees GROUP BY person_id)";
                 break;
             case 6:
-                $personRegisteredTbl = '
+                $personRegisteredTbl = "
                 SELECT * FROM (
                     (SELECT person_id FROM players) 
                     UNION (SELECT person_id FROM coaches)  
                     UNION (SELECT person_id FROM referees)
                 ) AS A GROUP BY person_id
-                ';
-                $where .= 'id NOT IN (' . $personRegisteredTbl . ')';
+                ";
+                $where .= "id NOT IN (" . $personRegisteredTbl . ")";
                 break;
             default:
         }
 
-        $query = '
+        $query = "
             SELECT * 
-            FROM persons 
-            WHERE ' . $where . ' 
-        ';
+            FROM ".$this->table." 
+            WHERE " . $where . " 
+        ";
         $result = $this->db->query($query);
         return $result->result_array($result);
     }
 
-    public function savePerson($data)
+    public function getRowById($id)
+    {
+        return $this->db->get_where($this->table, array('id' => $id))->result();
+    }
+
+    public function saveRow($data)
     {
 
         $rowId = $data['id'];
@@ -83,7 +86,7 @@ class Person_model extends CI_Model
         return $rowId;
     }
 
-    public function deletePerson($rowId)
+    public function deleteRowById($rowId)
     {
         if (file_exists('uploads/persons/' . $rowId . '.jpg')) unlink('uploads/persons/' . $rowId . '.jpg');
         return $this->db->delete($this->table, array('id' => $rowId));
