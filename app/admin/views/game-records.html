@@ -49,6 +49,7 @@
                                         <th>No</th>
                                         <th>Team</th>
                                         <th>Player Name</th>
+                                        <th>Player Number</th>
                                         <th>Record Item</th>
                                         <th>Record Time</th>
                                         <th>Reason</th>
@@ -58,20 +59,26 @@
                                     <tbody>
                                     <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.sport_name}}</td>
-                                        <td>{{row.sport_name}}</td>
-                                        <td>{{row.sport_name}}</td>
-                                        <td>{{row.sport_name}}</td>
-                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.team_name}}</td>
+                                        <td>{{row.first_name}} {{row.last_name}}</td>
+                                        <td>{{row.player_number}}</td>
+                                        <td>{{getRecordItem(row.item_id)['item_name']}}</td>
+                                        <td>{{row.record_time}}</td>
+                                        <td>{{row.reason}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="editRow(row)">Edit</a> /
                                             <a ng-click="deleteRow(row.id)">Delete</a>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="8">
+                                            <div class="padding-40 text-center" ng-if="!tableData.length"><br/>There is no records.<br/><br/></div>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td colspan="7" class="text-center">
+                                        <td colspan="8" class="text-center">
                                             <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
                                         </td>
                                     </tr>
@@ -99,7 +106,7 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Team</label>
                         <div class="col-md-9">
-                            <select class="form-control" ng-model="currRow.team_id">
+                            <select class="form-control" ng-model="currRow.team_id" ng-change="currRow.player_id = getCurrTeam().players[0].id">
                                 <option ng-repeat="team in teams" value="{{team.id}}">{{team.club_name}} - {{team.team_name}}</option>
                             </select>
                         </div>
@@ -108,14 +115,14 @@
                         <label class="col-md-3 control-label">Player</label>
                         <div class="col-md-9">
                             <select class="form-control" ng-model="currRow.player_id">
-                                <option ng-repeat="player in getCurrTeam()['players'] track by $index" value="{{player.id}}">{{player.first_name}} {{player.last_name}}</option>
+                                <option ng-repeat="player in getCurrTeam()['players'] | orderBy:'player_number*1'" value="{{player.id}}">{{player.player_number}} - {{player.first_name}} {{player.last_name}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">Record Item</label>
                         <div class="col-md-9">
-                            <select class="form-control" ng-model="currRow.item_id">
+                            <select class="form-control" ng-model="currRow.item_id" ng-change="currRow.reason = ''">
                                 <option ng-repeat="r in recordItems" value="{{r.id}}">{{r.item_name}}</option>
                             </select>
                         </div>
@@ -130,10 +137,10 @@
                         <label class="col-md-3 control-label">Reason</label>
                         <div class="col-md-9">
                             <select class="form-control" ng-model="currRow.reason">
-                                <option ng-repeat="(key, val) in reasons" value="{{key}}">{{key}}</option>
+                                <option ng-repeat="(key, val) in reasons[getRecordItem(currRow.item_id)['item_name']]" value="{{key}}">{{key}}</option>
                             </select>
                             <div class="padding-10">
-                                {{reasons[currRow.reason]}}
+                                {{reasons[getRecordItem(currRow.item_id)['item_name']][currRow.reason]}}
                             </div>
                         </div>
                     </div>

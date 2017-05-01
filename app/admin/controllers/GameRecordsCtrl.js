@@ -41,8 +41,8 @@ angular.module('app.admin').controller('GameRecordsController', function ($scope
         $q.all([
             TeamsService.oneTeamWithClub($scope.currGame['home_team_id']),
             TeamsService.oneTeamWithClub($scope.currGame['away_team_id']),
-            PlayersService.get($scope.currGame['home_team_id']),
-            PlayersService.get($scope.currGame['away_team_id'])
+            PlayersService.playersWithPerson($scope.currGame['home_team_id']),
+            PlayersService.playersWithPerson($scope.currGame['away_team_id'])
         ]).then(function (cursor) {
             $scope.teams = [cursor[0].data, cursor[1].data];
             $scope.teams[0]['players'] = cursor[2].data;        // players in home team.
@@ -52,16 +52,22 @@ angular.module('app.admin').controller('GameRecordsController', function ($scope
 
     $scope.getData = function () {
         $scope.loading = true;
-        GameRecordsService.get($scope.currGame.id).then(function (response) {
-            $scope.tableData = $scope.safeData = response.data;
+        if ($scope.currGame) {
+            GameRecordsService.get($scope.currGame.id).then(function (response) {
+                $scope.tableData = $scope.safeData = response.data;
+                $scope.loading = false;
+                $scope.getTeamsWithPlayers();
+            });
+        } else {
+            $scope.tableData = [];
             $scope.loading = false;
-            $scope.getTeamsWithPlayers();
-        });
+        }
     };
 
     $scope.save = function () {
         $scope.loading = true;
         var data = $scope.currRow;
+        data['game_id'] = $scope.currGame.id;
         GameRecordsService.save(data).then(function () {
             $('#myModal').modal('hide');
             $scope.getData();
@@ -74,6 +80,7 @@ angular.module('app.admin').controller('GameRecordsController', function ($scope
             id: 0,
             team_id: $scope.teams[0].id,
             item_id: $scope.recordItems[0]['id'],
+            player_id: $scope.teams[0].players[0].id,
             record_time: now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds(),
             reason: 'SFP'
         };
@@ -93,7 +100,12 @@ angular.module('app.admin').controller('GameRecordsController', function ($scope
         }
     };
 
+    $scope.getRecordItem = function (itemId) {
+        return $filter('filter')($scope.recordItems, {id: itemId}, true)[0];
+    };
+
     $scope.getCurrTeam = function () {
         return $filter('filter')($scope.teams, {id: $scope.currRow.team_id}, true)[0];
     };
+
 });
