@@ -12,12 +12,21 @@ class Coach_model extends CI_Model
         parent::__construct();
     }
 
-    public function getCoaches($teamId)
+    public function getRows($teamId)
     {
         return $this->db->get_where($this->table, array('team_id' => $teamId))->result();
     }
 
-    public function saveCoach($data)
+    public function getCoachesWithPerson($teamId)
+    {
+        $this->db->select('A.*, B.first_name, B.last_name, B.birthday, B.email');
+        $this->db->from($this->table . ' as A');
+        $this->db->join('persons as B', 'A.person_id = B.id');
+        $this->db->where('A.team_id=' . $teamId);
+        return $this->db->get()->result();
+    }
+
+    public function saveRow($data)
     {
 
         $rowId = $data['id'];
@@ -40,7 +49,7 @@ class Coach_model extends CI_Model
     }
 
 
-    public function deleteCoach($rowId)
+    public function deleteRowById($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
     }
@@ -54,7 +63,7 @@ class Coach_model extends CI_Model
             'coach_type' => $person['J']
         );
 
-        $result = $this->saveCoach($coachData);     // saving a player.
+        $result = $this->saveRow($coachData);     // saving a player.
         return;
     }
 
