@@ -12,31 +12,12 @@ class Player_model extends CI_Model
         parent::__construct();
     }
 
-    public function getPlayers($teamId)
+    public function getRows($teamId)
     {
-        /*$this->db->select('A.*, B.first_name, B.last_name');
-        $this->db->from($this->table . ' as A');
-        $this->db->join('persons as B', 'B.id = A.person_id');
-        $this->db->where("A.team_id='" . $teamId . "'");
-
-        return $this->db->get()->result();*/
-
         return $this->db->get_where($this->table, array('team_id' => $teamId))->result();
     }
 
-    public function setInsertData($teamId, $personId, $person){
-        $playerData = array(
-            'id' => '',
-            'team_id' => $teamId,
-            'person_id' => $personId,
-            'player_number' => $person['H'],
-            'identifier' => $person['J'],
-            'position_id' => ''
-        );
-        return $this->savePlayer($playerData);     // saving a player.
-    }
-
-    public function savePlayer($data)
+    public function saveRow($data)
     {
 
         $rowId = $data['id'];
@@ -58,9 +39,21 @@ class Player_model extends CI_Model
         return $result;
     }
 
-    public function deletePlayer($rowId)
+    public function deleteRowById($rowId)
     {
         return $this->db->delete($this->table, array('id' => $rowId));
+    }
+
+    public function setInsertData($teamId, $personId, $person){
+        $playerData = array(
+            'id' => '',
+            'team_id' => $teamId,
+            'person_id' => $personId,
+            'player_number' => $person['H'],
+            'identifier' => $person['J'],
+            'position_id' => ''
+        );
+        return $this->savePlayer($playerData);     // saving a player.
     }
 
     public function getFields()
