@@ -1,45 +1,49 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once APPPATH . "/libraries/PHPExcel/Classes/PHPExcel.php";
+require dirname(__FILE__) . '/Base_Controller.php';
 
-class Coaches extends CI_Controller
+class Coaches extends Base_Controller
 {
 
-    public function index()
+    private $model = null;
+    function __construct()
     {
-        exit('bad request!');
+        parent::__construct();
+        $this->load->model('coache_model');
+        $this->model = $this->coache_model;
     }
-
     public function get()
     {
         $teamId = $this->input->get('team_id');
 
-        $this->load->database();
-        $this->load->model('coach_model');
-
         $rows = $this->coach_model->getCoaches($teamId);
 
-        echo json_encode($rows);
-        exit;
+        $this->set_response($rows, 200);
     }
 
-    public function save()
+    public function playersWithPerson_get()
     {
-        $this->load->database();
-        $this->load->model('coach_model');
+
+        $teamId = $this->input->get('team_id');
+
+        $rows = $this->model->getCoachesWithPerson($teamId);
+
+        $this->set_response($rows, 200);
+    }
+
+    public function index_post()
+    {
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->coach_model->saveCoach($data);
-        exit($result);
+        $result = $this->model->saveRow($data);
+        $this->set_response($result, 200);
     }
 
-    public function delete()
+    public function index_delete()
     {
-        $data = $this->input->get();
+        $id = $this->input->get('id');
 
-        $this->load->database();
-        $this->load->model('coach_model');
-        $result = $this->coach_model->deleteCoach($data['id']);
-        exit($result);
+        $result = $this->model->deleteRowById($id);
+        $this->set_response($result, 200);
     }
 }

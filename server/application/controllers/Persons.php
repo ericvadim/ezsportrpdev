@@ -160,7 +160,7 @@ class Persons extends Base_Controller
                 }
 
                 if ($person['person_id'] == '') {
-                    $personId = $this->model->savePerson($personData);   // saving a person.
+                    $personId = $this->model->saveRow($personData);   // saving a person.
                     $resAry[$n] = $personId;
                 } else {
                     $personId = $person['person_id'];
