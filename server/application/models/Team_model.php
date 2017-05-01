@@ -10,7 +10,8 @@ class Team_model extends CI_Model
         parent::__construct();
     }
 
-    private function getImagePath ($rowId) {
+    private function getImagePath($rowId)
+    {
         return 'uploads/team_images/' . $rowId . '.jpg';
     }
 
@@ -37,6 +38,16 @@ class Team_model extends CI_Model
         $this->db->from($this->table . ' as A');
         $this->db->join('clubs as B', 'A.club_id = B.id');
         return $this->db->get()->result();
+    }
+
+    public function getOneTeamWithClub($teamId)
+    {
+        $this->db->select('A.*, B.club_name');
+        $this->db->from($this->table . ' as A');
+        $this->db->join('clubs as B', 'A.club_id = B.id');
+        $this->db->where('A.id=' . $teamId);
+        $result = $this->db->get()->result();
+        return sizeof($result) ? $result[0] : NULL;
     }
 
     public function saveRow($data)

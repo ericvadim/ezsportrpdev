@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.admin').controller('GameRecordsController', function (ServerURL, $http, $filter) {
+angular.module('app.admin').controller('GameRecordsController1', function (ServerURL, $http, $filter) {
     var vm = this;
     vm.games = [];
     vm.currGame = {};

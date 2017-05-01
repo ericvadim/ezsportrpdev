@@ -28,6 +28,9 @@
                 </div>
             </div>
         </div>
+        <div class="col-xs-6 col-md-3 col-lg-5 form-horizontal">
+            <button class="btn btn-primary float-right">Submit</button>
+        </div>
     </div>
 
     <section widget-grid id="widget-grid">
@@ -46,7 +49,8 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Player Name</th>
-                                        <th>Birthday</th>
+                                        <th>Player Number</th>
+                                        <th>Position</th>
                                         <th>Captain</th>
                                         <th>Starters</th>
                                     </tr>
@@ -55,7 +59,8 @@
                                     <tr class="smart-form" ng-class="{'success':row.is_starter}" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.first_name}} {{row.last_name}}</td>
-                                        <td>{{row.birthday}}</td>
+                                        <td>{{row.player_number}}</td>
+                                        <td>{{row.position_name}}</td>
                                         <td class="padding-5" ng-click="checkCaptain(row)">
                                             <label class="checkbox">
                                                 <input ng-click="checkCaptain(row)" type="checkbox" ng-model="row.is_captain">
@@ -72,7 +77,7 @@
                                     </tbody>
                                     <tfoot>
                                     <tr st-select-row="row" st-select-mode="single">
-                                        <td colspan="5" class="text-center">
+                                        <td colspan="6" class="text-center">
                                             <div class="text-center" ng-if="safeData.length == 0"><br/>There is no players in this team.<br/><br/></div>
                                             <div st-pagination="" st-items-by-page="50" st-displayed-pages="5"></div>
                                         </td>

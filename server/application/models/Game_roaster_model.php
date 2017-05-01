@@ -13,14 +13,15 @@ class Game_roaster_model extends CI_Model
     public function getRows($teamId, $gameId)
     {
         $query = "
-            SELECT C.id, A.id AS player_id, B.first_name, B.last_name, B.birthday, C.is_captain, C.is_starter  
+            SELECT C.id, A.id AS player_id, A.player_number, B.first_name, B.last_name, C.is_captain, C.is_starter, D.short_name AS position_name
             FROM (
               SELECT * FROM players WHERE team_id=" . $teamId . "
             ) AS A  
             LEFT OUTER JOIN persons AS B ON B.id = A.person_id 
             LEFT OUTER JOIN (
               SELECT * FROM " . $this->table . " WHERE team_id=" . $teamId . " AND game_id=" . $gameId . "
-            ) AS C ON C.player_id = A.id            
+            ) AS C ON C.player_id = A.id 
+            LEFT OUTER JOIN positions AS D ON A.position_id=D.id
         ";
         return $this->db->query($query)->result();
     }

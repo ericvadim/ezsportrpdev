@@ -259,4 +259,19 @@
         .constant('CoachTypes', {1: 'Head Coach', 2: 'Assistance Coach', 3: 'Trainer', 4: 'Goal Keeper Coach'})
         .constant('SeasonList', {1: 'Spring', 2: 'Summer', 3: 'Winter'})
         .constant('GroupLevels', {1: 'Bronze', 2: 'Silver', 3: 'Gold', 4: 'State', 5: 'State Premier', 6: 'National Premier'})
+        .constant('RecordReasons', {
+            "SFP": "Serious foul play",
+            "VTC": "Violent conduct",
+            "SPP": "Spitting at an opponent or any other person",
+            "DGH": "Denying the opposing team a goal or an obvious goal-scoring opportunity by deliberately handling the ball",
+            "DGF": "Denies an obvious goal-scoring opportunity to an opponent moving towards the player’s goal by an offense punishable by a free kick or a penalty kick",
+            "OFL": "Using offensive, insulting or abusive language and/or gestures",
+            "2CT": "Receiving a second caution in the same match",
+            "USB": "Unsporting behavior",
+            "DWA": "Dissent by word or action",
+            "DRS": "Delaying the restart of play",
+            "FRD": "Failure to respect the required distance when play is restarted with a corner kick, free kick or throw-in",
+            "EFU": "Entering or re-entering the field of play without the referee’s permission",
+            "DLF": "Deliberately leaving the field of play without the referee’s permission"
+        })
 })();
