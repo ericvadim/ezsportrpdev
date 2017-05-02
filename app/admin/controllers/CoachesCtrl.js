@@ -243,9 +243,11 @@ angular.module('app.admin').controller('CoachesController', function (ServerURL,
     };
 
     vm.checkAll = function () {
-        for (var i in vm.importedRows) {
-            vm.importedRows[i].checked = vm.allCheck;
-        }
+        angular.forEach(vm.importedRows, function (val, key) {
+            if (val.isSubRow == 0) {
+                val.checked = vm.allCheck;
+            }
+        });
     };
     vm.getCheckedImportedRows = function () {
         if (typeof vm.importedRows != 'object') return [];
