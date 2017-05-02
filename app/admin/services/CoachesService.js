@@ -5,7 +5,7 @@
         .factory('CoachesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
             return {
                 get: function (teamId) {
-                    var url = ServerURL + 'coaches/get?team_id=' + teamId;
+                    var url = ServerURL + 'coaches?team_id=' + teamId;
                     var deferred = $q.defer();
                     $http.get(url).then(function (res) {
                         deferred.resolve(res);
