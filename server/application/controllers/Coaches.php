@@ -10,14 +10,14 @@ class Coaches extends Base_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('coache_model');
-        $this->model = $this->coache_model;
+        $this->load->model('coach_model');
+        $this->model = $this->coach_model;
     }
-    public function get()
+    public function index_get()
     {
         $teamId = $this->input->get('team_id');
 
-        $rows = $this->coach_model->getCoaches($teamId);
+        $rows = $this->model->getRows($teamId);
 
         $this->set_response($rows, 200);
     }
