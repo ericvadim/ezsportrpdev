@@ -2094,7 +2094,7 @@ $templateCache.put("app/dashboard/todo/todo-widget.tpl.html","<div id=\"todo-wid
 $templateCache.put("app/layout/language/language-selector.tpl.html","<ul class=\"header-dropdown-list hidden-xs ng-cloak\" ng-controller=\"LanguagesCtrl\">\n    <li class=\"dropdown\" dropdown>\n        <a class=\"dropdown-toggle\"  data-toggle=\"dropdown\" href> <img src=\"styles/img/blank.gif\" class=\"flag flag-{{currentLanguage.key}}\" alt=\"{{currentLanguage.alt}}\"> <span> {{currentLanguage.title}} </span>\n            <i class=\"fa fa-angle-down\"></i> </a>\n        <ul class=\"dropdown-menu pull-right\">\n            <li ng-class=\"{active: language==currentLanguage}\" ng-repeat=\"language in languages\">\n                <a ng-click=\"selectLanguage(language)\" ><img src=\"styles/img/blank.gif\" class=\"flag flag-{{language.key}}\"\n                                                   alt=\"{{language.alt}}\"> {{language.title}}</a>\n            </li>\n        </ul>\n    </li>\n</ul>");
 $templateCache.put("app/layout/partials/footer.tpl.html","<div class=\"page-footer\">\n    <div class=\"row\">\n        <div class=\"col-xs-12 col-sm-6\">\n            <span class=\"txt-color-white\">EZSportRP © 2017</span>\n        </div>\n\n        <!--<div class=\"col-xs-6 col-sm-6 text-right hidden-xs\">\n            <div class=\"txt-color-white inline-block\">\n                <i class=\"txt-color-blueLight hidden-mobile\">Last account activity <i class=\"fa fa-clock-o\"></i>\n                    <strong>52 mins ago &nbsp;</strong> </i>\n\n                <div class=\"btn-group dropup\">\n                    <button class=\"btn btn-xs dropdown-toggle bg-color-blue txt-color-white\" data-toggle=\"dropdown\">\n                        <i class=\"fa fa-link\"></i> <span class=\"caret\"></span>\n                    </button>\n                    <ul class=\"dropdown-menu pull-right text-left\">\n                        <li>\n                            <div class=\"padding-5\">\n                                <p class=\"txt-color-darken font-sm no-margin\">Download Progress</p>\n\n                                <div class=\"progress progress-micro no-margin\">\n                                    <div class=\"progress-bar progress-bar-success\" style=\"width: 50%;\"></div>\n                                </div>\n                            </div>\n                        </li>\n                        <li class=\"divider\"></li>\n                        <li>\n                            <div class=\"padding-5\">\n                                <p class=\"txt-color-darken font-sm no-margin\">Server Load</p>\n\n                                <div class=\"progress progress-micro no-margin\">\n                                    <div class=\"progress-bar progress-bar-success\" style=\"width: 20%;\"></div>\n                                </div>\n                            </div>\n                        </li>\n                        <li class=\"divider\"></li>\n                        <li>\n                            <div class=\"padding-5\">\n                                <p class=\"txt-color-darken font-sm no-margin\">Memory Load <span class=\"text-danger\">*critical*</span>\n                                </p>\n\n                                <div class=\"progress progress-micro no-margin\">\n                                    <div class=\"progress-bar progress-bar-danger\" style=\"width: 70%;\"></div>\n                                </div>\n                            </div>\n                        </li>\n                        <li class=\"divider\"></li>\n                        <li>\n                            <div class=\"padding-5\">\n                                <button class=\"btn btn-block btn-default\">refresh</button>\n                            </div>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n        </div>-->\n    </div>\n</div>");
 $templateCache.put("app/layout/partials/header.tpl.html","<header id=\"header\">\n<div id=\"logo-group\">\n\n    <!-- PLACE YOUR LOGO HERE -->\n    <span id=\"logo\"> <img src=\"styles/img/logo.png\" alt=\"SmartAdmin\"> </span>\n    <!-- END LOGO PLACEHOLDER -->\n\n    <!-- Note: The activity badge color changes when clicked and resets the number to 0\n    Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\n    <span id=\"activity\" class=\"activity-dropdown\" activities-dropdown-toggle> \n        <i class=\"fa fa-user\"></i> \n        <b class=\"badge bg-color-blue\">0</b>\n    </span>\n    <div smart-include=\"app/dashboard/activities/activities.html\"></div>\n</div>\n\n\n<recent-projects></recent-projects>\n\n\n\n<!-- pulled right: nav area -->\n<div class=\"pull-right\">\n\n    <!-- collapse menu button -->\n    <div id=\"hide-menu\" class=\"btn-header pull-right\">\n        <span> <a toggle-menu title=\"Collapse Menu\"><i\n                class=\"fa fa-reorder\"></i></a> </span>\n    </div>\n    <!-- end collapse menu -->\n\n    <!-- #MOBILE -->\n    <!-- Top menu profile link : this shows only when top menu is active -->\n    <ul id=\"mobile-profile-img\" class=\"header-dropdown-list hidden-xs padding-5\">\n        <li class=\"\">\n            <a href=\"#\" class=\"dropdown-toggle no-margin userdropdown\" data-toggle=\"dropdown\">\n                <img src=\"styles/img/avatars/sunny.png\" alt=\"John Doe\" class=\"online\"/>\n            </a>\n            <ul class=\"dropdown-menu pull-right\">\n                <li>\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"><i\n                            class=\"fa fa-cog\"></i> Setting</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a ui-sref=\"app.appViews.profileDemo\" class=\"padding-10 padding-top-0 padding-bottom-0\"> <i class=\"fa fa-user\"></i>\n                        <u>P</u>rofile</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\n                       data-action=\"toggleShortcut\"><i class=\"fa fa-arrow-down\"></i> <u>S</u>hortcut</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\n                       data-action=\"launchFullscreen\"><i class=\"fa fa-arrows-alt\"></i> Full <u>S</u>creen</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a href=\"#/login\" class=\"padding-10 padding-top-5 padding-bottom-5\" data-action=\"userLogout\"><i\n                            class=\"fa fa-sign-out fa-lg\"></i> <strong><u>L</u>ogout</strong></a>\n                </li>\n            </ul>\n        </li>\n    </ul>\n\n    <!-- logout button -->\n    <div id=\"logout\" class=\"btn-header transparent pull-right\">\n        <span> <a ui-sref=\"login\" title=\"Sign Out\" data-action=\"userLogout\"\n                  data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\"><i\n                class=\"fa fa-sign-out\"></i></a> </span>\n    </div>\n    <!-- end logout button -->\n\n    <!-- search mobile button (this is hidden till mobile view port) -->\n    <div id=\"search-mobile\" class=\"btn-header transparent pull-right\" data-search-mobile>\n        <span> <a href=\"#\" title=\"Search\"><i class=\"fa fa-search\"></i></a> </span>\n    </div>\n    <!-- end search mobile button -->\n\n    <!-- input: search field -->\n    <form action=\"#/search\" class=\"header-search pull-right\">\n        <input id=\"search-fld\" type=\"text\" name=\"param\" placeholder=\"{{getWord(\'Find reports and more\')}}\">\n        <button type=\"submit\">\n            <i class=\"fa fa-search\"></i>\n        </button>\n        <a href=\"$\" id=\"cancel-search-js\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\n    </form>\n    <!-- end input: search field -->\n\n    <!-- fullscreen button -->\n    <div id=\"fullscreen\" class=\"btn-header transparent pull-right\">\n        <span> <a full-screen title=\"Full Screen\"><i\n                class=\"fa fa-arrows-alt\"></i></a> </span>\n    </div>\n    <!-- end fullscreen button -->\n\n\n    <!-- multiple lang dropdown : find all flags in the flags page -->\n    <language-selector></language-selector>\n    <!-- end multiple lang -->\n\n</div>\n<!-- end pulled right: nav area -->\n\n</header>");
-$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\n\n    <!-- User info -->\n    <div login-info></div>\n    <!-- end user info -->\n\n    <nav>\n        <ul data-smart-menu>\n            <li data-ui-sref-active=\"active\">\n                <a data-ui-sref=\"app.admin\" title=\"Outlook\">\n                    <i class=\"fa fa-lg fa-fw fa-tachometer\"></i> <span class=\"menu-item-parent\">{{getWord(\'Dashboard\')}}</span><span\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\n            </li>\n\n            <li data-menu-collapse>\n                <a href=\"#\" title=\"Administrator\"><i class=\"fa fa-lg fa-fw fa-cubes\"></i> <span\n                        class=\"menu-item-parent\">{{getWord(\'Basis Data\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.sports\"><i class=\"fa fa-futbol-o\"></i> {{getWord(\'Sport Types\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.refereeGrades\"><i class=\"fa fa-graduation-cap\"></i> {{getWord(\'Referee Grades\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.fields\"><i class=\"fa fa-th-large\"></i> {{getWord(\'Fields\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.licenses\"><i class=\"fa fa-credit-card\"></i> {{getWord(\'Licenses\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.positions\"><i class=\"fa fa-crosshairs\"></i> {{getWord(\'Positions\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.competitions\"><i class=\"fa fa-clone\"></i> {{getWord(\'Competitions\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.recordItems\"><i class=\"fa fa-bullhorn\"></i> {{getWord(\'Record Items\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-sitemap\"></i> <span class=\"menu-item-parent\">{{getWord(\'Organizations\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.clubs\"><i class=\"fa fa-th\"></i> {{getWord(\'Clubs\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.teams\"><i class=\"fa fa-th-list\"></i> {{getWord(\'Teams\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.leagues\"><i class=\"fa fa-leaf\"></i> {{getWord(\'Leagues\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-users\"></i> <span class=\"menu-item-parent\">{{getWord(\'Person\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.persons\"><i class=\"fa fa-user\"></i> {{getWord(\'Person Management\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.players\"><i class=\"fa fa-child\"></i> {{getWord(\'Players\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.coaches\"><i class=\"fa fa-user-o\"></i> {{getWord(\'Coaches\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.managers\"><i class=\"fa fa-user-secret\"></i> {{getWord(\'Team Managers\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.referees\"><i class=\"fa fa-user-circle\"></i> {{getWord(\'Referees\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.clubadmin\"><i class=\"fa fa-meh-o\"></i> {{getWord(\'Club Admin\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-calendar\"></i> <span class=\"menu-item-parent\">{{getWord(\'Schedules\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameSchedules\"><i class=\"fa fa-trophy\"></i> {{getWord(\'Game Schedules\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameRoasters\"><i class=\"fa fa-check-square-o\"></i> {{getWord(\'Roasters\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.trainingSchedules\"><i class=\"fa fa-random\"></i> {{getWord(\'Training Schedules\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Records\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameRecords\"><i class=\"fa fa-cube\"></i> {{getWord(\'Game Records\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.refereeRecords\"><i class=\"fa fa-steam-square\"></i> {{getWord(\'Referee Records\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.teamRecords\"><i class=\"fa fa-cubes\"></i> {{getWord(\'Team Records\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-file-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Reports\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.reportssdfsdf\"><i class=\"fa fa-cube\"></i> {{getWord(\'Report1\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n\n            <li data-menu-collapse>\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user-secret\"></i> <span class=\"menu-item-parent\">{{getWord(\'Privileges\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.users\"><i class=\"fa fa-user\"></i> {{getWord(\'Users\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.graphs.morris\"><i class=\"fa fa-certificate\"></i> {{getWord(\'Permissions\')}}</a>\n                    </li>\n                </ul>\n            </li>\n        </ul>\n    </nav>\n\n    <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\n  </span>\n\n</aside>");
+$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\n\n    <!-- User info -->\n    <div login-info></div>\n    <!-- end user info -->\n\n    <nav>\n        <ul data-smart-menu>\n            <li data-ui-sref-active=\"active\">\n                <a data-ui-sref=\"app.admin\" title=\"Outlook\">\n                    <i class=\"fa fa-lg fa-fw fa-tachometer\"></i> <span class=\"menu-item-parent\">{{getWord(\'Dashboard\')}}</span><span\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\n            </li>\n\n            <li data-menu-collapse>\n                <a href=\"#\" title=\"Administrator\"><i class=\"fa fa-lg fa-fw fa-cubes\"></i> <span\n                        class=\"menu-item-parent\">{{getWord(\'Basis Data\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.sports\"><i class=\"fa fa-futbol-o\"></i> {{getWord(\'Sport Types\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.refereeGrades\"><i class=\"fa fa-graduation-cap\"></i> {{getWord(\'Referee Grades\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.fields\"><i class=\"fa fa-th-large\"></i> {{getWord(\'Fields\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.licenses\"><i class=\"fa fa-credit-card\"></i> {{getWord(\'Licenses\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.positions\"><i class=\"fa fa-crosshairs\"></i> {{getWord(\'Positions\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.competitions\"><i class=\"fa fa-clone\"></i> {{getWord(\'Competitions\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.recordItems\"><i class=\"fa fa-bullhorn\"></i> {{getWord(\'Record Items\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-sitemap\"></i> <span class=\"menu-item-parent\">{{getWord(\'Organizations\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.clubs\"><i class=\"fa fa-th\"></i> {{getWord(\'Clubs\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.teams\"><i class=\"fa fa-th-list\"></i> {{getWord(\'Teams\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.leagues\"><i class=\"fa fa-leaf\"></i> {{getWord(\'Leagues\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-users\"></i> <span class=\"menu-item-parent\">{{getWord(\'Person\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.persons\"><i class=\"fa fa-user\"></i> {{getWord(\'Person Management\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.players\"><i class=\"fa fa-child\"></i> {{getWord(\'Players\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.coaches\"><i class=\"fa fa-user-o\"></i> {{getWord(\'Coaches\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.managers\"><i class=\"fa fa-user-secret\"></i> {{getWord(\'Team Managers\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.referees\"><i class=\"fa fa-user-circle\"></i> {{getWord(\'Referees\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.clubadmin\"><i class=\"fa fa-meh-o\"></i> {{getWord(\'Club Admin\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-calendar\"></i> <span class=\"menu-item-parent\">{{getWord(\'Schedules\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameSchedules\"><i class=\"fa fa-trophy\"></i> {{getWord(\'Game Schedules\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameRoasters\"><i class=\"fa fa-check-square-o\"></i> {{getWord(\'Roasters\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.trainingSchedules\"><i class=\"fa fa-random\"></i> {{getWord(\'Training Schedules\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Records\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameRecords\"><i class=\"fa fa-cube\"></i> {{getWord(\'Game Records\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.refereeRecords\"><i class=\"fa fa-steam-square\"></i> {{getWord(\'Referee Records\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.teamRecords\"><i class=\"fa fa-cubes\"></i> {{getWord(\'Team Records\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-file-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Statistics\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.playerStats\"><i class=\"fa fa-cube\"></i> {{getWord(\'Player Stats\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n\n            <li data-menu-collapse>\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user-secret\"></i> <span class=\"menu-item-parent\">{{getWord(\'Privileges\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.users\"><i class=\"fa fa-user\"></i> {{getWord(\'Users\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.graphs.morris\"><i class=\"fa fa-certificate\"></i> {{getWord(\'Permissions\')}}</a>\n                    </li>\n                </ul>\n            </li>\n        </ul>\n    </nav>\n\n    <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\n  </span>\n\n</aside>");
 $templateCache.put("app/layout/partials/sub-header.tpl.html","<div class=\"col-xs-12 col-sm-5 col-md-5 col-lg-8\" data-sparkline-container>\n    <ul id=\"sparks\" class=\"\">\n        <li class=\"sparks-info\">\n            <h5> My Income <span class=\"txt-color-blue\">$47,171</span></h5>\n            <div class=\"sparkline txt-color-blue hidden-mobile hidden-md hidden-sm\">\n                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471\n            </div>\n        </li>\n        <li class=\"sparks-info\">\n            <h5> Site Traffic <span class=\"txt-color-purple\"><i class=\"fa fa-arrow-circle-up\"></i>&nbsp;45%</span></h5>\n            <div class=\"sparkline txt-color-purple hidden-mobile hidden-md hidden-sm\">\n                110,150,300,130,400,240,220,310,220,300, 270, 210\n            </div>\n        </li>\n        <li class=\"sparks-info\">\n            <h5> Site Orders <span class=\"txt-color-greenDark\"><i class=\"fa fa-shopping-cart\"></i>&nbsp;2447</span></h5>\n            <div class=\"sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm\">\n                110,150,300,130,400,240,220,310,220,300, 270, 210\n            </div>\n        </li>\n    </ul>\n</div>\n			");
 $templateCache.put("app/layout/partials/voice-commands.tpl.html","<!-- TRIGGER BUTTON:\n<a href=\"/my-ajax-page.html\" data-toggle=\"modal\" data-target=\"#remoteModal\" class=\"btn btn-default\">Open Modal</a>  -->\n\n<!-- MODAL PLACE HOLDER\n<div class=\"modal fade\" id=\"remoteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"remoteModalLabel\" aria-hidden=\"true\">\n<div class=\"modal-dialog\">\n<div class=\"modal-content\"></div>\n</div>\n</div>   -->\n<!--////////////////////////////////////-->\n\n<!--<div class=\"modal-header\">\n<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">\n&times;\n</button>\n<h4 class=\"modal-title\" id=\"myModalLabel\">Command List</h4>\n</div>-->\n<div class=\"modal-body\">\n\n	<h1><i class=\"fa fa-microphone text-muted\"></i>&nbsp;&nbsp; SmartAdmin Voice Command</h1>\n	<hr class=\"simple\">\n	<h5>Instruction</h5>\n\n	Click <span class=\"text-success\">\"Allow\"</span> to access your microphone and activate Voice Command.\n	You will notice a <span class=\"text-primary\"><strong>BLUE</strong> Flash</span> on the microphone icon indicating activation.\n	The icon will appear <span class=\"text-danger\"><strong>RED</strong></span> <span class=\"label label-danger\"><i class=\"fa fa-microphone fa-lg\"></i></span> if you <span class=\"text-danger\">\"Deny\"</span> access or don\'t have any microphone installed.\n	<br>\n	<br>\n	As a security precaution, your browser will disconnect the microphone every 60 to 120 seconds (sooner if not being used). In which case Voice Command will prompt you again to <span class=\"text-success\">\"Allow\"</span> or <span class=\"text-danger\">\"Deny\"</span> access to your microphone.\n	<br>\n	<br>\n	If you host your page over <strong>http<span class=\"text-success\">s</span></strong> (secure socket layer) protocol you can wave this security measure and have an unintrupted Voice Command.\n	<br>\n	<br>\n	<h5>Commands</h5>\n	<ul>\n		<li>\n			<strong>\'show\' </strong> then say the <strong>*page*</strong> you want to go to. For example <strong>\"show inbox\"</strong> or <strong>\"show calendar\"</strong>\n		</li>\n		<li>\n			<strong>\'mute\' </strong> - mutes all sound effects for the theme.\n		</li>\n		<li>\n			<strong>\'sound on\'</strong> - unmutes all sound effects for the theme.\n		</li>\n		<li>\n			<span class=\"text-danger\"><strong>\'stop\'</strong></span> - deactivates voice command.\n		</li>\n		<li>\n			<span class=\"text-primary\"><strong>\'help\'</strong></span> - brings up the command list\n		</li>\n		<li>\n			<span class=\"text-danger\"><strong>\'got it\'</strong></span> - closes help modal\n		</li>\n		<li>\n			<strong>\'hide navigation\'</strong> - toggle navigation collapse\n		</li>\n		<li>\n			<strong>\'show navigation\'</strong> - toggle navigation to open (can be used again to close)\n		</li>\n		<li>\n			<strong>\'scroll up\'</strong> - scrolls to the top of the page\n		</li>\n		<li>\n			<strong>\'scroll down\'</strong> - scrollts to the bottom of the page\n		</li>\n		<li>\n			<strong>\'go back\' </strong> - goes back in history (history -1 click)\n		</li>\n		<li>\n			<strong>\'logout\'</strong> - logs you out\n		</li>\n	</ul>\n	<br>\n	<h5>Adding your own commands</h5>\n	Voice Command supports up to 80 languages. Adding your own commands is extreamly easy. All commands are stored inside <strong>app.config.js</strong> file under the <code>var commands = {...}</code>. \n\n	<hr class=\"simple\">\n	<div class=\"text-right\">\n		<button type=\"button\" class=\"btn btn-success btn-lg\" data-dismiss=\"modal\">\n			Got it!\n		</button>\n	</div>\n\n</div>\n<!--<div class=\"modal-footer\">\n<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Got it!</button>\n</div> -->");
 $templateCache.put("app/layout/shortcut/shortcut.tpl.html","<div id=\"shortcut\">\n	<ul>\n		<li>\n			<a href=\"#/inbox/\" class=\"jarvismetro-tile big-cubes bg-color-blue\"> <span class=\"iconbox\"> <i class=\"fa fa-envelope fa-4x\"></i> <span>Mail <span class=\"label pull-right bg-color-darken\">14</span></span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/calendar\" class=\"jarvismetro-tile big-cubes bg-color-orangeDark\"> <span class=\"iconbox\"> <i class=\"fa fa-calendar fa-4x\"></i> <span>Calendar</span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/maps\" class=\"jarvismetro-tile big-cubes bg-color-purple\"> <span class=\"iconbox\"> <i class=\"fa fa-map-marker fa-4x\"></i> <span>Maps</span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/invoice\" class=\"jarvismetro-tile big-cubes bg-color-blueDark\"> <span class=\"iconbox\"> <i class=\"fa fa-book fa-4x\"></i> <span>Invoice <span class=\"label pull-right bg-color-darken\">99</span></span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/gallery\" class=\"jarvismetro-tile big-cubes bg-color-greenLight\"> <span class=\"iconbox\"> <i class=\"fa fa-picture-o fa-4x\"></i> <span>Gallery </span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/profile\" class=\"jarvismetro-tile big-cubes selected bg-color-pinkDark\"> <span class=\"iconbox\"> <i class=\"fa fa-user fa-4x\"></i> <span>My Profile </span> </span> </a>\n		</li>\n	</ul>\n</div>");
@@ -5170,6 +5170,10 @@ angular.module('app.admin').controller('RecordItemsController', function ($scope
         $scope.loading = true;
         RecordItemsService.get().then(function (response) {
             $scope.tableData = $scope.safeData = response.data;
+            angular.forEach($scope.tableData, function (val) {
+                val.is_referee = val.is_referee * 1 + "";
+                val.is_coach = val.is_coach * 1 + "";
+            });
             $scope.loading = false;
         });
     };
@@ -5187,7 +5191,9 @@ angular.module('app.admin').controller('RecordItemsController', function ($scope
     $scope.addRow = function () {
         $scope.currRow = {
             id: 0,
-            item_name: ''
+            item_name: '',
+            is_referee: "0",
+            is_coach: "0"
         };
     };
 
@@ -8427,6 +8433,355 @@ angular.module('app.tables').controller('JqGridCtrl', function ($scope) {
 
     }
 });
+"use strict";
+
+angular.module('app.ui').controller('GeneralElementsCtrl', function ($scope, $sce) {
+    /*
+     * Smart Notifications
+     */
+    $scope.eg1 = function () {
+
+        $.bigBox({
+            title: "Big Information box",
+            content: "This message will dissapear in 6 seconds!",
+            color: "#C46A69",
+            //timeout: 6000,
+            icon: "fa fa-warning shake animated",
+            number: "1",
+            timeout: 6000
+        });
+    };
+
+    $scope.eg2 = function () {
+
+        $.bigBox({
+            title: "Big Information box",
+            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+            color: "#3276B1",
+            //timeout: 8000,
+            icon: "fa fa-bell swing animated",
+            number: "2"
+        });
+
+    };
+
+    $scope.eg3 = function () {
+
+        $.bigBox({
+            title: "Shield is up and running!",
+            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+            color: "#C79121",
+            //timeout: 8000,
+            icon: "fa fa-shield fadeInLeft animated",
+            number: "3"
+        });
+
+    };
+
+    $scope.eg4 = function () {
+
+        $.bigBox({
+            title: "Success Message Example",
+            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+            color: "#739E73",
+            //timeout: 8000,
+            icon: "fa fa-check",
+            number: "4"
+        }, function () {
+            $scope.closedthis();
+        });
+
+    };
+
+
+    $scope.eg5 = function() {
+
+        $.smallBox({
+            title: "Ding Dong!",
+            content: "Someone's at the door...shall one get it sir? <p class='text-align-right'><a href-void class='btn btn-primary btn-sm'>Yes</a> <a href-void class='btn btn-danger btn-sm'>No</a></p>",
+            color: "#296191",
+            //timeout: 8000,
+            icon: "fa fa-bell swing animated"
+        });
+    };
+
+
+    $scope.eg6 = function() {
+
+        $.smallBox({
+            title: "Big Information box",
+            content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+            color: "#5384AF",
+            //timeout: 8000,
+            icon: "fa fa-bell"
+        });
+
+    };
+
+    $scope.eg7 = function() {
+
+        $.smallBox({
+            title: "James Simmons liked your comment",
+            content: "<i class='fa fa-clock-o'></i> <i>2 seconds ago...</i>",
+            color: "#296191",
+            iconSmall: "fa fa-thumbs-up bounce animated",
+            timeout: 4000
+        });
+
+    };
+
+    $scope.closedthis = function() {
+        $.smallBox({
+            title: "Great! You just closed that last alert!",
+            content: "This message will be gone in 5 seconds!",
+            color: "#739E73",
+            iconSmall: "fa fa-cloud",
+            timeout: 5000
+        });
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    $scope.smartModEg1 =  function () {
+        $.SmartMessageBox({
+            title: "Smart Alert!",
+            content: "This is a confirmation box. Can be programmed for button callback",
+            buttons: '[No][Yes]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "Yes") {
+
+                $.smallBox({
+                    title: "Callback function",
+                    content: "<i class='fa fa-clock-o'></i> <i>You pressed Yes...</i>",
+                    color: "#659265",
+                    iconSmall: "fa fa-check fa-2x fadeInRight animated",
+                    timeout: 4000
+                });
+            }
+            if (ButtonPressed === "No") {
+                $.smallBox({
+                    title: "Callback function",
+                    content: "<i class='fa fa-clock-o'></i> <i>You pressed No...</i>",
+                    color: "#C46A69",
+                    iconSmall: "fa fa-times fa-2x fadeInRight animated",
+                    timeout: 4000
+                });
+            }
+
+        });
+    };
+
+    // With Input
+    $scope.smartModEg2 =  function () {
+        $.SmartMessageBox({
+            title: "Smart Alert: Input",
+            content: "Please enter your user name",
+            buttons: "[Accept]",
+            input: "text",
+            placeholder: "Enter your user name"
+        }, function (ButtonPress, Value) {
+            alert(ButtonPress + " " + Value);
+        });
+    };
+
+    // With Buttons
+    $scope.smartModEg3 =  function () {
+        $.SmartMessageBox({
+            title: "Smart Notification: Buttons",
+            content: "Lots of buttons to go...",
+            buttons: '[Need?][You][Do][Buttons][Many][How]'
+        });
+
+    }
+    // With Select
+    $scope.smartModEg4 =  function () {
+        $.SmartMessageBox({
+            title: "Smart Alert: Select",
+            content: "You can even create a group of options.",
+            buttons: "[Done]",
+            input: "select",
+            options: "[Costa Rica][United States][Autralia][Spain]"
+        }, function (ButtonPress, Value) {
+            alert(ButtonPress + " " + Value);
+        });
+
+    };
+
+    // With Login
+    $scope.smartModEg5 =  function () {
+
+        $.SmartMessageBox({
+            title: "Login form",
+            content: "Please enter your user name",
+            buttons: "[Cancel][Accept]",
+            input: "text",
+            placeholder: "Enter your user name"
+        }, function (ButtonPress, Value) {
+            if (ButtonPress == "Cancel") {
+                alert("Why did you cancel that? :(");
+                return 0;
+            }
+
+            var Value1 = Value.toUpperCase();
+            var ValueOriginal = Value;
+            $.SmartMessageBox({
+                title: "Hey! <strong>" + Value1 + ",</strong>",
+                content: "And now please provide your password:",
+                buttons: "[Login]",
+                input: "password",
+                placeholder: "Password"
+            }, function (ButtonPress, Value) {
+                alert("Username: " + ValueOriginal + " and your password is: " + Value);
+            });
+        });
+
+    };
+
+    $scope.tabsPopoverContent = $sce.trustAsHtml("<ul id='popup-tab' class='nav nav-tabs bordered'><li class='active'><a href='#pop-1' data-toggle='tab'>Active Tab </a></li><li><a href='#pop-2' data-toggle='tab'>Tab 2</a></li></ul><div id='popup-tab-content' class='tab-content padding-10'><div class='tab-pane fade in active' id='pop-1'><p>I have six locks on my door all in a row. When I go out, I lock every other one. I figure no matter how long somebody stands there picking the locks, they are always locking three.</p></div><div class='tab-pane fade' id='pop-2'><p>Food truck fixie locavore, accusamus mcsweeneys marfa nulla single-origin coffee squid. wes anderson artisan four loko farm-to-table craft beer twee.</p></div></div>")
+
+    $scope.formPopoverContent = $sce.trustAsHtml("<form action='/api/plug' style='min-width:170px'><div class='checkbox'><label><input type='checkbox' class='checkbox style-0' checked='checked'><span>Read</span></label></div><div class='checkbox'><label><input type='checkbox' class='checkbox style-0'><span>Write</span></label></div><div class='checkbox'><label><input type='checkbox' class='checkbox style-0'><span>Execute</span></label></div><div class='form-actions'><div class='row'><div class='col-md-12'><button class='btn btn-primary btn-sm' type='submit'>SAVE</button></div></div></div></form>")
+
+});
+
+"use strict";
+
+
+angular.module('app.ui').controller('JquiCtrl', function ($scope) {
+    $scope.demoAutocompleteWords = [
+        "ActionScript",
+        "AppleScript",
+        "Asp",
+        "BASIC",
+        "C",
+        "C++",
+        "Clojure",
+        "COBOL",
+        "ColdFusion",
+        "Erlang",
+        "Fortran",
+        "Groovy",
+        "Haskell",
+        "Java",
+        "JavaScript",
+        "Lisp",
+        "Perl",
+        "PHP",
+        "Python",
+        "Ruby",
+        "Scala",
+        "Scheme"];
+
+
+    $scope.demoAjaxAutocomplete = '';
+
+
+    $scope.modalDemo1 = function(){
+        console.log('modalDemo1');
+    }
+
+    $scope.modalDemo2 = function(){
+        console.log('modalDemo2');
+    }
+
+
+});
+"use strict";
+
+
+angular.module('app.ui').controller('TreeviewCtrl', function ($scope) {
+    $scope.demoTree1 = [
+        {"content": "<span><i class=\"fa fa-lg fa-calendar\"></i> 2013, Week 2</span>", "expanded": true, "children": [
+            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-plus-circle\"></i> Monday, January 7: 8.00 hours</span>", "expanded": true, "children": [
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 8.00</span> &ndash; <a> Changed CSS to accomodate...</a>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 8.00</span> &ndash; <a> Changed CSS to accomodate...</a>"},
+            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-minus-circle\"></i> Tuesday, January 8: 8.00 hours</span>", "expanded": true, "children": [
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 6.00</span> &ndash; <a> Altered code...</a>"},
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Simplified our approach to...</a>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 6.00</span> &ndash; <a> Altered code...</a>"},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Simplified our approach to...</a>"},
+            {"content": "<span class=\"label label-warning\"><i class=\"fa fa-lg fa-minus-circle\"></i> Wednesday, January 9: 6.00 hours</span>", "children": [
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Fixed bug caused by...</a>"},
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Comitting latest code to Git...</a>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Fixed bug caused by...</a>"},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Comitting latest code to Git...</a>"},
+            {"content": "<span class=\"label label-danger\"><i class=\"fa fa-lg fa-minus-circle\"></i> Wednesday, January 9: 4.00 hours</span>", "children": [
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Create component that...</a>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Create component that...</a>"}
+        ]},
+        {"content": "<span><i class=\"fa fa-lg fa-calendar\"></i> 2013, Week 3</span>", "children": [
+            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-minus-circle\"></i> Monday, January 14: 8.00 hours</span>", "children": [
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 7.75</span> &ndash; <a> Writing documentation...</a>"},
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 0.25</span> &ndash; <a> Reverting code back to...</a>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 7.75</span> &ndash; <a> Writing documentation...</a>"},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 0.25</span> &ndash; <a> Reverting code back to...</a>"}
+        ]}
+    ]
+
+    $scope.demoTree2 = [
+        {"content": "<span><i class=\"fa fa-lg fa-folder-open\"></i> Parent</span>", "expanded": true, "children": [
+            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Administrators</span>", "expanded": true, "children": [
+                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" name=\"checkbox-inline\"><i></i>Michael.Jackson</label> </span>"},
+                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Sunny.Ahmed</label> </span>"},
+                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Jackie.Chan</label> </span>"}
+            ]},
+            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" name=\"checkbox-inline\"><i></i>Michael.Jackson</label> </span>"},
+            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Sunny.Ahmed</label> </span>"},
+            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Jackie.Chan</label> </span>"},
+            {"content": "<span><i class=\"fa fa-lg fa-minus-circle\"></i> Child</span>", "expanded": true, "children": [
+                {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
+                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Grand Child</span>",  "children": [
+                    {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
+                        {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                        {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
+                    ]},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
+                ]},
+                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
+                ]},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
+            ]},
+            {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
+            {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
+            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Grand Child</span>", "children": [
+                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
+                ]},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
+            ]},
+            {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+            {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+            {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
+            {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
+        ]},
+        {"content": "<span><i class=\"fa fa-lg fa-folder-open\"></i> Parent2</span>", "children": [
+            {"content": "<span><i class=\"icon-leaf\"></i> Child</span>"}
+        ]}
+    ]
+});
 'use strict';
 
 angular.module('app.ui').directive('smartClassFilter', function () {
@@ -8887,355 +9242,6 @@ angular.module('app.ui').directive('smartTreeview', function ($compile, $sce) {
             };
         }
     };
-});
-"use strict";
-
-angular.module('app.ui').controller('GeneralElementsCtrl', function ($scope, $sce) {
-    /*
-     * Smart Notifications
-     */
-    $scope.eg1 = function () {
-
-        $.bigBox({
-            title: "Big Information box",
-            content: "This message will dissapear in 6 seconds!",
-            color: "#C46A69",
-            //timeout: 6000,
-            icon: "fa fa-warning shake animated",
-            number: "1",
-            timeout: 6000
-        });
-    };
-
-    $scope.eg2 = function () {
-
-        $.bigBox({
-            title: "Big Information box",
-            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-            color: "#3276B1",
-            //timeout: 8000,
-            icon: "fa fa-bell swing animated",
-            number: "2"
-        });
-
-    };
-
-    $scope.eg3 = function () {
-
-        $.bigBox({
-            title: "Shield is up and running!",
-            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-            color: "#C79121",
-            //timeout: 8000,
-            icon: "fa fa-shield fadeInLeft animated",
-            number: "3"
-        });
-
-    };
-
-    $scope.eg4 = function () {
-
-        $.bigBox({
-            title: "Success Message Example",
-            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-            color: "#739E73",
-            //timeout: 8000,
-            icon: "fa fa-check",
-            number: "4"
-        }, function () {
-            $scope.closedthis();
-        });
-
-    };
-
-
-    $scope.eg5 = function() {
-
-        $.smallBox({
-            title: "Ding Dong!",
-            content: "Someone's at the door...shall one get it sir? <p class='text-align-right'><a href-void class='btn btn-primary btn-sm'>Yes</a> <a href-void class='btn btn-danger btn-sm'>No</a></p>",
-            color: "#296191",
-            //timeout: 8000,
-            icon: "fa fa-bell swing animated"
-        });
-    };
-
-
-    $scope.eg6 = function() {
-
-        $.smallBox({
-            title: "Big Information box",
-            content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-            color: "#5384AF",
-            //timeout: 8000,
-            icon: "fa fa-bell"
-        });
-
-    };
-
-    $scope.eg7 = function() {
-
-        $.smallBox({
-            title: "James Simmons liked your comment",
-            content: "<i class='fa fa-clock-o'></i> <i>2 seconds ago...</i>",
-            color: "#296191",
-            iconSmall: "fa fa-thumbs-up bounce animated",
-            timeout: 4000
-        });
-
-    };
-
-    $scope.closedthis = function() {
-        $.smallBox({
-            title: "Great! You just closed that last alert!",
-            content: "This message will be gone in 5 seconds!",
-            color: "#739E73",
-            iconSmall: "fa fa-cloud",
-            timeout: 5000
-        });
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    $scope.smartModEg1 =  function () {
-        $.SmartMessageBox({
-            title: "Smart Alert!",
-            content: "This is a confirmation box. Can be programmed for button callback",
-            buttons: '[No][Yes]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "Yes") {
-
-                $.smallBox({
-                    title: "Callback function",
-                    content: "<i class='fa fa-clock-o'></i> <i>You pressed Yes...</i>",
-                    color: "#659265",
-                    iconSmall: "fa fa-check fa-2x fadeInRight animated",
-                    timeout: 4000
-                });
-            }
-            if (ButtonPressed === "No") {
-                $.smallBox({
-                    title: "Callback function",
-                    content: "<i class='fa fa-clock-o'></i> <i>You pressed No...</i>",
-                    color: "#C46A69",
-                    iconSmall: "fa fa-times fa-2x fadeInRight animated",
-                    timeout: 4000
-                });
-            }
-
-        });
-    };
-
-    // With Input
-    $scope.smartModEg2 =  function () {
-        $.SmartMessageBox({
-            title: "Smart Alert: Input",
-            content: "Please enter your user name",
-            buttons: "[Accept]",
-            input: "text",
-            placeholder: "Enter your user name"
-        }, function (ButtonPress, Value) {
-            alert(ButtonPress + " " + Value);
-        });
-    };
-
-    // With Buttons
-    $scope.smartModEg3 =  function () {
-        $.SmartMessageBox({
-            title: "Smart Notification: Buttons",
-            content: "Lots of buttons to go...",
-            buttons: '[Need?][You][Do][Buttons][Many][How]'
-        });
-
-    }
-    // With Select
-    $scope.smartModEg4 =  function () {
-        $.SmartMessageBox({
-            title: "Smart Alert: Select",
-            content: "You can even create a group of options.",
-            buttons: "[Done]",
-            input: "select",
-            options: "[Costa Rica][United States][Autralia][Spain]"
-        }, function (ButtonPress, Value) {
-            alert(ButtonPress + " " + Value);
-        });
-
-    };
-
-    // With Login
-    $scope.smartModEg5 =  function () {
-
-        $.SmartMessageBox({
-            title: "Login form",
-            content: "Please enter your user name",
-            buttons: "[Cancel][Accept]",
-            input: "text",
-            placeholder: "Enter your user name"
-        }, function (ButtonPress, Value) {
-            if (ButtonPress == "Cancel") {
-                alert("Why did you cancel that? :(");
-                return 0;
-            }
-
-            var Value1 = Value.toUpperCase();
-            var ValueOriginal = Value;
-            $.SmartMessageBox({
-                title: "Hey! <strong>" + Value1 + ",</strong>",
-                content: "And now please provide your password:",
-                buttons: "[Login]",
-                input: "password",
-                placeholder: "Password"
-            }, function (ButtonPress, Value) {
-                alert("Username: " + ValueOriginal + " and your password is: " + Value);
-            });
-        });
-
-    };
-
-    $scope.tabsPopoverContent = $sce.trustAsHtml("<ul id='popup-tab' class='nav nav-tabs bordered'><li class='active'><a href='#pop-1' data-toggle='tab'>Active Tab </a></li><li><a href='#pop-2' data-toggle='tab'>Tab 2</a></li></ul><div id='popup-tab-content' class='tab-content padding-10'><div class='tab-pane fade in active' id='pop-1'><p>I have six locks on my door all in a row. When I go out, I lock every other one. I figure no matter how long somebody stands there picking the locks, they are always locking three.</p></div><div class='tab-pane fade' id='pop-2'><p>Food truck fixie locavore, accusamus mcsweeneys marfa nulla single-origin coffee squid. wes anderson artisan four loko farm-to-table craft beer twee.</p></div></div>")
-
-    $scope.formPopoverContent = $sce.trustAsHtml("<form action='/api/plug' style='min-width:170px'><div class='checkbox'><label><input type='checkbox' class='checkbox style-0' checked='checked'><span>Read</span></label></div><div class='checkbox'><label><input type='checkbox' class='checkbox style-0'><span>Write</span></label></div><div class='checkbox'><label><input type='checkbox' class='checkbox style-0'><span>Execute</span></label></div><div class='form-actions'><div class='row'><div class='col-md-12'><button class='btn btn-primary btn-sm' type='submit'>SAVE</button></div></div></div></form>")
-
-});
-
-"use strict";
-
-
-angular.module('app.ui').controller('JquiCtrl', function ($scope) {
-    $scope.demoAutocompleteWords = [
-        "ActionScript",
-        "AppleScript",
-        "Asp",
-        "BASIC",
-        "C",
-        "C++",
-        "Clojure",
-        "COBOL",
-        "ColdFusion",
-        "Erlang",
-        "Fortran",
-        "Groovy",
-        "Haskell",
-        "Java",
-        "JavaScript",
-        "Lisp",
-        "Perl",
-        "PHP",
-        "Python",
-        "Ruby",
-        "Scala",
-        "Scheme"];
-
-
-    $scope.demoAjaxAutocomplete = '';
-
-
-    $scope.modalDemo1 = function(){
-        console.log('modalDemo1');
-    }
-
-    $scope.modalDemo2 = function(){
-        console.log('modalDemo2');
-    }
-
-
-});
-"use strict";
-
-
-angular.module('app.ui').controller('TreeviewCtrl', function ($scope) {
-    $scope.demoTree1 = [
-        {"content": "<span><i class=\"fa fa-lg fa-calendar\"></i> 2013, Week 2</span>", "expanded": true, "children": [
-            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-plus-circle\"></i> Monday, January 7: 8.00 hours</span>", "expanded": true, "children": [
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 8.00</span> &ndash; <a> Changed CSS to accomodate...</a>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 8.00</span> &ndash; <a> Changed CSS to accomodate...</a>"},
-            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-minus-circle\"></i> Tuesday, January 8: 8.00 hours</span>", "expanded": true, "children": [
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 6.00</span> &ndash; <a> Altered code...</a>"},
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Simplified our approach to...</a>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 6.00</span> &ndash; <a> Altered code...</a>"},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Simplified our approach to...</a>"},
-            {"content": "<span class=\"label label-warning\"><i class=\"fa fa-lg fa-minus-circle\"></i> Wednesday, January 9: 6.00 hours</span>", "children": [
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Fixed bug caused by...</a>"},
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Comitting latest code to Git...</a>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Fixed bug caused by...</a>"},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Comitting latest code to Git...</a>"},
-            {"content": "<span class=\"label label-danger\"><i class=\"fa fa-lg fa-minus-circle\"></i> Wednesday, January 9: 4.00 hours</span>", "children": [
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Create component that...</a>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Create component that...</a>"}
-        ]},
-        {"content": "<span><i class=\"fa fa-lg fa-calendar\"></i> 2013, Week 3</span>", "children": [
-            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-minus-circle\"></i> Monday, January 14: 8.00 hours</span>", "children": [
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 7.75</span> &ndash; <a> Writing documentation...</a>"},
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 0.25</span> &ndash; <a> Reverting code back to...</a>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 7.75</span> &ndash; <a> Writing documentation...</a>"},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 0.25</span> &ndash; <a> Reverting code back to...</a>"}
-        ]}
-    ]
-
-    $scope.demoTree2 = [
-        {"content": "<span><i class=\"fa fa-lg fa-folder-open\"></i> Parent</span>", "expanded": true, "children": [
-            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Administrators</span>", "expanded": true, "children": [
-                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" name=\"checkbox-inline\"><i></i>Michael.Jackson</label> </span>"},
-                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Sunny.Ahmed</label> </span>"},
-                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Jackie.Chan</label> </span>"}
-            ]},
-            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" name=\"checkbox-inline\"><i></i>Michael.Jackson</label> </span>"},
-            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Sunny.Ahmed</label> </span>"},
-            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Jackie.Chan</label> </span>"},
-            {"content": "<span><i class=\"fa fa-lg fa-minus-circle\"></i> Child</span>", "expanded": true, "children": [
-                {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
-                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Grand Child</span>",  "children": [
-                    {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
-                        {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                        {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
-                    ]},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
-                ]},
-                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
-                ]},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
-            ]},
-            {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
-            {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
-            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Grand Child</span>", "children": [
-                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
-                ]},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
-            ]},
-            {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-            {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-            {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
-            {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
-        ]},
-        {"content": "<span><i class=\"fa fa-lg fa-folder-open\"></i> Parent2</span>", "children": [
-            {"content": "<span><i class=\"icon-leaf\"></i> Child</span>"}
-        ]}
-    ]
 });
 "use strict";
 

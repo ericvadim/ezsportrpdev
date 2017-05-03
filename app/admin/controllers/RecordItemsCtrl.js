@@ -9,6 +9,10 @@ angular.module('app.admin').controller('RecordItemsController', function ($scope
         $scope.loading = true;
         RecordItemsService.get().then(function (response) {
             $scope.tableData = $scope.safeData = response.data;
+            angular.forEach($scope.tableData, function (val) {
+                val.is_referee = val.is_referee * 1 + "";
+                val.is_coach = val.is_coach * 1 + "";
+            });
             $scope.loading = false;
         });
     };
@@ -26,7 +30,9 @@ angular.module('app.admin').controller('RecordItemsController', function ($scope
     $scope.addRow = function () {
         $scope.currRow = {
             id: 0,
-            item_name: ''
+            item_name: '',
+            is_referee: "0",
+            is_coach: "0"
         };
     };
 

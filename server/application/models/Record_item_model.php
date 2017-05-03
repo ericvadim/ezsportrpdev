@@ -24,7 +24,7 @@ class Record_item_model extends CI_Model
     {
         $rowId = $data['id'];
 
-        $cols = array('item_name');
+        $cols = array('item_name', 'is_referee', 'is_coach');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
