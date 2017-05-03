@@ -2154,8 +2154,8 @@ $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<d
     angular
         .module('app')
 
-        // .constant('ServerURL', 'http://ezsportrpt.com/server/')
-        .constant('ServerURL', 'http://localhost/ezsportrp/server/')
+        .constant('ServerURL', 'http://ezsportrpt.com/server/')
+        // .constant('ServerURL', 'http://localhost/ezsportrp/server/')
 
         .constant('APP_CONFIG', window.appConfig)
         .constant('CountryList', {
