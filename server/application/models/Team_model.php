@@ -54,7 +54,7 @@ class Team_model extends CI_Model
     {
         $rowId = $data['id'];
 
-        $cols = array('club_id', 'sport_id', 'team_name');
+        $cols = array('club_id', 'sport_id', 'team_name', 'age_group');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';

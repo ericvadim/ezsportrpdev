@@ -1,11 +1,12 @@
 'use strict';
 
-angular.module('app.admin').controller('TeamsController', function ($scope, $filter, TeamsService, SportsService, ClubsService) {
+angular.module('app.admin').controller('TeamsController', function ($scope, $filter, TeamsService, SportsService, ClubsService, AgeGroups) {
     $scope.sports = [];
     $scope.clubs = [];
     $scope.currClubId = 0;
     $scope.tableData = $scope.safeData = [];
     $scope.currRow = {};
+    $scope.ageGroups = AgeGroups;
     $scope.loading = true;
 
     SportsService.get().then(function (response) {
@@ -46,6 +47,7 @@ angular.module('app.admin').controller('TeamsController', function ($scope, $fil
             id: 0,
             club_id: 0,
             sport_id: 0,
+            age_group: '1',
             team_name: '',
             image: './styles/img/no.jpg'
         };

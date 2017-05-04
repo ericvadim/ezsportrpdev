@@ -259,6 +259,7 @@
         .constant('CoachTypes', {1: 'Head Coach', 2: 'Assistance Coach', 3: 'Trainer', 4: 'Goal Keeper Coach'})
         .constant('SeasonList', {1: 'Spring', 2: 'Summer', 3: 'Winter'})
         .constant('GroupLevels', {1: 'Bronze', 2: 'Silver', 3: 'Gold', 4: 'State', 5: 'State Premier', 6: 'National Premier'})
+        .constant('AgeGroups', {1: 'Open', 8: 'U8', 9: 'U9', 10: 'U10', 11: 'U11', 12: 'U12', 13: 'U13', 14: 'U14', 15: 'U15', 16: 'U16', 17: 'U17', 18: 'U18', 19: 'U19', 20: 'U20'})
         .constant('RecordReasons', {
             "Red Card": {
                 "SFP": "Serious foul play",

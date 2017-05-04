@@ -2409,6 +2409,7 @@ $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<d
         .constant('CoachTypes', {1: 'Head Coach', 2: 'Assistance Coach', 3: 'Trainer', 4: 'Goal Keeper Coach'})
         .constant('SeasonList', {1: 'Spring', 2: 'Summer', 3: 'Winter'})
         .constant('GroupLevels', {1: 'Bronze', 2: 'Silver', 3: 'Gold', 4: 'State', 5: 'State Premier', 6: 'National Premier'})
+        .constant('AgeGroups', {1: 'Open', 8: 'U8', 9: 'U9', 10: 'U10', 11: 'U11', 12: 'U12', 13: 'U13', 14: 'U14', 15: 'U15', 16: 'U16', 17: 'U17', 18: 'U18', 19: 'U19', 20: 'U20'})
         .constant('RecordReasons', {
             "Red Card": {
                 "SFP": "Serious foul play",
@@ -3797,128 +3798,6 @@ angular.module('app.admin').controller('FieldsController', function ($scope, Fie
 });
 'use strict';
 
-angular.module('app.admin').controller('GameRecordsController1', function (ServerURL, $http, $filter) {
-    var vm = this;
-    vm.games = [];
-    vm.currGame = {};
-    vm.currGameId = 0;
-    vm.recordItems = [];
-    vm.teams = [];
-    vm.tableData = [];
-    vm.currRow = {};
-    vm.loading = true;
-
-    vm.getRecordItems = function () {
-        $http.get(ServerURL + "record_items/get").then(function (response) {
-            vm.recordItems = response.data;
-        });
-    };
-    vm.getRecordItems();
-
-    vm.getGameSchedules = function () {
-        $http.get(ServerURL + "game_schedules/getgameschedules").then(function (response) {
-            vm.games = response.data;
-            if (vm.games.length) {
-                vm.currGameId = vm.games[0]['id'];
-                vm.currGame = vm.games[0];
-                vm.getData();
-            }
-        });
-    };
-    vm.getGameSchedules();
-
-    vm.getData = function () {
-        vm.currGame = $filter('filter')(vm.games, {id: vm.currGameId}, true)[0];
-        vm.loading = true;
-        $http.get(ServerURL + "game_records/get?game_id=" + vm.currGameId).then(function (response) {
-            vm.tableData = response.data;
-            vm.loading = false;
-        });
-    };
-
-    vm.save = function () {
-        var data = vm.currRow;
-        data['game_id'] = vm.currGameId;
-        data['team_id'] = vm.currGame[vm.currRow['team_cate']]['team_id'];
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "game_records/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
-            $('#myModal').modal('hide');
-        });
-    };
-
-    vm.getRecordItemName = function (itemId) {
-        return $filter('filter')(vm.recordItems, {id: itemId}, true)[0]['item_name'];
-    };
-
-    vm.getTeamName = function (teamId) {
-        if (vm.currGame.home_team.team_id == teamId) {
-            return vm.currGame.home_team.team_name;
-        } else {
-            return vm.currGame.away_team.team_name;
-        }
-    };
-
-    vm.getPlayerName = function (teamId, playerId) {
-        var players = [];
-        if (vm.currGame.home_team.team_id == teamId) {
-            players = vm.currGame.home_team.players;
-        } else {
-            players = vm.currGame.away_team.players;
-        }
-        var player = $filter('filter')(players, {id: playerId}, true)[0];
-        if (typeof player != 'object') return "";
-        return player['first_name'] + " " + player['last_name'];
-    };
-
-    vm.openModal = function (rowId) {
-        vm.editRow(rowId);
-        $('#myModal').modal('show');
-    };
-
-    vm.addNew = function () {
-        var now = new Date();
-        vm.currRow = {
-            team_cate: 'home_team',
-            id: 0,
-            player_id: vm.currGame['home_team']['players'][0].id,
-            item_id: vm.recordItems[0].id,
-            record_time: now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds(),
-            reason: ''
-        };
-    };
-
-    vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
-        if (vm.currGame.home_team.team_id == vm.currRow.team_id) {
-            vm.currRow.team_cate = "home_team";
-        } else {
-            vm.currRow.team_cate = "away_team";
-        }
-    };
-
-    vm.deleteRow = function (rowId) {
-        if (confirm('Are you sure want to delete this?')) {
-            vm.loading = true;
-            $http.get(ServerURL + "game_records/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
-            });
-        }
-    };
-    $('#myModal').on('hidden.bs.modal', function () {
-        vm.getData();
-    });
-});
-'use strict';
-
 angular.module('app.admin').controller('GameRecordsController', function ($scope, $filter, $q, LeaguesService, GameSchedulesService, GameRecordsService, TeamsService, PlayersService, SeasonList, RecordItemsService, RecordReasons) {
     $scope.seasons = SeasonList;
     $scope.reasons = RecordReasons;
@@ -4104,123 +3983,6 @@ angular.module('app.admin').controller('GameRoastersController', function ($scop
     $scope.getStartersCount = function () {
         return $filter('filter')($scope.safeData, {is_starter: true}).length;
     }
-});
-'use strict';
-
-angular.module('app.admin').controller('GameSchedulesController', function (ServerURL, $http, $filter, SeasonList) {
-    var vm = this;
-    vm.seasons = SeasonList;
-    vm.leagues = [];
-    vm.fields = [];
-    vm.homeTeams = [];
-    vm.awayTeams = [];
-    vm.tableData = [];
-    vm.currRow = {};
-    vm.loading = true;
-
-    vm.getLeagues = function () {
-        $http.get(ServerURL + "leagues/getwithinfo").then(function (response) {
-            vm.leagues = response.data;
-        });
-    };
-    vm.getLeagues();
-
-    vm.getFields = function () {
-        $http.get(ServerURL + "fields/get").then(function (response) {
-            vm.fields = response.data;
-        });
-    };
-    vm.getFields();
-
-    vm.getTeams = function () {
-        $http.get(ServerURL + "teams/getallteams").then(function (response) {
-            vm.homeTeams = response.data;
-            vm.awayTeams = response.data;
-        });
-    };
-    vm.getTeams();
-
-    vm.getData = function () {
-        vm.loading = true;
-        $http.get(ServerURL + "game_schedules/get").then(function (response) {
-            vm.tableData = response.data;
-            vm.loading = false;
-        });
-    };
-    vm.getData();
-
-    vm.save = function () {
-        var data = vm.currRow;
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "game_schedules/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
-            $('#myModal').modal('hide');
-        });
-    };
-
-    vm.getLeagueNameById = function (leagueId) {
-        if (leagueId > 0) {
-            var league = $filter('filter')(vm.leagues, {id: leagueId}, true)[0];
-            return league['competition_name'] + ' - ' + vm.seasons[league['season']] + '(' + league['start_date'].substr(0, 4) + ')';
-        } else {
-            return '-';
-        }
-    };
-
-    vm.getTeamById = function (teams, teamId) {
-        return $filter('filter')(teams, {id: teamId}, true)[0];
-    };
-
-    vm.getFieldById = function (fieldId) {
-        return $filter('filter')(vm.fields, {id: fieldId}, true)[0];
-    };
-
-    vm.openModal = function (rowId) {
-        vm.editRow(rowId);
-        $('#myModal').modal('show');
-    };
-
-    vm.addNew = function () {
-        var now = new Date();
-        var nowDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
-        // var nowTime = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
-        vm.currRow = {
-            id: 0,
-            league_id: 0,
-            home_team_id: 0,
-            away_team_id: 0,
-            game_date: nowDate,
-            start_time: '00:00:00',
-            arrival_time: '00:00:00',
-            duration: '',
-            field_id: 0,
-            uniform: ''
-        };
-    };
-
-    vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
-    };
-
-    vm.deleteRow = function (rowId) {
-        if (confirm('Are you sure want to delete this?')) {
-            vm.loading = true;
-            $http.get(ServerURL + "game_schedules/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
-            });
-        }
-    };
-    $('#myModal').on('hidden.bs.modal', function () {
-        vm.getData();
-    });
 });
 'use strict';
 
@@ -5590,12 +5352,13 @@ angular.module('app.admin').controller('SportsController', function ($scope, Spo
 });
 'use strict';
 
-angular.module('app.admin').controller('TeamsController', function ($scope, $filter, TeamsService, SportsService, ClubsService) {
+angular.module('app.admin').controller('TeamsController', function ($scope, $filter, TeamsService, SportsService, ClubsService, AgeGroups) {
     $scope.sports = [];
     $scope.clubs = [];
     $scope.currClubId = 0;
     $scope.tableData = $scope.safeData = [];
     $scope.currRow = {};
+    $scope.ageGroups = AgeGroups;
     $scope.loading = true;
 
     SportsService.get().then(function (response) {
@@ -5636,6 +5399,7 @@ angular.module('app.admin').controller('TeamsController', function ($scope, $fil
             id: 0,
             club_id: 0,
             sport_id: 0,
+            age_group: '1',
             team_name: '',
             image: './styles/img/no.jpg'
         };
@@ -7934,6 +7698,92 @@ angular.module('app.inbox').factory('InboxMessage', function($resource, APP_CONF
     return InboxMessage;
 
 });
+'use strict';
+
+angular.module('app.maps').controller('MapsDemoCtrl',
+    function ($scope, $http, $q, SmartMapStyle, uiGmapGoogleMapApi) {
+
+
+        $scope.styles = SmartMapStyle.styles;
+
+        $scope.setType = function (key) {
+            SmartMapStyle.getMapType(key).then(function (type) {
+                $scope.map.control.getGMap().mapTypes.set(key, type);
+                $scope.map.control.getGMap().setMapTypeId(key);
+            });
+            $scope.currentType = key;
+        };
+
+
+        $scope.map = {
+            center: {latitude: 45, longitude: -73},
+            zoom: 8,
+            control: {}
+        };
+
+
+        uiGmapGoogleMapApi.then(function (maps) {
+
+            })
+            .then(function () {
+                return SmartMapStyle.getMapType('colorful')
+            }).then(function () {
+            $scope.setType('colorful')
+        });
+
+
+
+    });
+"use strict";
+
+
+angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
+
+    var styles = {
+        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
+        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
+        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
+        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
+        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
+        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
+        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
+        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
+    };
+
+
+    function getMapType(key){
+        var keyData = styles[key];
+
+        if(!keyData.cache){
+            keyData.cache = createMapType(keyData)
+        }
+
+        return keyData.cache;
+    }
+
+    function createMapType(keyData){
+        var dfd = $q.defer();
+        $http.get(keyData.url).then(function(resp){
+            var styleData = resp.data;
+            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
+            dfd.resolve(type);
+        }, function(reason){
+            console.error(reason);
+            dfd.reject(reason);
+        });
+
+        return dfd.promise;
+    }
+
+
+    return {
+        getMapType: getMapType,
+        styles: styles
+    }
+
+
+
+});
 "use strict";
 
 angular.module('app').controller("LanguagesCtrl",  function LanguagesCtrl($scope, $rootScope, $log, Language){
@@ -8089,92 +7939,6 @@ angular.module('app').directive('toggleShortcut', function($log,$timeout) {
 		link:link
 	}
 })
-'use strict';
-
-angular.module('app.maps').controller('MapsDemoCtrl',
-    function ($scope, $http, $q, SmartMapStyle, uiGmapGoogleMapApi) {
-
-
-        $scope.styles = SmartMapStyle.styles;
-
-        $scope.setType = function (key) {
-            SmartMapStyle.getMapType(key).then(function (type) {
-                $scope.map.control.getGMap().mapTypes.set(key, type);
-                $scope.map.control.getGMap().setMapTypeId(key);
-            });
-            $scope.currentType = key;
-        };
-
-
-        $scope.map = {
-            center: {latitude: 45, longitude: -73},
-            zoom: 8,
-            control: {}
-        };
-
-
-        uiGmapGoogleMapApi.then(function (maps) {
-
-            })
-            .then(function () {
-                return SmartMapStyle.getMapType('colorful')
-            }).then(function () {
-            $scope.setType('colorful')
-        });
-
-
-
-    });
-"use strict";
-
-
-angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
-
-    var styles = {
-        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
-        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
-        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
-        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
-        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
-        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
-        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
-        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
-    };
-
-
-    function getMapType(key){
-        var keyData = styles[key];
-
-        if(!keyData.cache){
-            keyData.cache = createMapType(keyData)
-        }
-
-        return keyData.cache;
-    }
-
-    function createMapType(keyData){
-        var dfd = $q.defer();
-        $http.get(keyData.url).then(function(resp){
-            var styleData = resp.data;
-            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
-            dfd.resolve(type);
-        }, function(reason){
-            console.error(reason);
-            dfd.reject(reason);
-        });
-
-        return dfd.promise;
-    }
-
-
-    return {
-        getMapType: getMapType,
-        styles: styles
-    }
-
-
-
-});
 'use strict';
 
 angular.module('app.mobile').controller('DashboardController', function (ServerURL, $http, $filter) {
@@ -15471,6 +15235,74 @@ angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
 
 'use strict';
 
+angular.module('SmartAdmin.Forms').directive('smartValidateForm', function (formsCommon) {
+    return {
+        restrict: 'A',
+        link: function (scope, form, attributes) {
+
+            var validateOptions = {
+                rules: {},
+                messages: {},
+                highlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorElement: 'span',
+                errorClass: 'help-block',
+                errorPlacement: function (error, element) {
+                    if (element.parent('.input-group').length) {
+                        error.insertAfter(element.parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            };
+            form.find('[data-smart-validate-input], [smart-validate-input]').each(function () {
+                var $input = $(this), fieldName = $input.attr('name');
+
+                validateOptions.rules[fieldName] = {};
+
+                if ($input.data('required') != undefined) {
+                    validateOptions.rules[fieldName].required = true;
+                }
+                if ($input.data('email') != undefined) {
+                    validateOptions.rules[fieldName].email = true;
+                }
+
+                if ($input.data('maxlength') != undefined) {
+                    validateOptions.rules[fieldName].maxlength = $input.data('maxlength');
+                }
+
+                if ($input.data('minlength') != undefined) {
+                    validateOptions.rules[fieldName].minlength = $input.data('minlength');
+                }
+
+                if($input.data('message')){
+                    validateOptions.messages[fieldName] = $input.data('message');
+                } else {
+                    angular.forEach($input.data(), function(value, key){
+                        if(key.search(/message/)== 0){
+                            if(!validateOptions.messages[fieldName])
+                                validateOptions.messages[fieldName] = {};
+
+                            var messageKey = key.toLowerCase().replace(/^message/,'')
+                            validateOptions.messages[fieldName][messageKey] = value;
+                        }
+                    });
+                }
+            });
+
+
+            form.validate(validateOptions);
+
+        }
+    }
+});
+
+'use strict';
+
 angular.module('SmartAdmin.Forms').directive('smartFueluxWizard', function () {
     return {
         restrict: 'A',
@@ -15595,74 +15427,6 @@ angular.module('SmartAdmin.Forms').directive('smartWizard', function () {
         }
     }
 });
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartValidateForm', function (formsCommon) {
-    return {
-        restrict: 'A',
-        link: function (scope, form, attributes) {
-
-            var validateOptions = {
-                rules: {},
-                messages: {},
-                highlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                unhighlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                },
-                errorElement: 'span',
-                errorClass: 'help-block',
-                errorPlacement: function (error, element) {
-                    if (element.parent('.input-group').length) {
-                        error.insertAfter(element.parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            };
-            form.find('[data-smart-validate-input], [smart-validate-input]').each(function () {
-                var $input = $(this), fieldName = $input.attr('name');
-
-                validateOptions.rules[fieldName] = {};
-
-                if ($input.data('required') != undefined) {
-                    validateOptions.rules[fieldName].required = true;
-                }
-                if ($input.data('email') != undefined) {
-                    validateOptions.rules[fieldName].email = true;
-                }
-
-                if ($input.data('maxlength') != undefined) {
-                    validateOptions.rules[fieldName].maxlength = $input.data('maxlength');
-                }
-
-                if ($input.data('minlength') != undefined) {
-                    validateOptions.rules[fieldName].minlength = $input.data('minlength');
-                }
-
-                if($input.data('message')){
-                    validateOptions.messages[fieldName] = $input.data('message');
-                } else {
-                    angular.forEach($input.data(), function(value, key){
-                        if(key.search(/message/)== 0){
-                            if(!validateOptions.messages[fieldName])
-                                validateOptions.messages[fieldName] = {};
-
-                            var messageKey = key.toLowerCase().replace(/^message/,'')
-                            validateOptions.messages[fieldName][messageKey] = value;
-                        }
-                    });
-                }
-            });
-
-
-            form.validate(validateOptions);
-
-        }
-    }
-});
-
 'use strict';
 
 angular.module('SmartAdmin.Layout').directive('demoStates', function ($rootScope) {
