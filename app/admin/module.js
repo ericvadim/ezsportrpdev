@@ -290,6 +290,18 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.refereeSchedules', {
+                url: '/referee-schedules',
+                data: {
+                    title: 'Referee Schedules'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/referee-schedules.html',
+                        controller: 'RefereeSchedulesController'
+                    }
+                }
+            })
         ;
     })
 ;
