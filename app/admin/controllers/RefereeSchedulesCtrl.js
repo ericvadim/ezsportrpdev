@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('app.admin').controller('RefereeSchedulesController', function ($scope, SportsService) {
+    $scope.pageType = "0";
     $scope.tableData = $scope.safeData = [];
     $scope.currRow = {};
     $scope.loading = true;
