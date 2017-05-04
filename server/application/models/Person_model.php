@@ -46,7 +46,7 @@ class Person_model extends CI_Model
 
         $query = "
             SELECT * 
-            FROM ".$this->table." 
+            FROM " . $this->table . " 
             WHERE " . $where . " 
         ";
         $result = $this->db->query($query);
@@ -92,13 +92,15 @@ class Person_model extends CI_Model
         return $this->db->delete($this->table, array('id' => $rowId));
     }
 
-    public function getInFields($xls_fileds){
+    public function getInFields($xls_fileds)
+    {
         $person_fields = $this->fields();
         $fieldsAry = array();
-        $ind = 0; $alphabet = range('A', 'Z');
-        foreach($xls_fileds as $row){
-            if($row['tbl'] == 'person' && $row['field'] != ''){
-                if(in_array($row['field'], $person_fields)){
+        $ind = 0;
+        $alphabet = range('A', 'Z');
+        foreach ($xls_fileds as $row) {
+            if ($row['tbl'] == 'person' && $row['field'] != '') {
+                if (in_array($row['field'], $person_fields)) {
                     $fieldsAry[$alphabet[$ind]] = $row['field'];
                 }
             }
@@ -107,54 +109,54 @@ class Person_model extends CI_Model
         return $fieldsAry;
     }
 
-    public function getPersonByCondition($dataAry){
+    public function getPersonByCondition($dataAry)
+    {
         $where = '1 ';
-        foreach($dataAry as $key=>$val){
-            if($val == '') continue;
-            if($key == 'birthday') {
+        foreach ($dataAry as $key => $val) {
+            if ($val == '') continue;
+            if ($key == 'birthday') {
                 $dt = convertDate($val);
-                if($dt == '') continue;
+                if ($dt == '') continue;
                 $where .= " AND " . $key . "= '" . $dt . "'";
             } else {
-                $where .= " AND LOWER(TRIM(" . $key . "))= LOWER(TRIM('" . $val . "'))";
+                $where .= " AND LOWER(TRIM(" . $key . "))= LOWER(TRIM(" . $this->db->escape($val) . "))";
             }
         }
 
-        $query = "SELECT * FROM ". $this->table ." WHERE " . $where ;
-        //print_r($query);
+        $query = "SELECT * FROM " . $this->table . " WHERE " . $where;
         $result = $this->db->query($query);
         return $result->row_array();
     }
 
-    public function getSubRelationByPerson($person_id, $sub_id, $page_id){
-        if($page_id == 'player'){
+    public function getSubRelationByPerson($person_id, $sub_id, $page_id)
+    {
+        if ($page_id == 'player') {
             $sub_table = 'players';
             $sub_field = 'team_id';
-        } else if($page_id == 'coache'){
+        } else if ($page_id == 'coache') {
             $sub_table = 'coaches';
             $sub_field = 'team_id';
-        } else if($page_id == 'manager'){
+        } else if ($page_id == 'manager') {
             $sub_table = 'managers';
             $sub_field = 'team_id';
-        } else if($page_id == 'referee'){
+        } else if ($page_id == 'referee') {
             $sub_table = 'referees';
             $sub_field = 'club_id';
-        } else if($page_id == 'clubadmin'){
+        } else if ($page_id == 'clubadmin') {
             $sub_table = 'club_admins';
             $sub_field = 'club_id';
         }
-
-
-        $sql = "SELECT * FROM `". $sub_table ."` WHERE `".$sub_field."`='".$sub_id."' AND `person_id`='".$person_id."'";
+        $sql = "SELECT * FROM `" . $sub_table . "` WHERE `" . $sub_field . "`='" . $sub_id . "' AND `person_id`='" . $person_id . "'";
         $query = $this->db->query($sql);
         return $query->row_array();
     }
 
-    private function fields(){
+    private function fields()
+    {
         $sql = "SHOW COLUMNS FROM " . $this->table;
         $query = $this->db->query($sql);
 
-        if($query->num_rows() < 1) return null;
+        if ($query->num_rows() < 1) return null;
 
         $rows = $query->result_array();
         $fields = array_column($rows, 'Field');
