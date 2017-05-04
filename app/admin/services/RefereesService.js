@@ -14,8 +14,8 @@
                     });
                     return deferred.promise;
                 },
-                refereesWithPerson: function (teamId) {
-                    var url = ServerURL + 'referees/playersWithPerson?club_id=' + teamId;
+                refereesWithPerson: function (clubId) {
+                    var url = ServerURL + 'referees/refereesWithPerson?club_id=' + clubId;
                     var deferred = $q.defer();
                     $http.get(url).then(function (res) {
                         deferred.resolve(res);

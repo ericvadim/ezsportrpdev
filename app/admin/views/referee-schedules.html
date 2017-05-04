@@ -40,35 +40,41 @@
                                         <th st-sort="location_name">Location</th>
                                         <th rowspan="2">League</th>
                                         <th rowspan="2">Age Group</th>
-                                        <th rowspan="2">Assignment</th>
+                                        <th st-sort="referee_name">Assignment</th>
                                         <th rowspan="2">Status</th>
                                         <th rowspan="2">Action</th>
                                     </tr>
                                     <tr>
                                         <th class="padding-5">
-                                            <input class="form-control" st-search="sport_name"/>
+                                            <input class="form-control" st-search="game_name"/>
                                         </th>
                                         <th class="padding-5">
-                                            <input class="form-control" st-search="location_name"/>
+                                            <input class="form-control" st-search="field_name"/>
+                                        </th>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="referee_name"/>
                                         </th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.name}}</td>
-                                        <td>{{row.name}}</td>
-                                        <td>{{row.name}}</td>
-                                        <td>{{row.name}}</td>
-                                        <td>{{row.name}}</td>
-                                        <td>{{row.name}}</td>
-                                        <td>{{row.name}}</td>
-                                        <td>{{row.name}}</td>
-                                        <td>{{row.name}}</td>
+                                        <td>{{row.game_name}}</td>
+                                        <td>{{row.game_date}}</td>
+                                        <td>{{row.start_time}}</td>
+                                        <td>{{row.duration}}</td>
+                                        <td>{{row.field_name}}</td>
+                                        <td>{{row.competition_name}}({{row.game_date.substr(0, 4)}})</td>
+                                        <td>{{ageGroups[row.age_group]}}</td>
+                                        <td>{{row.referee_name}}</td>
+                                        <td>{{statuses[row.status]}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="editRow(row)">Edit</a> /
                                             <a ng-click="deleteRow(row.id)">Delete</a>
                                         </td>
+                                    </tr>
+                                    <tr ng-if="!tableData.length">
+                                        <td colspan="11" class="text-center"><br/>There is no any referee schedules.<br/><br/></td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
@@ -99,9 +105,36 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Sport Name</label>
+                        <label class="col-md-3 control-label">League / Game</label>
+                        <div class="col-md-4">
+                            <select class="form-control"
+                                    ng-change="getGames()"
+                                    ng-options="item as (item.competition_name + '(' + item.start_date.substr(0, 4) + ')') for item in leagues track by item.id" ng-model="currLeague">
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <select class="form-control" ng-options="item as item.game_name for item in games track by item.id" ng-model="currGame"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Club / Referee</label>
+                        <div class="col-md-4">
+                            <select class="form-control"
+                                    ng-change="getReferees()"
+                                    ng-options="item as item.club_name for item in clubs track by item.id" ng-model="currClub">
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <select class="form-control" ng-options="item as (item.first_name + ' ' + item.last_name) for item in referees track by item.id" ng-model="currReferee">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Status</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="Sport Name" type="text" ng-model="currRow.sport_name">
+                            <select class="form-control" ng-model="currRow.status">
+                                <option ng-repeat="item in statuses track by $index" value="{{$index}}">{{item}}</option>
+                            </select>
                         </div>
                     </div>
                 </form>

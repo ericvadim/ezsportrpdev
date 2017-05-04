@@ -149,7 +149,7 @@
                         <label class="col-md-4 control-label">Location</label>
                         <div class="col-md-8">
                             <ui-select ng-model="currRow.field" theme="bootstrap" reset-search-input="false" class="width-full" title="Choose a team...">
-                                <ui-select-match placeholder="Choose a team...">{{$select.selected.field_name}}</ui-select-match>
+                                <ui-select-match placeholder="Choose a location...">{{$select.selected.field_name}}</ui-select-match>
                                 <ui-select-choices repeat="item in fields" refresh-delay="0">
                                     <div ng-bind-html="item.field_name | highlight: $select.search"></div>
                                 </ui-select-choices>

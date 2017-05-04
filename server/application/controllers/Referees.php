@@ -25,7 +25,7 @@ class Referees extends Base_Controller
 
         $clubId = $this->input->get('club_id');
 
-        $rows = $this->model->getPlayersWithPerson($clubId);
+        $rows = $this->model->getRefereesWithPerson($clubId);
 
         $this->set_response($rows, 200);
     }
