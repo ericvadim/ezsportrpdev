@@ -16,7 +16,6 @@ class Game_roasters extends Base_Controller
 //        if (!$this->protect()) return;
         $this->load->model('player_model');
         $teamId = $this->input->get('team_id');
-        $rows = $this->player_model->getPlayers($teamId);
 
         $gameId = $this->input->get('game_id');
         $rows = $this->game_roaster_model->getRows($teamId, $gameId);
