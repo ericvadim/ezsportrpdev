@@ -7698,92 +7698,6 @@ angular.module('app.inbox').factory('InboxMessage', function($resource, APP_CONF
     return InboxMessage;
 
 });
-'use strict';
-
-angular.module('app.maps').controller('MapsDemoCtrl',
-    function ($scope, $http, $q, SmartMapStyle, uiGmapGoogleMapApi) {
-
-
-        $scope.styles = SmartMapStyle.styles;
-
-        $scope.setType = function (key) {
-            SmartMapStyle.getMapType(key).then(function (type) {
-                $scope.map.control.getGMap().mapTypes.set(key, type);
-                $scope.map.control.getGMap().setMapTypeId(key);
-            });
-            $scope.currentType = key;
-        };
-
-
-        $scope.map = {
-            center: {latitude: 45, longitude: -73},
-            zoom: 8,
-            control: {}
-        };
-
-
-        uiGmapGoogleMapApi.then(function (maps) {
-
-            })
-            .then(function () {
-                return SmartMapStyle.getMapType('colorful')
-            }).then(function () {
-            $scope.setType('colorful')
-        });
-
-
-
-    });
-"use strict";
-
-
-angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
-
-    var styles = {
-        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
-        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
-        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
-        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
-        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
-        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
-        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
-        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
-    };
-
-
-    function getMapType(key){
-        var keyData = styles[key];
-
-        if(!keyData.cache){
-            keyData.cache = createMapType(keyData)
-        }
-
-        return keyData.cache;
-    }
-
-    function createMapType(keyData){
-        var dfd = $q.defer();
-        $http.get(keyData.url).then(function(resp){
-            var styleData = resp.data;
-            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
-            dfd.resolve(type);
-        }, function(reason){
-            console.error(reason);
-            dfd.reject(reason);
-        });
-
-        return dfd.promise;
-    }
-
-
-    return {
-        getMapType: getMapType,
-        styles: styles
-    }
-
-
-
-});
 "use strict";
 
 angular.module('app').controller("LanguagesCtrl",  function LanguagesCtrl($scope, $rootScope, $log, Language){
@@ -7939,6 +7853,92 @@ angular.module('app').directive('toggleShortcut', function($log,$timeout) {
 		link:link
 	}
 })
+'use strict';
+
+angular.module('app.maps').controller('MapsDemoCtrl',
+    function ($scope, $http, $q, SmartMapStyle, uiGmapGoogleMapApi) {
+
+
+        $scope.styles = SmartMapStyle.styles;
+
+        $scope.setType = function (key) {
+            SmartMapStyle.getMapType(key).then(function (type) {
+                $scope.map.control.getGMap().mapTypes.set(key, type);
+                $scope.map.control.getGMap().setMapTypeId(key);
+            });
+            $scope.currentType = key;
+        };
+
+
+        $scope.map = {
+            center: {latitude: 45, longitude: -73},
+            zoom: 8,
+            control: {}
+        };
+
+
+        uiGmapGoogleMapApi.then(function (maps) {
+
+            })
+            .then(function () {
+                return SmartMapStyle.getMapType('colorful')
+            }).then(function () {
+            $scope.setType('colorful')
+        });
+
+
+
+    });
+"use strict";
+
+
+angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
+
+    var styles = {
+        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
+        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
+        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
+        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
+        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
+        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
+        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
+        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
+    };
+
+
+    function getMapType(key){
+        var keyData = styles[key];
+
+        if(!keyData.cache){
+            keyData.cache = createMapType(keyData)
+        }
+
+        return keyData.cache;
+    }
+
+    function createMapType(keyData){
+        var dfd = $q.defer();
+        $http.get(keyData.url).then(function(resp){
+            var styleData = resp.data;
+            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
+            dfd.resolve(type);
+        }, function(reason){
+            console.error(reason);
+            dfd.reject(reason);
+        });
+
+        return dfd.promise;
+    }
+
+
+    return {
+        getMapType: getMapType,
+        styles: styles
+    }
+
+
+
+});
 'use strict';
 
 angular.module('app.mobile').controller('DashboardController', function (ServerURL, $http, $filter) {
