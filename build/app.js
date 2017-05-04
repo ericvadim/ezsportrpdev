@@ -1410,27 +1410,6 @@ angular.module('app.graphs', [
             }
         })
 });
-"use strict";
-
-
-angular.module('app.home', ['ui.router'])
-.config(function ($stateProvider) {
-
-    $stateProvider
-        .state('app.home', {
-            url: '/home',
-            data: {
-                title: 'Blank'
-            },
-            views: {
-                "content@app": {
-                    templateUrl: 'app/home/views/home.html',
-                    controller: 'HomeController'
-                }
-            }
-        })
-});
-
 'use strict';
 
 angular.module('app.inbox', [
@@ -1551,6 +1530,27 @@ angular.module('app.inbox', [
             }
         });
 });
+"use strict";
+
+
+angular.module('app.home', ['ui.router'])
+.config(function ($stateProvider) {
+
+    $stateProvider
+        .state('app.home', {
+            url: '/home',
+            data: {
+                title: 'Blank'
+            },
+            views: {
+                "content@app": {
+                    templateUrl: 'app/home/views/home.html',
+                    controller: 'HomeController'
+                }
+            }
+        })
+});
+
 "use strict";
 
 
