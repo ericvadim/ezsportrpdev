@@ -4940,8 +4940,8 @@ angular.module('app.admin').controller('RecordItemsController', function ($scope
     $scope.currRow = {};
     $scope.loading = true;
     $scope.itemTypes = {
-        1: 'Type 1',
-        2: 'Type 2'
+        1: 'TG/G',
+        2: 'TP/TA (G_B)'
     };
 
     $scope.getData = function () {
