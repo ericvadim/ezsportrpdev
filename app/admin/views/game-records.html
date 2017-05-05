@@ -51,6 +51,7 @@
                                         <th>Player Name</th>
                                         <th>Player Number</th>
                                         <th>Record Item</th>
+                                        <th>Point</th>
                                         <th>Record Time</th>
                                         <th>Reason</th>
                                         <th>Action</th>
@@ -63,6 +64,7 @@
                                         <td>{{row.first_name}} {{row.last_name}}</td>
                                         <td>{{row.player_number}}</td>
                                         <td>{{getRecordItem(row.item_id)['item_name']}}</td>
+                                        <td>{{row.point * 1 > 0 ? 1 : 0}}</td>
                                         <td>{{row.record_time}}</td>
                                         <td>{{row.reason}}</td>
                                         <td class="text-center controls-td">
@@ -71,14 +73,14 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8">
+                                        <td colspan="9">
                                             <div class="padding-40 text-center" ng-if="!tableData.length"><br/>There is no records.<br/><br/></div>
                                         </td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td colspan="8" class="text-center">
+                                        <td colspan="9" class="text-center">
                                             <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
                                         </td>
                                     </tr>
