@@ -127,12 +127,12 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label"></label>
+                    <div class="form-group" ng-if="getRecordItem(currRow.item_id)['item_type'] == '2'">
+                        <label class="col-md-3 control-label">Point</label>
                         <div class="col-md-9">
-                            <select class="form-control" ng-model="currRow.item_point">
-                                <option value="1">1</option>
-                                <option value="-1">-1</option>
+                            <select class="form-control" ng-model="currRow.point">
+                                <option value="1">Good</option>
+                                <option value="-1">Bad</option>
                             </select>
                         </div>
                     </div>

@@ -80,6 +80,7 @@ angular.module('app.admin').controller('GameRecordsController', function ($scope
             id: 0,
             team_id: $scope.teams[0].id,
             item_id: $scope.recordItems[0]['id'],
+            point: '1',
             player_id: $scope.teams[0].players[0].id,
             record_time: now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds(),
             reason: 'SFP'
