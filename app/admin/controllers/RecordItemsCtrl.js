@@ -4,6 +4,10 @@ angular.module('app.admin').controller('RecordItemsController', function ($scope
     $scope.tableData = $scope.safeData = [];
     $scope.currRow = {};
     $scope.loading = true;
+    $scope.itemTypes = {
+        1: 'Type 1',
+        2: 'Type 2'
+    };
 
     $scope.getData = function () {
         $scope.loading = true;
@@ -31,6 +35,7 @@ angular.module('app.admin').controller('RecordItemsController', function ($scope
         $scope.currRow = {
             id: 0,
             item_name: '',
+            item_type: '1',
             is_referee: "0",
             is_coach: "0"
         };
