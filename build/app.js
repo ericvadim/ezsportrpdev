@@ -3900,6 +3900,7 @@ angular.module('app.admin').controller('GameRecordsController', function ($scope
 
     $scope.save = function () {
         $scope.loading = true;
+        if ($scope.getRecordItem($scope.currRow.item_id)['item_type'] == '1') $scope.currRow.point = 1;
         var data = $scope.currRow;
         data['game_id'] = $scope.currGame.id;
         GameRecordsService.save(data).then(function () {
@@ -4864,16 +4865,16 @@ angular.module('app.admin').controller('PlayerStatsController', function ($scope
     $scope.curr = {};
     $scope.recordItems = [];
 
+    RecordItemsService.get().then(function (response) {
+        $scope.recordItems = response.data;
+    });
+
     TeamsService.teamsWithClub().then(function (response) {
         $scope.teams = response.data;
         if ($scope.teams.length) {
             $scope.curr.team = $scope.teams[0];
             $scope.getData();
         }
-    });
-
-    RecordItemsService.get().then(function (response) {
-        $scope.recordItems = response.data;
     });
 
     $scope.getData = function () {
@@ -5594,18 +5595,32 @@ angular.module('app.admin').controller('TeamsController', function ($scope, $fil
 });
 'use strict';
 
-angular.module('app.admin').controller('TeamStatsController', function ($scope, GameRecordsService) {
+angular.module('app.admin').controller('TeamStatsController', function ($scope, RecordItemsService, ClubsService, GameRecordsService) {
     $scope.tableData = $scope.safeData = [];
     $scope.loading = true;
+    $scope.clubs = [];
+    $scope.currClubId = 0;
+    $scope.recordItems = [];
+
+    RecordItemsService.get().then(function (response) {
+        $scope.recordItems = response.data;
+    });
+
+    ClubsService.get().then(function (response) {
+        $scope.clubs = response.data;
+        if ($scope.clubs.length) {
+            $scope.currClubId = $scope.clubs[0].id;
+            $scope.getData();
+        }
+    });
 
     $scope.getData = function () {
         $scope.loading = true;
-        GameRecordsService.getTeamStats().then(function (response) {
+        GameRecordsService.getTeamStats($scope.currClubId).then(function (response) {
             $scope.tableData = $scope.safeData = response.data;
             $scope.loading = false;
         });
     };
-    $scope.getData();
 });
 'use strict';
 
@@ -5936,8 +5951,8 @@ angular.module('app.admin').controller('UsersController', function (ServerURL, $
                     });
                     return deferred.promise;
                 },
-                getTeamStats: function (gameId) {
-                    var url = ServerURL + 'game_records/team_stats?game_id=' + gameId;
+                getTeamStats: function (clubId) {
+                    var url = ServerURL + 'game_records/team_stats?club_id=' + clubId;
                     var deferred = $q.defer();
                     $http.get(url).then(function (res) {
                         deferred.resolve(res);
@@ -14012,6 +14027,97 @@ angular.module('SmartAdmin.UI').directive('smartTooltipHtml', function () {
     }
 );
 
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function ( tElement) {
+            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
+            //CKEDITOR.basePath = 'bower_components/ckeditor/';
+
+            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
+            tElement.on('click', function() {
+                angular.element(tAttributes.smartDestroySummernote).destroy();
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
+            tElement.on('click', function(){
+                angular.element(tAttributes.smartEditSummernote).summernote({
+                    focus : true
+                });  
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
+
+            var options = {
+                autofocus:false,
+                savable:true,
+                fullscreen: {
+                    enable: false
+                }
+            };
+
+            if(attributes.height){
+                options.height = parseInt(attributes.height);
+            }
+
+            element.markdown(options);
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
+
+            var options = {
+                focus : true,
+                tabsize : 2
+            };
+
+            if(tAttributes.height){
+                options.height = tAttributes.height;
+            }
+
+            lazyScript.register('build/vendor.ui.js').then(function(){
+                tElement.summernote(options);                
+            });
+        }
+    }
+});
 "use strict";
 
 
@@ -14449,97 +14555,6 @@ angular.module('SmartAdmin.Forms').directive('bootstrapTogglingForm', function()
 
 
 
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function ( tElement) {
-            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
-            //CKEDITOR.basePath = 'bower_components/ckeditor/';
-
-            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
-            tElement.on('click', function() {
-                angular.element(tAttributes.smartDestroySummernote).destroy();
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
-            tElement.on('click', function(){
-                angular.element(tAttributes.smartEditSummernote).summernote({
-                    focus : true
-                });  
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
-
-            var options = {
-                autofocus:false,
-                savable:true,
-                fullscreen: {
-                    enable: false
-                }
-            };
-
-            if(attributes.height){
-                options.height = parseInt(attributes.height);
-            }
-
-            element.markdown(options);
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
-
-            var options = {
-                focus : true,
-                tabsize : 2
-            };
-
-            if(tAttributes.height){
-                options.height = tAttributes.height;
-            }
-
-            lazyScript.register('build/vendor.ui.js').then(function(){
-                tElement.summernote(options);                
-            });
-        }
-    }
 });
 'use strict';
 

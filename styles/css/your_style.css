@@ -142,3 +142,7 @@ nav ul.pagination li a:before {
 .text-danger {
     color: #ef9001;
 }
+
+.table-text-center th, .table-text-center td {
+    text-align: center;
+}

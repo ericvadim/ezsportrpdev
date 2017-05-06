@@ -4,9 +4,20 @@
         <big-breadcrumbs items="['Team Statistics']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
-    <div class="text-right margin-bottom-10">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addRow()">asdfsafdsafsdaf New</button>
+    <div class="row margin-bottom-10 form-horizontal">
+        <div class="col-xs-6 col-sm-4 col-md-3">
+            <label class="col-xs-2 text-right control-label">Club:</label>
+            <div class="col-xs-10">
+                <select class="form-control" ng-change="getData()" ng-model="currClubId">
+                    <option ng-repeat="club in clubs" value="{{club.id}}">{{club.club_name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-8 col-md-9 text-right">
+            <!--<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addRow()">Add New</button>-->
+        </div>
     </div>
+
     <section widget-grid id="widget-grid">
         <div class="row">
             <article class="col-sm-12">
@@ -18,23 +29,33 @@
                     <div>
                         <div class="widget-body no-padding">
                             <div class="table-responsive">
-                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
+                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered table-text-center">
                                     <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Team Name</th>
+                                        <th rowspan="2">No</th>
+                                        <th st-sort="team_name">Team Name</th>
+                                        <th st-sort="point{{item.id}}" rowspan="2" ng-repeat="item in recordItems" title="{{item.item_name}}">{{item.short_name}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="team_name"/>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.team_name}}</td>
+                                        <td ng-repeat="item in recordItems">{{row['point' + item.id]}}</td>
+                                    </tr>
+                                    <tr ng-if="!tableData.length">
+                                        <td colspan="{{recordItems.length + 3}}" class="text-center"><br/>There is no players in this team.<br/><br/></td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td colspan="3" class="text-center">
-                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
+                                        <td colspan="{{recordItems.length + 3}}" class="text-center">
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
                                         </td>
                                     </tr>
                                     </tfoot>

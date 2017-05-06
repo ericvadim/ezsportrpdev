@@ -66,6 +66,7 @@ angular.module('app.admin').controller('GameRecordsController', function ($scope
 
     $scope.save = function () {
         $scope.loading = true;
+        if ($scope.getRecordItem($scope.currRow.item_id)['item_type'] == '1') $scope.currRow.point = 1;
         var data = $scope.currRow;
         data['game_id'] = $scope.currGame.id;
         GameRecordsService.save(data).then(function () {

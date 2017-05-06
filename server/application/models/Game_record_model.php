@@ -26,6 +26,36 @@ class Game_record_model extends CI_Model
         return $this->db->query($query)->result();
     }
 
+    public function getTeamStats($clubId)
+    {
+        $CI =& get_instance();
+        $CI->load->model('record_item_model');
+        $recordItems = $CI->record_item_model->getRows();
+
+        $select = "SELECT A.id, A.team_name, B.club_name";
+
+        $query = "
+            FROM (
+                SELECT * FROM teams WHERE club_id='" . $clubId . "'
+            ) AS A 
+            LEFT JOIN clubs AS B ON A.club_id=B.id 
+        ";
+        if (sizeof($recordItems)) {
+            foreach ($recordItems as $item) {
+                $itemId = $item->id;
+                $select .= ",P" . $itemId . ".point AS point" . $itemId;
+                $query .= " LEFT JOIN (
+                    SELECT team_id, SUM(point) AS point 
+                    FROM game_records 
+                    WHERE item_id=" . $itemId . " 
+                    GROUP BY team_id   
+                ) AS P" . $itemId . " ON A.id=P" . $itemId . ".team_id";
+            }
+        }
+        $query = $select . $query;
+        return $this->db->query($query)->result();
+    }
+
     public function getPlayerStats($teamId)
     {
         $CI =& get_instance();
@@ -43,7 +73,7 @@ class Game_record_model extends CI_Model
         if (sizeof($recordItems)) {
             foreach ($recordItems as $item) {
                 $itemId = $item->id;
-                $select .= ",P" . $itemId . ".point AS point" . $item->id;
+                $select .= ",P" . $itemId . ".point AS point" . $itemId;
                 $query .= " LEFT JOIN (
                     SELECT player_id, SUM(point) AS point 
                     FROM game_records 

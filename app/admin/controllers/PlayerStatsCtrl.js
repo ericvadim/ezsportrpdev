@@ -7,16 +7,16 @@ angular.module('app.admin').controller('PlayerStatsController', function ($scope
     $scope.curr = {};
     $scope.recordItems = [];
 
+    RecordItemsService.get().then(function (response) {
+        $scope.recordItems = response.data;
+    });
+
     TeamsService.teamsWithClub().then(function (response) {
         $scope.teams = response.data;
         if ($scope.teams.length) {
             $scope.curr.team = $scope.teams[0];
             $scope.getData();
         }
-    });
-
-    RecordItemsService.get().then(function (response) {
-        $scope.recordItems = response.data;
     });
 
     $scope.getData = function () {
