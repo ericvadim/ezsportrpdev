@@ -35,7 +35,7 @@
                                     <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.player_name}}</td>
-                                        <td ng-repeat="item in recordItems">{{row['point' + item.id] * 1 < 0 ? 0 : row['point' + item.id]}}</td>
+                                        <td ng-repeat="item in recordItems">{{row['point' + item.id]}}</td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
