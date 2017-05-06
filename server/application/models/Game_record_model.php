@@ -51,9 +51,7 @@ class Game_record_model extends CI_Model
                 ) AS P" . $itemId . " ON A.id=P" . $itemId . ".player_id";
             }
         }
-
         $query = $select . $query;
-
         return $this->db->query($query)->result();
     }
 
