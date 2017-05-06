@@ -23,7 +23,7 @@
                                     <tr>
                                         <th rowspan="2">No</th>
                                         <th st-sort="player_name">Player Name</th>
-                                        <th rowspan="2" ng-repeat="item in recordItems">{{item.short_name}}</th>
+                                        <th rowspan="2" ng-repeat="item in recordItems" title="{{item.item_name}}">{{item.short_name}}</th>
                                     </tr>
                                     <tr>
                                         <th class="padding-5">
@@ -41,7 +41,7 @@
                                     <tfoot>
                                     <tr>
                                         <td colspan="{{recordItems.length + 3}}" class="text-center">
-                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
                                         </td>
                                     </tr>
                                     </tfoot>

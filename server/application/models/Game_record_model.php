@@ -32,6 +32,7 @@ class Game_record_model extends CI_Model
             SELECT A.id, CONCAT_WS(' ', B.first_name, B.last_name) AS player_name   
             FROM players AS A 
             LEFT OUTER JOIN persons AS B ON A.person_id=B.id 
+            
               
         ";
         return $this->db->query($query)->result();
