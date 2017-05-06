@@ -17,10 +17,10 @@ class Game_record_model extends CI_Model
             FROM (
               SELECT * FROM " . $this->table . " WHERE game_id=" . $gameId . "
             ) AS A  
-            LEFT OUTER JOIN teams AS B ON B.id = A.team_id 
-            LEFT OUTER JOIN players AS C ON C.id=A.player_id 
-            LEFT OUTER JOIN persons AS D ON D.id=C.person_id 
-            LEFT OUTER JOIN positions AS E ON E.id=C.position_id 
+            LEFT JOIN teams AS B ON B.id = A.team_id 
+            LEFT JOIN players AS C ON C.id=A.player_id 
+            LEFT JOIN persons AS D ON D.id=C.person_id 
+            LEFT JOIN positions AS E ON E.id=C.position_id 
             ORDER BY D.first_name, D.last_name 
         ";
         return $this->db->query($query)->result();
@@ -28,13 +28,32 @@ class Game_record_model extends CI_Model
 
     public function getPlayerStats()
     {
+        $CI =& get_instance();
+        $CI->load->model('record_item_model');
+        $recordItems = $CI->record_item_model->getRows();
+
+        $select = "SELECT A.id, CONCAT_WS(' ', B.first_name, B.last_name) AS player_name";
+
         $query = "
-            SELECT A.id, CONCAT_WS(' ', B.first_name, B.last_name) AS player_name   
             FROM players AS A 
-            LEFT OUTER JOIN persons AS B ON A.person_id=B.id 
-            
-              
+            LEFT JOIN persons AS B ON A.person_id=B.id 
         ";
+
+        if (sizeof($recordItems)) {
+            foreach ($recordItems as $item) {
+                $itemId = $item->id;
+                $select .= ",P" . $itemId . ".point AS point" . $item->id;
+                $query .= " LEFT JOIN (
+                    SELECT player_id, SUM(point) AS point 
+                    FROM game_records 
+                    WHERE item_id=" . $itemId . " 
+                    GROUP BY player_id   
+                ) AS P" . $itemId . " ON A.id=P" . $itemId . ".player_id";
+            }
+        }
+
+        $query = $select . $query;
+
         return $this->db->query($query)->result();
     }
 
