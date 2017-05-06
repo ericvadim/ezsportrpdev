@@ -19,6 +19,14 @@ class Game_records extends Base_Controller
         $this->set_response($rows, 200);
     }
 
+    public function player_stats_get()
+    {
+//        if (!$this->protect()) return;
+//        $gameId = $this->input->get('game_id');
+        $rows = $this->game_record_model->getPlayerStats();
+        $this->set_response($rows, 200);
+    }
+
     public function index_post()
     {
         $data = json_decode(file_get_contents('php://input'), true);

@@ -24,8 +24,8 @@
                     });
                     return deferred.promise;
                 },
-                getPlayerStats: function (gameId) {
-                    var url = ServerURL + 'game_records/player_stats?game_id=' + gameId;
+                getPlayerStats: function () {
+                    var url = ServerURL + 'game_records/player_stats';
                     var deferred = $q.defer();
                     $http.get(url).then(function (res) {
                         deferred.resolve(res);

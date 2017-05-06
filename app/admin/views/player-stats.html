@@ -21,19 +21,26 @@
                                 <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Team Name</th>
+                                        <th rowspan="2">No</th>
+                                        <th st-sort="player_name">Player Name</th>
+                                        <th rowspan="2" ng-repeat="item in recordItems">{{item.short_name}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="padding-5">
+                                            <input class="form-control" st-search="player_name"/>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.team_name}}</td>
+                                        <td>{{row.player_name}}</td>
+                                        <td ng-repeat="item in recordItems"></td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td colspan="3" class="text-center">
+                                        <td colspan="{{recordItems.length + 3}}" class="text-center">
                                             <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
                                         </td>
                                     </tr>
