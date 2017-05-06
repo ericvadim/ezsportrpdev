@@ -10,7 +10,7 @@
                 <label class="col-md-2 control-label">Club/Team</label>
                 <div class="col-md-10">
                     <ui-select ng-model="curr.team" on-select="getData()" theme="bootstrap" reset-search-input="false" class="width-full" title="Choose a team...">
-                        <ui-select-match placeholder="Choose a team...">{{$select.selected.club_name}} - {{$select.selected.team_name}}</ui-select-match>
+                        <ui-select-match placeholder="Choose a team...">{{$select.selected.club_name}} / {{$select.selected.team_name}}</ui-select-match>
                         <ui-select-choices repeat="item in teams" refresh-delay="0">
                             <div ng-bind-html="(item.club_name + ' / ' + item.team_name) | highlight: $select.search"></div>
                         </ui-select-choices>
