@@ -26,7 +26,7 @@ class Game_record_model extends CI_Model
         return $this->db->query($query)->result();
     }
 
-    public function getPlayerStats()
+    public function getPlayerStats($teamId)
     {
         $CI =& get_instance();
         $CI->load->model('record_item_model');
@@ -35,10 +35,11 @@ class Game_record_model extends CI_Model
         $select = "SELECT A.id, CONCAT_WS(' ', B.first_name, B.last_name) AS player_name";
 
         $query = "
-            FROM players AS A 
+            FROM (
+                SELECT * FROM players WHERE team_id='" . $teamId . "'
+            ) AS A 
             LEFT JOIN persons AS B ON A.person_id=B.id 
         ";
-
         if (sizeof($recordItems)) {
             foreach ($recordItems as $item) {
                 $itemId = $item->id;
@@ -46,7 +47,7 @@ class Game_record_model extends CI_Model
                 $query .= " LEFT JOIN (
                     SELECT player_id, SUM(point) AS point 
                     FROM game_records 
-                    WHERE item_id=" . $itemId . " 
+                    WHERE team_id=" . $teamId . " AND item_id=" . $itemId . " 
                     GROUP BY player_id   
                 ) AS P" . $itemId . " ON A.id=P" . $itemId . ".player_id";
             }
