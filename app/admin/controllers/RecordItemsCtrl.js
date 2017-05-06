@@ -35,6 +35,7 @@ angular.module('app.admin').controller('RecordItemsController', function ($scope
         $scope.currRow = {
             id: 0,
             item_name: '',
+            short_name: '',
             item_type: '1',
             is_referee: "0",
             is_coach: "0"

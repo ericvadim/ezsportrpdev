@@ -302,6 +302,30 @@ angular.module('app.admin', ['ui.router'])
                     }
                 }
             })
+            .state('app.admin.teamStats', {
+                url: '/team-stats',
+                data: {
+                    title: 'Team Statistics'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/team-stats.html',
+                        controller: 'TeamStatsController'
+                    }
+                }
+            })
+            .state('app.admin.playerStats', {
+                url: '/player-stats',
+                data: {
+                    title: 'Player Statistics'
+                },
+                views: {
+                    "content@app": {
+                        templateUrl: 'app/admin/views/player-stats.html',
+                        controller: 'PlayerStatsController'
+                    }
+                }
+            })
         ;
     })
 ;

@@ -14,6 +14,26 @@
                     });
                     return deferred.promise;
                 },
+                getTeamStats: function (gameId) {
+                    var url = ServerURL + 'game_records/team_stats?game_id=' + gameId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                getPlayerStats: function (gameId) {
+                    var url = ServerURL + 'game_records/player_stats?game_id=' + gameId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
                 save: function (data) {
                     var url = ServerURL + 'game_records';
                     var deferred = $q.defer();
