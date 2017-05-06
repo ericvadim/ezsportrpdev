@@ -10,7 +10,7 @@ angular.module('app.admin').controller('PlayerStatsController', function ($scope
     });
 
     $scope.getData = function () {
-        $scope.loading = false;
+        $scope.loading = true;
         GameRecordsService.getPlayerStats().then(function (response) {
             $scope.tableData = $scope.safeData = response.data;
             $scope.loading = false;
