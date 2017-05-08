@@ -34,6 +34,10 @@
                                     <tr>
                                         <th rowspan="2">No</th>
                                         <th st-sort="team_name">Team Name</th>
+                                        <th st-sort="P_cnt" rowspan="2">P</th>
+                                        <th st-sort="W_cnt" rowspan="2">W</th>
+                                        <th st-sort="D_cnt" rowspan="2">D</th>
+                                        <th st-sort="L_cnt" rowspan="2">L</th>
                                         <th st-sort="point{{item.id}}" rowspan="2" ng-repeat="item in recordItems" title="{{item.item_name}}">{{item.short_name}}</th>
                                     </tr>
                                     <tr>
@@ -46,15 +50,19 @@
                                     <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
                                         <td>{{row.team_name}}</td>
+                                        <td>{{row.P_cnt}}</td>
+                                        <td>{{row.W_cnt}}</td>
+                                        <td>{{row.D_cnt}}</td>
+                                        <td>{{row.L_cnt}}</td>
                                         <td ng-repeat="item in recordItems">{{row['point' + item.id]}}</td>
                                     </tr>
                                     <tr ng-if="!tableData.length">
-                                        <td colspan="{{recordItems.length + 3}}" class="text-center"><br/>There is no players in this team.<br/><br/></td>
+                                        <td colspan="{{recordItems.length + 7}}" class="text-center"><br/>There is no players in this team.<br/><br/></td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td colspan="{{recordItems.length + 3}}" class="text-center">
+                                        <td colspan="{{recordItems.length + 7}}" class="text-center">
                                             <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
                                         </td>
                                     </tr>

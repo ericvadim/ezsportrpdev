@@ -4033,6 +4033,7 @@ angular.module('app.admin').controller('GameSchedulesController', function ($sco
     $scope.tableData = $scope.safeData = [];
     $scope.currRow = {};
     $scope.loading = true;
+    $scope.statuses = ["Inactive", "Active", "Ended"];
 
     $q.all([FieldsService.get(), TeamsService.teamsWithClub(), LeaguesService.getLeaguesWithCompetitions()]).then(function (cursor) {
         $scope.fields = cursor[0].data;
@@ -4071,7 +4072,7 @@ angular.module('app.admin').controller('GameSchedulesController', function ($sco
             'duration': $scope.currRow['duration'],
             'field_id': ($scope.currRow['field'] ? $scope.currRow['field']['id'] : 0),
             'uniform': $scope.currRow['uniform'],
-            'actived': $scope.currRow['actived']
+            'status': $scope.currRow['status']
         };
         GameSchedulesService.save(data).then(function () {
             $('#myModal').modal('hide');
@@ -4093,7 +4094,7 @@ angular.module('app.admin').controller('GameSchedulesController', function ($sco
             duration: '',
             field_id: 0,
             uniform: '',
-            actived: '0'
+            status: '0'
         };
     };
 

@@ -39,13 +39,13 @@
                                         <th>Game Name</th>
                                         <th>Home Team</th>
                                         <th>Away Team</th>
-                                        <th>Date of Game</th>
+                                        <th>Date</th>
                                         <th>Start Time</th>
                                         <th>Arrival Time</th>
                                         <th>Duration of Game</th>
                                         <th>Location</th>
                                         <th>Uniform</th>
-                                        <th>Actived</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -61,7 +61,7 @@
                                         <td>{{row.duration}}</td>
                                         <td>{{row.field.field_name}}</td>
                                         <td>{{row.uniform}}</td>
-                                        <td>{{row.actived * 1 == 0 ? 'No' : 'Yes'}}</td>
+                                        <td>{{statuses[row.status]}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="editRow(row)">Edit</a> /
                                             <a ng-click="deleteRow(row.id)">Delete</a>
@@ -165,11 +165,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Actived</label>
+                        <label class="col-md-4 control-label">Status</label>
                         <div class="col-md-8">
-                            <select class="form-control" ng-model="currRow.actived">
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                            <select class="form-control" ng-model="currRow.status">
+                                <option ng-repeat="item in statuses" value="{{$index}}">{{item}}</option>
                             </select>
                         </div>
                     </div>
