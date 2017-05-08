@@ -45,6 +45,7 @@
                                         <th>Duration of Game</th>
                                         <th>Location</th>
                                         <th>Uniform</th>
+                                        <th>Actived</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -60,6 +61,7 @@
                                         <td>{{row.duration}}</td>
                                         <td>{{row.field.field_name}}</td>
                                         <td>{{row.uniform}}</td>
+                                        <td>{{row.actived * 1 == 0 ? 'No' : 'Yes'}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="editRow(row)">Edit</a> /
                                             <a ng-click="deleteRow(row.id)">Delete</a>
@@ -68,8 +70,8 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td colspan="11" class="text-center">
-                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="5"></div>
+                                        <td colspan="12" class="text-center">
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
                                         </td>
                                     </tr>
                                     </tfoot>
@@ -160,6 +162,15 @@
                         <label class="col-md-4 control-label">Uniform</label>
                         <div class="col-md-8">
                             <input class="form-control" placeholder="Uniform" type="text" ng-model="currRow.uniform">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Actived</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="currRow.actived">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
                         </div>
                     </div>
                 </form>

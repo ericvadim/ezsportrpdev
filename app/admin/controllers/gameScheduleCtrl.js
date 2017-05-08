@@ -46,7 +46,8 @@ angular.module('app.admin').controller('GameSchedulesController', function ($sco
             'arrival_time': $scope.currRow['arrival_time'],
             'duration': $scope.currRow['duration'],
             'field_id': ($scope.currRow['field'] ? $scope.currRow['field']['id'] : 0),
-            'uniform': $scope.currRow['uniform']
+            'uniform': $scope.currRow['uniform'],
+            'actived': $scope.currRow['actived']
         };
         GameSchedulesService.save(data).then(function () {
             $('#myModal').modal('hide');
@@ -67,7 +68,8 @@ angular.module('app.admin').controller('GameSchedulesController', function ($sco
             arrival_time: now.getHours() + '-' + now.getMinutes() + '-' + now.getSeconds(),
             duration: '',
             field_id: 0,
-            uniform: ''
+            uniform: '',
+            actived: '0'
         };
     };
 
