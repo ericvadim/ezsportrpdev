@@ -144,7 +144,7 @@ class Game_record_model extends CI_Model
     public function getTeamPWDL($teamId)
     {
         $result = array('P' => 0, 'W' => 0, 'D' => 0, 'L' => 0);
-        $query = "SELECT id FROM game_schedules WHERE (home_team_id=" . $teamId . " OR away_team_id=" . $teamId . ") AND status = 2";
+        $query = "SELECT id FROM game_schedules WHERE (home_team_id=" . $teamId . " OR away_team_id=" . $teamId . ")/* AND status = 2*/";
         $result['P'] = sizeof($this->db->query($query)->result());
         return $result;
     }
