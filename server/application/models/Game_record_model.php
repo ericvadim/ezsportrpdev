@@ -26,7 +26,7 @@ class Game_record_model extends CI_Model
         return $this->db->query($query)->result();
     }
 
-    public function getTeamStats($clubId)
+    public function getTeamStats1($clubId)
     {
         $CI =& get_instance();
 
@@ -49,11 +49,11 @@ class Game_record_model extends CI_Model
             FROM (
                 (   SELECT home_team_id AS team_id  
                     FROM game_schedules 
-                    WHERE home_team_id IN (".$teamIdsStr.") AND `status`=2
+                    WHERE home_team_id IN (" . $teamIdsStr . ") AND `status`=2
                 ) UNION ALL (
                     SELECT away_team_id   
                     FROM game_schedules 
-                    WHERE away_team_id IN (".$teamIdsStr.") AND `status`=2
+                    WHERE away_team_id IN (" . $teamIdsStr . ") AND `status`=2
                 )
             ) AS A 
             GROUP BY team_id 
@@ -67,7 +67,7 @@ class Game_record_model extends CI_Model
             LEFT JOIN clubs AS B ON A.club_id=B.id 
         ";
 
-        $query .= "LEFT JOIN (".$playedCntTbl.") AS P ON A.id=P.team_id";
+        $query .= "LEFT JOIN (" . $playedCntTbl . ") AS P ON A.id=P.team_id";
 
         if (sizeof($recordItems)) {
             foreach ($recordItems as $item) {
@@ -85,34 +85,108 @@ class Game_record_model extends CI_Model
         return $this->db->query($query)->result();
     }
 
+    public function getTeamStats($clubId)
+    {
+        $CI =& get_instance();
+        $CI->load->model('team_model');
+        $CI->load->model('record_item_model');
+
+        $result = array();
+
+        $teams = $CI->team_model->getRows($clubId);
+        $teamIds = array();
+        if (sizeof($teams)) {
+            foreach ($teams as $team) {
+                $teamIds[] = $team->id;
+            }
+        } else {
+            return $result;
+        }
+        $teamIdsStr = implode(',', $teamIds);
+
+        $this->db->select('team_id, item_id, SUM(point) as `point`');
+        $this->db->from($this->table);
+        $this->db->where('team_id IN (' . $teamIdsStr . ')');
+        $this->db->group_by('item_id, team_id');
+        $rows = $this->db->get()->result();
+
+        $records = array();
+        if (sizeof($rows)) {
+            foreach ($rows as $row) {
+                if (!isset($records[$row->team_id])) $records[$row->team_id] = array();
+                $records[$row->team_id][$row->item_id] = $row->point;
+            }
+        }
+
+        $recordItems = $CI->record_item_model->getRows();
+
+        if (sizeof($teams)) {
+            foreach ($teams as $team) {
+                if (sizeof($recordItems)) {
+                    foreach ($recordItems as $recordItem) {
+                        if (isset($records[$team->id][$recordItem->id])) {
+                            $point = 'point' . $recordItem->id;
+                            $team->$point = $records[$team->id][$recordItem->id];
+                        }
+                    }
+                    $PWDL = $this->getTeamPWDL($team->id);
+                    $team->P_cnt = $PWDL['P'] * 1 > 0 ? $PWDL['P'] : '';
+                    $team->W_cnt = $PWDL['W'] * 1 > 0 ? $PWDL['W'] : '';
+                    $team->D_cnt = $PWDL['D'] * 1 > 0 ? $PWDL['D'] : '';
+                    $team->L_cnt = $PWDL['L'] * 1 > 0 ? $PWDL['L'] : '';
+                }
+                $result[] = $team;
+            }
+        }
+        return $result;
+    }
+
+    public function getTeamPWDL($teamId)
+    {
+        $result = array('P' => 0, 'W' => 0, 'D' => 0, 'L' => 0);
+        $query = "SELECT id FROM game_schedules WHERE (home_team_id=" . $teamId . " OR away_team_id=" . $teamId . ") AND status = 2";
+        $result['P'] = sizeof($this->db->query($query)->result());
+        return $result;
+    }
+
     public function getPlayerStats($teamId)
     {
         $CI =& get_instance();
+        $CI->load->model('player_model');
         $CI->load->model('record_item_model');
-        $recordItems = $CI->record_item_model->getRows();
 
-        $select = "SELECT A.id, CONCAT_WS(' ', B.first_name, B.last_name) AS player_name";
+        $this->db->select('player_id, item_id, SUM(point) as `point`');
+        $this->db->from($this->table);
+        $this->db->where('team_id=' . $teamId);
+        $this->db->group_by('item_id, player_id');
+        $rows = $this->db->get()->result();
 
-        $query = "
-            FROM (
-                SELECT * FROM players WHERE team_id='" . $teamId . "'
-            ) AS A 
-            LEFT JOIN persons AS B ON A.person_id=B.id 
-        ";
-        if (sizeof($recordItems)) {
-            foreach ($recordItems as $item) {
-                $itemId = $item->id;
-                $select .= ",P" . $itemId . ".point AS point" . $itemId;
-                $query .= " LEFT JOIN (
-                    SELECT player_id, SUM(point) AS point 
-                    FROM game_records 
-                    WHERE team_id=" . $teamId . " AND item_id=" . $itemId . " 
-                    GROUP BY player_id   
-                ) AS P" . $itemId . " ON A.id=P" . $itemId . ".player_id";
+        $records = array();
+        if (sizeof($rows)) {
+            foreach ($rows as $row) {
+                if (!isset($records[$row->player_id])) $records[$row->player_id] = array();
+                $records[$row->player_id][$row->item_id] = $row->point;
             }
         }
-        $query = $select . $query;
-        return $this->db->query($query)->result();
+
+        $players = $CI->player_model->getPlayersWithPerson($teamId);
+        $recordItems = $CI->record_item_model->getRows();
+
+        $result = array();
+        if (sizeof($players)) {
+            foreach ($players as $player) {
+                if (sizeof($recordItems)) {
+                    foreach ($recordItems as $recordItem) {
+                        if (isset($records[$player->id][$recordItem->id])) {
+                            $point = 'point' . $recordItem->id;
+                            $player->$point = $records[$player->id][$recordItem->id];
+                        }
+                    }
+                }
+                $result[] = $player;
+            }
+        }
+        return $result;
     }
 
     public function getRowById($id)

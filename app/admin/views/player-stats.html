@@ -48,7 +48,7 @@
                                     <thead>
                                     <tr>
                                         <th rowspan="2">No</th>
-                                        <th st-sort="player_name">Player Name</th>
+                                        <th st-sort="first_name">Player Name</th>
                                         <th st-sort="point{{item.id}}" rowspan="2" ng-repeat="item in recordItems" title="{{item.item_name}}">{{item.short_name}}</th>
                                     </tr>
                                     <tr>
@@ -60,7 +60,7 @@
                                     <tbody>
                                     <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.player_name}}</td>
+                                        <td>{{row.first_name}} {{row.last_name}}</td>
                                         <td ng-repeat="item in recordItems">{{row['point' + item.id]}}</td>
                                     </tr>
                                     <tr ng-if="!tableData.length">
