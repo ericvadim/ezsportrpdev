@@ -17,7 +17,7 @@ class Game_schedule_model extends CI_Model
 
     public function getRowById($id)
     {
-        return $this->db->get_where($this->table, array('id' => $id))->result();
+        return $this->db->get_where($this->table, array('id' => $id))->row();
     }
 
     public function getSchedulesByTeam($teamId)

@@ -99,23 +99,33 @@ class Game_record_model extends CI_Model
             foreach ($teams as $team) {
                 $teamIds[] = $team->id;
             }
-        } else {
-            return $result;
-        }
-        $teamIdsStr = implode(',', $teamIds);
 
-        $this->db->select('team_id, item_id, SUM(point) as `point`');
-        $this->db->from($this->table);
-        $this->db->where('team_id IN (' . $teamIdsStr . ')');
-        $this->db->group_by('item_id, team_id');
-        $rows = $this->db->get()->result();
+            $teamIdsStr = implode(',', $teamIds);
 
-        $records = array();
-        if (sizeof($rows)) {
-            foreach ($rows as $row) {
-                if (!isset($records[$row->team_id])) $records[$row->team_id] = array();
-                $records[$row->team_id][$row->item_id] = $row->point;
+            $query = "
+                SELECT A.*, B.P_cnt, C.W_cnt, D.D_cnt, E.L_cnt  
+                FROM (SELECT * FROM teams WHERE club_id=" . $clubId . ") AS A 
+                LEFT JOIN (SELECT team_id, COUNT(id) AS P_cnt FROM game_scores WHERE team_id IN (".$teamIdsStr.") GROUP BY team_id) AS B ON A.id=B.team_id
+                LEFT JOIN (SELECT team_id, COUNT(id) AS W_cnt FROM game_scores WHERE team_id IN (".$teamIdsStr.") AND `point` = 3 GROUP BY team_id) AS C ON A.id=C.team_id
+                LEFT JOIN (SELECT team_id, COUNT(id) AS D_cnt FROM game_scores WHERE team_id IN (".$teamIdsStr.") AND `point` = 1 GROUP BY team_id) AS D ON A.id=D.team_id
+                LEFT JOIN (SELECT team_id, COUNT(id) AS L_cnt FROM game_scores WHERE team_id IN (".$teamIdsStr.") AND `point` = 0 GROUP BY team_id) AS E ON A.id=E.team_id
+            ";
+            $teams = $this->db->query($query)->result(); // replacing teams array
+
+            $this->db->select('team_id, item_id, SUM(point) as `point`');
+            $this->db->from($this->table);
+            $this->db->where('team_id IN (' . $teamIdsStr . ')');
+            $this->db->group_by('item_id, team_id');
+            $rows = $this->db->get()->result();
+
+            $records = array();
+            if (sizeof($rows)) {
+                foreach ($rows as $row) {
+                    if (!isset($records[$row->team_id])) $records[$row->team_id] = array();
+                    $records[$row->team_id][$row->item_id] = $row->point;
+                }
             }
+
         }
 
         $recordItems = $CI->record_item_model->getRows();
@@ -129,23 +139,10 @@ class Game_record_model extends CI_Model
                             $team->$point = $records[$team->id][$recordItem->id];
                         }
                     }
-                    $PWDL = $this->getTeamPWDL($team->id);
-                    $team->P_cnt = $PWDL['P'] * 1 > 0 ? $PWDL['P'] : '';
-                    $team->W_cnt = $PWDL['W'] * 1 > 0 ? $PWDL['W'] : '';
-                    $team->D_cnt = $PWDL['D'] * 1 > 0 ? $PWDL['D'] : '';
-                    $team->L_cnt = $PWDL['L'] * 1 > 0 ? $PWDL['L'] : '';
                 }
                 $result[] = $team;
             }
         }
-        return $result;
-    }
-
-    public function getTeamPWDL($teamId)
-    {
-        $result = array('P' => 0, 'W' => 0, 'D' => 0, 'L' => 0);
-        $query = "SELECT id FROM game_schedules WHERE (home_team_id=" . $teamId . " OR away_team_id=" . $teamId . ")/* AND status = 2*/";
-        $result['P'] = sizeof($this->db->query($query)->result());
         return $result;
     }
 
@@ -211,6 +208,12 @@ class Game_record_model extends CI_Model
             $this->db->insert($this->table, $row);
             $rowId = $this->db->insert_id();
         }
+
+        // saving scores.
+        $CI =& get_instance();
+        $CI->load->model('game_score_model');
+        $CI->game_score_model->saveTeamScores($data['game_id']);
+
         return $rowId;
     }
 
