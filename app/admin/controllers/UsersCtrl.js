@@ -1,73 +1,46 @@
 'use strict';
 
-angular.module('app.admin').controller('UsersController', function (ServerURL, $http, $filter, UserTypes) {
-    var vm = this;
-    vm.userTypes = UserTypes;
-    vm.userFlags = ['No', 'Yes'];
-    vm.tableData = [];
-    vm.currRow = {};
-    vm.loading = true;
+angular.module('app.admin').controller('UsersController', function ($scope, SportsService) {
+    $scope.tableData = $scope.safeData = [];
+    $scope.currRow = {};
+    $scope.loading = true;
 
-    vm.getData = function () {
-        vm.loading = true;
-        $http.get(ServerURL + "users/get").then(function (response) {
-            vm.tableData = response.data;
-            vm.loading = false;
+    $scope.getData = function () {
+        $scope.loading = true;
+        SportsService.get().then(function (response) {
+            $scope.tableData = $scope.safeData = response.data;
+            $scope.loading = false;
         });
     };
-    vm.getData();
+    $scope.getData();
 
-    vm.save = function () {
-        var data = vm.currRow;
-        vm.loading = true;
-        $http({
-            method: 'POST',
-            url: ServerURL + "users/save",
-            headers: {'Content-Type': 'multipart/form-data'},
-            data: data
-        }).then(function mySucces(/*response*/) {
+    $scope.save = function () {
+        $scope.loading = true;
+        var data = $scope.currRow;
+        SportsService.save(data).then(function () {
             $('#myModal').modal('hide');
+            $scope.getData();
         });
     };
 
-    vm.openModal = function (rowId) {
-        vm.editRow(rowId);
-        $('#myModal').modal('show');
-    };
-
-    vm.addNew = function () {
-        vm.currRow = {
+    $scope.addRow = function () {
+        $scope.currRow = {
             id: 0,
-            username: '',
-            password: '',
-            first_name: '',
-            last_name: '',
-            email: '',
-            address: '',
-            home_phone: '',
-            cell_phone: '',
-            user_type: 0,
-            user_flag: 0
+            sport_name: ''
         };
     };
 
-    vm.editRow = function (rowId) {
-        vm.currRow = $filter('filter')(vm.tableData, {id: rowId}, true)[0];
+    $scope.editRow = function (row) {
+        $scope.currRow = JSON.parse(angular.toJson(row));
+        $('#myModal').modal('show');
     };
 
-    vm.deleteRow = function (rowId) {
+    $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
-            vm.loading = true;
-            $http.get(ServerURL + "users/delete?id=" + rowId).then(function (response) {
-                if (response.data == true) {
-                    vm.getData();
-                } else {
-                    alert('Failed to delete this row.');
-                }
+            $scope.loading = true;
+            SportsService.delete(rowId).then(function () {
+                $scope.getData();
             });
         }
     };
-    $('#myModal').on('hidden.bs.modal', function () {
-        vm.getData();
-    });
 });

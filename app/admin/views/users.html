@@ -1,11 +1,11 @@
-<loading visible="vm.loading"></loading>
+<loading visible="loading"></loading>
 <div id="content">
     <div class="row">
-        <big-breadcrumbs items="['Sport Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <big-breadcrumbs items="['Users Management']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
     </div>
 
     <div class="text-right margin-bottom-10">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="vm.addNew()">Add New</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="addRow()">Add New</button>
     </div>
     <section widget-grid id="widget-grid">
         <div class="row">
@@ -13,45 +13,63 @@
                 <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Sport Management</h2>
+                        <h2>Users Management</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
                             <div class="table-responsive">
-                                <table class="table table-bordered">
+                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>User Name</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Email</th>
-                                        <th>Address</th>
-                                        <th>Home Phone</th>
-                                        <th>Cell Phone</th>
-                                        <th>User Type</th>
-                                        <th>Agreed?</th>
-                                        <th>Manage</th>
+                                        <th rowspan="2">No</th>
+                                        <th rowspan="2">User Email</th>
+                                        <th rowspan="2">User Name</th>
+                                        <th rowspan="2">Birthday</th>
+                                        <th rowspan="2">Gender</th>
+                                        <th rowspan="2">Status</th>
+                                        <th colspan="8" class="text-center">Permissions</th>
+                                        <th rowspan="2">Action</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Club Admin</th>
+                                        <th>Coach</th>
+                                        <th>Player</th>
+                                        <th>Manager</th>
+                                        <th>Referee</th>
+                                        <th>Referee Assigner</th>
+                                        <th>Parent</th>
+                                        <th>Others</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="row in vm.tableData" ng-dblclick="vm.openModal(row.id)">
+                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.username}}</td>
-                                        <td>{{row.first_name}}</td>
-                                        <td>{{row.last_name}}</td>
-                                        <td>{{row.email}}</td>
-                                        <td>{{row.address}}</td>
-                                        <td>{{row.home_phone}}</td>
-                                        <td>{{row.cell_phone}}</td>
-                                        <td>{{vm.userTypes[row.user_type * 1]}}</td>
-                                        <td>{{vm.userFlags[row.user_flag * 1]}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.sport_name1}}</td>
                                         <td class="text-center controls-td">
-                                            <a ng-click="vm.editRow(row.id)" data-toggle="modal" data-target="#myModal">Edit</a> /
-                                            <a ng-click="vm.deleteRow(row.id)">Delete</a>
+                                            <a ng-click="editRow(row)">Edit</a> /
+                                            <a ng-click="deleteRow(row.id)">Delete</a>
                                         </td>
                                     </tr>
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="15" class="text-center">
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -73,67 +91,15 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-4 control-label">User Name</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="User Name" type="text" ng-model="vm.currRow.username">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Password</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Password" type="password" ng-model="vm.currRow.password">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">First Name</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="First Name" type="text" ng-model="vm.currRow.first_name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Last Name</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Last Name" type="text" ng-model="vm.currRow.last_name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Email</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Email" type="text" ng-model="vm.currRow.email">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Home Phone</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Home Phone" type="text" ng-model="vm.currRow.home_phone">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Cell Phone</label>
-                        <div class="col-md-8">
-                            <input class="form-control" placeholder="Cell Phone" type="text" ng-model="vm.currRow.cell_phone">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">User Type</label>
-                        <div class="col-md-8">
-                            <select class="form-control" ng-model="vm.currRow.user_type">
-                                <option ng-repeat="ut in vm.userTypes" value="{{$index}}">{{ut}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Agreed?</label>
-                        <div class="col-md-8">
-                            <select class="form-control" ng-model="vm.currRow.user_flag">
-                                <option ng-repeat="uf in vm.userFlags" value="{{$index}}">{{uf}}</option>
-                            </select>
+                        <label class="col-md-3 control-label">Sport Name</label>
+                        <div class="col-md-9">
+                            <input class="form-control" placeholder="Sport Name" type="text" ng-model="currRow.sport_name">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="vm.save()">Save</button>
+                <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
