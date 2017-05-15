@@ -141,7 +141,10 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Record Time</label>
                         <div class="col-md-9">
-                            <input class="form-control" placeholder="Record Time" type="text" ng-model="currRow.record_time">
+                            <div class="input-group" moment-picker="currRow.record_time" format="HH:mm:ss">
+                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                <input class="form-control" placeholder="Select a time" ng-model="currRow.record_time"ng-model-options="{ updateOn: 'blur' }">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">

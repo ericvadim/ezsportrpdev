@@ -126,19 +126,28 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Date of Game</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Date of Game" type="text" ng-model="currRow.game_date">
+                            <div class="input-group" moment-picker="currRow.game_date" format="YYYY-MM-DD">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input class="form-control" placeholder="Select a date" ng-model="currRow.game_date" ng-model-options="{ updateOn: 'blur' }">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Start Time</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Start Time" type="text" ng-model="currRow.start_time">
+                            <div class="input-group" moment-picker="currRow.start_time" format="HH:mm:ss">
+                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                <input class="form-control" placeholder="Select a time" ng-model="currRow.start_time"ng-model-options="{ updateOn: 'blur' }">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Arrival Time</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Arrival Time" type="text" ng-model="currRow.arrival_time">
+                            <div class="input-group" moment-picker="currRow.arrival_time" format="HH:mm:ss">
+                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                <input class="form-control" placeholder="Select a time" ng-model="currRow.arrival_time"ng-model-options="{ updateOn: 'blur' }">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
