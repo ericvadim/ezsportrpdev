@@ -1,10 +1,135 @@
-<loading visible="vm.loading"></loading>
+<loading visible="loading"></loading>
 <div id="content">
-<div class="row">
-    <big-breadcrumbs items="['Page Header', 'Subtitle']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
-</div>
+    <div class="row">
+        <big-breadcrumbs items="['Dashboard']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+    </div>
 
-    Dashboard page for administrator.
-    <!-- content -->
+    <section widget-grid id="widget-grid">
+        <div class="row">
+            <article class="col-sm-6">
+                <div jarvis-widget id="top-teams-widget" data-widget-color="darken" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Top Teams</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <canvas style="display: block;" chartjs-line-chart height="120" ></canvas>
+                                    </div>
+                                    <div class="col-sm-6 padding-0">
+                                        <div class="table-responsive">
+                                            <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Club Name</th>
+                                                    <th>Team Name</th>
+                                                    <th>Scores</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr st-select-row="row" st-select-mode="single" ng-repeat="row in teamData" ng-dblclick="editRow(row)">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td>{{row.sport_name}}</td>
+                                                    <td>{{row.sport_name}}</td>
+                                                    <td>{{row.sport_name}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="col-sm-6">
+                <div jarvis-widget id="top-players-widget" data-widget-color="darken" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Top Players</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-6">
+
+                                    </div>
+                                    <div class="col-sm-6 padding-0">
+                                        <div class="table-responsive">
+                                            <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Team Name</th>
+                                                    <th>Player Name</th>
+                                                    <th>Goals</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr st-select-row="row" st-select-mode="single" ng-repeat="row in playerData" ng-dblclick="editRow(row)">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td>{{row.sport_name}}</td>
+                                                    <td>{{row.sport_name}}</td>
+                                                    <td>{{row.sport_name}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="col-sm-12">
+                <div jarvis-widget id="team-schedules-widget" data-widget-color="darken" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Game Schedules</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="table-responsive">
+                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Home Team</th>
+                                        <th>Away Team</th>
+                                        <th>Game Date</th>
+                                        <th>Time</th>
+                                        <th>Location</th>
+                                        <th>Uniform</th>
+                                        <th>Scores</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in scheduleData" ng-dblclick="editRow(row)">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
 </div>
-	

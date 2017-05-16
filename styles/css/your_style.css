@@ -85,7 +85,9 @@ body:not(.menu-on-top).desktop-detected {
 .float-right {
     float: right;
 }
-
+.padding-0 {
+    padding: 0;
+}
 .margin-top-10 {
     margin-top: 10px;
 }
