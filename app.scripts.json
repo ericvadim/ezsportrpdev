@@ -17,6 +17,7 @@
       "angular-simple-logger",
       "angular-google-maps",
       "angular-smart-table",
+      "angular-chartjs-directive",
       "restangular",
       "fastclick",
       "moment",
@@ -39,7 +40,6 @@
       "datatables",
       "angular-datatables",
       "angular-datatables.bootstrap"
-
     ],
     "vendor.ui": [
       "select2",
@@ -74,7 +74,6 @@
       "datatables-tools",
       "datatables-colvis",
       "datatables-responsive"
-
     ],
     "vendor.graphs": [
       "raphael",
@@ -104,7 +103,8 @@
     "angular-easyfb": "bower_components/angular-easyfb/angular-easyfb.min.js",
     "angular-google-plus": "bower_components/angular-google-plus/dist/angular-google-plus.min.js",
     "angular-datatables": "bower_components/angular-datatables/dist/angular-datatables.min.js",
-    "angular-datatables.bootstrap":"bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js",
+    "angular-datatables.bootstrap": "bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js",
+    "angular-chartjs-directive": "bower_components/angular-chartjs-directive/chartjs-directive.js",
     "pace": "bower_components/pace/pace.min.js",
     "fastclick": "bower_components/fastclick/lib/fastclick.js",
     "jquery-color": "bower_components/jquery-color/jquery.color.js",

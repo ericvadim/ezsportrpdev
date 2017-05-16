@@ -23,6 +23,7 @@ angular.module('app', [
     'ui.select',
     'smart-table',
     'moment-picker',
+    // 'highcharts-ng',
 
     // App
     'app.auth',
