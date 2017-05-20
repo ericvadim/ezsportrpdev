@@ -6,7 +6,7 @@
 
     <section widget-grid id="widget-grid">
         <div class="row">
-            <article class="col-sm-6">
+            <article class="col-md-6">
                 <div jarvis-widget id="top-teams-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
@@ -17,7 +17,7 @@
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <chart value="myChart"></chart>
+                                        <div highchart data="teamChartData"></div>
                                     </div>
                                     <div class="col-sm-6 padding-0">
                                         <div class="table-responsive">
@@ -48,11 +48,11 @@
                 </div>
             </article>
 
-            <article class="col-sm-6">
+            <article class="col-md-6">
                 <div jarvis-widget id="top-players-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Top Players</h2>
+                        <h2>Stat Leaders</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
@@ -90,7 +90,7 @@
                 </div>
             </article>
 
-            <article class="col-sm-12">
+            <article class="col-md-12">
                 <div jarvis-widget id="team-schedules-widget" data-widget-color="darken" data-widget-editbutton="false">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>

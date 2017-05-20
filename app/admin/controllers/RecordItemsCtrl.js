@@ -8,6 +8,7 @@ angular.module('app.admin').controller('RecordItemsController', function ($scope
         1: 'TG/G',
         2: 'TP/TA (G_B)'
     };
+    $scope.slots = ['No', 'Slot 1', 'Slot 2', 'Slot 3', 'Slot 4', 'Slot 5', 'Slot 6', 'Slot 7', 'Slot 8'];
 
     $scope.getData = function () {
         $scope.loading = true;

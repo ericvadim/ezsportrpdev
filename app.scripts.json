@@ -39,7 +39,8 @@
       "flot-tooltip",
       "datatables",
       "angular-datatables",
-      "angular-datatables.bootstrap"
+      "angular-datatables.bootstrap",
+      "highcharts"
     ],
     "vendor.ui": [
       "select2",
@@ -131,7 +132,7 @@
     "morris": "bower_components/morris.js/morris.min.js",
     "dygraphs": "bower_components/dygraphs/dygraph-combined.js",
     "chartjs": "bower_components/Chart.js/Chart.min.js",
-    "highcharts": "bower_components/highcharts/highcharts.js",
+    "highcharts": "bower_components/highcharts/js/highcharts.js",
     "highchartTable": "bower_components/highchartTable/jquery.highchartTable.js",
     "datatables": "bower_components/datatables/media/js/jquery.dataTables.min.js",
     "datatables-bootstrap": "bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js",
