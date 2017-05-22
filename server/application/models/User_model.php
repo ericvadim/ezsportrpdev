@@ -154,6 +154,26 @@ class User_model extends Base_model
         $this->db->update('ci_oauth_clients', $data);
     }
 
+    public function saveRow($data)
+    {
+        $rowId = $data['id'];
+
+        $cols = array('username', 'first_name', 'last_name', 'email', 'status', 'role');
+        $row = array();
+        foreach ($cols as $col) {
+            $row[$col] = isset($data[$col]) ? $data[$col] : '';
+        }
+
+        if ($rowId) {
+            $this->db->where('id', $rowId);
+            $this->db->update($this->table, $row);
+        } else {
+            $this->db->insert($this->table, $row);
+            $rowId = $this->db->insert_id();
+        }
+        return $rowId;
+    }
+
     public function deleteRowById($rowId)
     {
         return $this->db->delete($this->_table, array('id' => $rowId));

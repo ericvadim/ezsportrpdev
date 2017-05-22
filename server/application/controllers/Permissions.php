@@ -3,17 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require dirname(__FILE__) . '/Base_Controller.php';
 
-class Sports extends Base_Controller
+class Permissions extends Base_Controller
 {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('sport_model');
     }
 
     public function index_get()
     {
-//        if (!$this->protect()) return;
+        if (!$this->protect()) return;
         $rows = $this->sport_model->getRows();
         $this->set_response($rows, 200);
     }

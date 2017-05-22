@@ -106,15 +106,17 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Email</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Email" type="email" ng-model="currRow.email">
+                            <input class="form-control" placeholder="Email" type="email" ng-model="currRow.email" disabled>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Status</label>
                         <div class="col-md-8">
-                            <select>Pending</select>
-                            <select>Active</select>
-                            <select>Suspended</select>
+                            <select class="form-control">
+                                <option>Pending</option>
+                                <option>Active</option>
+                                <option>Suspended</option>
+                            </select>
                         </div>
                     </div>
                 </form>
