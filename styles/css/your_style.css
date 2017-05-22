@@ -56,7 +56,7 @@ body:not(.menu-on-top).desktop-detected {
     width: 100%;
     display: block;
     position: absolute;
-    z-index: 4000;
+    z-index: 903;   /* under left sidebar menu */
     height: 100%;
 }
 
@@ -151,4 +151,14 @@ nav ul.pagination li a:before {
 
 .moment-picker {
     z-index: 2000 !important;
+}
+
+.fc-border-separate thead tr th, .table thead tr th {
+    background-color: #eee;
+    background-image: -webkit-gradient(linear,0 0,0 80%,from(#f2f2f2),to(#fafafa));
+    background-image: -webkit-linear-gradient(top,#f2f2f2 40%,#fefefe 80%);
+    background-image: -moz-linear-gradient(top,#f2f2f2 40%,#fefefe 80%);
+    background-image: -ms-linear-gradient(top,#f2f2f2 40%,#fefefe 80%);
+    background-image: -o-linear-gradient(top,#f2f2f2 40%,#fefefe 80%);
+    font-size: 12px;
 }

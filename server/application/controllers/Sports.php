@@ -13,7 +13,7 @@ class Sports extends Base_Controller
 
     public function index_get()
     {
-//        if (!$this->protect()) return;
+        if (!$this->protect()) return;
         $rows = $this->sport_model->getRows();
         $this->set_response($rows, 200);
     }

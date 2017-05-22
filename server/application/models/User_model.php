@@ -6,6 +6,11 @@ class User_model extends Base_model
     protected $_table = 'ci_users';
     protected $_primaryCol = 'id';
 
+    public function getRows()
+    {
+        return $this->db->get($this->_table)->result();
+    }
+
     // login
     public function login($email, $password)
     {
@@ -147,5 +152,10 @@ class User_model extends Base_model
     {
         $this->db->where('user_id', $user_id);
         $this->db->update('ci_oauth_clients', $data);
+    }
+
+    public function deleteRowById($rowId)
+    {
+        return $this->db->delete($this->_table, array('id' => $rowId));
     }
 }

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var isDebug = true;
+    var isDebug = false;
 
     angular
         .module('app.auth')

@@ -10,7 +10,7 @@ class Users extends Base_Controller
         // Construct the parent class
         parent::__construct();
 
-        $this->load->model('User_model');
+        $this->load->model('user_model');
     }
 
     /**
@@ -18,15 +18,29 @@ class Users extends Base_Controller
      */
     public function index_get()
     {
-        if (!$this->protect()) {
-            return;
-        }
-        $users = $this->User_model->findAll([
-            'select' => 'first_name, last_name, id, email',
-            'where' => 'status=1'
-        ]);
+//        if (!$this->protect()) return;
+        $rows = $this->user_model->getRows();
+        $this->set_response($rows, 200);
+    }
 
-        $this->set_response($users, 200);
+    /**
+     * saving a user info.
+     */
+    public function index_post()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $result = $this->user_model->saveRow($data);
+        $this->set_response($result, 200);
+    }
+
+    /**
+     * deletes a user by primary key of the table.
+     */
+    public function index_delete()
+    {
+        $data = $this->input->get();
+        $result = $this->user_model->deleteRowById($data['id']);
+        $this->set_response($result, 200);
     }
 
     /**

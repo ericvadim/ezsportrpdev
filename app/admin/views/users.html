@@ -22,10 +22,9 @@
                                     <thead>
                                     <tr>
                                         <th rowspan="2">No</th>
-                                        <th rowspan="2">User Email</th>
+                                        <th rowspan="2">Identifier</th>
                                         <th rowspan="2">User Name</th>
-                                        <th rowspan="2">Birthday</th>
-                                        <th rowspan="2">Gender</th>
+                                        <th rowspan="2">Email</th>
                                         <th rowspan="2">Status</th>
                                         <th colspan="8" class="text-center">Permissions</th>
                                         <th rowspan="2">Action</th>
@@ -44,12 +43,11 @@
                                     <tbody>
                                     <tr st-select-row="row" st-select-mode="single" ng-repeat="row in tableData" ng-dblclick="editRow(row)">
                                         <td>{{$index + 1}}</td>
-                                        <td>{{row.sport_name1}}</td>
-                                        <td>{{row.sport_name1}}</td>
-                                        <td>{{row.sport_name1}}</td>
-                                        <td>{{row.sport_name1}}</td>
-                                        <td>{{row.sport_name1}}</td>
-                                        <td>{{row.sport_name1}}</td>
+                                        <td>{{row.username}}</td>
+                                        <td>{{row.first_name}} {{row.last_name}}</td>
+                                        <td>{{row.email}}</td>
+                                        <td>{{row.status}}</td>
+                                        <td>{{row.role}}</td>
                                         <td>{{row.sport_name1}}</td>
                                         <td>{{row.sport_name1}}</td>
                                         <td>{{row.sport_name1}}</td>
@@ -65,7 +63,7 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td colspan="15" class="text-center">
+                                        <td colspan="14" class="text-center">
                                             <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
                                         </td>
                                     </tr>
@@ -91,9 +89,32 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Sport Name</label>
-                        <div class="col-md-9">
-                            <input class="form-control" placeholder="Sport Name" type="text" ng-model="currRow.sport_name">
+                        <label class="col-md-4 control-label">Identifier</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Identifier" type="text" ng-model="currRow.username">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">User Name</label>
+                        <div class="col-md-4">
+                            <input class="form-control" placeholder="First Name" type="text" ng-model="currRow.first_name">
+                        </div>
+                        <div class="col-md-4">
+                            <input class="form-control" placeholder="Last Name" type="text" ng-model="currRow.last_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Email</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Email" type="email" ng-model="currRow.email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Status</label>
+                        <div class="col-md-8">
+                            <select>Pending</select>
+                            <select>Active</select>
+                            <select>Suspended</select>
                         </div>
                     </div>
                 </form>

@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('app.admin').controller('UsersController', function ($scope, SportsService) {
+angular.module('app.admin').controller('UsersController', function ($scope, UsersService) {
     $scope.tableData = $scope.safeData = [];
     $scope.currRow = {};
     $scope.loading = true;
 
     $scope.getData = function () {
         $scope.loading = true;
-        SportsService.get().then(function (response) {
+        UsersService.get().then(function (response) {
             $scope.tableData = $scope.safeData = response.data;
             $scope.loading = false;
         });
@@ -17,7 +17,7 @@ angular.module('app.admin').controller('UsersController', function ($scope, Spor
     $scope.save = function () {
         $scope.loading = true;
         var data = $scope.currRow;
-        SportsService.save(data).then(function () {
+        UsersService.save(data).then(function () {
             $('#myModal').modal('hide');
             $scope.getData();
         });
@@ -38,7 +38,7 @@ angular.module('app.admin').controller('UsersController', function ($scope, Spor
     $scope.deleteRow = function (rowId) {
         if (confirm('Are you sure want to delete this?')) {
             $scope.loading = true;
-            SportsService.delete(rowId).then(function () {
+            UsersService.delete(rowId).then(function () {
                 $scope.getData();
             });
         }
