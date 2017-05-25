@@ -45,7 +45,7 @@ angular.module('app', [
     'app.home',
     'app.admin'
 ])
-    .config(function ($provide, $httpProvider, RestangularProvider) {
+    .config(function ($provide, $httpProvider, RestangularProvider, $locationProvider) {
 
         // Intercept http calls.
         $provide.factory('ErrorHttpInterceptor', function ($q) {
@@ -87,6 +87,11 @@ angular.module('app', [
         $httpProvider.interceptors.push('ErrorHttpInterceptor');
 
         RestangularProvider.setBaseUrl(location.pathname.replace(/[^\/]+?$/, ''));
+
+        /*$locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        });*/
 
     })
 

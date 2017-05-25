@@ -22,6 +22,15 @@ class Users extends Base_Controller
         $rows = $this->user_model->getRows();
         $this->set_response($rows, 200);
     }
+    /**
+     * Get all users
+     */
+    public function roles_get()
+    {
+//        if (!$this->protect()) return;
+        $roles = $this->config->item('user_roles');
+        $this->set_response($roles, 200);
+    }
 
     /**
      * saving a user info.

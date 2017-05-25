@@ -158,7 +158,7 @@ class User_model extends Base_model
     {
         $rowId = $data['id'];
 
-        $cols = array('username', 'first_name', 'last_name', 'email', 'status', 'role');
+        $cols = array('username', 'first_name', 'last_name', 'email', 'status', 'roles');
         $row = array();
         foreach ($cols as $col) {
             $row[$col] = isset($data[$col]) ? $data[$col] : '';
@@ -166,9 +166,9 @@ class User_model extends Base_model
 
         if ($rowId) {
             $this->db->where('id', $rowId);
-            $this->db->update($this->table, $row);
+            $this->db->update($this->_table, $row);
         } else {
-            $this->db->insert($this->table, $row);
+            $this->db->insert($this->_table, $row);
             $rowId = $this->db->insert_id();
         }
         return $rowId;

@@ -335,7 +335,7 @@ angular.module('app', [
     'app.home',
     'app.admin'
 ])
-    .config(function ($provide, $httpProvider, RestangularProvider) {
+    .config(function ($provide, $httpProvider, RestangularProvider, $locationProvider) {
 
         // Intercept http calls.
         $provide.factory('ErrorHttpInterceptor', function ($q) {
@@ -377,6 +377,11 @@ angular.module('app', [
         $httpProvider.interceptors.push('ErrorHttpInterceptor');
 
         RestangularProvider.setBaseUrl(location.pathname.replace(/[^\/]+?$/, ''));
+
+        /*$locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        });*/
 
     })
 
@@ -2158,7 +2163,7 @@ $templateCache.put("app/dashboard/todo/todo-widget.tpl.html","<div id=\"todo-wid
 $templateCache.put("app/layout/language/language-selector.tpl.html","<ul class=\"header-dropdown-list hidden-xs ng-cloak\" ng-controller=\"LanguagesCtrl\">\n    <li class=\"dropdown\" dropdown>\n        <a class=\"dropdown-toggle\"  data-toggle=\"dropdown\" href> <img src=\"styles/img/blank.gif\" class=\"flag flag-{{currentLanguage.key}}\" alt=\"{{currentLanguage.alt}}\"> <span> {{currentLanguage.title}} </span>\n            <i class=\"fa fa-angle-down\"></i> </a>\n        <ul class=\"dropdown-menu pull-right\">\n            <li ng-class=\"{active: language==currentLanguage}\" ng-repeat=\"language in languages\">\n                <a ng-click=\"selectLanguage(language)\" ><img src=\"styles/img/blank.gif\" class=\"flag flag-{{language.key}}\"\n                                                   alt=\"{{language.alt}}\"> {{language.title}}</a>\n            </li>\n        </ul>\n    </li>\n</ul>");
 $templateCache.put("app/layout/partials/footer.tpl.html","<div class=\"page-footer\">\n    <div class=\"row\">\n        <div class=\"col-xs-12 col-sm-6\">\n            <span class=\"txt-color-white\">EZSportRP © 2017</span>\n        </div>\n\n        <!--<div class=\"col-xs-6 col-sm-6 text-right hidden-xs\">\n            <div class=\"txt-color-white inline-block\">\n                <i class=\"txt-color-blueLight hidden-mobile\">Last account activity <i class=\"fa fa-clock-o\"></i>\n                    <strong>52 mins ago &nbsp;</strong> </i>\n\n                <div class=\"btn-group dropup\">\n                    <button class=\"btn btn-xs dropdown-toggle bg-color-blue txt-color-white\" data-toggle=\"dropdown\">\n                        <i class=\"fa fa-link\"></i> <span class=\"caret\"></span>\n                    </button>\n                    <ul class=\"dropdown-menu pull-right text-left\">\n                        <li>\n                            <div class=\"padding-5\">\n                                <p class=\"txt-color-darken font-sm no-margin\">Download Progress</p>\n\n                                <div class=\"progress progress-micro no-margin\">\n                                    <div class=\"progress-bar progress-bar-success\" style=\"width: 50%;\"></div>\n                                </div>\n                            </div>\n                        </li>\n                        <li class=\"divider\"></li>\n                        <li>\n                            <div class=\"padding-5\">\n                                <p class=\"txt-color-darken font-sm no-margin\">Server Load</p>\n\n                                <div class=\"progress progress-micro no-margin\">\n                                    <div class=\"progress-bar progress-bar-success\" style=\"width: 20%;\"></div>\n                                </div>\n                            </div>\n                        </li>\n                        <li class=\"divider\"></li>\n                        <li>\n                            <div class=\"padding-5\">\n                                <p class=\"txt-color-darken font-sm no-margin\">Memory Load <span class=\"text-danger\">*critical*</span>\n                                </p>\n\n                                <div class=\"progress progress-micro no-margin\">\n                                    <div class=\"progress-bar progress-bar-danger\" style=\"width: 70%;\"></div>\n                                </div>\n                            </div>\n                        </li>\n                        <li class=\"divider\"></li>\n                        <li>\n                            <div class=\"padding-5\">\n                                <button class=\"btn btn-block btn-default\">refresh</button>\n                            </div>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n        </div>-->\n    </div>\n</div>");
 $templateCache.put("app/layout/partials/header.tpl.html","<header id=\"header\">\n<div id=\"logo-group\">\n\n    <!-- PLACE YOUR LOGO HERE -->\n    <span id=\"logo\"> <img src=\"styles/img/logo.png\" alt=\"SmartAdmin\"> </span>\n    <!-- END LOGO PLACEHOLDER -->\n\n    <!-- Note: The activity badge color changes when clicked and resets the number to 0\n    Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\n    <span id=\"activity\" class=\"activity-dropdown\" activities-dropdown-toggle> \n        <i class=\"fa fa-user\"></i> \n        <b class=\"badge bg-color-blue\">0</b>\n    </span>\n    <div smart-include=\"app/dashboard/activities/activities.html\"></div>\n</div>\n\n\n<recent-projects></recent-projects>\n\n\n\n<!-- pulled right: nav area -->\n<div class=\"pull-right\">\n\n    <!-- collapse menu button -->\n    <div id=\"hide-menu\" class=\"btn-header pull-right\">\n        <span> <a toggle-menu title=\"Collapse Menu\"><i\n                class=\"fa fa-reorder\"></i></a> </span>\n    </div>\n    <!-- end collapse menu -->\n\n    <!-- #MOBILE -->\n    <!-- Top menu profile link : this shows only when top menu is active -->\n    <ul id=\"mobile-profile-img\" class=\"header-dropdown-list hidden-xs padding-5\">\n        <li class=\"\">\n            <a href=\"#\" class=\"dropdown-toggle no-margin userdropdown\" data-toggle=\"dropdown\">\n                <img src=\"styles/img/avatars/sunny.png\" alt=\"John Doe\" class=\"online\"/>\n            </a>\n            <ul class=\"dropdown-menu pull-right\">\n                <li>\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"><i\n                            class=\"fa fa-cog\"></i> Setting</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a ui-sref=\"app.appViews.profileDemo\" class=\"padding-10 padding-top-0 padding-bottom-0\"> <i class=\"fa fa-user\"></i>\n                        <u>P</u>rofile</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\n                       data-action=\"toggleShortcut\"><i class=\"fa fa-arrow-down\"></i> <u>S</u>hortcut</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\n                       data-action=\"launchFullscreen\"><i class=\"fa fa-arrows-alt\"></i> Full <u>S</u>creen</a>\n                </li>\n                <li class=\"divider\"></li>\n                <li>\n                    <a href=\"#/login\" class=\"padding-10 padding-top-5 padding-bottom-5\" data-action=\"userLogout\"><i\n                            class=\"fa fa-sign-out fa-lg\"></i> <strong><u>L</u>ogout</strong></a>\n                </li>\n            </ul>\n        </li>\n    </ul>\n\n    <!-- logout button -->\n    <div id=\"logout\" class=\"btn-header transparent pull-right\">\n        <span> <a ui-sref=\"login\" title=\"Sign Out\" data-action=\"userLogout\"\n                  data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\"><i\n                class=\"fa fa-sign-out\"></i></a> </span>\n    </div>\n    <!-- end logout button -->\n\n    <!-- search mobile button (this is hidden till mobile view port) -->\n    <div id=\"search-mobile\" class=\"btn-header transparent pull-right\" data-search-mobile>\n        <span> <a href=\"#\" title=\"Search\"><i class=\"fa fa-search\"></i></a> </span>\n    </div>\n    <!-- end search mobile button -->\n\n    <!-- input: search field -->\n    <form action=\"#/search\" class=\"header-search pull-right\">\n        <input id=\"search-fld\" type=\"text\" name=\"param\" placeholder=\"{{getWord(\'Find reports and more\')}}\">\n        <button type=\"submit\">\n            <i class=\"fa fa-search\"></i>\n        </button>\n        <a href=\"$\" id=\"cancel-search-js\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\n    </form>\n    <!-- end input: search field -->\n\n    <!-- fullscreen button -->\n    <div id=\"fullscreen\" class=\"btn-header transparent pull-right\">\n        <span> <a full-screen title=\"Full Screen\"><i\n                class=\"fa fa-arrows-alt\"></i></a> </span>\n    </div>\n    <!-- end fullscreen button -->\n\n\n    <!-- multiple lang dropdown : find all flags in the flags page -->\n    <language-selector></language-selector>\n    <!-- end multiple lang -->\n\n</div>\n<!-- end pulled right: nav area -->\n\n</header>");
-$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\n\n    <!-- User info -->\n    <div login-info></div>\n    <!-- end user info -->\n\n    <nav>\n        <ul data-smart-menu>\n            <li data-ui-sref-active=\"active\">\n                <a data-ui-sref=\"app.admin\" title=\"Outlook\">\n                    <i class=\"fa fa-lg fa-fw fa-tachometer\"></i> <span class=\"menu-item-parent\">{{getWord(\'Dashboard\')}}</span><span\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\n            </li>\n\n            <li data-menu-collapse>\n                <a href=\"#\" title=\"Administrator\"><i class=\"fa fa-lg fa-fw fa-cubes\"></i> <span\n                        class=\"menu-item-parent\">{{getWord(\'Basis Data\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.sports\"><i class=\"fa fa-futbol-o\"></i> {{getWord(\'Sport Types\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.refereeGrades\"><i class=\"fa fa-graduation-cap\"></i> {{getWord(\'Referee Grades\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.fields\"><i class=\"fa fa-th-large\"></i> {{getWord(\'Fields\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.licenses\"><i class=\"fa fa-credit-card\"></i> {{getWord(\'Licenses\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.positions\"><i class=\"fa fa-crosshairs\"></i> {{getWord(\'Positions\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.competitions\"><i class=\"fa fa-clone\"></i> {{getWord(\'Competitions\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.recordItems\"><i class=\"fa fa-bullhorn\"></i> {{getWord(\'Record Items\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-sitemap\"></i> <span class=\"menu-item-parent\">{{getWord(\'Organizations\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.clubs\"><i class=\"fa fa-th\"></i> {{getWord(\'Clubs\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.teams\"><i class=\"fa fa-th-list\"></i> {{getWord(\'Teams\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.leagues\"><i class=\"fa fa-leaf\"></i> {{getWord(\'Leagues\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-users\"></i> <span class=\"menu-item-parent\">{{getWord(\'Person\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.persons\"><i class=\"fa fa-user\"></i> {{getWord(\'Person Management\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.players\"><i class=\"fa fa-child\"></i> {{getWord(\'Players\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.coaches\"><i class=\"fa fa-user-o\"></i> {{getWord(\'Coaches\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.managers\"><i class=\"fa fa-user-secret\"></i> {{getWord(\'Team Managers\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.referees\"><i class=\"fa fa-user-circle\"></i> {{getWord(\'Referees\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.clubadmin\"><i class=\"fa fa-meh-o\"></i> {{getWord(\'Club Admin\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-calendar\"></i> <span class=\"menu-item-parent\">{{getWord(\'Schedules\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameSchedules\"><i class=\"fa fa-trophy\"></i> {{getWord(\'Game Schedules\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameRoasters\"><i class=\"fa fa-check-square-o\"></i> {{getWord(\'Roasters\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.refereeSchedules\"><i class=\"fa fa-hand-o-up\"></i> {{getWord(\'Referee Schedules\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.trainingSchedules\"><i class=\"fa fa-random\"></i> {{getWord(\'Training Schedules\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Records\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameRecords\"><i class=\"fa fa-cube\"></i> {{getWord(\'Game Records\')}}</a>\n                    </li><!--\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.teamRecords\"><i class=\"fa fa-cubes\"></i> {{getWord(\'Team Records\')}}</a>\n                    </li>-->\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart\"></i> <span class=\"menu-item-parent\">{{getWord(\'Statistics\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.teamStats\"><i class=\"fa fa-cubes\"></i> {{getWord(\'Team Statistics\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.playerStats\"><i class=\"fa fa-cube\"></i> {{getWord(\'Player Statistics\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse>\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user-secret\"></i> <span class=\"menu-item-parent\">{{getWord(\'Privileges\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.users\"><i class=\"fa fa-user\"></i> {{getWord(\'Users\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.graphs.morris\"><i class=\"fa fa-certificate\"></i> {{getWord(\'Change Password\')}}</a>\n                    </li>\n                </ul>\n            </li>\n        </ul>\n    </nav>\n\n    <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\n  </span>\n\n</aside>");
+$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\n\n    <!-- User info -->\n    <div login-info></div>\n    <!-- end user info -->\n\n    <nav>\n        <ul data-smart-menu>\n            <li data-ui-sref-active=\"active\">\n                <a data-ui-sref=\"app.admin\" title=\"Outlook\">\n                    <i class=\"fa fa-lg fa-fw fa-tachometer\"></i> <span class=\"menu-item-parent\">{{getWord(\'Dashboard\')}}</span><span\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\n            </li>\n\n            <li data-menu-collapse>\n                <a href=\"#\" title=\"Administrator\"><i class=\"fa fa-lg fa-fw fa-cubes\"></i> <span\n                        class=\"menu-item-parent\">{{getWord(\'Basis Data\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.sports\"><i class=\"fa fa-futbol-o\"></i> {{getWord(\'Sport Types\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.refereeGrades\"><i class=\"fa fa-graduation-cap\"></i> {{getWord(\'Referee Grades\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.fields\"><i class=\"fa fa-th-large\"></i> {{getWord(\'Fields\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.licenses\"><i class=\"fa fa-credit-card\"></i> {{getWord(\'Licenses\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.positions\"><i class=\"fa fa-crosshairs\"></i> {{getWord(\'Positions\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.competitions\"><i class=\"fa fa-clone\"></i> {{getWord(\'Competitions\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.recordItems\"><i class=\"fa fa-bullhorn\"></i> {{getWord(\'Record Items\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-sitemap\"></i> <span class=\"menu-item-parent\">{{getWord(\'Organizations\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.clubs\"><i class=\"fa fa-th\"></i> {{getWord(\'Clubs\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.teams\"><i class=\"fa fa-th-list\"></i> {{getWord(\'Teams\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.leagues\"><i class=\"fa fa-leaf\"></i> {{getWord(\'Leagues\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-users\"></i> <span class=\"menu-item-parent\">{{getWord(\'Person\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.persons\"><i class=\"fa fa-user\"></i> {{getWord(\'Person Management\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.players\"><i class=\"fa fa-child\"></i> {{getWord(\'Players\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.coaches\"><i class=\"fa fa-user-o\"></i> {{getWord(\'Coaches\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.managers\"><i class=\"fa fa-user-secret\"></i> {{getWord(\'Team Managers\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.referees\"><i class=\"fa fa-user-circle\"></i> {{getWord(\'Referees\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.clubadmin\"><i class=\"fa fa-meh-o\"></i> {{getWord(\'Club Admin\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-calendar\"></i> <span class=\"menu-item-parent\">{{getWord(\'Schedules\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameSchedules\"><i class=\"fa fa-trophy\"></i> {{getWord(\'Game Schedules\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameRoasters\"><i class=\"fa fa-check-square-o\"></i> {{getWord(\'Roasters\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.refereeSchedules\"><i class=\"fa fa-hand-o-up\"></i> {{getWord(\'Referee Schedules\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.trainingSchedules\"><i class=\"fa fa-random\"></i> {{getWord(\'Training Schedules\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Records\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.gameRecords\"><i class=\"fa fa-cube\"></i> {{getWord(\'Game Records\')}}</a>\n                    </li><!--\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.teamRecords\"><i class=\"fa fa-cubes\"></i> {{getWord(\'Team Records\')}}</a>\n                    </li>-->\n                </ul>\n            </li>\n\n            <li data-menu-collapse class=\"top-menu-invisible\">\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart\"></i> <span class=\"menu-item-parent\">{{getWord(\'Statistics\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.teamStats\"><i class=\"fa fa-cubes\"></i> {{getWord(\'Team Statistics\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.playerStats\"><i class=\"fa fa-cube\"></i> {{getWord(\'Player Statistics\')}}</a>\n                    </li>\n                </ul>\n            </li>\n\n            <li data-menu-collapse>\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user-secret\"></i> <span class=\"menu-item-parent\">{{getWord(\'Privileges\')}}</span></a>\n                <ul>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.admin.users\"><i class=\"fa fa-user\"></i> {{getWord(\'Users and Roles\')}}</a>\n                    </li>\n                    <li data-ui-sref-active=\"active\">\n                        <a data-ui-sref=\"app.graphs.morris\"><i class=\"fa fa-certificate\"></i> {{getWord(\'Change Password\')}}</a>\n                    </li>\n                </ul>\n            </li>\n        </ul>\n    </nav>\n\n    <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\n  </span>\n\n</aside>");
 $templateCache.put("app/layout/partials/sub-header.tpl.html","<div class=\"col-xs-12 col-sm-5 col-md-5 col-lg-8\" data-sparkline-container>\n    <ul id=\"sparks\" class=\"\">\n        <li class=\"sparks-info\">\n            <h5> My Income <span class=\"txt-color-blue\">$47,171</span></h5>\n            <div class=\"sparkline txt-color-blue hidden-mobile hidden-md hidden-sm\">\n                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471\n            </div>\n        </li>\n        <li class=\"sparks-info\">\n            <h5> Site Traffic <span class=\"txt-color-purple\"><i class=\"fa fa-arrow-circle-up\"></i>&nbsp;45%</span></h5>\n            <div class=\"sparkline txt-color-purple hidden-mobile hidden-md hidden-sm\">\n                110,150,300,130,400,240,220,310,220,300, 270, 210\n            </div>\n        </li>\n        <li class=\"sparks-info\">\n            <h5> Site Orders <span class=\"txt-color-greenDark\"><i class=\"fa fa-shopping-cart\"></i>&nbsp;2447</span></h5>\n            <div class=\"sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm\">\n                110,150,300,130,400,240,220,310,220,300, 270, 210\n            </div>\n        </li>\n    </ul>\n</div>\n			");
 $templateCache.put("app/layout/partials/voice-commands.tpl.html","<!-- TRIGGER BUTTON:\n<a href=\"/my-ajax-page.html\" data-toggle=\"modal\" data-target=\"#remoteModal\" class=\"btn btn-default\">Open Modal</a>  -->\n\n<!-- MODAL PLACE HOLDER\n<div class=\"modal fade\" id=\"remoteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"remoteModalLabel\" aria-hidden=\"true\">\n<div class=\"modal-dialog\">\n<div class=\"modal-content\"></div>\n</div>\n</div>   -->\n<!--////////////////////////////////////-->\n\n<!--<div class=\"modal-header\">\n<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">\n&times;\n</button>\n<h4 class=\"modal-title\" id=\"myModalLabel\">Command List</h4>\n</div>-->\n<div class=\"modal-body\">\n\n	<h1><i class=\"fa fa-microphone text-muted\"></i>&nbsp;&nbsp; SmartAdmin Voice Command</h1>\n	<hr class=\"simple\">\n	<h5>Instruction</h5>\n\n	Click <span class=\"text-success\">\"Allow\"</span> to access your microphone and activate Voice Command.\n	You will notice a <span class=\"text-primary\"><strong>BLUE</strong> Flash</span> on the microphone icon indicating activation.\n	The icon will appear <span class=\"text-danger\"><strong>RED</strong></span> <span class=\"label label-danger\"><i class=\"fa fa-microphone fa-lg\"></i></span> if you <span class=\"text-danger\">\"Deny\"</span> access or don\'t have any microphone installed.\n	<br>\n	<br>\n	As a security precaution, your browser will disconnect the microphone every 60 to 120 seconds (sooner if not being used). In which case Voice Command will prompt you again to <span class=\"text-success\">\"Allow\"</span> or <span class=\"text-danger\">\"Deny\"</span> access to your microphone.\n	<br>\n	<br>\n	If you host your page over <strong>http<span class=\"text-success\">s</span></strong> (secure socket layer) protocol you can wave this security measure and have an unintrupted Voice Command.\n	<br>\n	<br>\n	<h5>Commands</h5>\n	<ul>\n		<li>\n			<strong>\'show\' </strong> then say the <strong>*page*</strong> you want to go to. For example <strong>\"show inbox\"</strong> or <strong>\"show calendar\"</strong>\n		</li>\n		<li>\n			<strong>\'mute\' </strong> - mutes all sound effects for the theme.\n		</li>\n		<li>\n			<strong>\'sound on\'</strong> - unmutes all sound effects for the theme.\n		</li>\n		<li>\n			<span class=\"text-danger\"><strong>\'stop\'</strong></span> - deactivates voice command.\n		</li>\n		<li>\n			<span class=\"text-primary\"><strong>\'help\'</strong></span> - brings up the command list\n		</li>\n		<li>\n			<span class=\"text-danger\"><strong>\'got it\'</strong></span> - closes help modal\n		</li>\n		<li>\n			<strong>\'hide navigation\'</strong> - toggle navigation collapse\n		</li>\n		<li>\n			<strong>\'show navigation\'</strong> - toggle navigation to open (can be used again to close)\n		</li>\n		<li>\n			<strong>\'scroll up\'</strong> - scrolls to the top of the page\n		</li>\n		<li>\n			<strong>\'scroll down\'</strong> - scrollts to the bottom of the page\n		</li>\n		<li>\n			<strong>\'go back\' </strong> - goes back in history (history -1 click)\n		</li>\n		<li>\n			<strong>\'logout\'</strong> - logs you out\n		</li>\n	</ul>\n	<br>\n	<h5>Adding your own commands</h5>\n	Voice Command supports up to 80 languages. Adding your own commands is extreamly easy. All commands are stored inside <strong>app.config.js</strong> file under the <code>var commands = {...}</code>. \n\n	<hr class=\"simple\">\n	<div class=\"text-right\">\n		<button type=\"button\" class=\"btn btn-success btn-lg\" data-dismiss=\"modal\">\n			Got it!\n		</button>\n	</div>\n\n</div>\n<!--<div class=\"modal-footer\">\n<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Got it!</button>\n</div> -->");
 $templateCache.put("app/layout/shortcut/shortcut.tpl.html","<div id=\"shortcut\">\n	<ul>\n		<li>\n			<a href=\"#/inbox/\" class=\"jarvismetro-tile big-cubes bg-color-blue\"> <span class=\"iconbox\"> <i class=\"fa fa-envelope fa-4x\"></i> <span>Mail <span class=\"label pull-right bg-color-darken\">14</span></span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/calendar\" class=\"jarvismetro-tile big-cubes bg-color-orangeDark\"> <span class=\"iconbox\"> <i class=\"fa fa-calendar fa-4x\"></i> <span>Calendar</span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/maps\" class=\"jarvismetro-tile big-cubes bg-color-purple\"> <span class=\"iconbox\"> <i class=\"fa fa-map-marker fa-4x\"></i> <span>Maps</span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/invoice\" class=\"jarvismetro-tile big-cubes bg-color-blueDark\"> <span class=\"iconbox\"> <i class=\"fa fa-book fa-4x\"></i> <span>Invoice <span class=\"label pull-right bg-color-darken\">99</span></span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/gallery\" class=\"jarvismetro-tile big-cubes bg-color-greenLight\"> <span class=\"iconbox\"> <i class=\"fa fa-picture-o fa-4x\"></i> <span>Gallery </span> </span> </a>\n		</li>\n		<li>\n			<a href=\"#/profile\" class=\"jarvismetro-tile big-cubes selected bg-color-pinkDark\"> <span class=\"iconbox\"> <i class=\"fa fa-user fa-4x\"></i> <span>My Profile </span> </span> </a>\n		</li>\n	</ul>\n</div>");
@@ -5722,7 +5727,16 @@ angular.module('app.admin').controller('TeamStatsController', function ($scope, 
 angular.module('app.admin').controller('UsersController', function ($scope, UsersService) {
     $scope.tableData = $scope.safeData = [];
     $scope.currRow = {};
+    $scope.roles = [];
     $scope.loading = true;
+
+    $scope.getRoles = function () {
+        $scope.loading = true;
+        UsersService.getRoles().then(function (response) {
+            $scope.roles = response.data;
+        });
+    };
+    $scope.getRoles();
 
     $scope.getData = function () {
         $scope.loading = true;
@@ -5736,21 +5750,36 @@ angular.module('app.admin').controller('UsersController', function ($scope, User
     $scope.save = function () {
         $scope.loading = true;
         var data = $scope.currRow;
+        var roles = [];
+        angular.forEach($scope.currRow.roles, function (val, key) {
+            if (val == '1') {
+                roles[roles.length] = key;
+            }
+        });
+        data.roles = ',' + roles.join(',') + ',';
+        if (data.roles == ',,') data.roles = '';
+        data.roles = data.roles.replace(/,,/i, ',');
+
         UsersService.save(data).then(function () {
             $('#myModal').modal('hide');
             $scope.getData();
         });
     };
 
-    $scope.addRow = function () {
-        $scope.currRow = {
-            id: 0,
-            sport_name: ''
-        };
-    };
-
     $scope.editRow = function (row) {
         $scope.currRow = JSON.parse(angular.toJson(row));
+        $scope.currRow.roles = {};
+
+        angular.forEach($scope.roles, function (val, key) {
+            $scope.currRow.roles[key] = '0';
+        });
+
+        var roles = row.roles.substr(1, row.roles.length - 2) || '';
+        roles = roles.split(",");
+        angular.forEach(roles, function (val, key) {
+            $scope.currRow.roles[val] = '1';
+        });
+
         $('#myModal').modal('show');
     };
 
@@ -5762,6 +5791,15 @@ angular.module('app.admin').controller('UsersController', function ($scope, User
             });
         }
     };
+
+    $scope.getRolesNum = function () {
+        var cnt = 0;
+        angular.forEach($scope.roles, function () {
+            cnt ++;
+        });
+        return cnt;
+    };
+
 });
 (function () {
     'use strict';
@@ -6780,6 +6818,16 @@ angular.module('app.admin').controller('UsersController', function ($scope, User
             return {
                 get: function () {
                     var url = ServerURL + 'users';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                getRoles: function () {
+                    var url = ServerURL + 'users/roles';
                     var deferred = $q.defer();
                     $http.get(url).then(function (res) {
                         deferred.resolve(res);
@@ -10093,6 +10141,43 @@ angular.module('app.chat').directive('chatWidget', function (ChatApi) {
 });
 "use strict";
 
+angular.module('app').factory('Todo', function (Restangular, APP_CONFIG, $httpBackend) {
+
+    var normalize = function(todo) {
+        if(!todo._id){
+            todo._id = _.unique('todo')
+        }
+        todo.toggle = function(){
+            if (!todo.completedAt) {
+                todo.state = 'Completed';
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.state = 'Critical';
+                todo.completedAt = null;
+            }
+        };
+
+        todo.setState = function(state){
+            todo.state = state;
+            if (state == 'Completed') {
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.completedAt = null;
+            }
+        };
+
+        return todo;
+    };
+
+    var Todo = Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json');
+
+    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', normalize);
+    Todo.normalize = normalize;
+
+    return Todo
+});
+"use strict";
+
  angular.module('app').directive('todoList', function ($timeout, Todo) {
 
     return {
@@ -10133,43 +10218,6 @@ angular.module('app.chat').directive('chatWidget', function (ChatApi) {
 
         }
     }
-});
-"use strict";
-
-angular.module('app').factory('Todo', function (Restangular, APP_CONFIG, $httpBackend) {
-
-    var normalize = function(todo) {
-        if(!todo._id){
-            todo._id = _.unique('todo')
-        }
-        todo.toggle = function(){
-            if (!todo.completedAt) {
-                todo.state = 'Completed';
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.state = 'Critical';
-                todo.completedAt = null;
-            }
-        };
-
-        todo.setState = function(state){
-            todo.state = state;
-            if (state == 'Completed') {
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.completedAt = null;
-            }
-        };
-
-        return todo;
-    };
-
-    var Todo = Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json');
-
-    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', normalize);
-    Todo.normalize = normalize;
-
-    return Todo
 });
 'use strict';
 
@@ -10652,6 +10700,35 @@ angular.module('app.graphs').directive('dygraphsNoRollTimestamp', function (Dygr
         }
     }
 });
+'use strict';
+
+angular.module('app.graphs').directive('highchart', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            id: '=',
+            data: '='
+        },
+        link: function (scope, element, attributes) {
+            $(element[0]).highcharts(scope.data);
+            $(element[0]).resize(function () {
+                $(element[0]).highcharts().reflow();
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('app.graphs').directive('highchartTable', function (lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+            lazyScript.register('build/vendor.graphs.js').then(function(){
+                element.highchartTable();
+            })
+        }
+    }
+});
 "use strict";
 
 angular.module('app.graphs').directive('flotAutoUpdatingChart', function($timeout, FlotConfig){
@@ -11091,35 +11168,6 @@ angular.module('app.graphs').directive('flotSiteStatsChart', function(FlotConfig
                 }
             });
 
-        }
-    }
-});
-'use strict';
-
-angular.module('app.graphs').directive('highchart', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            id: '=',
-            data: '='
-        },
-        link: function (scope, element, attributes) {
-            $(element[0]).highcharts(scope.data);
-            $(element[0]).resize(function () {
-                $(element[0]).highcharts().reflow();
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('app.graphs').directive('highchartTable', function (lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
-            lazyScript.register('build/vendor.graphs.js').then(function(){
-                element.highchartTable();
-            })
         }
     }
 });
@@ -12358,6 +12406,127 @@ angular.module('app.graphs').directive('vectorMap', function () {
 });
 'use strict';
 
+angular.module('app.tables').directive('jqGrid', function ($compile) {
+    var jqGridCounter = 0;
+
+    return {
+        replace: true,
+        restrict: 'E',
+        scope: {
+            gridData: '='
+        },
+        template: '<div>' +
+            '<table></table>' +
+            '<div class="jqgrid-pagination"></div>' +
+            '</div>',
+        controller: function($scope, $element){
+            $scope.editRow  = function(row){
+                $element.find('table').editRow(row);
+            };
+            $scope.saveRow  = function(row){
+                $element.find('table').saveRow(row);
+            };
+            $scope.restoreRow  = function(row){
+                $element.find('table').restoreRow(row);
+            };
+        },
+        link: function (scope, element) {
+            var gridNumber = jqGridCounter++;
+            var wrapperId = 'jqgrid-' + gridNumber;
+            element.attr('id', wrapperId);
+
+            var tableId = 'jqgrid-table-' + gridNumber;
+            var table = element.find('table');
+            table.attr('id', tableId);
+
+            var pagerId = 'jqgrid-pager-' + gridNumber;
+            element.find('.jqgrid-pagination').attr('id', pagerId);
+
+
+            table.jqGrid({
+                data : scope.gridData.data,
+                datatype : "local",
+                height : 'auto',
+                colNames : scope.gridData.colNames || [],
+                colModel : scope.gridData.colModel || [],
+                rowNum : 10,
+                rowList : [10, 20, 30],
+                pager : '#' + pagerId,
+                sortname : 'id',
+                toolbarfilter : true,
+                viewrecords : true,
+                sortorder : "asc",
+                gridComplete : function() {
+                    var ids = table.jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        var be = "<button class='btn btn-xs btn-default' uib-tooltip='Edit Row' tooltip-append-to-body='true' ng-click='editRow("+ cl +")'><i class='fa fa-pencil'></i></button>";
+
+                        var se = "<button class='btn btn-xs btn-default' uib-tooltip='Save Row' tooltip-append-to-body='true' ng-click='saveRow("+ cl +")'><i class='fa fa-save'></i></button>";
+
+                        var ca = "<button class='btn btn-xs btn-default' uib-tooltip='Cancel' tooltip-append-to-body='true' ng-click='restoreRow("+ cl +")'><i class='fa fa-times'></i></button>";
+
+                        table.jqGrid('setRowData', ids[i], {
+                            act : be + se + ca
+                        });
+                    }
+                },
+                editurl : "dummy.html",
+                caption : "SmartAdmin jQgrid Skin",
+                multiselect : true,
+                autowidth : true
+
+            });
+            table.jqGrid('navGrid', '#' + pagerId, {
+                edit : false,
+                add : false,
+                del : true
+            });
+            table.jqGrid('inlineNav', '#' + pagerId);
+
+
+            element.find(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+            element.find(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+            element.find(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+            element.find(".ui-jqgrid-pager").removeClass("ui-state-default");
+            element.find(".ui-jqgrid").removeClass("ui-widget-content");
+
+            // add classes
+            element.find(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+            element.find(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+            element.find(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+            element.find(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+            element.find(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+            element.find(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+            element.find(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+            element.find(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+            element.find(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+            element.find(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+            element.find(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+            element.find(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+            element.find(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+            element.find(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+
+            $(window).on('resize.jqGrid', function() {
+               table.jqGrid('setGridWidth', $("#content").width());
+            });
+
+
+            $compile(element.contents())(scope);
+        }
+    }
+});
+'use strict';
+
 angular.module('app.tables').directive('datatableBasic', function ($compile) {
     return {
         restrict: 'A',
@@ -12653,127 +12822,6 @@ angular.module('app.tables').directive('datatableTableTools', function () {
                     responsiveHelper.respond();
                 }
             });
-        }
-    }
-});
-'use strict';
-
-angular.module('app.tables').directive('jqGrid', function ($compile) {
-    var jqGridCounter = 0;
-
-    return {
-        replace: true,
-        restrict: 'E',
-        scope: {
-            gridData: '='
-        },
-        template: '<div>' +
-            '<table></table>' +
-            '<div class="jqgrid-pagination"></div>' +
-            '</div>',
-        controller: function($scope, $element){
-            $scope.editRow  = function(row){
-                $element.find('table').editRow(row);
-            };
-            $scope.saveRow  = function(row){
-                $element.find('table').saveRow(row);
-            };
-            $scope.restoreRow  = function(row){
-                $element.find('table').restoreRow(row);
-            };
-        },
-        link: function (scope, element) {
-            var gridNumber = jqGridCounter++;
-            var wrapperId = 'jqgrid-' + gridNumber;
-            element.attr('id', wrapperId);
-
-            var tableId = 'jqgrid-table-' + gridNumber;
-            var table = element.find('table');
-            table.attr('id', tableId);
-
-            var pagerId = 'jqgrid-pager-' + gridNumber;
-            element.find('.jqgrid-pagination').attr('id', pagerId);
-
-
-            table.jqGrid({
-                data : scope.gridData.data,
-                datatype : "local",
-                height : 'auto',
-                colNames : scope.gridData.colNames || [],
-                colModel : scope.gridData.colModel || [],
-                rowNum : 10,
-                rowList : [10, 20, 30],
-                pager : '#' + pagerId,
-                sortname : 'id',
-                toolbarfilter : true,
-                viewrecords : true,
-                sortorder : "asc",
-                gridComplete : function() {
-                    var ids = table.jqGrid('getDataIDs');
-                    for (var i = 0; i < ids.length; i++) {
-                        var cl = ids[i];
-                        var be = "<button class='btn btn-xs btn-default' uib-tooltip='Edit Row' tooltip-append-to-body='true' ng-click='editRow("+ cl +")'><i class='fa fa-pencil'></i></button>";
-
-                        var se = "<button class='btn btn-xs btn-default' uib-tooltip='Save Row' tooltip-append-to-body='true' ng-click='saveRow("+ cl +")'><i class='fa fa-save'></i></button>";
-
-                        var ca = "<button class='btn btn-xs btn-default' uib-tooltip='Cancel' tooltip-append-to-body='true' ng-click='restoreRow("+ cl +")'><i class='fa fa-times'></i></button>";
-
-                        table.jqGrid('setRowData', ids[i], {
-                            act : be + se + ca
-                        });
-                    }
-                },
-                editurl : "dummy.html",
-                caption : "SmartAdmin jQgrid Skin",
-                multiselect : true,
-                autowidth : true
-
-            });
-            table.jqGrid('navGrid', '#' + pagerId, {
-                edit : false,
-                add : false,
-                del : true
-            });
-            table.jqGrid('inlineNav', '#' + pagerId);
-
-
-            element.find(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
-            element.find(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
-            element.find(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
-            element.find(".ui-jqgrid-pager").removeClass("ui-state-default");
-            element.find(".ui-jqgrid").removeClass("ui-widget-content");
-
-            // add classes
-            element.find(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
-            element.find(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
-
-            element.find(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
-            element.find(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
-            element.find(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
-            element.find(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
-            element.find(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
-            element.find(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
-            element.find(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
-            element.find(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
-
-            element.find(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
-
-            element.find(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
-
-            element.find(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
-
-            element.find(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
-
-            $(window).on('resize.jqGrid', function() {
-               table.jqGrid('setGridWidth', $("#content").width());
-            });
-
-
-            $compile(element.contents())(scope);
         }
     }
 });

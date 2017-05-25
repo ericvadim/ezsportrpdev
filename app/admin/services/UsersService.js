@@ -14,6 +14,16 @@
                     });
                     return deferred.promise;
                 },
+                getRoles: function () {
+                    var url = ServerURL + 'users/roles';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
                 save: function (data) {
                     var url = ServerURL + 'users';
                     var deferred = $q.defer();

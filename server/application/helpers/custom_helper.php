@@ -63,13 +63,13 @@ if (!function_exists('recursive_copy')) {
 }
 
 if (!function_exists('convertDate')) {
-    function convertDate($datestr, $fromtype='mm/dd/yyyy', $totype='yyyy-mm-dd')
+    function convertDate($datestr, $fromtype = 'mm/dd/yyyy', $totype = 'yyyy-mm-dd')
     {
-        if(is_null($datestr) || $datestr == '') return '';
+        if (is_null($datestr) || $datestr == '') return '';
         $dateAry = preg_split("/[\-\/]/", $datestr);
 
-        if(sizeof($dateAry) < 2) return '';
+        if (sizeof($dateAry) < 2) return '';
 
-        return $dateAry[2] . '-' .$dateAry[0] . '-' . $dateAry[1];
+        return $dateAry[2] . '-' . $dateAry[0] . '-' . $dateAry[1];
     }
 }
