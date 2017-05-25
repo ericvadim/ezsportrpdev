@@ -4,6 +4,7 @@ angular.module('app.admin').controller('UsersController', function ($scope, User
     $scope.tableData = $scope.safeData = [];
     $scope.currRow = {};
     $scope.roles = [];
+    $scope.statuses = ['Pending', 'Active', 'Suspended'];
     $scope.loading = true;
 
     $scope.getRoles = function () {

@@ -39,7 +39,7 @@
                                         <td>{{row.username}}</td>
                                         <td>{{row.first_name}} {{row.last_name}}</td>
                                         <td>{{row.email}}</td>
-                                        <td>{{row.status}}</td>
+                                        <td>{{statuses[row.status]}}</td>
                                         <td ng-repeat="(key, val) in roles">{{row.roles.split(',').indexOf(key) < 0 ? '' : 'Yes'}}</td>
                                         <td class="text-center controls-td">
                                             <a ng-click="editRow(row)">Edit</a> /
@@ -99,9 +99,7 @@
                         <label class="col-md-4 control-label">Status</label>
                         <div class="col-md-8">
                             <select class="form-control" ng-model="currRow.status">
-                                <option value="0">Pending</option>
-                                <option value="1">Active</option>
-                                <option value="2">Suspended</option>
+                                <option ng-repeat="item in statuses" value="{{$index}}">{{item}}</option>
                             </select>
                         </div>
                     </div>
