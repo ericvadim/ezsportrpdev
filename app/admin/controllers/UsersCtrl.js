@@ -52,7 +52,7 @@ angular.module('app.admin').controller('UsersController', function ($scope, User
 
         var roles = row.roles.substr(1, row.roles.length - 2) || '';
         roles = roles.split(",");
-        angular.forEach(roles, function (val, key) {
+        angular.forEach(roles, function (val) {
             $scope.currRow.roles[val] = '1';
         });
 
