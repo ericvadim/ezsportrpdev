@@ -3233,1069 +3233,6 @@ angular.module('app.forms').value('formsCommon', {
 Array.prototype.diff = function(a) {
     return this.filter(function(i) {return a.indexOf(i) < 0;});
 };
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('ClubadminService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (teamId) {
-                    var url = ServerURL + 'club_admin?club_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                clubadminsWithPerson: function (teamId) {
-                    var url = ServerURL + 'club_admin/playersWithPerson?club_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'club_admin';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'club_admin?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('ClubsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function () {
-                    var url = ServerURL + 'clubs';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'clubs';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'clubs?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('CoachesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (teamId) {
-                    var url = ServerURL + 'coaches?team_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                coachesWithPerson: function (teamId) {
-                    var url = ServerURL + 'coaches/playersWithPerson?team_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'coaches';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'coaches?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('CompetitionsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function () {
-                    var url = ServerURL + 'competitions';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'competitions';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'competitions?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('FieldsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function () {
-                    var url = ServerURL + 'fields';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'fields';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'fields?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('GameRecordsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (gameId) {
-                    var url = ServerURL + 'game_records?game_id=' + gameId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                getTeamStats: function (clubId) {
-                    var url = ServerURL + 'game_records/team_stats?club_id=' + clubId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                getPlayerStats: function (teamId) {
-                    var url = ServerURL + 'game_records/player_stats?team_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'game_records';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'game_records?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('GameRoastersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (teamId, gameId) {
-                    var url = ServerURL + 'game_roasters?team_id=' + teamId + '&game_id=' + gameId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'game_roasters';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                }
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('GameSchedulesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (leagueId) {
-                    var url = ServerURL + 'game_schedules?league_id=' + leagueId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                schedulesByTeam: function (teamId) {
-                    var url = ServerURL + 'game_schedules/schedulesByTeam?team_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'game_schedules';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'game_schedules?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('LeaguesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function () {
-                    var url = ServerURL + 'leagues';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                getLeaguesWithCompetitions: function () {
-                    var url = ServerURL + 'leagues/leaguesWithCompetitions';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'leagues';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'leagues?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('LicensesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (sportId) {
-                    var url = ServerURL + 'licenses?sport_id=' + sportId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'licenses';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'licenses?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('ManagersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (teamId) {
-                    var url = ServerURL + 'managers?team_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                managersWithPerson: function (teamId) {
-                    var url = ServerURL + 'managers/playersWithPerson?team_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'managers';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'managers?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('PersonsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (divisionId) {
-                    var url = ServerURL + 'persons?division=' + divisionId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'persons';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'persons?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                getJsonFromFile: function (subId, pageId, fd) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'persons/getjsonfromfile?sub_id='+subId+'&page_id='+pageId;
-                    $http.post(url, fd, {
-                        withCredentials: false,
-                        headers: {'Content-Type': undefined},
-                        transformRequest: angular.identity
-                    }).success(function (response) {
-                        deferred.resolve(response);
-                    }).error(function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                importData: function (subId, pageId, data) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'persons/import?team_id='+subId+'&page_id='+pageId;
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                }
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('PlayersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (teamId) {
-                    var url = ServerURL + 'players?team_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                playersWithPerson: function (teamId) {
-                    var url = ServerURL + 'players/playersWithPerson?team_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'players';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'players?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('PositionsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (sportId) {
-                    var url = ServerURL + 'positions?sport_id=' + sportId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'positions';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'positions?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('RecordItemsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function () {
-                    var url = ServerURL + 'record_items';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'record_items';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'record_items?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('RefereeGradesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function () {
-                    var url = ServerURL + 'referee_grades';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'referee_grades';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'referee_grades?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('RefereeSchedulesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function () {
-                    var url = ServerURL + 'referee_schedules';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'referee_schedules';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'referee_schedules?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('RefereesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (teamId) {
-                    var url = ServerURL + 'referees?club_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                refereesWithPerson: function (clubId) {
-                    var url = ServerURL + 'referees/refereesWithPerson?club_id=' + clubId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'referees';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'referees?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('SportsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function () {
-                    var url = ServerURL + 'sports';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'sports';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'sports?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('TeamsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function (clubId) {
-                    var url = ServerURL + 'teams?club_id=' + clubId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                teamsWithClub: function () {
-                    var url = ServerURL + 'teams/teamsWithClub';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                oneTeamWithClub: function (teamId) {
-                    var url = ServerURL + 'teams/oneTeamWithClub?team_id=' + teamId;
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'teams';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'teams?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
-(function () {
-    'use strict';
-
-    angular.module('app.admin')
-        .factory('UsersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
-            return {
-                get: function () {
-                    var url = ServerURL + 'users';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                getRoles: function () {
-                    var url = ServerURL + 'users/roles';
-                    var deferred = $q.defer();
-                    $http.get(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                save: function (data) {
-                    var url = ServerURL + 'users';
-                    var deferred = $q.defer();
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'multipart/form-data'},
-                        data: data
-                    }).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-                delete: function (rowId) {
-                    var deferred = $q.defer();
-                    var url = ServerURL + 'users?id=' + rowId;
-                    $http.delete(url).then(function (res) {
-                        deferred.resolve(res);
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-                    return deferred.promise;
-                },
-            };
-        }]);
-})();
 'use strict';
 
 angular.module('app.admin').controller('ClubAdminController', function ($scope, ServerURL, $http, $filter, ClubsService, TeamsService, ClubadminService, PositionsService, PersonsService) {
@@ -6865,35 +5802,1086 @@ angular.module('app.admin').controller('UsersController', function ($scope, User
     };
 
 });
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
+    angular.module('app.admin')
+        .factory('ClubadminService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (teamId) {
+                    var url = ServerURL + 'club_admin?club_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                clubadminsWithPerson: function (teamId) {
+                    var url = ServerURL + 'club_admin/playersWithPerson?club_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'club_admin';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'club_admin?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
 
-    $scope.projects = projects.data;
+    angular.module('app.admin')
+        .factory('ClubsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function () {
+                    var url = ServerURL + 'clubs';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'clubs';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'clubs?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
 
-    $scope.tableOptions =  {
-        "data": projects.data.data,
-//            "bDestroy": true,
-        "iDisplayLength": 15,
-        "columns": [
-            {
-                "class":          'details-control',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ''
-            },
-            { "data": "name" },
-            { "data": "est" },
-            { "data": "contacts" },
-            { "data": "status" },
-            { "data": "target-actual" },
-            { "data": "starts" },
-            { "data": "ends" },
-            { "data": "tracker" }
-        ],
-        "order": [[1, 'asc']]
+    angular.module('app.admin')
+        .factory('CoachesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (teamId) {
+                    var url = ServerURL + 'coaches?team_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                coachesWithPerson: function (teamId) {
+                    var url = ServerURL + 'coaches/playersWithPerson?team_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'coaches';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'coaches?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('CompetitionsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function () {
+                    var url = ServerURL + 'competitions';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'competitions';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'competitions?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('FieldsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function () {
+                    var url = ServerURL + 'fields';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'fields';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'fields?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('GameRecordsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (gameId) {
+                    var url = ServerURL + 'game_records?game_id=' + gameId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                getTeamStats: function (clubId) {
+                    var url = ServerURL + 'game_records/team_stats?club_id=' + clubId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                getPlayerStats: function (teamId) {
+                    var url = ServerURL + 'game_records/player_stats?team_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'game_records';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'game_records?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('GameRoastersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (teamId, gameId) {
+                    var url = ServerURL + 'game_roasters?team_id=' + teamId + '&game_id=' + gameId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'game_roasters';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                }
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('GameSchedulesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (leagueId) {
+                    var url = ServerURL + 'game_schedules?league_id=' + leagueId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                schedulesByTeam: function (teamId) {
+                    var url = ServerURL + 'game_schedules/schedulesByTeam?team_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'game_schedules';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'game_schedules?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('LeaguesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function () {
+                    var url = ServerURL + 'leagues';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                getLeaguesWithCompetitions: function () {
+                    var url = ServerURL + 'leagues/leaguesWithCompetitions';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'leagues';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'leagues?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('LicensesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (sportId) {
+                    var url = ServerURL + 'licenses?sport_id=' + sportId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'licenses';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'licenses?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('ManagersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (teamId) {
+                    var url = ServerURL + 'managers?team_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                managersWithPerson: function (teamId) {
+                    var url = ServerURL + 'managers/playersWithPerson?team_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'managers';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'managers?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('PersonsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (divisionId) {
+                    var url = ServerURL + 'persons?division=' + divisionId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'persons';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'persons?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                getJsonFromFile: function (subId, pageId, fd) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'persons/getjsonfromfile?sub_id='+subId+'&page_id='+pageId;
+                    $http.post(url, fd, {
+                        withCredentials: false,
+                        headers: {'Content-Type': undefined},
+                        transformRequest: angular.identity
+                    }).success(function (response) {
+                        deferred.resolve(response);
+                    }).error(function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                importData: function (subId, pageId, data) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'persons/import?team_id='+subId+'&page_id='+pageId;
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                }
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('PlayersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (teamId) {
+                    var url = ServerURL + 'players?team_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                playersWithPerson: function (teamId) {
+                    var url = ServerURL + 'players/playersWithPerson?team_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'players';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'players?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('PositionsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (sportId) {
+                    var url = ServerURL + 'positions?sport_id=' + sportId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'positions';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'positions?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('RecordItemsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function () {
+                    var url = ServerURL + 'record_items';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'record_items';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'record_items?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('RefereeGradesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function () {
+                    var url = ServerURL + 'referee_grades';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'referee_grades';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'referee_grades?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('RefereeSchedulesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function () {
+                    var url = ServerURL + 'referee_schedules';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'referee_schedules';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'referee_schedules?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('RefereesService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (teamId) {
+                    var url = ServerURL + 'referees?club_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                refereesWithPerson: function (clubId) {
+                    var url = ServerURL + 'referees/refereesWithPerson?club_id=' + clubId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'referees';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'referees?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('SportsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function () {
+                    var url = ServerURL + 'sports';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'sports';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'sports?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('TeamsService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function (clubId) {
+                    var url = ServerURL + 'teams?club_id=' + clubId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                teamsWithClub: function () {
+                    var url = ServerURL + 'teams/teamsWithClub';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                oneTeamWithClub: function (teamId) {
+                    var url = ServerURL + 'teams/oneTeamWithClub?team_id=' + teamId;
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'teams';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'teams?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+(function () {
+    'use strict';
+
+    angular.module('app.admin')
+        .factory('UsersService', ['$http', '$q', 'ServerURL', function ($http, $q, ServerURL) {
+            return {
+                get: function () {
+                    var url = ServerURL + 'users';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                getRoles: function () {
+                    var url = ServerURL + 'users/roles';
+                    var deferred = $q.defer();
+                    $http.get(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                save: function (data) {
+                    var url = ServerURL + 'users';
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'multipart/form-data'},
+                        data: data
+                    }).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+                delete: function (rowId) {
+                    var deferred = $q.defer();
+                    var url = ServerURL + 'users?id=' + rowId;
+                    $http.delete(url).then(function (res) {
+                        deferred.resolve(res);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
+                    return deferred.promise;
+                },
+            };
+        }]);
+})();
+/*
+"use strict";
+
+angular.module('app.auth').directive('loginInfo', function(User){
+
+    return {
+        restrict: 'A',
+        templateUrl: 'app/auth/directives/login-info.tpl.html',
+        link: function(scope, element){
+            User.initialized.then(function(){
+                scope.user = User
+            });
+        }
     }
-});
+})
+*/
+
 "use strict";
 
 angular.module('app.auth').controller('UserActivateCtrl',
@@ -6984,23 +6972,35 @@ console.log(11);
     }
 );
 
-/*
-"use strict";
+'use strict';
 
-angular.module('app.auth').directive('loginInfo', function(User){
+angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
 
-    return {
-        restrict: 'A',
-        templateUrl: 'app/auth/directives/login-info.tpl.html',
-        link: function(scope, element){
-            User.initialized.then(function(){
-                scope.user = User
-            });
-        }
+    $scope.projects = projects.data;
+
+    $scope.tableOptions =  {
+        "data": projects.data.data,
+//            "bDestroy": true,
+        "iDisplayLength": 15,
+        "columns": [
+            {
+                "class":          'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            { "data": "name" },
+            { "data": "est" },
+            { "data": "contacts" },
+            { "data": "status" },
+            { "data": "target-actual" },
+            { "data": "starts" },
+            { "data": "ends" },
+            { "data": "tracker" }
+        ],
+        "order": [[1, 'asc']]
     }
-})
-*/
-
+});
 'use strict';
 
 angular.module('app.calendar').controller('CalendarCtrl', function ($scope, $log, CalendarEvent) {
@@ -10701,35 +10701,6 @@ angular.module('app.graphs').directive('dygraphsNoRollTimestamp', function (Dygr
         }
     }
 });
-'use strict';
-
-angular.module('app.graphs').directive('highchart', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            id: '=',
-            data: '='
-        },
-        link: function (scope, element, attributes) {
-            $(element[0]).highcharts(scope.data);
-            $(element[0]).resize(function () {
-                $(element[0]).highcharts().reflow();
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('app.graphs').directive('highchartTable', function (lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
-            lazyScript.register('build/vendor.graphs.js').then(function(){
-                element.highchartTable();
-            })
-        }
-    }
-});
 "use strict";
 
 angular.module('app.graphs').directive('flotAutoUpdatingChart', function($timeout, FlotConfig){
@@ -11169,6 +11140,35 @@ angular.module('app.graphs').directive('flotSiteStatsChart', function(FlotConfig
                 }
             });
 
+        }
+    }
+});
+'use strict';
+
+angular.module('app.graphs').directive('highchart', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            id: '=',
+            data: '='
+        },
+        link: function (scope, element, attributes) {
+            $(element[0]).highcharts(scope.data);
+            $(element[0]).resize(function () {
+                $(element[0]).highcharts().reflow();
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('app.graphs').directive('highchartTable', function (lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+            lazyScript.register('build/vendor.graphs.js').then(function(){
+                element.highchartTable();
+            })
         }
     }
 });
