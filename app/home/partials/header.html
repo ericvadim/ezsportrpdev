@@ -1,0 +1,26 @@
+<header class="header-section text-center" ng-class="{'scrolled': scrollTop > 1}">
+
+    <div class="logo-text pull-left">
+        <img class="margin-top-10 margin-left-10" ng-src="./styles/img/logo.png">
+    </div>
+
+    <div class="pull-right display-inline-block">
+        <a class="btn btn-success btn-sign-in" ui-sref="login">Sign In</a>
+    </div>
+
+    <div class="top-menu">
+        <div class="display-inline" ui-sref-active="active"><a ui-sref="home">HOME</a></div>
+        <div class="display-inline" ui-sref-active="active"><a ui-sref="about">ABOUT US</a></div>
+        <div class="display-inline" ui-sref-active="active"><a ui-sref="teams">TEAMS</a></div>
+        <div class="display-inline" ui-sref-active="active"><a ui-sref="calendar">CALENDAR</a></div>
+        <div class="display-inline" ui-sref-active="active"><a ui-sref="news">NEWS</a></div>
+    </div>
+
+    <!--<button class="btn btn-xs btn-default pull-right"><i class="fa fa-reorder"></i></button>-->
+<!--
+    <div class="social-icons pull-right text-center">
+        <div><a ng-href="#"><i class="fa fa-2x fa-facebook"></i></a></div>
+        <div><a ng-href="#"><i class="fa fa-2x fa-twitter"></i></a></div>
+        <div><a ng-href="#"><i class="fa fa-2x fa-youtube-play"></i></a></div>
+    </div>-->
+</header>

@@ -56,7 +56,7 @@ body:not(.menu-on-top).desktop-detected {
     width: 100%;
     display: block;
     position: absolute;
-    z-index: 903;   /* under left sidebar menu */
+    z-index: 903; /* under left sidebar menu */
     height: 100%;
 }
 
@@ -85,9 +85,11 @@ body:not(.menu-on-top).desktop-detected {
 .float-right {
     float: right;
 }
+
 .padding-0 {
     padding: 0;
 }
+
 .margin-top-10 {
     margin-top: 10px;
 }
@@ -155,10 +157,45 @@ nav ul.pagination li a:before {
 
 .fc-border-separate thead tr th, .table thead tr th {
     background-color: #eee;
-    background-image: -webkit-gradient(linear,0 0,0 80%,from(#f2f2f2),to(#fafafa));
-    background-image: -webkit-linear-gradient(top,#f2f2f2 40%,#fefefe 80%);
-    background-image: -moz-linear-gradient(top,#f2f2f2 40%,#fefefe 80%);
-    background-image: -ms-linear-gradient(top,#f2f2f2 40%,#fefefe 80%);
-    background-image: -o-linear-gradient(top,#f2f2f2 40%,#fefefe 80%);
+    background-image: -webkit-gradient(linear, 0 0, 0 80%, from(#f2f2f2), to(#fafafa));
+    background-image: -webkit-linear-gradient(top, #f2f2f2 40%, #fefefe 80%);
+    background-image: -moz-linear-gradient(top, #f2f2f2 40%, #fefefe 80%);
+    background-image: -ms-linear-gradient(top, #f2f2f2 40%, #fefefe 80%);
+    background-image: -o-linear-gradient(top, #f2f2f2 40%, #fefefe 80%);
     font-size: 12px;
+}
+
+.header-section {
+    background: white;
+    height: 70px;
+    border-bottom: 2px solid #8bc53f;
+    -webkit-box-shadow: 0 10px 30px -10px black;
+    -moz-box-shadow: 0 10px 30px -10px black;
+    box-shadow: 0 10px 30px -10px black;
+}
+
+.header-section .top-menu {
+    padding-top: 40px;
+    font-size: large;
+}
+
+.header-section .top-menu div {
+    margin: 0 10px;
+}
+.header-section .top-menu div.active {
+    border-bottom: 3px solid #8bc53f;
+}
+
+.footer-section {
+    background: white;
+    border-top: 2px solid #479847;
+    padding: 10px;
+    text-align: center;
+}
+
+.footer-section .bottom-menu div {
+    margin: 0 10px;
+}
+.btn-sign-in {
+    margin: 18px;
 }

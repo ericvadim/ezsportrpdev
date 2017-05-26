@@ -1469,20 +1469,50 @@ angular.module('app.graphs', [
 });
 "use strict";
 
-
-angular.module('app.home', ['ui.router'])
-.config(function ($stateProvider) {
-
+angular.module('app.home', ['ui.router']).config(function ($stateProvider) {
     $stateProvider
-        .state('app.home', {
+        .state('home', {
             url: '/home',
-            data: {
-                title: 'Blank'
-            },
             views: {
-                "content@app": {
+                root: {
                     templateUrl: 'app/home/views/home.html',
                     controller: 'HomeController'
+                }
+            }
+        })
+        .state('about', {
+            url: '/about',
+            views: {
+                root: {
+                    templateUrl: 'app/home/views/about.html',
+                    controller: 'HomeAboutController'
+                }
+            }
+        })
+        .state('teams', {
+            url: '/teams',
+            views: {
+                root: {
+                    templateUrl: 'app/home/views/teams.html',
+                    controller: 'HomeTeamsController'
+                }
+            }
+        })
+        .state('calendar', {
+            url: '/calendar',
+            views: {
+                root: {
+                    templateUrl: 'app/home/views/calendar.html',
+                    controller: 'HomeCalendarController'
+                }
+            }
+        })
+        .state('news', {
+            url: '/news',
+            views: {
+                root: {
+                    templateUrl: 'app/home/views/news.html',
+                    controller: 'HomeNewsController'
                 }
             }
         })
@@ -1625,7 +1655,7 @@ angular.module('app.layout', ['ui.router'])
                 }
             }
         });
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/home');
 
 })
 
@@ -6865,6 +6895,35 @@ angular.module('app.admin').controller('UsersController', function ($scope, User
             };
         }]);
 })();
+'use strict';
+
+angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
+
+    $scope.projects = projects.data;
+
+    $scope.tableOptions =  {
+        "data": projects.data.data,
+//            "bDestroy": true,
+        "iDisplayLength": 15,
+        "columns": [
+            {
+                "class":          'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            { "data": "name" },
+            { "data": "est" },
+            { "data": "contacts" },
+            { "data": "status" },
+            { "data": "target-actual" },
+            { "data": "starts" },
+            { "data": "ends" },
+            { "data": "tracker" }
+        ],
+        "order": [[1, 'asc']]
+    }
+});
 /*
 "use strict";
 
@@ -6972,35 +7031,6 @@ console.log(11);
     }
 );
 
-'use strict';
-
-angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
-
-    $scope.projects = projects.data;
-
-    $scope.tableOptions =  {
-        "data": projects.data.data,
-//            "bDestroy": true,
-        "iDisplayLength": 15,
-        "columns": [
-            {
-                "class":          'details-control',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ''
-            },
-            { "data": "name" },
-            { "data": "est" },
-            { "data": "contacts" },
-            { "data": "status" },
-            { "data": "target-actual" },
-            { "data": "starts" },
-            { "data": "ends" },
-            { "data": "tracker" }
-        ],
-        "order": [[1, 'asc']]
-    }
-});
 'use strict';
 
 angular.module('app.calendar').controller('CalendarCtrl', function ($scope, $log, CalendarEvent) {
@@ -8050,7 +8080,31 @@ angular.module('app.graphs').controller('FlotCtrl', function ($scope) {
 });
 'use strict';
 
-angular.module('app.home').controller('HomeController', function ($scope) {
+angular.module('app.home').controller('HomeAboutController', function ($scope) {
+
+
+});
+'use strict';
+
+angular.module('app.home').controller('HomeCalendarController', function ($scope) {
+
+
+});
+'use strict';
+
+angular.module('app.home').controller('HomeController', function ($scope, $state) {
+
+
+});
+'use strict';
+
+angular.module('app.home').controller('HomeNewsController', function ($scope) {
+
+
+});
+'use strict';
+
+angular.module('app.home').controller('HomeTeamsController', function ($scope) {
 
 
 });
