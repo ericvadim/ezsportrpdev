@@ -166,7 +166,7 @@ nav ul.pagination li a:before {
 }
 
 .header-section {
-    background: white;
+    background: #4d6d24;
     height: 70px;
     border-bottom: 2px solid #8bc53f;
     -webkit-box-shadow: 0 10px 30px -10px black;
@@ -198,6 +198,9 @@ nav ul.pagination li a:before {
 
 .header-section .top-menu div.active {
     border-bottom: 3px solid #8bc53f;
+}
+.header-section .top-menu div a {
+    color: white;
 }
 
 .footer-section {

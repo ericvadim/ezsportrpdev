@@ -47,7 +47,7 @@ class Base_Controller extends REST_Controller
 
     protected function protect($roles = null)
     {
-        if(is_null($roles))
+        if (is_null($roles))
             return false;
 
 
@@ -61,13 +61,13 @@ class Base_Controller extends REST_Controller
         $user = $this->User_model->getUserByToken($this->getAuthToken());
         $roleAry = explode(",", $user->roles);
         $flag = false;
-        for($i=1; $i<count($roleAry)-1; $i++){
-            if(in_array($roleAry[$i], $roles)){
+        for ($i = 1; $i < count($roleAry) - 1; $i++) {
+            if (in_array($roleAry[$i], $roles)) {
                 $flag = true;
                 break;
             }
         }
-        if(!$flag){
+        if (!$flag) {
             $this->set_response([
                 'status' => 'Access denied',
                 'message' => 'Need to have an access role'
