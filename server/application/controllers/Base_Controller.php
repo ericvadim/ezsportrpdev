@@ -45,14 +45,32 @@ class Base_Controller extends REST_Controller
         return $this->_currentUser;
     }
 
-    protected function protect()
+    protected function protect($roles = null)
     {
-        $this->User_model->deleteExpiredTokens();
+        if(is_null($roles))
+            return false;
+
 
         if (empty($this->User_model->isValidToken($this->getAuthToken()))) {
             $this->set_response([
                 'status' => 'UNAUTHORIZED',
                 'message' => 'You need to login first'
+            ], 401);
+            return false;
+        }
+        $user = $this->User_model->getUserByToken($this->getAuthToken());
+        $roleAry = explode(",", $user->roles);
+        $flag = false;
+        for($i=1; $i<count($roleAry)-1; $i++){
+            if(in_array($roleAry[$i], $roles)){
+                $flag = true;
+                break;
+            }
+        }
+        if(!$flag){
+            $this->set_response([
+                'status' => 'Access denied',
+                'message' => 'Need to have an access role'
             ], 401);
             return false;
         }

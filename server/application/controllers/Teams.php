@@ -13,7 +13,7 @@ class Teams extends Base_Controller
 
     public function index_get()
     {
-//        if (!$this->protect()) return;
+        if (!$this->protect([1])) return;
         $clubId = $this->input->get('club_id');
         $rows = $this->team_model->getRows($clubId);
         $this->set_response($rows, 200);

@@ -5,6 +5,8 @@ require dirname(__FILE__) . '/Base_Controller.php';
 
 class Sports extends Base_Controller
 {
+    public $roles = [];
+
     function __construct()
     {
         parent::__construct();
@@ -13,7 +15,7 @@ class Sports extends Base_Controller
 
     public function index_get()
     {
-//        if (!$this->protect()) return;
+        if (!$this->protect([1])) return;
         $rows = $this->sport_model->getRows();
         $this->set_response($rows, 200);
     }

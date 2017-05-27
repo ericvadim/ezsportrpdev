@@ -13,7 +13,7 @@ class Positions extends Base_Controller
 
     public function index_get()
     {
-//        if (!$this->protect()) return;
+        if (!$this->protect([1])) return;
         $sportId = $this->input->get('sport_id');
         $rows = $this->position_model->getRows($sportId);
         $this->set_response($rows, 200);

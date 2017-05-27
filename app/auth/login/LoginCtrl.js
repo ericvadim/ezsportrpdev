@@ -10,6 +10,7 @@ angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, Use
 
         UserService.Login(vm.email, vm.password)
             .then(function (res) {
+                localStorage.token = res.data.user.token;
                 $state.go('app.admin');
             })
             .catch(function (err) {

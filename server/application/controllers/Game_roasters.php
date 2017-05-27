@@ -13,7 +13,8 @@ class Game_roasters extends Base_Controller
 
     public function index_get()
     {
-//        if (!$this->protect()) return;
+        if (!$this->protect([1])) return;
+
         $this->load->model('player_model');
         $teamId = $this->input->get('team_id');
 

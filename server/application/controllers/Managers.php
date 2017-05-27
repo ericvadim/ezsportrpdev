@@ -15,6 +15,8 @@ class Managers extends Base_Controller
 
     public function index_get()
     {
+        if (!$this->protect([1])) return;
+
         $teamId = $this->input->get('team_id');
 
         $rows = $this->model->getRows($teamId);

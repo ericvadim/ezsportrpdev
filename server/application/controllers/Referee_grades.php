@@ -13,7 +13,7 @@ class Referee_grades extends Base_Controller
 
     public function index_get()
     {
-//        if (!$this->protect()) return;
+        if (!$this->protect([1])) return;
         $rows = $this->referee_grade_model->getRows();
         $this->set_response($rows, 200);
     }

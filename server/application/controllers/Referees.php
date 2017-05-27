@@ -15,6 +15,8 @@ class Referees extends Base_Controller
 
     public function index_get()
     {
+        if (!$this->protect([1])) return;
+
         $clubId = $this->input->get('club_id');
         $rows = $this->referee_model->getRows($clubId);
 

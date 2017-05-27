@@ -46,7 +46,18 @@ angular.module('app', [
     'app.admin'
 ])
     .config(function ($provide, $httpProvider, RestangularProvider, $locationProvider) {
-
+        // Intercept for taking token.
+        $provide.factory('tokenInjector', function ($q) {
+            var sessionInjector = {
+                request: function (config) {
+                    if (localStorage.token) {
+                        config.headers['x-auth-token'] = localStorage.token;
+                    }
+                    return config;
+                }
+            };
+            return sessionInjector;
+        });
         // Intercept http calls.
         $provide.factory('ErrorHttpInterceptor', function ($q) {
             var errorCounter = 0;
@@ -83,43 +94,45 @@ angular.module('app', [
             };
         });
 
+        $httpProvider.interceptors.push('tokenInjector');
         // Add the interceptor to the $httpProvider.
         $httpProvider.interceptors.push('ErrorHttpInterceptor');
+
 
         RestangularProvider.setBaseUrl(location.pathname.replace(/[^\/]+?$/, ''));
 
         /*$locationProvider.html5Mode({
-            enabled: true,
-            requireBase: false
-        });*/
+         enabled: true,
+         requireBase: false
+         });*/
 
     })
 
     /*.config(['momentPickerProvider', function (momentPickerProvider) {
-        momentPickerProvider.options({
-            /!* Picker properties *!/
-            locale:        'en',
-            format:        'L LTS',
-            minView:       'decade',
-            maxView:       'minute',
-            startView:     'year',
-            autoclose:     true,
-            today:         false,
-            keyboard:      false,
+     momentPickerProvider.options({
+     /!* Picker properties *!/
+     locale:        'en',
+     format:        'L LTS',
+     minView:       'decade',
+     maxView:       'minute',
+     startView:     'year',
+     autoclose:     true,
+     today:         false,
+     keyboard:      false,
 
-            /!* Extra: Views properties *!/
-            leftArrow:     '&larr;',
-            rightArrow:    '&rarr;',
-            yearsFormat:   'YYYY',
-            monthsFormat:  'MMM',
-            daysFormat:    'D',
-            hoursFormat:   'HH:[00]',
-            minutesFormat: moment.localeData().longDateFormat('LT').replace(/[aA]/, ''),
-            secondsFormat: 'ss',
-            minutesStep:   5,
-            secondsStep:   1
-        });
-    }])*/
+     /!* Extra: Views properties *!/
+     leftArrow:     '&larr;',
+     rightArrow:    '&rarr;',
+     yearsFormat:   'YYYY',
+     monthsFormat:  'MMM',
+     daysFormat:    'D',
+     hoursFormat:   'HH:[00]',
+     minutesFormat: moment.localeData().longDateFormat('LT').replace(/[aA]/, ''),
+     secondsFormat: 'ss',
+     minutesStep:   5,
+     secondsStep:   1
+     });
+     }])*/
 
     .run(function ($rootScope
         , $state, $stateParams) {

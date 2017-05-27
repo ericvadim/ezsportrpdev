@@ -13,7 +13,8 @@ class Competitions extends Base_Controller
 
     public function index_get()
     {
-//        if (!$this->protect()) return;
+        if (!$this->protect([1])) return;
+
         $rows = $this->competition_model->getRows();
         $this->set_response($rows, 200);
     }

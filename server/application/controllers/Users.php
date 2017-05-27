@@ -22,6 +22,7 @@ class Users extends Base_Controller
         $rows = $this->user_model->getRows();
         $this->set_response($rows, 200);
     }
+
     /**
      * Get all users
      */
