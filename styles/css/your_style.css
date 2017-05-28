@@ -206,7 +206,7 @@ nav ul.pagination li a:before {
 .footer-section {
     background: white;
     border-top: 2px solid #479847;
-    padding: 10px;
+    padding: 0;
     text-align: center;
 }
 
