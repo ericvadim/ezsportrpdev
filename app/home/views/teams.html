@@ -1,20 +1,180 @@
 <div data-smart-include="app/home/partials/header.html" class="placeholder-header"></div>
 
 <div class="container-fluid teams-container animated fadeIn">
-    <div class="row">
-        <div class="col-sm-5 padding-0">
-            <img class="img-responsive" src="./styles/img/home/home_bg_1.jpg">
-        </div>
-        <div class="col-sm-7 padding-0">
-            <img class="img-responsive" src="./styles/img/home/home_bg_2.jpg">
+    <div class="row margin-top-10 margin-bottom-10">
+        <div class="col-xs-12">
+            <div class="btn-group dropdown pull-right" data-dropdown>
+                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    {{currRecordItem.name}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="item in recordItems track by $index"><a ng-click="currRecordItem.name = item">{{item}}</a></li>
+                </ul>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12 padding-0">
-            <img class="img-responsive" src="./styles/img/home/home_bg_3.jpg">
+
+    <section widget-grid id="widget-grid">
+        <div class="row">
+            <article class="col-md-6">
+                <div jarvis-widget id="top-teams-widget" data-widget-color="darken" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Top Teams</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-12 padding-0">
+                                        <div class="table-responsive">
+                                            <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>League Name</th>
+                                                    <th>NorCal Premier</th>
+                                                    <th></th>
+                                                </tr>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Team Results</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr st-select-row="row" st-select-mode="single">
+                                                    <td></td>
+                                                    <td>Games Played</td>
+                                                    <td>24</td>
+                                                </tr>
+                                                <tr st-select-row="row" st-select-mode="single">
+                                                    <td></td>
+                                                    <td>Games Won</td>
+                                                    <td>16</td>
+                                                </tr>
+                                                <tr st-select-row="row" st-select-mode="single">
+                                                    <td></td>
+                                                    <td>Games Tie</td>
+                                                    <td>3</td>
+                                                </tr>
+                                                <tr st-select-row="row" st-select-mode="single">
+                                                    <td></td>
+                                                    <td>Games Loss</td>
+                                                    <td>5</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="col-md-6">
+                <div jarvis-widget id="top-players-widget" data-widget-color="darken" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Stat Leaders</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-12 padding-0">
+                                        <div class="table-responsive">
+                                            <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Stat Leader</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Player Name</th>
+                                                    <th>{{currRecordItem.name}}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr st-select-row="row" st-select-mode="single">
+                                                    <td></td>
+                                                    <td>Jared</td>
+                                                    <td>5</td>
+                                                </tr>
+                                                <tr st-select-row="row" st-select-mode="single">
+                                                    <td></td>
+                                                    <td>Sergio</td>
+                                                    <td>7</td>
+                                                </tr>
+                                                <tr st-select-row="row" st-select-mode="single">
+                                                    <td></td>
+                                                    <td>Tom</td>
+                                                    <td>4</td>
+                                                </tr>
+                                                <tr st-select-row="row" st-select-mode="single">
+                                                    <td></td>
+                                                    <td>Alex</td>
+                                                    <td>8</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="col-md-12">
+                <div jarvis-widget id="team-schedules-widget" data-widget-color="darken" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Game Schedules</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="table-responsive">
+                                <table st-table="tableData" st-safe-src="safeData" st-select-mode="multiple" class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Home Team</th>
+                                        <th>Away Team</th>
+                                        <th>Game Date</th>
+                                        <th>Time</th>
+                                        <th>Location</th>
+                                        <th>Uniform</th>
+                                        <th>Scores</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr st-select-row="row" st-select-mode="single" ng-repeat="row in scheduleData" ng-dblclick="editRow(row)">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                        <td>{{row.sport_name}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
         </div>
-    </div>
-    
+    </section>
 </div>
 
 <div data-smart-include="app/home/partials/footer.html" class="placeholder-header"></div>
